@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import request from './utils/request' 
+import moment from 'moment'
 
 import {
   Pagination,
@@ -149,8 +150,11 @@ Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
 
-//全局挂在request方法
+//全局挂载request方法
 Vue.use(request);
+
+//挂载moment
+Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 
