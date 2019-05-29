@@ -14,8 +14,7 @@ import '../theme/index.css'
 
 import App from './App'
 
-
-//挂载elemtn
+//挂载elemtnt-ui
 Vue.use(element)
 
 //全局挂载request方法

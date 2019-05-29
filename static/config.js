@@ -1,4 +1,8 @@
-module.exports={
+/**
+ * 全局配置
+ */
+
+const cfg = {
     //开发地址
     dev_url:"",
     //生产地址
@@ -10,3 +14,5 @@ module.exports={
         password:"jbl21513118"
     },
 }
+
+window.$cfg = cfg
