@@ -1,8 +1,33 @@
 import axios from 'axios'
 //引入qs模块,用来序列化post类型的数据
 import qs from 'qs' 
-// import { message } from 'antd'
+import router from '../router'
 import lodash from 'lodash'
+import { message } from 'element-ui'
+
+/** 
+ * 提示函数 
+ */
+const tip = msg => {    
+  message({
+    type:'error',
+    message:msg,
+    // duration: 1000, 
+  });
+}
+
+/** 
+ * 跳转登录页
+ * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
+ */
+const toLogin = () => {
+  router.replace({
+      path: '/',        
+      query: {
+          redirect: router.currentRoute.fullPath
+      }
+  });
+}
 
 /** 
  * 请求失败后的错误统一处理 
@@ -13,21 +38,21 @@ const errorHandle = (status, other) => {
   switch (status) {
     // 401: 未登录状态，跳转登录页
     case 401:
-        // toLogin();
+        toLogin();
         break;
     // 403 token过期
     // 清除token并跳转登录页
     case 403:
-        // tip('登录过期，请重新登录');
-        // localStorage.removeItem('token');
+        tip('登录过期，请重新登录');
+        localStorage.removeItem('token');
         // store.commit('loginSuccess', null);
-        // setTimeout(() => {
-        //     toLogin();
-        // }, 1000);
+        setTimeout(() => {
+            toLogin();
+        }, 1000);
         break;
     // 404请求不存在
     case 404:
-        // tip('请求的资源不存在'); 
+        tip('请求的资源不存在'); 
         break;
     default:
         console.log(other);   
@@ -36,7 +61,13 @@ const errorHandle = (status, other) => {
 //拦截请求
 axios.interceptors.request.use(
   config=> {
-    //这里可以做loading show处理
+    // 这里可以做loading show处理
+    // 登录流程控制中，根据本地是否存在token判断用户的登录情况        
+    // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
+    // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码        
+    // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。   
+    // const token = store.state.token;        
+    // token && (config.headers.Authorization = token);    
     return config
   },
   error => Promise.reject(error)
@@ -45,12 +76,12 @@ axios.interceptors.request.use(
 //拦截响应
 axios.interceptors.response.use(
   response => {
-    console.log(response,'res')
     return response.status===200?Promise.resolve(response) :Promise.reject(response)
   },
   error => {
     const {res} = error;
     if(res){
+      // 请求已发出，但是不在2xx的范围
       errorHandle(res.status,res.data.message);
       return Promise.reject(res)
     }else{
@@ -58,7 +89,7 @@ axios.interceptors.response.use(
       // eg:请求超时或断网时，更新state的network状态
       // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
       // 关于断网组件中的刷新重新获取数据，会在断网组件中说明
-      console.log('I am here!')
+      console.log('断网ing...')
     }
   }
 )
@@ -79,7 +110,7 @@ const buildParam=(url, params)=> {
 }
 
 const fetch = options => {
-  let { method = 'get', data, url } = options
+  let { method = 'get', data={}, url } = options
   try {
     url = buildParam(url, data.urlParams)
   } catch (error) {
@@ -91,7 +122,7 @@ const fetch = options => {
   const cloneData = lodash.cloneDeep(data)
 
   //配置axios请求默认值
-  axios.defaults.baseURL = "http://eplusview.com:8088"
+  // axios.defaults.baseURL = "http://eplusview.com:8088"
 
   switch (method.toLowerCase()) {
     case 'get':
@@ -144,27 +175,32 @@ const request=(options)=>{
       })
     })
     .catch(error => {
-      const { response } = error
-      let msg, statusCode
-      if (response && response instanceof Object) {
-        const { data, status, statusText } = response
-        statusCode = response.status
-        msg = data.message || statusText
-        if (response.status === 401) {
-          console.log('status', 401)
-        } else if (status === 403) {
-          console.log('接口没配置权限，自动退出系统')
-        } else if ( status === 405 ) {
-          console.log('禁止IP，自动退出系统')
-        }
-      } else {
-        console.log('系统服务异常，自动退出系统')
-      }
-      return Promise.resolve({
-        error: true,
-        statusCode: statusCode,
-        statusMessage: msg
-      })
+      console.log(error,'error')
+      // const { response } = error
+      // let msg, statusCode
+      // if (response && response instanceof Object) {
+      //   const { data, status, statusText } = response
+      //   statusCode = response.status
+      //   msg = data.message || statusText
+      //   if (response.status === 401) {
+      //     console.log('status', 401)
+      //   } else if (status === 403) {
+      //     console.log('接口没配置权限，自动退出系统')
+      //   } else if ( status === 405 ) {
+      //     console.log('禁止IP，自动退出系统')
+      //   }
+      // } else {
+      //   tip('系统服务异常，自动退出系统');
+      //   localStorage.removeItem('token');
+      //   setTimeout(() => {
+      //       toLogin();
+      //   }, 1000);
+      // }
+      // return Promise.resolve({
+      //   error: true,
+      //   statusCode: statusCode,
+      //   statusMessage: msg
+      // })
     })
 }
 
