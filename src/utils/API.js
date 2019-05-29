@@ -1,6 +1,10 @@
+import cfg from '@/config'
 
-//默认请求地址
-const default_url = "http://eplusview.com:8088"
+//开发地址
+const dev_url=cfg.dev_url;
+
+//生产地址
+const pro_url = cfg.pro_url
 
 const api={
     //测试
