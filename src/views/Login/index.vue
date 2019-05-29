@@ -58,6 +58,14 @@
                 }
             }
         },
+        // mounted(){
+        //     this.$request({
+        //         method:'get',
+        //         url:this.$api.musicBroadcasting
+        //     }).then(res=>{
+        //         console.log(res,'res')
+        //     })
+        // },
         methods: {
             onSubmit() {
                 console.log('submit!');

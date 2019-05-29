@@ -2,6 +2,7 @@ import axios from 'axios'
 //引入qs模块,用来序列化post类型的数据
 import qs from 'qs' 
 import router from '../router'
+import store from '../store'
 import lodash from 'lodash'
 import { message } from 'element-ui'
 
@@ -27,6 +28,15 @@ const toLogin = () => {
           redirect: router.currentRoute.fullPath
       }
   });
+}
+
+// 环境的切换
+if (process.env.NODE_ENV == 'development') {    
+  axios.defaults.baseURL = 'http://eplusview.com:8088';
+} else if (process.env.NODE_ENV == 'debug') {    
+  axios.defaults.baseURL = '';
+} else if (process.env.NODE_ENV == 'production') {    
+  axios.defaults.baseURL = 'http://api.123dailu.com/';
 }
 
 /** 
@@ -120,9 +130,6 @@ const fetch = options => {
 
   // delete data.urlParams
   const cloneData = lodash.cloneDeep(data)
-
-  //配置axios请求默认值
-  // axios.defaults.baseURL = "http://eplusview.com:8088"
 
   switch (method.toLowerCase()) {
     case 'get':
