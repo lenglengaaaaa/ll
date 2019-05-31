@@ -6,10 +6,10 @@ import moment from 'moment'
 import router from './router'
 import store from './store'
 
-import request from './utils/request' 
+import request from './utils/Request' 
 import api from './utils/API'
 
-import element from './utils/element'
+import element from './utils/Element'
 import '../theme/index.css'
 
 import App from './App'

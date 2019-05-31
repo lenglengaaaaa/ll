@@ -68,7 +68,8 @@
         },
         methods: {
             onSubmit() {
-                console.log('submit!');
+                console.log('I am Here!')
+                this.$router.push({path:'/'})
             }
         }
     }
