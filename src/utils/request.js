@@ -23,20 +23,11 @@ const tip = msg => {
  */
 const toLogin = () => {
   router.replace({
-      path: '/',        
+      path: '/login',        
       query: {
           redirect: router.currentRoute.fullPath
       }
   });
-}
-
-// 环境的切换
-if (process.env.NODE_ENV == 'development') {    
-  axios.defaults.baseURL = 'http://eplusview.com:8088';
-} else if (process.env.NODE_ENV == 'debug') {    
-  axios.defaults.baseURL = '';
-} else if (process.env.NODE_ENV == 'production') {    
-  axios.defaults.baseURL = 'http://api.123dailu.com/';
 }
 
 /** 
@@ -54,11 +45,11 @@ const errorHandle = (status, other) => {
     // 清除token并跳转登录页
     case 403:
         tip('登录过期，请重新登录');
-        localStorage.removeItem('token');
-        // store.commit('loginSuccess', null);
-        setTimeout(() => {
-            toLogin();
-        }, 1000);
+        store.dispatch('resetToken').then(()=>{
+          setTimeout(() => {
+              toLogin();
+          }, 1000);
+        })
         break;
     // 404请求不存在
     case 404:
@@ -76,8 +67,8 @@ axios.interceptors.request.use(
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码        
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。   
-    // const token = store.state.token;        
-    // token && (config.headers.Authorization = token);    
+    const token = store.state.token;        
+    token && (config.headers.Authorization = token);    
     return config
   },
   error => Promise.reject(error)
@@ -173,7 +164,7 @@ const fetch = options => {
   }
 }
 
-const request=(options)=>{
+export const request=(options)=>{
   return fetch(options)
     .then(response => {
       const { data } = response

@@ -18,5 +18,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .app-main{
+        height: calc(100vh - 60px);
+    }
 </style>

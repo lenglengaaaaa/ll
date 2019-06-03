@@ -16,25 +16,42 @@
                 <div class="login_title">
                     用户登录
                 </div>
-                <el-form label-width="0px" :model="formLabelAlign">
-                    <el-form-item>
+                <el-form 
+                    label-width="0px" 
+                    ref="loginForm" 
+                    :model="loginForm"
+                    :rules="loginRules"
+                    auto-complete="on"
+                >
+                    <el-form-item prop="username">
                         <el-input 
-                            v-model="formLabelAlign.username" 
+                            name="username"
+                            v-model="loginForm.username" 
                             placeholder="用户名"
                             prefix-icon="el-icon-s-custom"
+                            auto-complete="on"
                         ></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item prop="password">
                         <el-input 
-                            type="password"
-                            v-model="formLabelAlign.password" 
+                            name="password"
+                            ref="password"
+                            v-model="loginForm.password" 
                             placeholder="密码"
                             prefix-icon="el-icon-lock"
-                        >
-                        </el-input>
+                            auto-complete="on"
+                            :key="passwordType"
+                            :type="passwordType"
+                            @keyup.enter.native="handleLogin"
+                        />
+                        <span class="show-pwd" @click="showPwd">
+                            <svg class="icon" aria-hidden="true">
+                                <use :xlink:href="passwordType === 'password' ? '#icon-eye' : '#icon-eye_open'"></use>
+                            </svg>
+                        </span>
                     </el-form-item>
                     <el-form-item size="large">
-                        <el-button type="primary" @click="onSubmit">登录</el-button>
+                        <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -50,26 +67,69 @@
 <script>
     export default {
         data() {
-            return {
-                labelPosition: 'right',
-                formLabelAlign: {
-                    username: '',
-                    password: ''
+            const validateUsername = (rule, value, callback) => {
+                if (!value) {
+                    callback(new Error('请输入用户名'))
+                } else {
+                    callback()
                 }
+            }
+            const validatePassword = (rule, value, callback) => {
+                if(!value){
+                    callback(new Error('请输入密码'))
+                }else if (value.length < 6) {
+                    callback(new Error('密码长度大于6位'))
+                }else {
+                    callback()
+                }
+            }
+            return {
+                loginForm: {
+                    username: 'admin',
+                    password: '111111'
+                },
+                loginRules: {
+                    username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+                    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+                },
+                loading: false,
+                passwordType: 'password'
             }
         },
         mounted(){
-            // this.$request({
-            //     method:'get',
-            //     url:this.$api.userList
-            // }).then(res=>{
-            //     console.log(res,'res')
-            // })
+            
         },
         methods: {
-            onSubmit() {
-                console.log('I am Here!')
-                this.$router.push({path:'/'})
+            /**
+             * 显示隐藏密码
+             */
+            showPwd() {
+                if (this.passwordType === 'password') {
+                    this.passwordType = ''
+                } else {
+                    this.passwordType = 'password'
+                }
+                this.$nextTick(() => {
+                    this.$refs.password.focus()
+                })
+            },
+            /**
+             * 登录
+             */
+            handleLogin() {
+                    this.$refs.loginForm.validate(valid => {
+                        if (valid) {
+                            this.loading = true
+                            this.$store.dispatch('login', this.loginForm).then(() => {
+                                this.$router.push({ path:'/' })
+                                this.loading = false
+                            }).catch(() => {
+                                this.loading = false
+                            })
+                        } else {
+                            return false
+                        }
+                })
             }
         }
     }
@@ -130,6 +190,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                position: relative;
                 .login_title{
                     color: #666666;
                     font-weight: 400;
@@ -139,6 +200,17 @@
                 }
                 .el-button{
                     width: 100%;
+                }
+                .show-pwd {
+                    position: absolute;
+                    right: 10px;
+                    top: 6px;
+                    cursor: pointer;
+                    user-select: none;
+                    .icon{
+                        width: 20px;
+                        height: 20px;
+                    }
                 }
             }
         }   
