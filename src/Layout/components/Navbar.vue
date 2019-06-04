@@ -21,6 +21,7 @@
                     </el-menu>
                 </div>
                 <div class="right_menu">
+                    <i class="el-icon-search" @click="flag = true"/>
                     <i class="el-icon-setting" @click="senior"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
@@ -37,10 +38,14 @@
                 </div>
             </div>
         </div>
+        <GlobalSearch :visible="flag" :close="closeSearch"/>
     </div>
 </template>
 
 <script>
+    import GlobalSearch from './GlobalSearch'
+
+
     export default {
         name:'Header',
         data() {
@@ -50,8 +55,12 @@
                     {id:1,path:'overview',name:'概览'},
                     {id:2,path:'gateway',name:'网关管理'},
                     {id:3,path:'application',name:'应用管理'}
-                ]
+                ],
+                flag:false
             }
+        },
+        components: {
+            GlobalSearch,
         },
         created () {
             //这里进行权限配置,改变navbar
@@ -68,6 +77,9 @@
             senior(){
                 this.activeIndex=''
                 this.$router.push(`/senior`)
+            },
+            closeSearch(){
+                this.flag = false;
             },
             async logout() {
                 await this.$store.dispatch('logout')
@@ -130,7 +142,7 @@
                     height: $height;
                     display: flex;
                     align-items: center;
-                    .el-icon-setting{
+                    .el-icon-setting,.el-icon-search{
                         padding: 0px 20px;
                         color: #fff;
                         cursor: pointer;
