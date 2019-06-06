@@ -19,6 +19,7 @@
 
 <style lang="scss" scoped>
     .app-main{
-        height: calc(100vh - 60px);
+        padding-top:50px; 
+        height: calc(100vh - 50px);
     }
 </style>

@@ -8,7 +8,7 @@ Vue.use(Vuex);
 /*1.state在vuex中用于存储数据*/
 const state={
     token: getToken(),
-    name: '',
+    name: 'Zain',
     avatar: ''
 }
 

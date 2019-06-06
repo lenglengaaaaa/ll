@@ -4,6 +4,7 @@
             :visible.sync="visible"
             :show-close="false"
             :before-close="closeDialog"
+            :modal-append-to-body="false"
         >
             <span slot="title">
                 <svg class="close" aria-hidden="true" @click="closeDialog" @mouseover="hover=true" @mouseleave="hover=false">
@@ -123,7 +124,8 @@
                     { text: '线缆温度传感器', value: '线缆温度传感器' }
                 ],
                 data: [],
-                loading:false
+                loading:false,
+                timer:null
             }
         },
         props: {
@@ -152,8 +154,10 @@
             },
             //输入框事件,防抖
             onInput(value){
-                this.loading = true;
-                setTimeout(()=>{
+                // this.loading = true;
+                clearTimeout(this.timer)
+                this.timer =setTimeout(()=>{
+                    console.log('到此一游')
                     this.data=[
                         {
                             id:12,
@@ -163,8 +167,8 @@
                             location:'中科院'
                         }
                     ]
-                    this.loading = false;
-                },500)
+                    // this.loading = false;
+                },1000)
                 
             }
         },
@@ -196,7 +200,7 @@
                     .body_search{
                         text-align: center;
                         .el-input{
-                            width: 400px;
+                            max-width: 400px;
                         }
                         .el-input__inner{
                             height: 45px;

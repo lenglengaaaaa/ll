@@ -1,32 +1,30 @@
 <template>
-    <div class="Navbar">
+    <div class="Navbar" ref="Navbar">
         <div class="container">
-            <div class='title'>
+            <div class='title' >
                 <img src="../../assets/img/logo.png" alt="logo">
             </div>
-            <div class="menu">
+            <div class="menu" v-if='!phone'>
                 <div class="left_menu">
                     <el-menu 
-                        :default-active="activeIndex" 
-                        :active="activeIndex"
+                        :default-active="activeIndex"
                         class="el-menu-demo" 
                         mode="horizontal" 
-                        @select="handleSelect"
                         text-color="#fff"
                         router
                     >   
-                        <el-menu-item v-for="item in navbar" :key="item.id" :index="item.path">
+                        <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path">
                             {{ item.name }}
                         </el-menu-item>
                     </el-menu>
                 </div>
+                
                 <div class="right_menu">
                     <i class="el-icon-search" @click="flag = true"/>
-                    <i class="el-icon-setting" @click="senior"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
                             <img src="../../assets/img/avatar.gif" class="user-avatar">
-                            <span class="username">Zain</span>
+                            <span class="username" >{{username}}</span>
                             <i class="el-icon-caret-bottom" />
                         </div>
                         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -37,7 +35,32 @@
                     </el-dropdown>
                 </div>
             </div>
+            <div class="phone_list" v-else>
+                <i class="el-icon-more" @click="moreClick"></i>
+            </div>
         </div>
+
+        <div class="list" ref="list" v-if="phone">
+            <el-menu 
+                :default-active="activeIndex"
+                @select="handleSelect"
+                router
+            >   
+                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path">
+                    {{ item.name }}
+                </el-menu-item>
+                <el-menu-item @click="flag=true">搜索</el-menu-item>
+                <el-submenu index="1">
+                    <template slot="title">
+                        <img src="../../assets/img/avatar.png" />
+                        <span>{{username}}</span>
+                    </template>
+                    <el-menu-item @click="logout" index="1-1">退出登录</el-menu-item>
+                </el-submenu>
+
+            </el-menu>
+        </div>
+
         <GlobalSearch :visible="flag" :close="closeSearch"/>
     </div>
 </template>
@@ -50,56 +73,86 @@
         name:'Header',
         data() {
             return {
-                activeIndex: 'overview',
+                activeIndex: '',
                 navbar:[
-                    {id:1,path:'overview',name:'概览'},
-                    {id:2,path:'gateway',name:'网关管理'},
-                    {id:3,path:'application',name:'应用管理'}
+                    {path:'/overview',name:'概览'},
+                    {path:'/gateway',name:'网关管理'},
+                    {path:'/application',name:'应用管理'},
+                    {path:'/senior',name:'高级管理'}
                 ],
-                flag:false
+                flag:false,
+                phone:false,
+                fold:false,
+                username:''
             }
         },
         components: {
             GlobalSearch,
         },
-        created () {
+
+        mounted () {
             //这里进行权限配置,改变navbar
-            if(this.$route.path ==="/senior"){
-                this.activeIndex = ""
-            }else{
-                this.activeIndex = this.$route.path.slice(1)
-            }
+            this.username = this.$store.state.name;
+            this.activeIndex = this.$route.path
+            window.addEventListener('resize', this.scrollhandle);
+            this.scrollhandle()
         },
         methods: {
+            //el-menu点击事件
             handleSelect(key, keyPath) {
-                console.log(key, keyPath);
+                this.closeList()
             },
-            senior(){
-                this.activeIndex=''
-                this.$router.push(`/senior`)
-            },
+            //关闭搜索弹窗
             closeSearch(){
                 this.flag = false;
+                this.closeList()
             },
+            //退出登录
             async logout() {
                 await this.$store.dispatch('logout')
                 this.$router.push(`/login`)
+            },
+            //手机端列表
+            moreClick(){
+                this.fold = !this.fold;
+                this.$refs.Navbar.style.maxHeight =this.fold? `500px`:'50px'
+            },
+            //关闭下拉菜单
+            closeList(){
+                if(!this.phone)return
+                this.fold = false;
+                setTimeout(()=>{
+                    this.$refs.Navbar.style.maxHeight = '50px';
+                },300)
+            },
+            //监听视窗
+            scrollhandle(){
+                this.activeIndex = this.$route.path
+
+                const screenWidth = document.body.clientWidth;
+                screenWidth>769?this.phone = false :this.phone = true;
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     $height:50px;
     .Navbar{
-        height: $height;
+        width: 100vw;
+        max-height: 50px;
         background: linear-gradient(135deg,#22a7f0,#22a7f0,#36d7b7);
-        padding: 0 20px;
+        transition: max-height 0.5s;
+        overflow: hidden;
+        position: fixed;
+        top:0;
+        left: 0;
         .container{
             height: $height;
-            display: flex;
-            padding: 0 15px;
+            padding: 0 35px;
             .title{
+                float: left;
+                height: 100%;
                 flex: 0;
                 padding-right:40px; 
                 display: flex;
@@ -117,6 +170,7 @@
                     height: $height;
                     .el-menu-demo{
                         background: transparent;
+                        border: none;
                     }
                     .el-menu--horizontal{
                         .el-menu-item{
@@ -169,6 +223,46 @@
                         }
                     }
                 }
+            }
+            .phone_list{
+                height: 100%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                .el-icon-more{
+                    font-size: 24px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+            }
+        }
+        .list{
+            border-top: 1px solid #d8d6d6;
+            margin: 0 35px;
+            .el-menu{
+                margin: 7.5px 0;
+                background: transparent;
+                border: none;
+                .el-menu-item,.el-submenu__title{
+                    color: #fff;
+                    border-bottom: none;
+                    height: 40px;
+                    line-height: 40px;
+                }
+                .el-submenu__title{
+                    i{
+                        color: #fff;
+                    }
+                    &:hover{
+                        background: transparent;
+                    }
+                }
+                & > .el-menu-item.is-active{
+                    border-bottom: none;
+                    color: #fff;
+                    background: #4183d7;
+                }
+                
             }
         }
     }

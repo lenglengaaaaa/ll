@@ -14,7 +14,6 @@
     export default {
         data() {
             return {
-                isCollapse: false
             };
         },
         components:{
@@ -22,7 +21,7 @@
             AppMain
         },
         methods: {
-
+            
         }
     }
 </script>
