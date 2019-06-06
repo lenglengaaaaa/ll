@@ -89,13 +89,20 @@
         components: {
             GlobalSearch,
         },
-
         mounted () {
             //这里进行权限配置,改变navbar
             this.username = this.$store.state.name;
             this.activeIndex = this.$route.path
             window.addEventListener('resize', this.scrollhandle);
             this.scrollhandle()
+        },
+        beforeDestroy () {
+            window.removeEventListener('resize', this.scrollhandle);
+        },
+        watch: {
+            $route(to,from){
+                this.activeIndex = to.path
+            }
         },
         methods: {
             //el-menu点击事件
@@ -127,8 +134,6 @@
             },
             //监听视窗
             scrollhandle(){
-                this.activeIndex = this.$route.path
-
                 const screenWidth = document.body.clientWidth;
                 screenWidth>769?this.phone = false :this.phone = true;
             }
@@ -147,6 +152,7 @@
         position: fixed;
         top:0;
         left: 0;
+        z-index: 1030;
         .container{
             height: $height;
             padding: 0 35px;

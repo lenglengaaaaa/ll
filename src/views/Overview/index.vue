@@ -1,86 +1,83 @@
 <template>
     <div class="Overview_container">
-        <!-- <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart" /> -->
+        <div class="title_bar">
+            <span>
+                欢迎使用E+view物联网云平台
+            </span>
+        </div>
+        <div class="body">
+            <CountRow :rows="rows"></CountRow>
+            
+        </div>
+        <!-- <Chart /> -->
     </div>
 </template>
 
 <script>
+    import CountRow from './components/CountRow'
+    import Chart from './components/Chart'
+
     export default {
-        props: {
-            className: {
-                type: String,
-                default: 'yourClassName'
-            },
-            id: {
-                type: String,
-                default: 'yourID'
-            },
-            width: {
-                type: String,
-                default: '500px'
-            },
-            height: {
-                type: String,
-                default: '500px'
-            }
+        components:{
+            CountRow,
+            Chart
         },
         data() {
             return {
-                chart: null
-            }
-        },
-        mounted() {
-            // this.initChart();
-        },
-        beforeDestroy() {
-            if (!this.chart) {
-                return
-            }
-            this.chart.dispose();
-            this.chart = null;
-        },
-        methods: {
-            initChart() {
-            this.chart = this.$echarts.init(this.$refs.myEchart);
-            // 把配置和数据放这里
-                this.chart.setOption({
-                    color: ['#3398DB'],
-                        tooltip: {
-                        trigger: 'axis',
-                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                        }
+                rows: [
+                    {
+                        name:'网关',
+                        icon:'#icon-natNATwangguan',
+                        path:'/gateway',
+                        total:5,
+                        has:4
                     },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
+                    {
+                        name:"应用",
+                        icon:'#icon-yingyong',
+                        path:'/application',
+                        total:1,
+                        has:1,
                     },
-                    xAxis: [{
-                        type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        axisTick: {
-                            alignWithLabel: true
+                    {
+                        name:'设备',
+                        icon:'#icon-huabanfuben',
+                        path:'/application',
+                        total:4,
+                        has:2
                     }
-                    }],
-                    yAxis: [{
-                        type: 'value'
-                    }],
-                    series: [{
-                        name: '直接访问',
-                        type: 'bar',
-                        barWidth: '60%',
-                        data: [10, 52, 200, 334, 390, 330, 220]
-                    }]
-                })
+                ],
             }
-    }
+        },
+        
+        methods: {
+
+        },
     }
 </script>
 
 <style lang="scss" scoped>
+    @media screen and (max-width: 796px) {
+        .body{
+            padding: 0px 20px;
+        }
+    }
     .Overview_container{
-        
+        .title_bar{
+            background: #fff;
+            padding: 15px 15px;
+            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            span{
+                font-size: 17px;
+                font-weight: 300;
+                color: #4abced;
+            }
+        }
+        .body{
+                
+        }
     }
 </style>

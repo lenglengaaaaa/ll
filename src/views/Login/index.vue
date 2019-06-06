@@ -58,7 +58,10 @@
         </div>
         <div class="footer">
             <span>
-                Copyright © 2019 中科(深圳)能源物联网有限公司 All Rights Reserved
+                Copyright © 2019 中科(深圳)能源物联网有限公司 
+            </span>
+            <span>
+                All Rights Reserved
             </span>
         </div>
     </div>
@@ -142,6 +145,9 @@
             .bg{
                 display: none;
             }
+        }
+        .footer{
+            flex-direction: column;
         }
     }
     .Login_container{
