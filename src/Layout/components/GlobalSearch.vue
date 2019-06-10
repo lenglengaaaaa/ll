@@ -157,7 +157,6 @@
                 // this.loading = true;
                 clearTimeout(this.timer)
                 this.timer =setTimeout(()=>{
-                    console.log('到此一游')
                     this.data=[
                         {
                             id:12,

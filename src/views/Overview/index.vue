@@ -6,21 +6,21 @@
             </span>
         </div>
         <div class="body">
-            <CountRow :rows="rows"></CountRow>
-            
+            <CountRow :rows="rows" :width="screenWidth"></CountRow>
+            <ChartRow :width="screenWidth"></ChartRow>
         </div>
-        <!-- <Chart /> -->
     </div>
 </template>
 
 <script>
-    import CountRow from './components/CountRow'
-    import Chart from './components/Chart'
+    import CountRow from '@/components/CountRow'
+    import ChartRow from './components/ChartRow'
+
 
     export default {
         components:{
             CountRow,
-            Chart
+            ChartRow
         },
         data() {
             return {
@@ -47,9 +47,18 @@
                         has:2
                     }
                 ],
+                screenWidth:0
             }
         },
-        
+        mounted(){
+            this.screenWidth = document.body.clientWidth;
+            window.addEventListener('resize', ()=>{
+                this.screenWidth = document.body.clientWidth;
+            });
+        },
+        beforeDestroy () {
+            window.removeEventListener('resize');
+        },
         methods: {
 
         },
@@ -77,7 +86,6 @@
             }
         }
         .body{
-                
         }
     }
 </style>

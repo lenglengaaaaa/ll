@@ -30,26 +30,19 @@
                 type: Array,
                 default: []
             },
+            width:{
+                type:Number,
+                default:0
+            }
         },
         data() {
             return {
                 span:8
             }
         },
-        mounted(){
-            window.addEventListener('resize', this.scrollhandle);
-            this.scrollhandle()
-        },
-        beforeDestroy () {
-            window.removeEventListener('resize', this.scrollhandle);
-        },
-        methods: {
-            rowClick(path) {
-                this.$router.push(path)
-            },
-            scrollhandle(){
-                const screenWidth = document.body.clientWidth;
-                screenWidth>769?this.span=8 :this.span = 24
+        watch: {
+            width(value) {
+                value>769?this.span=8 :this.span = 24
             }
         },
     }

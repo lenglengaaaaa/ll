@@ -27,10 +27,10 @@
     }
     .app-main{
         padding-top:50px; 
-        height: calc(100vh - 50px);
+        height: calc(100% - 50px);
         background: #ecefef;
         .wrapper{
-            padding: 20px;
+            padding: 1vw;
         }
     }
 </style>

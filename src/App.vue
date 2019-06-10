@@ -42,7 +42,6 @@
   }
   @media screen and (min-width: 1000px) {
       html {
-          /* 1000px往后是每100像素0.5px增加 */
           font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
           font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
       }
