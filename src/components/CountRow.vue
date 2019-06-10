@@ -45,11 +45,16 @@
                 value>769?this.span=8 :this.span = 24
             }
         },
+        methods:{
+            rowClick(path){
+                this.$router.push(path)
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 796px) {
+    @media screen and (max-width: 769px) {
         .el-row{
                 flex-direction: column;
         }

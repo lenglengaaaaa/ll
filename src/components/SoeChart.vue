@@ -16,7 +16,7 @@
             this.chart = this.$echarts.init(this.$refs.soeChart);
             this.initChart();
             window.addEventListener("resize", () => { 
-                this.chart&&this.chart.resize();  
+                this.chart&&this.chart.resize()
             });
         },
         beforeDestroy() {

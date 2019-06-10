@@ -19,6 +19,11 @@
   html {
     font-size: 16px;
   }
+
+  .amap-logo,.amap-copyright{
+    display: none !important;
+  }
+
   @media screen and (min-width: 375px) {
       html {
           /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */

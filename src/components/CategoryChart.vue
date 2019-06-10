@@ -15,16 +15,14 @@
         mounted() {
             this.chart = this.$echarts.init(this.$refs.categoryChart);
             this.initChart();
-            window.addEventListener("resize", () => { 
-                this.chart&&this.chart.resize();  
-            });
+            window.addEventListener("resize", () => { this.chart&&this.chart.resize();});
         },
         beforeDestroy() {
             if (!this.chart) return
             this.chart.dispose();
             this.chart = null;
         },
-                methods: {
+        methods: {
             initChart() {
             // 把配置和数据放这里
                 this.chart.setOption({
@@ -76,7 +74,7 @@
                         }
                     ]
                 })
-            }
+            },
         }
     }
 </script>

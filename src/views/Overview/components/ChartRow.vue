@@ -25,7 +25,7 @@
         props: {
             width: {
                 type: Number,
-                default:0 
+                default:document.body.clientWidth
             }
         },
         data() {
@@ -42,7 +42,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 796px) {
+    @media screen and (max-width: 769px) {
         .el-row{
                 flex-direction: column;
         }

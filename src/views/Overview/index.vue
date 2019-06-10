@@ -8,6 +8,7 @@
         <div class="body">
             <CountRow :rows="rows" :width="screenWidth"></CountRow>
             <ChartRow :width="screenWidth"></ChartRow>
+            <MapRow :width="screenWidth"></MapRow>
         </div>
     </div>
 </template>
@@ -15,12 +16,14 @@
 <script>
     import CountRow from '@/components/CountRow'
     import ChartRow from './components/ChartRow'
+    import MapRow from './components/MapRow'
 
 
     export default {
         components:{
             CountRow,
-            ChartRow
+            ChartRow,
+            MapRow
         },
         data() {
             return {
@@ -57,7 +60,9 @@
             });
         },
         beforeDestroy () {
-            window.removeEventListener('resize');
+            window.removeEventListener('resize', ()=>{
+                this.screenWidth = document.body.clientWidth;
+            });
         },
         methods: {
 
