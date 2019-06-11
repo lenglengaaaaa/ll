@@ -9,15 +9,21 @@
     export default {
         data() {
             return {
-                chart: null
+                chart: null,
+                timer: null
             }
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.soeChart);
             this.initChart();
-            window.addEventListener("resize", () => { 
-                this.chart&&this.chart.resize()
-            });
+        },
+        watch: {
+            '$store.state.screenWidth'(value) {
+                clearTimeout(this.timer)
+                this.timer = setTimeout(()=>{
+                    this.chart&&this.chart.resize()
+                },200)
+            }
         },
         beforeDestroy() {
             if (!this.chart) return

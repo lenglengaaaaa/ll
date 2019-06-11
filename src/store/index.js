@@ -9,7 +9,8 @@ Vue.use(Vuex);
 const state={
     token: getToken(),
     name: 'Zain',
-    avatar: ''
+    avatar: '',
+    screenWidth:document.body.clientWidth
 }
 
 /*2.mutations里面放的是方法，方法主要用于改变state里面的数据
@@ -23,6 +24,9 @@ const mutations={
     },
     SET_AVATAR: (state, avatar) => {
         state.avatar = avatar
+    },
+    SET_WIDTH:(state,width)=>{
+        state.screenWidth = width
     }
 }
 
@@ -99,6 +103,14 @@ const actions= {
             resolve()
         })
     },
+
+    //set screenWidth
+    getScreenWidth({commit}){
+        window.onresize=()=>{
+            const width = document.body.clientWidth
+            commit('SET_WIDTH', width)
+        }
+    }
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

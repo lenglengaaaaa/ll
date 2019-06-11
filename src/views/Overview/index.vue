@@ -6,9 +6,9 @@
             </span>
         </div>
         <div class="body">
-            <CountRow :rows="rows" :width="screenWidth"></CountRow>
-            <ChartRow :width="screenWidth"></ChartRow>
-            <MapRow :width="screenWidth"></MapRow>
+            <CountRow :rows="rows" />
+            <ChartRow />
+            <MapRow />
         </div>
     </div>
 </template>
@@ -50,22 +50,7 @@
                         has:2
                     }
                 ],
-                screenWidth:0
             }
-        },
-        mounted(){
-            this.screenWidth = document.body.clientWidth;
-            window.addEventListener('resize', ()=>{
-                this.screenWidth = document.body.clientWidth;
-            });
-        },
-        beforeDestroy () {
-            window.removeEventListener('resize', ()=>{
-                this.screenWidth = document.body.clientWidth;
-            });
-        },
-        methods: {
-
         },
     }
 </script>

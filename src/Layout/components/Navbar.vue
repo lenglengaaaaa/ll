@@ -93,15 +93,15 @@
             //这里进行权限配置,改变navbar
             this.username = this.$store.state.name;
             this.activeIndex = this.$route.path
-            window.addEventListener('resize', this.scrollhandle);
-            this.scrollhandle()
-        },
-        beforeDestroy () {
-            window.removeEventListener('resize', this.scrollhandle);
+            const value = this.$store.state.screenWidth;
+            this.resizehandle(value)
         },
         watch: {
             $route(to,from){
                 this.activeIndex = to.path
+            },
+            '$store.state.screenWidth'(value) {
+                this.resizehandle(value);
             }
         },
         methods: {
@@ -122,20 +122,21 @@
             //手机端列表
             moreClick(){
                 this.fold = !this.fold;
-                this.$refs.Navbar.style.maxHeight =this.fold? `500px`:'50px'
+                this.$refs.Navbar?
+                    this.fold?this.$refs.Navbar.style.maxHeight = '500px':this.$refs.Navbar.style.maxHeight = '50px'
+                    :''
             },
             //关闭下拉菜单
             closeList(){
                 if(!this.phone)return
                 this.fold = false;
                 setTimeout(()=>{
-                    this.$refs.Navbar.style.maxHeight = '50px';
+                    this.$refs.Navbar?this.$refs.Navbar.style.maxHeight = '50px':''
                 },300)
             },
             //监听视窗
-            scrollhandle(){
-                const screenWidth = document.body.clientWidth;
-                screenWidth>769?this.phone = false :this.phone = true;
+            resizehandle(value){
+                value>769?this.phone = false :this.phone = true;
             }
         }
     }

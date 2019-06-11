@@ -33,11 +33,20 @@
                 span: 12
             }
         },
+        mounted () {
+            const value = this.$store.state.screenWidth;
+            this.resizehandle(value);
+        },
         watch: {
-            width(value) {
+            '$store.state.screenWidth'(value) {
+                this.resizehandle(value) ;
+            }
+        },
+        methods: {
+            resizehandle(value){
                 value>769?this.span=12 :this.span = 24
             }
-        }
+        },
     }
 </script>
 

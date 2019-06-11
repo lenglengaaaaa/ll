@@ -40,14 +40,22 @@
                 span:8
             }
         },
+        mounted () {
+            const value = this.$store.state.screenWidth;
+            this.resizehandle(value) ;
+        },
         watch: {
-            width(value) {
-                value>769?this.span=8 :this.span = 24
+            '$store.state.screenWidth'(value) {
+                this.resizehandle(value);
             }
         },
         methods:{
             rowClick(path){
                 this.$router.push(path)
+            },
+            //监听视窗
+            resizehandle(value){
+                value>769?this.span=8 :this.span = 24
             }
         }
     }
