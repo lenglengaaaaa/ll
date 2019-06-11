@@ -29,9 +29,10 @@
         padding-top:50px; 
         height: calc(100vh - 50px);
         background: #ecefef;
-        overflow-y: scroll;
         .wrapper{
             padding: 1vw;
+            height: calc(100% - 2vw);
+            overflow-y: scroll;
         }
     }
 </style>

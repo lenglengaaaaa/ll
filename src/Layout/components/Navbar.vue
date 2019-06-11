@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import GlobalSearch from './GlobalSearch'
+    import GlobalSearch from '@/components/GlobalSearch'
 
 
     export default {

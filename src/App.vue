@@ -25,6 +25,10 @@
     font-size: 16px;
   }
 
+  ::-webkit-scrollbar{
+    display: none;
+  }
+
   .amap-logo,.amap-copyright{
     display: none !important;
   }

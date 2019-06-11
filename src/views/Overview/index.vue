@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import CountRow from '@/components/CountRow'
+    import CountRow from './components/CountRow'
     import ChartRow from './components/ChartRow'
     import MapRow from './components/MapRow'
 

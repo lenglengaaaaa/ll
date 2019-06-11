@@ -28,7 +28,7 @@
 
 <style lang="scss" scoped>
     .Home_container{ 
-        height: 100%;
+        height: 100vh;
         width: 100%;
     }
     
