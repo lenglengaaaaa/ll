@@ -139,6 +139,12 @@
 </script>
 
 <style lang="scss" scoped>
+    @media screen and (max-width: 769px){
+        .header{
+            justify-content: center;
+            padding-left: 0px !important;
+        }
+    }
     @media screen and (max-width:1300px) {
         .body{
             justify-content: center;
@@ -226,7 +232,7 @@
             align-items: center;
             justify-content: center;
             span{
-                font-size: 0.5rem;
+                font-size: 0.6rem;
                 color: #464646;
             }
         }

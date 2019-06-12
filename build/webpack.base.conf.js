@@ -15,6 +15,9 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  externals: {
+    'moment': 'moment',
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
