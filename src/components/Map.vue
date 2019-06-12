@@ -130,7 +130,6 @@
 <style lang="scss">
     .amap_container{
         background: #fff;
-        margin-bottom: 20px;
         box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
         .box-card{
             .el-card__header{
