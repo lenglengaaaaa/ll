@@ -23,7 +23,6 @@
                     { prop: "number" , label: "网关编号" },
                     { prop: "card" , label: "卡号" },
                     { prop: "mac" , label: "MAC地址" },
-                    { prop: "time" , label: "最后接受时间" },
                 ],
                 data:[
                         {
@@ -31,7 +30,7 @@
                             number:'0123456789',
                             card:'0123456789',
                             mac:'8cf957ffff8012f3',
-                            time: '2016-05-02',
+                            time: '2018-06-12 11:11:11',
                             status:0 //0:断开,1:连接
                         },
                         {
@@ -39,7 +38,7 @@
                             number:'31900004',
                             card:'31900004',
                             mac:'b827ebfffe2accf5',
-                            time: '2016-05-02',
+                            time: '2018-05-12 11:11:11',
                             status:1 //0:断开,1:连接
                         }
                 ]

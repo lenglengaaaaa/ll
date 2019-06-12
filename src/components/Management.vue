@@ -38,6 +38,13 @@
                         >
                         </el-table-column>
                         <el-table-column
+                            prop="time"
+                            label="最后接收时间"
+                            align="center"
+                            sortable
+                            :formatter="(row)=>this.$moment(row.time).fromNow()"
+                        />
+                        <el-table-column
                             prop="status"
                             label="状态"
                             align="center"
@@ -66,7 +73,6 @@
                             label="应用名称"
                             align="center"
                             sortable
-                            show-overflow-tooltip
                         >
                             <template slot-scope="scope">
                                 <el-link type="primary" @click="linkTo('check',scope.row)">{{scope.row.name}}</el-link>
@@ -97,6 +103,7 @@
                                 size="mini"
                                 type="danger"
                                 @click="linkTo('delete',scope.row)"
+
                             >
                                 删除
                             </el-button>
@@ -180,17 +187,36 @@
             //应用跳转
             linkTo(type,row){
                 switch (type) {
+                    case 'check':
+                        return console.log('check',row)
                     case 'edit':
-                        console.log('edit',row)
-                        break;
-                    case 'delete':
-                        console.log('delete',row)
+                        return console.log('edit',row)
+                    case 'delete' :
+                        this.open(row);
                         break;
                     default:
-                        console.log('check',row)
                         break;
                 }
             },
+            open(row) {
+                console.log('delete',row)
+                const type = this.type==='gateway'?'网关':'应用'
+                this.$confirm(`此操作将永久删除该${type}, 是否继续?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+            }
         },
     }
 </script>
