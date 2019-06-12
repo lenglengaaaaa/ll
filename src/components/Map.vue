@@ -11,7 +11,6 @@
                         class="amap-demo" 
                         :center="center"
                         :zoom="zoom"
-                        :plugin="plugin"
                         :events="events"
                     >
                         <el-amap-marker 
@@ -49,7 +48,6 @@
             return {
                 center: [113.991244,22.595988],
                 zoom:3,
-                plugin: ['ToolBar'],
                 markers: [],
                 markerRefs: [],
                 windows: [],
