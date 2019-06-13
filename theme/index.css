@@ -4215,7 +4215,7 @@
     vertical-align: top;
     display: inline-block;
     font-size: 13px;
-    min-width: 35.5px;
+    min-width: 30px;
     height: 28px;
     line-height: 28px;
     cursor: pointer;
@@ -4237,8 +4237,11 @@
     .el-pager li:hover {
       color: #409EFF; }
     .el-pager li.active {
-      color: #409EFF;
-      cursor: default; }
+      color: #f5eeee;
+      background: #22a7f0;
+      cursor: default; 
+    }
+
 
 /* BEM support Func
  -------------------------- */
@@ -8034,7 +8037,7 @@
       .el-menu--horizontal > .el-menu-item a:hover {
         color: inherit; }
       .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover, .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus {
-        background-color: #fff; }
+        background-color: transparent; }
     .el-menu--horizontal > .el-submenu {
       float: left; }
       .el-menu--horizontal > .el-submenu:focus, .el-menu--horizontal > .el-submenu:hover {
@@ -29153,7 +29156,8 @@
   float: none;
   display: inline-block;
   text-align: left;
-  padding: 0 0 10px 0; }
+  /* padding: 0 0 10px 0;  */
+}
 
 .el-form--inline .el-form-item {
   display: inline-block;
@@ -29172,7 +29176,8 @@
   display: block; }
 
 .el-form-item {
-  margin-bottom: 22px; }
+  margin-bottom: 12px; 
+  }
   .el-form-item::before,
   .el-form-item::after {
     display: table;
@@ -29213,8 +29218,9 @@
     vertical-align: middle;
     float: left;
     font-size: 14px;
-    color: #606266;
-    line-height: 40px;
+    color: #171717;
+    font-weight: bold;
+    line-height: 25px;
     padding: 0 12px 0 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
@@ -38025,7 +38031,7 @@
 /* Break-point
 --------------------------*/
 .el-message {
-  min-width: 380px;
+  min-width: 320px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 4px;

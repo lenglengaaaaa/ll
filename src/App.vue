@@ -60,14 +60,4 @@
           font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
       }
   }
-  
-
-  .el-pager li{
-    min-width: 30px;
-  }
-  
-  .el-pager li.active{
-    color: #f5eeee;
-    background: #22a7f0;
-  }
 </style>

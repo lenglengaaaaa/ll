@@ -2987,7 +2987,7 @@
     vertical-align: top;
     display: inline-block;
     font-size: 13px;
-    min-width: 35.5px;
+    min-width: 30px;
     height: 28px;
     line-height: 28px;
     cursor: pointer;
@@ -3009,5 +3009,6 @@
     .el-pager li:hover {
       color: #409EFF; }
     .el-pager li.active {
-      color: #409EFF;
+      color: #f5eeee;
+      background: #22a7f0;
       cursor: default; }

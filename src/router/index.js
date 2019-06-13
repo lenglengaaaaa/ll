@@ -44,7 +44,13 @@ const router= new Router({
           name: 'Application',
           component: () => import('@/views/application/index'),
           meta: { title: 'Application', icon: 'application' }
-        }
+        },
+        {
+          path: 'new',
+          name: 'NewApplication',
+          component: () => import('@/views/Application/components/NewApplication'),
+          meta: { title: 'New', icon: 'add' }
+        },
       ]
     },
     {
@@ -56,7 +62,13 @@ const router= new Router({
           name: 'Gateway',
           component: () => import('@/views/Gateway/index'),
           meta: { title: 'Gateway', icon: 'gateway' }
-        }
+        },
+        {
+          path: 'new',
+          name: 'NewGateway',
+          component: () => import('@/views/Gateway/components/NewGateway'),
+          meta: { title: 'New', icon: 'add' }
+        },
       ]
     },
     {

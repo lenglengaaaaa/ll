@@ -488,7 +488,7 @@
       .el-menu--horizontal > .el-menu-item a:hover {
         color: inherit; }
       .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover, .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus {
-        background-color: #fff; }
+        background-color: transparent; }
     .el-menu--horizontal > .el-submenu {
       float: left; }
       .el-menu--horizontal > .el-submenu:focus, .el-menu--horizontal > .el-submenu:hover {

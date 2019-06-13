@@ -92,19 +92,26 @@
         mounted () {
             //这里进行权限配置,改变navbar
             this.username = this.$store.state.name;
-            this.activeIndex = this.$route.path
             const value = this.$store.state.screenWidth;
+            this.hightlight(this.$route.path)
             this.resizehandle(value)
         },
         watch: {
             $route(to,from){
-                this.activeIndex = to.path
+                this.hightlight(to.path)
+
             },
             '$store.state.screenWidth'(value) {
                 this.resizehandle(value);
             }
         },
         methods: {
+            //判断当前路径,menu高亮
+            hightlight(path){
+                const index = path.lastIndexOf('/');
+                const result = index ==0?path:path.slice(0,index);
+                this.activeIndex = result
+            },
             //el-menu点击事件
             handleSelect(key, keyPath) {
                 this.closeList()

@@ -1,33 +1,26 @@
 <template>
     <div class="amap-page-container">
         <div class="amap_container">
-            <el-card class="box-card">
-                <div slot="header" class="clearfix"  >
-                    <span>{{title}}</span>
-                </div>
-                <div>
-                    <el-amap 
-                        :vid="vid" 
-                        class="amap-demo" 
-                        :center="center"
-                        :zoom="zoom"
-                        :events="events"
-                    >
-                        <el-amap-marker 
-                            v-for="(marker,index) in markers" 
-                            :key="index"
-                            :position="marker.position"
-                            :events="marker.events"
-                        />
-                        <el-amap-info-window 
-                            v-if="window" 
-                            :position="window.position" 
-                            :visible="window.visible" 
-                            :content="window.content"
-                        />
-                    </el-amap>
-                </div>
-            </el-card>
+            <el-amap 
+                :vid="vid" 
+                class="amap-demo" 
+                :center="center"
+                :zoom="3"
+                :events="events"
+            >
+                <el-amap-marker 
+                    v-for="(marker,index) in markers" 
+                    :key="index"
+                    :position="marker.position"
+                    :events="marker.events"
+                />
+                <el-amap-info-window 
+                    v-if="window" 
+                    :position="window.position" 
+                    :visible="window.visible" 
+                    :content="window.content"
+                />
+            </el-amap>
         </div>
     </div>
 </template>
@@ -35,19 +28,19 @@
 <script>
     export default {
         props: {
-            title:{
-                type:String
-            },
             vid: {
                 type: String,
                 default: 'amap'
             },
+            marker:{
+                type:Array,
+                default:()=>[]
+            }
         },
         data(){
             let self = this;
             return {
-                center: [113.991244,22.595988],
-                zoom:3,
+                center:[113.991244,22.595988],
                 markers: [],
                 markerRefs: [],
                 windows: [],
@@ -60,18 +53,17 @@
                                 renderCluserMarker: self._renderCluserMarker
                             });
                         }, 1000);
-                    }
-                }
+                    },
+                },
             }
         },
         created(){
             let self = this;
             let markers = [];
             let windows = [];
-
-            for (let i = 0 ; i < 10 ; i ++) {
+            this.marker.map((item,index)=>{
                 markers.push({
-                    position: [121.59996, 31.197646 + i * 0.001],
+                    position: item.position,
                     // content: '<div style="text-align:center; background-color: hsla(180, 100%, 50%, 0.7); height: 24px; width: 24px; border: 1px solid hsl(180, 100%, 40%); border-radius: 12px; box-shadow: hsl(180, 100%, 50%) 0px 0px 1px;"></div>',
                     events: {
                         init(o) {
@@ -81,21 +73,19 @@
                             self.windows.forEach(window => {
                                 window.visible = false;
                             });
-                            self.window = self.windows[i];
+                            self.window = self.windows[index];
                             self.$nextTick(() => {
                                 self.window.visible = true;
                             });
                         }
                     }
                 });
-
                 windows.push({
-                    position: [121.59996, 31.197646 + i * 0.001],
-                    content: `<div class="prompt">${ i }</div>`,
+                    position: item.position,
+                    content: `<div class="prompt">${ index }</div>`,
                     visible: false
                 });
-            }
-
+            })
             this.markers = markers;
             this.windows = windows;
         },
@@ -129,17 +119,6 @@
 
 <style lang="scss">
     .amap_container{
-        background: #fff;
-        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-        .box-card{
-            .el-card__header{
-                padding: 8px 15px;
-            }
-            .clearfix{
-                font-size: 16px;
-                color: #171717;
-            }
-        }
         .amap-demo {
             height: 500px;
         }

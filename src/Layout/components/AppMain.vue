@@ -30,7 +30,7 @@
         height: calc(100vh - 50px);
         background: #ecefef;
         .wrapper{
-            padding: 1vw;
+            padding:10px 1vw;
             height: calc(100% - 2vw);
             overflow-y: scroll;
         }

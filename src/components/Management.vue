@@ -1,7 +1,7 @@
 <template>
     <div class="Management_container">
         <div class="title_bar">
-            <el-button size="small" type="success">
+            <el-button size="small" type="success" @click="linkTo('add')">
                 {{btnName}}<i class="el-icon-plus el-icon--right" />
             </el-button>
         </div>
@@ -185,12 +185,21 @@
                 console.log(`当前页: ${val}`);
             },
             //应用跳转
-            linkTo(type,row){
+            linkTo(type,row={}){
                 switch (type) {
                     case 'check':
-                        return console.log('check',row)
+                        console.log('check',row)
+                        break;
+                    case 'add':
                     case 'edit':
-                        return console.log('edit',row)
+                        this.$router.push({
+                            name:this.type==='gateway'?'NewGateway':'NewApplication',
+                            params:{
+                                editFlag:type==='add'?false:true,
+                                data:row
+                            }
+                        })
+                        break;
                     case 'delete' :
                         this.open(row);
                         break;
@@ -222,5 +231,5 @@
 </script>
 
 <style lang="scss" >
-    @import '@/scss/Management.scss';
+    @import '@/styles/Management.scss';
 </style>

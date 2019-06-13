@@ -239,7 +239,8 @@
   float: none;
   display: inline-block;
   text-align: left;
-  padding: 0 0 10px 0; }
+  /* padding: 0 0 10px 0;  */
+}
 
 .el-form--inline .el-form-item {
   display: inline-block;
@@ -258,7 +259,8 @@
   display: block; }
 
 .el-form-item {
-  margin-bottom: 22px; }
+  margin-bottom: 15px; 
+}
   .el-form-item::before,
   .el-form-item::after {
     display: table;
@@ -299,7 +301,8 @@
     vertical-align: middle;
     float: left;
     font-size: 14px;
-    color: #606266;
+    color: #171717;
+    font-weight: bold;
     line-height: 40px;
     padding: 0 12px 0 0;
     -webkit-box-sizing: border-box;
