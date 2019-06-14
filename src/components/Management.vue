@@ -124,11 +124,21 @@
                 </el-pagination>
             </div>
         </div>
+        <NewApplication
+            :visible="visible"
+            :value="value"
+            :close="closeDia"
+        />
     </div>
 </template>
 
 <script>
+    import NewApplication from '@/views/Application/components/NewApplication'
+
     export default {
+        components: {
+            NewApplication
+        },
         props: {
             type:{
                 type:String,
@@ -162,6 +172,8 @@
                 total:100,
                 currentPage:1,
                 pageSize:10,
+                visible:false,
+                value:{}
             }
         },
         mounted () {
@@ -184,6 +196,9 @@
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
             },
+            closeDia(){
+                this.visible = false;
+            },
             //应用跳转
             linkTo(type,row={}){
                 switch (type) {
@@ -192,13 +207,21 @@
                         break;
                     case 'add':
                     case 'edit':
-                        this.$router.push({
-                            name:this.type==='gateway'?'NewGateway':'NewApplication',
-                            params:{
+                        if(this.type==='gateway'){
+                            this.$router.push({
+                                name:'NewGateway',
+                                params:{
+                                    editFlag:type==='add'?false:true,
+                                    data:row
+                                }
+                            })
+                        }else{
+                            this.visible = true;
+                            this.value = {
                                 editFlag:type==='add'?false:true,
                                 data:row
                             }
-                        })
+                        }
                         break;
                     case 'delete' :
                         this.open(row);

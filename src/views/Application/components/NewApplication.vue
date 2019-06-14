@@ -1,20 +1,19 @@
 <template>
     <div class="NewApplication_container">
-        <div class="nav">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item :to="{ path: '/application' }">我的应用</el-breadcrumb-item>
-                <el-breadcrumb-item >{{editFlag?'编辑应用':'添加应用'}}</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="body">
-            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="form">
+        <el-dialog
+            :title="editFlag?'编辑应用':'添加应用'"
+            :visible.sync="dialogVisible"
+            v-if="dialogVisible"
+            @close="handleClose"
+        >
+            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
                 <el-form-item label="应用ID" prop="id">
                     <el-input v-model="form.id" placeholder="请输入应用ID"></el-input>
                 </el-form-item>
                 <el-form-item label="应用名称" prop="name">
                     <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
                 </el-form-item>
-                <el-form-item label="应用描述" >
+                <el-form-item label="应用描述">
                     <el-input v-model="form.description" placeholder="请输入应用描述"></el-input>
                 </el-form-item>
                 <el-form-item label="活动区域" prop="type">
@@ -30,14 +29,30 @@
                     </el-button>
                 </el-form-item>
             </el-form>
-        </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    const resetForm = {
+        id: '',
+        name:'',
+        description: '',
+        type:''
+    }
+
     export default {
+        props: {
+            visible:Boolean,
+            value:{
+                type:Object,
+                default:()=>{}
+            },
+            close:Function
+        },
         data() {
             return {
+                dialogVisible: false,
                 editFlag:false,
                 form: {
                     id: '',
@@ -58,19 +73,29 @@
                 }
             }
         },
-        mounted () {
-            const {editFlag,data} = this.$route.params;
-            this.editFlag  = editFlag
-            this.form ={
-                ...this.form,
-                ...data
+        watch: {
+            value(newValue, oldValue) {
+                const {editFlag,data} = newValue
+                this.editFlag = editFlag;
+                this.form = {
+                    ...this.form,
+                    ...data
+                }
+            },
+            visible(newValue, oldValue) {
+                this.dialogVisible = newValue
             }
         },
         methods: {
+            handleClose() {
+                this.form =resetForm;
+                this.editFlag = false;
+                this.close();
+            },
             submitForm() {
-                this.$refs.form.validate((valid) => {
+                this.$refs.appForm.validate((valid) => {
                 if (valid) {
-                    this.$router.push('/application')
+                    this.handleClose()
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -83,31 +108,32 @@
 
 <style lang="scss">
     .NewApplication_container{
-        height: 100%;
-        padding: 0 20px;
-        .nav{
-            padding: 10px 0;
-        }
-        .body{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .el-form{
-                width: 460px;
-                padding: 15px;
-                background:#fff;
-                box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                .el-input__inner{
-                    border-radius: 0px;
-                    height: 35px;
-                    line-height: 35px;
+        .el-dialog{
+            width: 450px;
+            max-width: 100%;
+            .el-dialog__header{
+                padding: 12px 20px;
+                display: flex;
+                align-items: center;
+                background-color: #eee;
+                .el-dialog__title{
+                    color: #869198;
+                    font-size: 16px;
                 }
-                .el-select{
+            }
+            .el-dialog__body{
+                .el-form{
+                    .el-input__inner{
+                        border-radius: 0px;
+                        height: 35px;
+                        line-height: 35px;
+                    }
+                    .el-select{
+                        width: 100%;
+                    }
+                }
+                .el-button--small{
                     width: 100%;
-                }
-                .submit{
-                    text-align: center;
-                    padding: 15px 0 10px 0;
                 }
             }
         }

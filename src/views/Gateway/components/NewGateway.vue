@@ -35,10 +35,10 @@
                         <i class="el-icon-circle-check"></i>
                         {{editFlag?'确认编辑':'确认添加'}}
                     </el-button>
-                    <!-- <el-button type="danger" @click="goBack" size="medium">
+                    <el-button type="danger" @click="goBack" size="medium">
                         <i class="el-icon-circle-close"></i>
                         返回
-                    </el-button> -->
+                    </el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -86,9 +86,9 @@
             }
         },
         methods: {
-            // goBack(){
-            //     this.$router.push('/gateway')
-            // },
+            goBack(){
+                this.$router.push('/gateway')
+            },
             submitForm() {
                 this.$refs.form.validate((valid) => {
                 if (valid) {
@@ -112,18 +112,20 @@
 
 <style lang="scss">
     .NewGateway_container{
-        height: 100%;
         padding: 0 20px;
+        height: 100%;
         .nav{
             padding: 10px 0;
         }
         .body{
-            padding-top: 20px;
+            margin-top: 10px;
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             .el-form{
+                max-height: calc(100vh - 160px);
+                overflow: scroll;
                 width: 1140px;
                 padding: 15px;
                 background:#fff;
@@ -137,7 +139,6 @@
                     justify-self: flex-end;
                 }
                 .submit{
-                    text-align: center;
                     padding: 15px 0 10px 0;
                 }
             }

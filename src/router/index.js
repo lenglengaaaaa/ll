@@ -44,13 +44,7 @@ const router= new Router({
           name: 'Application',
           component: () => import('@/views/application/index'),
           meta: { title: 'Application', icon: 'application' }
-        },
-        {
-          path: 'new',
-          name: 'NewApplication',
-          component: () => import('@/views/Application/components/NewApplication'),
-          meta: { title: 'New', icon: 'add' }
-        },
+        }
       ]
     },
     {
@@ -128,7 +122,8 @@ router.beforeEach(async(to,from,next)=>{
 //比如一个页面较长，滚动到某个位置，
 //再跳转到另一个页面，滚动条默认是在上一个页面停留的位置，而好的体验肯定是能返回顶端
 router.afterEach((to,from,next)=>{
-  // window.scrollTo(0,0)
+  $('.wrapper').scrollTop(0)
+
   // finish progress bar
   NProgress.done()
 })

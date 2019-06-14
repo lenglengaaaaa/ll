@@ -16,6 +16,7 @@ module.exports = {
     app: './src/main.js'
   },
   externals: {
+    '$':'jquery',
     'moment': 'moment',
   },
   output: {

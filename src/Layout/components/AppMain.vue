@@ -31,7 +31,7 @@
         background: #ecefef;
         .wrapper{
             padding:10px 1vw;
-            height: calc(100% - 2vw);
+            height: calc(100% - 20px);
             overflow-y: scroll;
         }
     }
