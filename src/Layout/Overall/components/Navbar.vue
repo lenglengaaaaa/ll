@@ -2,7 +2,7 @@
     <div class="Navbar" ref="Navbar">
         <div class="container">
             <div class='title' >
-                <img src="../../assets/img/logo.png" alt="logo">
+                <img src="../../../assets/img/logo.png" alt="logo">
             </div>
             <div class="menu" v-if='!phone'>
                 <div class="left_menu">
@@ -23,7 +23,7 @@
                     <i class="el-icon-search" @click="flag = true"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
-                            <img src="../../assets/img/avatar.gif" class="user-avatar">
+                            <img src="../../../assets/img/avatar.gif" class="user-avatar">
                             <span class="username" >{{username}}</span>
                             <i class="el-icon-caret-bottom" />
                         </div>
@@ -52,7 +52,7 @@
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
                 <el-submenu index="1">
                     <template slot="title">
-                        <img src="../../assets/img/avatar.png" />
+                        <img src="../../../assets/img/avatar.png" />
                         <span>{{username}}</span>
                     </template>
                     <el-menu-item @click="logout" index="1-1">退出登录</el-menu-item>
@@ -108,8 +108,8 @@
         methods: {
             //判断当前路径,menu高亮
             hightlight(path){
-                const index = path.lastIndexOf('/');
-                const result = index ==0?path:path.slice(0,index);
+                const index = path.replace('/','a').indexOf('/');
+                const result = index ==-1?path:path.slice(0,index);
                 this.activeIndex = result
             },
             //el-menu点击事件

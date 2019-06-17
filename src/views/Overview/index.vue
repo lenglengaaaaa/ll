@@ -57,11 +57,16 @@
 
 <style lang="scss" scoped>
     @media screen and (max-width: 796px) {
-        .body{
-            padding: 0px 20px;
+        .Overview_container{
+            padding: 0px !important;
+            .body{
+                padding: 0 20px;
+            }
         }
+        
     }
     .Overview_container{
+        padding:10px 1vw;
         .title_bar{
             background: #fff;
             padding: 15px 15px;
@@ -74,8 +79,6 @@
                 font-weight: 300;
                 color: #4abced;
             }
-        }
-        .body{
         }
     }
 </style>

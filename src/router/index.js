@@ -5,7 +5,8 @@ import 'nprogress/nprogress.css' // progress bar style
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie
-import Layout from '@/layout'
+import OverallLayout from '@/Layout/Overall'
+import SideBarLayout from '@/Layout/HasSidebar'
 
 import {Message} from 'element-ui'
 
@@ -25,8 +26,8 @@ const router= new Router({
     },
     {
       path: '/',
-      name: 'Layout',
-      component:Layout,
+      name: 'Overall',
+      component:OverallLayout,
       redirect: '/overview',
       children:[{
         path:'overview',
@@ -37,19 +38,38 @@ const router= new Router({
     },
     {
       path: '/application',
-      component: Layout,
+      component: OverallLayout,
       children: [
         {
           path: '/',
           name: 'Application',
           component: () => import('@/views/application/index'),
           meta: { title: 'Application', icon: 'application' }
+        },
+        {
+          path:'',
+          component:SideBarLayout,
+          redirect: '/applyOverview',
+          children:[
+            {
+              path:'applyOverview',
+              name:'ApplyOverview',
+              component: () => import('@/views/SingleApply/ApplyOverview'),
+              meta: { title: 'ApplyOverview', icon: 'applyOverview' }
+            },
+            {
+              path:'concentrator',
+              name:'Concentrator',
+              component: () => import('@/views/SingleApply/Concentrator'),
+              meta: { title: 'Concentrator', icon: 'concentrator' }
+            }
+          ]
         }
       ]
     },
     {
       path: '/gateway',
-      component: Layout,
+      component: OverallLayout,
       children: [
         {
           path: '/',
@@ -67,7 +87,7 @@ const router= new Router({
     },
     {
       path: '/senior',
-      component: Layout,
+      component: OverallLayout,
       children: [
         {
           path: '/',

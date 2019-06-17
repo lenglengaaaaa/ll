@@ -203,7 +203,14 @@
             linkTo(type,row={}){
                 switch (type) {
                     case 'check':
-                        console.log('check',row)
+                        //跳转单个应用管理页面
+                        this.$store.commit('SET_APPID',row)
+                        this.$router.push({
+                            name:'ApplyOverview',
+                            params:{
+                                type:row.type
+                            }
+                        })
                         break;
                     case 'add':
                     case 'edit':

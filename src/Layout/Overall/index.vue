@@ -12,16 +12,9 @@
     import AppMain from './components/AppMain'
 
     export default {
-        data() {
-            return {
-            };
-        },
         components:{
             Navbar,
             AppMain
-        },
-        methods: {
-            
         }
     }
 </script>

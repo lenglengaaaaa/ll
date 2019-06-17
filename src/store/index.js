@@ -10,7 +10,8 @@ const state={
     token: getToken(),
     name: 'Zain',
     avatar: '',
-    screenWidth:document.body.clientWidth
+    screenWidth:document.body.clientWidth,
+    appObj:{}
 }
 
 /*2.mutations里面放的是方法，方法主要用于改变state里面的数据
@@ -27,6 +28,9 @@ const mutations={
     },
     SET_WIDTH:(state,width)=>{
         state.screenWidth = width
+    },
+    SET_APPID:(state,obj)=>{
+        state.appObj=obj
     }
 }
 
@@ -110,7 +114,7 @@ const actions= {
             const width = document.body.clientWidth
             commit('SET_WIDTH', width)
         }
-    }
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

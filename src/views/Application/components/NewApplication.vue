@@ -110,7 +110,7 @@
     .NewApplication_container{
         .el-dialog{
             width: 450px;
-            max-width: 100%;
+            max-width: 90%;
             .el-dialog__header{
                 padding: 12px 20px;
                 display: flex;

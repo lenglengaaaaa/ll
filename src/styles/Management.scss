@@ -1,12 +1,14 @@
 @media screen and (max-width: 769px) {
     .Management_container{
+        padding: 0px !important;
         .footer{
             justify-content: center !important;
         }
     }
 }
 .Management_container{
-    height: 100%;
+    padding: 10px 1vw;
+    height: calc(100% - 20px);
     .title_bar{
         background: #fff;
         padding: 15px 15px;
