@@ -29,8 +29,10 @@
                 
             }
         },
-        mounted  () {
-            this.bread = this.$store.state.breadcrumbs
+        watch:{
+            '$store.state.app.breadcrumbs'(value){
+                this.bread = value
+            }
         },
         computed: {
             key() {
@@ -40,7 +42,7 @@
         methods: {
             swState() {
                 this.flag = !this.flag
-                this.$store.commit('SET_STATUS',this.flag)
+                this.$store.commit('app/SET_STATUS',this.flag)
             }
         },
     }

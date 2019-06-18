@@ -204,7 +204,7 @@
                 switch (type) {
                     case 'check':
                         //跳转单个应用管理页面
-                        this.$store.commit('SET_APPID',row)
+                        this.$store.dispatch('app/setApp',row)
                         this.$router.push({
                             name:'ApplyOverview',
                             params:{

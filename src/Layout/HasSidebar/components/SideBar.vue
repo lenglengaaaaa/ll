@@ -33,7 +33,7 @@
             $route(to,from){
                 this.activeIndex = to.name;
             },
-            '$store.state.isCollapse'(value) {
+            '$store.state.app.isCollapse'(value) {
                 this.isCollapse = value;
                 if(value){
                     $('.Sidebar_container').css("width",'64px')

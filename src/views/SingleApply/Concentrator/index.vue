@@ -12,7 +12,7 @@
             }
         },
         created () {
-            this.$store.commit('SET_BREAD',this.bread)
+            this.$store.commit('app/SET_BREAD',this.bread)
         },
     }
 </script>

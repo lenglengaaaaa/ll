@@ -92,7 +92,7 @@
         mounted () {
             //这里进行权限配置,改变navbar
             this.username = this.$store.state.name;
-            const value = this.$store.state.screenWidth;
+            const value = this.$store.state.app.screenWidth;
             this.hightlight(this.$route.path)
             this.resizehandle(value)
         },
@@ -100,7 +100,7 @@
             $route(to,from){
                 this.hightlight(to.path)
             },
-            '$store.state.screenWidth'(value) {
+            '$store.state.app.screenWidth'(value) {
                 this.resizehandle(value);
             }
         },
@@ -122,7 +122,7 @@
             },
             //退出登录
             async logout() {
-                await this.$store.dispatch('logout')
+                await this.$store.dispatch('user/logout')
                 this.$router.push(`/login`)
             },
             //手机端列表

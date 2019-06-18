@@ -12,10 +12,6 @@
             SideBar,
             AppMain
         },
-        // destroyed() {
-        //     this.$store.commit('SET_BREAD',[]);
-        //     console.log(this.$store.state,'bbb')
-        // },
     }
 </script>
 
