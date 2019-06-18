@@ -6,24 +6,20 @@
 </template>
 
 <script>
-    import SideBar from './components/SideBar'
-    import AppMain from './components/Main'
-
+    import { SideBar, AppMain } from './components'
     export default {
         components: {
             SideBar,
             AppMain
         },
+        // destroyed() {
+        //     this.$store.commit('SET_BREAD',[]);
+        //     console.log(this.$store.state,'bbb')
+        // },
     }
 </script>
 
-<style lang="scss">
-    // .app-main{
-    //     .wrapper{
-    //         padding: 0px ;
-    //         height: 100%;
-    //     }
-    // }
+<style lang="scss" scope>
     .Apply_container{
         display: flex;
         flex-direction: row;

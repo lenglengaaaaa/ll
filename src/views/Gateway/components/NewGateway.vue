@@ -112,7 +112,7 @@
 
 <style lang="scss">
     .NewGateway_container{
-        padding: 0 20px;
+        padding: 10px 20px;
         height: 100%;
         .nav{
             padding: 10px 0;

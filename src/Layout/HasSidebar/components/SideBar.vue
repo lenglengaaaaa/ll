@@ -1,15 +1,21 @@
 <template>
     <div class="Sidebar_container">
+        <div class="app_title">
+            <p v-if="!isCollapse">新魔节测试</p>
+            <i v-else class="el-icon-info" title="新魔节测试"></i>
+        </div>
         <el-menu 
             :default-active="activeIndex"
             class="el-menu-demo" 
-            background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b"
+            active-text-color="#fff"
             router
+            :collapse="isCollapse"
+            :collapse-transition="false"
         >   
-            <el-menu-item v-for="item in menu" :key="item.path" :index="item.path" :route="item.route">
-                {{ item.name }}
+            <el-menu-item v-for="item in routes" :key="item.path" :index="item.name" :route="{name:item.name}">
+                <i :class="item.meta.icon"></i>
+                <span slot="title">{{ item.meta.title }}</span>
             </el-menu-item>
         </el-menu>
     </div>
@@ -20,32 +26,72 @@
         data() {
             return {
                 activeIndex: '',
-                menu:[
-                    {path:'ApplyOverview',name:'应用总览',route:{name:'ApplyOverview'}},
-                    {path:'Concentrator',name:'集中器管理',route:{name:'Concentrator'}},
-                ],
+                isCollapse:false
             }
         },
         watch: {
             $route(to,from){
                 this.activeIndex = to.name;
             },
+            '$store.state.isCollapse'(value) {
+                this.isCollapse = value;
+                if(value){
+                    $('.Sidebar_container').css("width",'64px')
+                }else{
+                    $('.Sidebar_container').css("width",'200px')
+                }
+            },
+        },
+        computed: {
+            routes() {
+                const routes = this.$router.options.routes ;
+                const index = routes.findIndex((item)=>item.path ==='/application');
+                const result = routes[index].children[1].children;
+                return result
+            }
         },
         mounted () {
             this.activeIndex = this.$route.name;
         },
-        methods: {
-
-        },
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    $height: 50px;
     .Sidebar_container{
+        width: 200px;
+        .app_title{
+            height: $height;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2c3e50;
+            p{
+                margin: 0;
+                color: #dadfe1;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .el-icon-info{
+                color: #fff;
+                cursor: pointer;
+            }
+        }
         .el-menu-demo{
-            width: 200px;
-            height: 100%;
-            text-align: center;
+            width: 100%;
+            height: calc(100% - 50px);
+            background: #34495e;
+            .el-menu-item{
+                height: $height;
+                line-height: $height;
+                &:hover{
+                    background: #22a7f0;
+                }
+            }
+            .is-active{
+                background: #22a7f0;
+            }
         }
     }
 </style>

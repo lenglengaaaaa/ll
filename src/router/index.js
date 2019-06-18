@@ -16,8 +16,6 @@ Vue.use(Router)
 
 
 const router= new Router({
-  // mode: 'history',
-  // base: '/dist',
   routes: [
     {
       path: '/login',
@@ -33,7 +31,6 @@ const router= new Router({
         path:'overview',
         name:'Overview',
         component:()=>import('@/views/Overview/index'),
-        meta: { title: 'Overview', icon: 'overview' }
       }]
     },
     {
@@ -44,7 +41,6 @@ const router= new Router({
           path: '/',
           name: 'Application',
           component: () => import('@/views/application/index'),
-          meta: { title: 'Application', icon: 'application' }
         },
         {
           path:'',
@@ -55,14 +51,20 @@ const router= new Router({
               path:'applyOverview',
               name:'ApplyOverview',
               component: () => import('@/views/SingleApply/ApplyOverview'),
-              meta: { title: 'ApplyOverview', icon: 'applyOverview' }
+              meta: { 
+                title:'应用总览',
+                icon: 'el-icon-setting'
+              }
             },
             {
               path:'concentrator',
               name:'Concentrator',
               component: () => import('@/views/SingleApply/Concentrator'),
-              meta: { title: 'Concentrator', icon: 'concentrator' }
-            }
+              meta: { 
+                title:'集中器管理',
+                icon: 'el-icon-setting'
+              }
+            },
           ]
         }
       ]
@@ -75,13 +77,11 @@ const router= new Router({
           path: '/',
           name: 'Gateway',
           component: () => import('@/views/Gateway/index'),
-          meta: { title: 'Gateway', icon: 'gateway' }
         },
         {
           path: 'new',
           name: 'NewGateway',
           component: () => import('@/views/Gateway/components/NewGateway'),
-          meta: { title: 'New', icon: 'add' }
         },
       ]
     },
@@ -93,7 +93,6 @@ const router= new Router({
           path: '/',
           name: 'Senior',
           component: () => import('@/views/Senior/index'),
-          meta: { title: 'Senior', icon: 'senior' }
         }
       ]
     },

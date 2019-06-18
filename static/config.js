@@ -13,6 +13,10 @@ const cfg = {
         username:"loraserver",
         password:"jbl21513118"
     },
+    //顶部导航栏
+    navMenU:[],
+    //侧边栏列表
+    siderMenu:[]
 }
 
 window.$cfg = cfg

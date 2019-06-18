@@ -10,8 +10,10 @@ const state={
     token: getToken(),
     name: 'Zain',
     avatar: '',
-    screenWidth:document.body.clientWidth,
-    appObj:{}
+    screenWidth:document.body.clientWidth, //监听视窗
+    appObj:{}, //应用对象
+    breadcrumbs:[], //应用页面,面包屑对象
+    isCollapse:false //侧板收缩状态
 }
 
 /*2.mutations里面放的是方法，方法主要用于改变state里面的数据
@@ -31,6 +33,12 @@ const mutations={
     },
     SET_APPID:(state,obj)=>{
         state.appObj=obj
+    },
+    SET_BREAD:(state,arr)=>{
+        state.breadcrumbs = arr
+    },
+    SET_STATUS:(state,flag)=>{
+        state.isCollapse = flag
     }
 }
 

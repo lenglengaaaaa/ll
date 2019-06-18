@@ -6,8 +6,13 @@
 
 <script>
     export default {
+        data() {
+            return {
+                bread: [{name:'ApplyOverview',title:'应用总览'}]
+            }
+        },
         created () {
-            console.log(this.$route.params,'route');
+            this.$store.commit('SET_BREAD',this.bread)
         },
     }
 </script>

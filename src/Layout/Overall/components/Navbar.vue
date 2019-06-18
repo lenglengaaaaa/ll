@@ -46,7 +46,7 @@
                 @select="handleSelect"
                 router
             >   
-                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path">
+                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route">
                     {{ item.name }}
                 </el-menu-item>
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
@@ -75,10 +75,10 @@
             return {
                 activeIndex: '',
                 navbar:[
-                    {path:'/overview',name:'概览'},
-                    {path:'/gateway',name:'网关管理'},
-                    {path:'/application',name:'应用管理'},
-                    {path:'/senior',name:'高级管理'}
+                    {path:'/overview',name:'概览',route:{name:'Overview'}},
+                    {path:'/gateway',name:'网关管理',route:{name:'Gateway'}},
+                    {path:'/application',name:'应用管理',route:{name:'Application'}},
+                    {path:'/senior',name:'高级管理',route:{name:'Senior'}}
                 ],
                 flag:false,
                 phone:false,
@@ -99,7 +99,6 @@
         watch: {
             $route(to,from){
                 this.hightlight(to.path)
-
             },
             '$store.state.screenWidth'(value) {
                 this.resizehandle(value);
