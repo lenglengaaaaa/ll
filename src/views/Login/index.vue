@@ -139,7 +139,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 769px){
+    @media screen and (max-width: 992px){
         .header{
             justify-content: center;
             padding-left: 0px !important;

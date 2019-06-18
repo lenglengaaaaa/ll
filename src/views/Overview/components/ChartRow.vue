@@ -34,24 +34,24 @@
             }
         },
         mounted () {
-            const value = this.$store.state.screenWidth;
+            const value = this.$store.state.app.device;
             this.resizehandle(value);
         },
         watch: {
-            '$store.state.screenWidth'(value) {
+            '$store.state.app.device'(value) {
                 this.resizehandle(value) ;
             }
         },
         methods: {
             resizehandle(value){
-                value>769?this.span=12 :this.span = 24
+                value==="desktop"?this.span=12 :this.span = 24
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 769px) {
+    @media screen and (max-width: 992px) {
         .el-row{
                 flex-direction: column;
         }

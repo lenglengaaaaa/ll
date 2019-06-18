@@ -116,7 +116,7 @@ router.beforeEach(async(to,from,next)=>{
     } else {
       next('/login');
       NProgress.done()
-      // const hasGetUserInfo = store.state.name
+      // const hasGetUserInfo = store.state.user.name
       // if (hasGetUserInfo) {
       //   next()
       // } else {

@@ -177,17 +177,17 @@
             }
         },
         mounted () {
-            const value = this.$store.state.screenWidth;
+            const value = this.$store.state.app.device;
             this.resizehandle(value);
         },
         watch: {
-            '$store.state.screenWidth'(value) {
-                this.resizehandle(value) ;
+            '$store.state.app.device'(value) {
+                this.resizehandle(value);
             }
         },
         methods: {
             resizehandle(value){
-                value>769?this.layout='total, sizes,pager,jumper' :this.layout = 'pager'
+                value==='desktop'?this.layout='total, sizes,pager,jumper' :this.layout = 'pager'
             },
             handleSizeChange(val) {
                 this.currentPage =1;

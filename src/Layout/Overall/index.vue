@@ -9,12 +9,14 @@
 
 <script>
     import { Navbar, AppMain } from './components'
+    import ResizeMixin from './mixin/ResizeHandler'
 
     export default {
         components:{
             Navbar,
             AppMain
-        }
+        },
+        mixins:[ResizeMixin],
     }
 </script>
 

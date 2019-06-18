@@ -16,14 +16,12 @@
         mounted() {
             this.chart = this.$echarts.init(this.$refs.soeChart);
             this.initChart();
-        },
-        watch: {
-            '$store.state.screenWidth'(value) {
+            window.addEventListener('resize',()=>{
                 clearTimeout(this.timer)
                 this.timer = setTimeout(()=>{
                     this.chart&&this.chart.resize()
                 },200)
-            }
+            },false);
         },
         beforeDestroy() {
             if (!this.chart) return

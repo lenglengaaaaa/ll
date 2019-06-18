@@ -91,8 +91,8 @@
         },
         mounted () {
             //这里进行权限配置,改变navbar
-            this.username = this.$store.state.name;
-            const value = this.$store.state.app.screenWidth;
+            this.username = this.$store.state.user.name;
+            const value = this.$store.state.app.device;
             this.hightlight(this.$route.path)
             this.resizehandle(value)
         },
@@ -100,7 +100,7 @@
             $route(to,from){
                 this.hightlight(to.path)
             },
-            '$store.state.app.screenWidth'(value) {
+            '$store.state.app.device'(value) {
                 this.resizehandle(value);
             }
         },
@@ -142,7 +142,7 @@
             },
             //监听视窗
             resizehandle(value){
-                value>769?this.phone = false :this.phone = true;
+                value==='desktop'?this.phone = false :this.phone = true;
             }
         }
     }
