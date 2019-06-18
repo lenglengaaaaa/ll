@@ -168,7 +168,7 @@
         data() {
             return {
                 input: '',
-                layout:'',
+                layout:'total, sizes,pager,jumper',
                 total:100,
                 currentPage:1,
                 pageSize:10,
@@ -176,12 +176,9 @@
                 value:{}
             }
         },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
-        },
         watch: {
             '$store.state.app.device'(value) {
+                console.log(value,'value')
                 this.resizehandle(value);
             }
         },

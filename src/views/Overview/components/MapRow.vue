@@ -57,10 +57,6 @@
             }
             this.marker=marker;
         },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
-        },
         watch: {
             '$store.state.app.device'(value) {
                 this.resizehandle(value) ;

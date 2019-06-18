@@ -92,9 +92,7 @@
         mounted () {
             //这里进行权限配置,改变navbar
             this.username = this.$store.state.user.name;
-            const value = this.$store.state.app.device;
             this.hightlight(this.$route.path)
-            this.resizehandle(value)
         },
         watch: {
             $route(to,from){
