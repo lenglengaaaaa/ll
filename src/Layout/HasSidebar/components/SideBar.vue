@@ -60,12 +60,12 @@
     $height: 50px;
     .Sidebar_container{
         width: 200px;
+        background: #2c3e50;
         .app_title{
             height: $height;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #2c3e50;
             p{
                 margin: 0;
                 color: #dadfe1;
@@ -80,8 +80,7 @@
         }
         .el-menu-demo{
             width: 100%;
-            height: calc(100% - 50px);
-            background: #34495e;
+            background:transparent;
             .el-menu-item{
                 height: $height;
                 line-height: $height;

@@ -67,6 +67,8 @@
     }
     .Overview_container{
         padding:10px 1vw;
+        height: calc(100% - 20px);
+        overflow: scroll;
         .title_bar{
             background: #fff;
             padding: 15px 15px;

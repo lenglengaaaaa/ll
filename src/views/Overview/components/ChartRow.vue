@@ -14,8 +14,7 @@
 </template>
 
 <script>
-    import SoeChart from '@/components/SoeChart'
-    import CategoryChart from '@/components/CategoryChart'
+    import { SoeChart , CategoryChart} from '@/components/Charts'
 
     export default {
         components: {

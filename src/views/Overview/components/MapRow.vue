@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import Map from '@/components/Map'
+    import {Map} from '@/components/Maps'
 
     export default {
         components: {
@@ -77,6 +77,7 @@
         }
     }
     .box-card{
+            margin-bottom: 20px;
             background: #fff;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
             .el-card__header{

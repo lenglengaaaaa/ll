@@ -24,11 +24,11 @@
                     <el-input v-model="form.address" placeholder="请输入网关地址"></el-input>
                 </el-form-item>
                 <el-form-item label="网关经纬度" class="map">
-                    <Map 
+                    <MapSingle 
                         vid="newGateway"
                         :position="form.position"
                         :get="getPostion"
-                    ></Map>
+                    />
                 </el-form-item>
                 <el-form-item class="submit">
                     <el-button type="primary" @click="submitForm" size="medium">
@@ -46,11 +46,11 @@
 </template>
 
 <script>
-    import Map from '@/components/MapSingle'
+    import {MapSingle} from '@/components/Maps'
 
     export default {
         components: {
-            Map
+            MapSingle
         },
         data() {
             return {
@@ -113,7 +113,7 @@
 <style lang="scss">
     .NewGateway_container{
         padding: 10px 20px;
-        height: 100%;
+        height: calc(100% - 20px);
         .nav{
             padding: 10px 0;
         }
