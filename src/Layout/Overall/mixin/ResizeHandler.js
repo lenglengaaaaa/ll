@@ -7,7 +7,7 @@ export default {
   watch: {
     $route(route) {
       if (this.device === 'mobile' && this.sidebar.opened) {
-        store.dispatch('app/closeSideBar', { withoutAnimation: false })
+        store.dispatch('app/closeSideBar')
       }
     }
   },
@@ -21,12 +21,10 @@ export default {
     const isMobile = this.$_isMobile()
     if (isMobile) {
       store.dispatch('app/toggleDevice', 'mobile')
-      store.dispatch('app/closeSideBar', { withoutAnimation: true })
+      store.dispatch('app/closeSideBar')
     }
   },
   methods: {
-    // use $_ for mixins properties
-    // https://vuejs.org/v2/style-guide/index.html#Private-property-names-essential
     $_isMobile() {
       const rect = body.getBoundingClientRect()
       return rect.width - 1 < WIDTH
@@ -37,7 +35,7 @@ export default {
         store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
 
         if (isMobile) {
-          store.dispatch('app/closeSideBar', { withoutAnimation: true })
+          store.dispatch('app/closeSideBar')
         }
       }
     }

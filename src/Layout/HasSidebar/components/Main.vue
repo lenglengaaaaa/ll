@@ -1,16 +1,8 @@
 <template>
     <section class="apply_main">
         <div class="bar">
-            <i :class="!flag?'el-icon-s-fold':'el-icon-s-unfold'" @click="swState"/>
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item 
-                    v-for="item in bread" 
-                    :key="item.name" 
-                    :to="{ name: item.name }"
-                >
-                    {{item.title}}
-                </el-breadcrumb-item>
-            </el-breadcrumb>
+            <i :class="isCollapse?'el-icon-s-fold':'el-icon-s-unfold'" @click="toggleSideBar"/>
+            <Breadcrumb />
         </div>
         <div class="main">
             <transition name="fade-transform" mode="out-in">
@@ -21,7 +13,12 @@
 </template>
 
 <script>
+    import Breadcrumb from '@/components/Breadcrumb'
+
     export default {
+        components: {
+            Breadcrumb,
+        },
         data() {
             return {
                 bread: [],
@@ -29,21 +26,15 @@
                 
             }
         },
-        watch:{
-            '$store.state.app.breadcrumbs'(value){
-                this.bread = value
-            }
-        },
         computed: {
-            key() {
-                return this.$route.path
+            isCollapse() {
+                return !this.$store.state.app.sidebar.opened
             }
         },
         methods: {
-            swState() {
-                this.flag = !this.flag
-                this.$store.commit('app/SET_STATUS',this.flag)
-            }
+            toggleSideBar() {
+                this.$store.dispatch('app/toggleSideBar')
+            },
         },
     }
 </script>

@@ -18,13 +18,6 @@
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 796px) {
-        .app-main{
-            .wrapper{
-                padding: 0px !important;
-            }
-        }
-    }
     .app-main{
         padding-top:50px; 
         height: calc(100vh - 50px);

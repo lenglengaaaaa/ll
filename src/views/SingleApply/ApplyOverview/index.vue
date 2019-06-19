@@ -8,11 +8,7 @@
     export default {
         data() {
             return {
-                bread: [{name:'ApplyOverview',title:'应用总览'}]
             }
-        },
-        created () {
-            this.$store.commit('app/SET_BREAD',this.bread)
         },
     }
 </script>

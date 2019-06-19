@@ -176,6 +176,10 @@
                 value:{}
             }
         },
+        mounted () {
+            const value = this.$store.state.app.device;
+            this.resizehandle(value);
+        },
         watch: {
             '$store.state.app.device'(value) {
                 console.log(value,'value')
@@ -258,5 +262,5 @@
 </script>
 
 <style lang="scss" >
-    @import '@/styles/Management.scss';
+    @import '@/styles/management.scss';
 </style>

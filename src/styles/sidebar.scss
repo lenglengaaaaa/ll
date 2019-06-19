@@ -1,0 +1,80 @@
+$height: 50px;
+@media screen and (max-width: 992px){
+    .Sidebar_container{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 20001;
+    }
+}
+.wrap{
+    height: 100%;
+    .drawer-bg {
+        background: #000;
+        opacity: 0.3;
+        width: 100%;
+        top: 0;
+        height: 100%;
+        position: absolute;
+        z-index: 2000;
+    }
+    .Sidebar_container{
+        background: #34495e;
+        height: 100%;
+        .app_title{
+            height: $height;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2c3e50;
+            p{
+                margin: 0;
+                color: #dadfe1;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .el-icon-info{
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+        .foldSidebar{
+            .side-menu-demo{
+                width: 54px;
+                animation:fold 0.3s linear;
+            }
+        }
+        .side-menu-demo{
+            width: 210px;
+            background:transparent;
+            border: none;
+            animation:unfold 0.3s linear;
+            .el-menu-item{
+                height: $height;
+                line-height: $height;
+                &:hover{
+                    background: #22a7f0;
+                }
+                .el-tooltip{
+                    display: flex !important;
+                    justify-content: center ;
+                    align-items: center;
+                }
+            }
+            .is-active{
+                background: #22a7f0;
+            }
+        }
+        @keyframes fold
+        {
+            from {width:210px;}
+            to {width:54px;}
+        }
+        @keyframes unfold
+        {
+            from {width:54px;}
+            to {width:210px;}
+        }
+    }
+}

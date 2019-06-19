@@ -48,6 +48,10 @@
                 marker:[]
             }
         },
+        mounted () {
+            const value = this.$store.state.app.device;
+            this.resizehandle(value);
+        },
         created () {
             let marker = [];
             for (let i = 0 ; i < 10 ; i ++) {
