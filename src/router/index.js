@@ -53,7 +53,7 @@ const router= new Router({
               component: () => import('@/views/SingleApply/ApplyOverview'),
               meta: { 
                 title:'应用总览',
-                icon: 'el-icon-setting'
+                icon: 'el-icon-odometer'
               }
             },
             {
@@ -62,7 +62,7 @@ const router= new Router({
               component: () => import('@/views/SingleApply/Concentrator'),
               meta: { 
                 title:'集中器管理',
-                icon: 'el-icon-setting'
+                icon: 'el-icon-connection'
               }
             },
           ]

@@ -14,10 +14,8 @@
 </template>
 
 <script>
-    import CountRow from './components/CountRow'
-    import ChartRow from './components/ChartRow'
+    import {CountRow,ChartRow} from '@/components/Row'
     import MapRow from './components/MapRow'
-
 
     export default {
         components:{

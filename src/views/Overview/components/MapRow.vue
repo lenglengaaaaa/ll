@@ -9,6 +9,7 @@
                     <Map 
                         vid="appliaction"
                         :marker="marker"
+                        :zoom="3"
                     />
                 </div>
             </el-card>
@@ -22,6 +23,7 @@
                     <Map 
                         vid="gateway"
                         :marker="marker"
+                        :zoom="3"
                     />
                 </div>
             </el-card>

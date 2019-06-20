@@ -13,6 +13,7 @@
                 timer: null
             }
         },
+        
         mounted() {
             this.chart = this.$echarts.init(this.$refs.categoryChart);
             this.initChart();
@@ -27,6 +28,14 @@
             if (!this.chart) return
             this.chart.dispose();
             this.chart = null;
+        },
+        watch: {
+            '$store.state.app.sidebar.opened'(flag) {
+                this.chart&&this.chart.resize();
+            },
+            '$store.state.app.device'(type){
+                this.chart&&this.chart.resize();
+            },
         },
         methods: {
             initChart() {

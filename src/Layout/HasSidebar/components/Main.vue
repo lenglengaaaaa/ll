@@ -26,6 +26,18 @@
                 
             }
         },
+        watch: {
+            '$store.state.app.device'(type){
+                if(type ==='mobile'){
+                    $('.apply_main').css({width:'100%'})
+                } 
+            },
+            '$store.state.app.sidebar.opened'(flag) {
+                const type = this.$store.state.app.device;
+                if(type ==='mobile')return;
+                $('.apply_main').css({width:!flag?'calc(100vw - 54px)':'calc(100vw - 210px)'})
+            }
+        },
         computed: {
             isCollapse() {
                 return !this.$store.state.app.sidebar.opened
@@ -44,7 +56,10 @@
         width: 100%;
         height: 100%;
         .bar{
+            background: #fff;
+            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
             height: 50px;
+            margin: 15px;
             padding: 0 15px;
             display: flex;
             align-items: center;
@@ -56,7 +71,9 @@
             }
         }
         .main{
-            padding:0 15px;
+            padding:0 15px 15px;
+            height: calc(100vh - 145px);
+            overflow: scroll;
         }
     }
 </style>

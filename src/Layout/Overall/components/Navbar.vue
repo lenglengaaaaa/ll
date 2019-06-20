@@ -2,7 +2,7 @@
     <div class="Navbar" ref="Navbar">
         <div class="container">
             <div class='title' >
-                <img src="../../../assets/img/logo.png" alt="logo">
+                <img src="../../../assets/img/logo.png" alt="logo" @click="skipHome">
             </div>
             <div class="menu" v-if='!phone'>
                 <div class="left_menu">
@@ -43,7 +43,7 @@
         <div class="list" ref="list" v-if="phone">
             <el-menu 
                 :default-active="activeIndex"
-                @select="handleSelect"
+                @select="closeList"
                 router
             >   
                 <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route">
@@ -109,9 +109,9 @@
                 const result = index ==-1?path:path.slice(0,index);
                 this.activeIndex = result
             },
-            //el-menu点击事件
-            handleSelect(key, keyPath) {
-                this.closeList()
+            //skipHome
+            skipHome(){
+                this.$router.push({name:'Overview'})
             },
             //关闭搜索弹窗
             closeSearch(){
@@ -170,6 +170,7 @@
                 align-items: center;
                 img{
                     width: 145px;
+                    cursor: pointer;
                 }
             }
             .menu{

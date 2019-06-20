@@ -5,7 +5,7 @@
                 :vid="vid" 
                 class="amap-demo" 
                 :center="center"
-                :zoom="3"
+                :zoom="zoom"
                 :events="events"
             >
                 <el-amap-marker 
@@ -32,6 +32,7 @@
                 type: String,
                 default: 'amap'
             },
+            zoom:Number,
             marker:{
                 type:Array,
                 default:()=>[]

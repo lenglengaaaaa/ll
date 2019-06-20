@@ -10,12 +10,13 @@
         data() {
             return {
                 chart: null,
-                timer: null
+                timer: null,
             }
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.soeChart);
             this.initChart();
+            this.chart&&this.chart.resize()
             window.addEventListener('resize',()=>{
                 clearTimeout(this.timer)
                 this.timer = setTimeout(()=>{
@@ -27,6 +28,14 @@
             if (!this.chart) return
             this.chart.dispose();
             this.chart = null;
+        },
+        watch: {
+            '$store.state.app.sidebar.opened'(flag) {
+                this.chart&&this.chart.resize();
+            },
+            '$store.state.app.device'(type){
+                this.chart&&this.chart.resize();
+            }
         },
         methods: {
             initChart() {
