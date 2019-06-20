@@ -10,7 +10,9 @@
 </template>
 
 <script>
-    import Management from '../../components/Management'
+    // import {All} from '@/components/Management'
+    import {Management} from '../../components/Management'
+
 
 
     export default {

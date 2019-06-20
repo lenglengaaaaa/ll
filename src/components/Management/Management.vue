@@ -158,12 +158,12 @@
             },
             data:{
                 type:Array,
-                default:[]
+                default:()=>[]
             },
             columns:{
                 type:Array,
-                default:[]
-            }
+                default:()=>[]
+            },
         },
         data() {
             return {

@@ -16,7 +16,8 @@
         
         mounted() {
             this.chart = this.$echarts.init(this.$refs.categoryChart);
-            this.initChart();
+            setTimeout(()=>{this.initChart()})
+            this.chart&&this.chart.resize();
             window.addEventListener('resize',()=>{
                 clearTimeout(this.timer)
                 this.timer = setTimeout(()=>{
@@ -32,10 +33,7 @@
         watch: {
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart&&this.chart.resize();
-            },
-            '$store.state.app.device'(type){
-                this.chart&&this.chart.resize();
-            },
+            }
         },
         methods: {
             initChart() {
@@ -89,6 +87,7 @@
                         }
                     ]
                 })
+                this.chart&&this.chart.resize();
             },
         }
     }

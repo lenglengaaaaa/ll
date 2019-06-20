@@ -26,9 +26,9 @@
 <script>
     export default {
         props: {
-            rows: {
-                type: Array,
-                default: []
+            rows:{
+                type:Array,
+                default:()=>[]
             },
             width:{
                 type:Number,

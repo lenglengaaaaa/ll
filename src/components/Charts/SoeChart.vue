@@ -15,8 +15,7 @@
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.soeChart);
-            this.initChart();
-            this.chart&&this.chart.resize()
+            setTimeout(()=>{this.initChart()})
             window.addEventListener('resize',()=>{
                 clearTimeout(this.timer)
                 this.timer = setTimeout(()=>{
@@ -33,9 +32,6 @@
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart&&this.chart.resize();
             },
-            '$store.state.app.device'(type){
-                this.chart&&this.chart.resize();
-            }
         },
         methods: {
             initChart() {
@@ -70,6 +66,7 @@
                         data: [10, 52, 200, 334, 390, 330, 220]
                     }]
                 })
+                this.chart&&this.chart.resize();
             }
         }
     }
