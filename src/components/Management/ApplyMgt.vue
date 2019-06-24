@@ -2,19 +2,21 @@
     <div class="Apply-Management"> 
         <el-card class="box-card">
                 <div slot="header" class="clearfix" >
-                    <div>
-                        <el-input
-                            size="small"
-                            :placeholder="placeholder"
-                            suffix-icon="el-icon-search"
-                            v-model="input"
-                        />
-                    </div>
-                    <div>
-                        <el-button size="small" type="success" @click="linkTo('add')">
-                            添加{{title}}<i class="el-icon-plus el-icon--right" />
-                        </el-button>
-                    </div>
+                    <slot name="header" >
+                        <div>
+                            <el-input
+                                size="small"
+                                :placeholder="placeholder"
+                                suffix-icon="el-icon-search"
+                                v-model="input"
+                            />
+                        </div>
+                        <div>
+                            <el-button size="small" type="success" @click="linkTo('add')">
+                                添加{{title}}<i class="el-icon-plus el-icon--right" />
+                            </el-button>
+                        </div>
+                    </slot>
                 </div>
                 <div class="body">
                     <el-table
@@ -70,10 +72,7 @@
 <script>
     export default {
         props: {
-            data:{
-                type:Array,
-                default:()=>[]
-            },
+            data:Array,
             total:Number,
             title:String,
             getList:Function,

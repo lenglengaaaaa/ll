@@ -77,7 +77,7 @@
                 navbar:[
                     {path:'/overview',name:'概览',route:{name:'Overview'}},
                     {path:'/gateway',name:'网关管理',route:{name:'Gateway'}},
-                    {path:'/application',name:'应用管理',route:{name:'Application'}},
+                    {path:'/application',name:'项目管理',route:{name:'Application'}},
                     {path:'/senior',name:'高级管理',route:{name:'Senior'}}
                 ],
                 flag:false,

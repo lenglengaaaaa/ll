@@ -60,10 +60,24 @@ const router= new Router({
               path:'concentrator',
               name:'Concentrator',
               component: () => import('@/views/SingleApply/Concentrator'),
+              redirect:'concentrator/list',
               meta: { 
                 title:'集中器管理',
                 icon: 'el-icon-connection'
-              }
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'ConList',
+                  component: () => import('@/views/SingleApply/Concentrator/List'),
+                },
+                {
+                  path:'newCon',
+                  name:'NewCon',
+                  component: () => import('@/views/SingleApply/Concentrator/New'),
+                  meta:{title:'添加集中器'}
+                }
+              ]
             },
           ]
         }

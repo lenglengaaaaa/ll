@@ -18,7 +18,7 @@
                     :collapse-transition="false"
                     @select='handleClickOutside'
                 >   
-                    <el-menu-item v-for="item in routes" :key="item.path" :index="item.name" :route="{name:item.name}">
+                    <el-menu-item v-for="item in routes" :key="item.path" :index="item.path" :route="{name:item.name}">
                         <i :class="item.meta.icon"></i>
                         <span slot="title">{{ item.meta.title }}</span>
                     </el-menu-item>
@@ -37,7 +37,8 @@
         },
         watch: {
             $route(to,from){
-                this.activeIndex = to.name;
+                const path = to.path.split('/')[2]
+                this.activeIndex = path;
             },
         },
         computed: {
@@ -55,7 +56,8 @@
             },
         },
         mounted () {
-            this.activeIndex = this.$route.name;
+            const path = this.$route.path.split('/')[2]
+            this.activeIndex = path;
         },
         methods: {
             handleClickOutside() {
