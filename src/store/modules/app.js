@@ -6,7 +6,8 @@ const state={
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
     device: 'desktop',
-    appType:''
+    appType:'',
+    editObj:{}
 }
 
 const mutations={
@@ -37,6 +38,9 @@ const mutations={
     },
     SET_TYPE:(state,type)=>{
         state.appType = type
+    },
+    SET_EDIT:(state,obj)=>{
+        state.editObj = obj
     }
 }
 
@@ -56,6 +60,9 @@ const actions= {
     },
     setType({commit},type){
         commit('SET_TYPE',type)
+    },
+    setEdit({commit},obj){
+        commit('SET_EDIT',obj)
     }
 }   
 

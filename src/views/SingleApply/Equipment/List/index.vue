@@ -65,9 +65,11 @@
             return {
                 data: [
                     {
+                        type:5,
                         name:'集中器0049',
                         number:'0049',
                         eui:'47cb14a300490049',
+                        pattern:'0',
                         status:1,
                         time:'2018-05-12 11:11:11'
                     }
@@ -79,8 +81,14 @@
             getList(){
                 console.log('获取数据')
             },
-            skipTo() {
-                this.$router.push({name:'NewEqu'})
+            skipTo(type,row) {
+                this.$router.push({name:'NewEqu',})
+                //修改设备类型
+                this.$store.dispatch('app/setType',row.type)
+                this.$store.dispatch('app/setEdit',{
+                    editFlag:type==='edit'?true:false,
+                    data:row
+                })
             },
             remove(){
                 console.log('删除')

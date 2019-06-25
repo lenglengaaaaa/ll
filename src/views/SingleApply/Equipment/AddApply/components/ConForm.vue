@@ -18,12 +18,17 @@
                 <el-option label="ABP-Device-Profile" value="0"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item class="submit">
+        <el-form-item class="submit" v-if="!editFlag">
             <el-button type="danger" @click="pre">
                 上一步
             </el-button>
             <el-button type="primary" @click="submit" >
                 下一步
+            </el-button>
+        </el-form-item>
+        <el-form-item class="submit" v-else>
+            <el-button type="primary" @click="edit" >
+                编辑完成
             </el-button>
         </el-form-item>
     </el-form>
@@ -40,10 +45,10 @@
                 if(!value){
                     return callback(new Error('请输入设备EUI'))
                 }
-                const r =  /^\+?[1-9][0-9]*$/;
-                if(!r.test(value)){
-                    return callback(new Error('请输入正整数'))
-                }
+                // const r =  /^\+?[1-9][0-9]*$/;
+                // if(!r.test(value)){
+                //     return callback(new Error('请输入正整数'))
+                // }
                 if (value.length<16) {
                     return callback(new Error('设备EUI长度为16'));
                 }
@@ -72,17 +77,36 @@
                 }
             }
         },
+        computed: {
+            editFlag(){
+                return this.$store.state.app.editObj.editFlag || false
+            }
+        },
+        mounted () {
+            const data = this.$store.state.app.editObj.data || {}; 
+            this.form={
+                ...this.form,
+                ...data
+            };
+        },
         methods: {
             submit() {
-                this.next()
-                // this.$refs.comForm.validate((valid) => {
-                //     if (valid) {
-                //         this.next();
-                //     } else {
-                //         console.log('error submit!!');
-                //         return false;
-                //     }
-                // });
+                this.$refs.comForm.validate((valid) => {
+                    if (valid) {
+                        this.next();
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            edit(){
+                this.$message({
+                    message: '编辑成功',
+                    type: 'success'
+                });
+                
+                this.$router.push({name:'EquList'})
             }
         },
     }

@@ -129,7 +129,7 @@
                         break;
                     case 'add':
                     case 'edit':
-                        this.skipTo();
+                        this.skipTo(type,row);
                         break;
                     case 'delete' :
                         this.open(row);

@@ -1,23 +1,30 @@
 <template>
     <div class="create_container">
-        <div class="step">
-            <el-steps :active="active" finish-status="success" simple>
-                <el-step title="选择设备"></el-step>
-                <el-step title="添加设备"></el-step>
-                <el-step title="激活设备"></el-step>
-            </el-steps>
-        </div>
-        <div class="content">
-            <template v-if="active==0">
-                <SelectApply :next="next"></SelectApply>
-            </template>
-            <template v-if="active==1">
-                <AddApply :next="next" :pre="pre"></AddApply>
-            </template>
-            <template v-else-if="active===2">
-                <ActApply :next="next"></ActApply>
-            </template>
-        </div>
+        <template v-if="!this.editFlag">
+            <div class="step">
+                <el-steps :active="active" finish-status="success" simple>
+                    <el-step title="选择设备"></el-step>
+                    <el-step title="添加设备"></el-step>
+                    <el-step title="激活设备"></el-step>
+                </el-steps>
+            </div>
+            <div class="content">
+                <template v-if="active==0">
+                    <SelectApply :next="next"></SelectApply>
+                </template>
+                <template v-if="active==1">
+                    <AddApply :next="next" :pre="pre"></AddApply>
+                </template>
+                <template v-else-if="active===2">
+                    <ActApply :next="next"></ActApply>
+                </template>
+            </div>
+        </template>
+        <template v-else>
+            <div>
+                <AddApply />
+            </div>
+        </template>
     </div>
 </template>
 
@@ -35,6 +42,11 @@
             return {
                 active: 0
             };
+        },
+        computed:{
+            editFlag(){
+                return this.$store.state.app.editObj.editFlag || false
+            }
         },
         methods: {
             pre(){

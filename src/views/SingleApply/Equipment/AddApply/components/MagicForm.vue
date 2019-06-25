@@ -49,12 +49,17 @@
                 :get="getPostion"
             />
         </el-form-item>
-        <el-form-item class="submit">
+        <el-form-item class="submit" v-if="!editFlag">
             <el-button type="danger" @click="pre">
                 上一步
             </el-button>
             <el-button type="primary" @click="submit" >
                 {{type===0?'下一步':'完成'}}
+            </el-button>
+        </el-form-item>
+        <el-form-item class="submit" v-else>
+            <el-button type="primary" @click="edit" >
+                编辑完成
             </el-button>
         </el-form-item>
     </el-form>
@@ -69,7 +74,7 @@
         },
         props: {
             next:Function,
-            pre:Function
+            pre:Function,
         },
         data() {
             var checkEui = (rule, value, callback) => {
@@ -77,9 +82,9 @@
                     return callback(new Error('请输入设备EUI'))
                 }
                 const r =  /^\+?[1-9][0-9]*$/;
-                if(!r.test(value)){
-                    return callback(new Error('请输入正整数'))
-                }
+                // if(!r.test(value)){
+                //     return callback(new Error('请输入正整数'))
+                // }
                 if (value.length<16) {
                     return callback(new Error('设备EUI长度为16'));
                 }
@@ -113,7 +118,17 @@
         computed: {
             type() {
                 return this.$store.state.app.appType 
+            },
+            editFlag(){
+                return this.$store.state.app.editObj.editFlag || false
             }
+        },
+        mounted () {
+            const data = this.$store.state.app.editObj.data || {}; 
+            this.form={
+                ...this.form,
+                ...data
+            };
         },
         methods: {
             submit() {
@@ -139,6 +154,13 @@
                     ...this.form,
                     position:[lng,lat]
                 }
+            },
+            edit(){
+                this.$message({
+                    message: '编辑成功',
+                    type: 'success'
+                });
+                this.$router.push({name:'EquList'})
             }
         },
     }
