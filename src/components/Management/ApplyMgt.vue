@@ -6,14 +6,14 @@
                         <div>
                             <el-input
                                 size="small"
-                                :placeholder="placeholder"
+                                placeholder="搜索设备"
                                 suffix-icon="el-icon-search"
                                 v-model="input"
                             />
                         </div>
                         <div>
                             <el-button size="small" type="success" @click="linkTo('add')">
-                                添加{{title}}<i class="el-icon-plus el-icon--right" />
+                                添加设备<i class="el-icon-plus el-icon--right" />
                             </el-button>
                         </div>
                     </slot>

@@ -1,0 +1,19 @@
+.el-form{
+    width:500px;
+    max-width: 100%;
+    padding: 15px;
+    background:#fff;
+    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+    .el-input__inner{
+        border-radius: 0px;
+        height: 35px;
+        line-height: 35px;
+    }
+    .el-select{
+        width: 100%;
+    }
+    .submit{
+        padding-top: 20px;
+        text-align: center;
+    }
+}

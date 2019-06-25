@@ -5,16 +5,11 @@ const state={
     sidebar: {
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
-    device: 'desktop'
+    device: 'desktop',
+    appType:''
 }
 
 const mutations={
-    SET_APP:(state,obj)=>{
-        state.appObj=obj
-    },
-    SET_STATUS:(state,flag)=>{
-        state.isCollapse = flag
-    },
     //切换侧边栏状态
     TOGGLE_SIDEBAR: state => {
         state.sidebar.opened = !state.sidebar.opened
@@ -32,25 +27,35 @@ const mutations={
     //视窗问题
     TOGGLE_DEVICE: (state, device) => {
         state.device = device
+    },
+    //保存应用信息
+    SET_APP:(state,obj)=>{
+        state.appObj=obj
+    },
+    SET_STATUS:(state,flag)=>{
+        state.isCollapse = flag
+    },
+    SET_TYPE:(state,type)=>{
+        state.appType = type
     }
 }
 
 const actions= {
+    toggleSideBar({ commit }) {
+        commit('TOGGLE_SIDEBAR')
+    },
+    closeSideBar({ commit }) {
+        commit('CLOSE_SIDEBAR')
+    },
+    toggleDevice({ commit }, device) {
+        commit('TOGGLE_DEVICE', device)
+    },
     //set appObj
     setApp({commit},obj){
         commit('SET_APP', obj)
     },
-
-    toggleSideBar({ commit }) {
-        commit('TOGGLE_SIDEBAR')
-    },
-
-    closeSideBar({ commit }) {
-        commit('CLOSE_SIDEBAR')
-    },
-    
-    toggleDevice({ commit }, device) {
-        commit('TOGGLE_DEVICE', device)
+    setType({commit},type){
+        commit('SET_TYPE',type)
     }
 }   
 

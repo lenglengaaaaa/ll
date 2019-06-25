@@ -1,7 +1,6 @@
 <template>
     <ApplyMgt
         :data="data"
-        title="集中器"
         :total="total"
         :getList="getList"
         :skipTo="skipTo"
@@ -81,7 +80,7 @@
                 console.log('获取数据')
             },
             skipTo() {
-                this.$router.push({name:'NewCon'})
+                this.$router.push({name:'NewEqu'})
             },
             remove(){
                 console.log('删除')

@@ -1,5 +1,5 @@
 <template>
-    <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
+    <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="comForm">
         <el-form-item label="设备名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入设备名称"></el-input>
         </el-form-item>
@@ -19,6 +19,9 @@
             </el-select>
         </el-form-item>
         <el-form-item class="submit">
+            <el-button type="danger" @click="pre">
+                上一步
+            </el-button>
             <el-button type="primary" @click="submit" >
                 下一步
             </el-button>
@@ -29,7 +32,8 @@
 <script>
     export default {
         props: {
-            next: Function
+            next:Function,
+            pre:Function
         },
         data() {
             var checkEui = (rule, value, callback) => {
@@ -70,29 +74,20 @@
         },
         methods: {
             submit() {
-                this.next();
+                this.next()
+                // this.$refs.comForm.validate((valid) => {
+                //     if (valid) {
+                //         this.next();
+                //     } else {
+                //         console.log('error submit!!');
+                //         return false;
+                //     }
+                // });
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    .el-form{
-        width:500px;
-        padding: 15px;
-        background:#fff;
-        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-        .el-input__inner{
-            border-radius: 0px;
-            height: 35px;
-            line-height: 35px;
-        }
-        .el-select{
-            width: 100%;
-        }
-        .submit{
-            padding-top: 20px;
-            text-align: center;
-        }
-    }
+    @import '@/styles/form.scss';
 </style>

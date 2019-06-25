@@ -72,6 +72,14 @@
             },
             submit() {
                 this.next();
+                // this.$refs.appForm.validate((valid) => {
+                //     if (valid) {
+                //         this.next()
+                //     } else {
+                //         console.log('error submit!!');
+                //         return false;
+                //     }
+                // });
             }
         },
     }

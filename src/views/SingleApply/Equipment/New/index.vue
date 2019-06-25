@@ -2,28 +2,32 @@
     <div class="create_container">
         <div class="step">
             <el-steps :active="active" finish-status="success" simple>
+                <el-step title="选择设备"></el-step>
                 <el-step title="添加设备"></el-step>
                 <el-step title="激活设备"></el-step>
             </el-steps>
         </div>
         <div class="content">
             <template v-if="active==0">
-                <AddApply :next="next"></AddApply>
+                <SelectApply :next="next"></SelectApply>
             </template>
-
-            <template v-else-if="active===1">
+            <template v-if="active==1">
+                <AddApply :next="next" :pre="pre"></AddApply>
+            </template>
+            <template v-else-if="active===2">
                 <ActApply :next="next"></ActApply>
             </template>
-
         </div>
     </div>
 </template>
 
 <script>
-    import {AddApply,ActApply} from './components'
+    import {SelectApply,ActApply} from './components'
+    import AddApply from '../AddApply'
 
     export default {
         components: {
+            SelectApply,
             AddApply,
             ActApply
         },
@@ -32,16 +36,17 @@
                 active: 0
             };
         },
-        created () {
-        },
         methods: {
+            pre(){
+                this.active-- 
+            },
             next() {
-                if (this.active++ > 0){
+                if (this.active++ > 1){
                     this.$message({
-                        message: '设备激活完成 , 添加设备成功',
+                        message: '添加设备成功',
                         type: 'success'
                     });
-                    this.$router.push({name:'ConList'})
+                    this.$router.push({name:'EquList'})
                 }
             }
         },
@@ -65,7 +70,7 @@
         }
         .content{
             width: 100%;
-            margin-top: 50px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
         }

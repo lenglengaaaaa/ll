@@ -57,25 +57,25 @@ const router= new Router({
               }
             },
             {
-              path:'concentrator',
-              name:'Concentrator',
-              component: () => import('@/views/SingleApply/Concentrator'),
-              redirect:'concentrator/list',
+              path:'equipment',
+              name:'Equipment',
+              component: () => import('@/views/SingleApply/Equipment'),
+              redirect:'equipment/list',
               meta: { 
-                title:'集中器管理',
+                title:'设备管理',
                 icon: 'el-icon-connection'
               },
               children:[
                 {
                   path:'list',
-                  name:'ConList',
-                  component: () => import('@/views/SingleApply/Concentrator/List'),
+                  name:'EquList',
+                  component: () => import('@/views/SingleApply/Equipment/List'),
                 },
                 {
-                  path:'newCon',
-                  name:'NewCon',
-                  component: () => import('@/views/SingleApply/Concentrator/New'),
-                  meta:{title:'添加集中器'}
+                  path:'newEqu',
+                  name:'NewEqu',
+                  component: () => import('@/views/SingleApply/Equipment/New'),
+                  meta:{title:'添加设备'}
                 }
               ]
             },

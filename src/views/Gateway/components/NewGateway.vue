@@ -91,12 +91,12 @@
             },
             submitForm() {
                 this.$refs.form.validate((valid) => {
-                if (valid) {
-                    this.$router.push('/gateway')
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
+                    if (valid) {
+                        this.$router.push('/gateway')
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
                 });
             },
             getPostion(lng,lat){
