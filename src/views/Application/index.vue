@@ -1,9 +1,9 @@
 <template>
     <Management
         type="application"
-        btnName="新增应用"
-        title='我的应用'
-        placeholder="搜索应用"
+        btnName="新增项目"
+        title='我的项目'
+        placeholder="搜索项目"
         :data="data"
         :columns="columns"
     />

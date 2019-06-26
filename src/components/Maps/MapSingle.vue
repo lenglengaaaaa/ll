@@ -1,8 +1,7 @@
 <template>
     <div class="amap-page-container">
         <div class="amap_container">
-            <el-amap-search-box class="search-box" :on-search-result="onSearchResult">
-            </el-amap-search-box>
+            <el-amap-search-box class="search-box" :on-search-result="onSearchResult" v-if="flag"/>
             <el-amap 
                 :vid="vid" 
                 class="amap-demo" 
@@ -27,7 +26,11 @@
                 type:Array,
                 default:()=>[113.991244,22.595988]
             },
-            get:Function
+            get:Function,
+            flag:{
+                type:Boolean,
+                default:true
+            }
         },
         data(){
             const _this = this;

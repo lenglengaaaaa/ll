@@ -32,19 +32,6 @@
             next: Function
         },
         data() {
-            var checkEui = (rule, value, callback) => {
-                if(!value){
-                    return callback(new Error('请输入设备EUI'))
-                }
-                const r =  /^\+?[1-9][0-9]*$/;
-                if(!r.test(value)){
-                    return callback(new Error('请输入正整数'))
-                }
-                if (value.length<16) {
-                    return callback(new Error('设备EUI长度为16'));
-                }
-                callback();
-            };
             return {
                 form: {
                     address:'',

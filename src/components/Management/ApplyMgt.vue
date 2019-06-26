@@ -6,14 +6,14 @@
                         <div>
                             <el-input
                                 size="small"
-                                placeholder="搜索设备"
+                                :placeholder="placeholder"
                                 suffix-icon="el-icon-search"
                                 v-model="input"
                             />
                         </div>
                         <div>
                             <el-button size="small" type="success" @click="linkTo('add')">
-                                添加设备<i class="el-icon-plus el-icon--right" />
+                                添加{{title}}<i class="el-icon-plus el-icon--right" />
                             </el-button>
                         </div>
                     </slot>
@@ -28,29 +28,32 @@
                         header-cell-class-name="table_header"
                     >   
                         <slot></slot>
-                        <el-table-column
-                            label="操作"
-                            align="center"
-                            width="150"
-                        >
-                                <template slot-scope="scope">
-                                    <el-button
-                                        size="mini"
-                                        type="success"
-                                        @click="linkTo('edit',scope.row)"
-                                    >
-                                        编辑
-                                    </el-button>
-                                    <el-button
-                                        size="mini"
-                                        type="danger"
-                                        @click="linkTo('delete',scope.row)"
+                        <slot name="operation">
+                            <el-table-column
+                                label="操作"
+                                align="center"
+                                width="150"
+                            >
+                                    <template slot-scope="scope">
+                                        <el-button
+                                            size="mini"
+                                            type="success"
+                                            @click="linkTo('edit',scope.row)"
+                                        >
+                                            编辑
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="danger"
+                                            @click="linkTo('delete',scope.row)"
 
-                                    >
-                                        删除
-                                    </el-button>
-                                </template>
-                        </el-table-column>
+                                        >
+                                            删除
+                                        </el-button>
+                                    </template>
+                            </el-table-column>
+                        </slot>
+                        
                     </el-table>
                 </div>
                 <div class="footer">
@@ -97,7 +100,6 @@
         mounted () {
             const value = this.$store.state.app.device;
             this.resizehandle(value);
-            this.getList()
         },
         watch: {
             '$store.state.app.device'(value) {

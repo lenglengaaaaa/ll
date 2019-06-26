@@ -1,6 +1,6 @@
 <template>
     <ApplyMgt
-        title="设备"
+        title="资产"
         :data="data"
         :total="total"
         :getList="getList"
@@ -10,46 +10,59 @@
         <template>
             <el-table-column
                 prop="name"
-                label="设备名称"
+                label="资产名称"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="number"
-                label="设备编号"
+                label="资产编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="eui"
-                label="设备EUI"
+                prop="type"
+                label="台区类型"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="status"
-                label="状态"
+                prop="mainId"
+                label="主进线"
                 align="center"
                 sortable
-            >
-                <template slot-scope="scope" >
-                    <el-tag
-                        :type="scope.row.status? 'success' : 'danger'"
-                        disable-transitions
-                    >
-                        {{scope.row.status?'已连接':'已断开'}}
-                    </el-tag>
-                </template>
-            </el-table-column>
+                show-overflow-tooltip
+            />
             <el-table-column
-                prop="time"
-                label="最后接收时间"
+                prop="standbyId"
+                label="备用进线"
                 align="center"
                 sortable
-                :formatter="(row)=>this.$moment(row.time).fromNow()"
+                show-overflow-tooltip
+            />
+            <el-table-column
+                prop="preVoltage"
+                label="变压前电压"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
+                prop="nextVoltage"
+                label="变压后电压"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
+                prop="description"
+                label="资产描述"
+                align="center"
+                sortable
+                show-overflow-tooltip
             />
         </template>
     </ApplyMgt>
@@ -66,16 +79,17 @@
             return {
                 data: [
                     {
-                        type:5,
-                        id:110,
-                        name:'集中器0049',
+                        type:0,
+                        name:'演示平台',
                         number:'0049',
-                        eui:'47cb14a300490049',
-                        pattern:'0',
-                        status:1,
-                        coverId:'0',
-                        lineId:'0',
-                        time:'2018-05-12 11:11:11'
+                        type:'0',
+                        mainId:'0',
+                        standbyId:'0',
+                        preVoltage:'1100V',
+                        nextVoltage:'220V',
+                        rating:'1',
+                        classes:'2',
+                        description:''
                     }
                 ],
                 total:100
@@ -86,9 +100,9 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewEqu',})
-                //修改设备类型
-                this.$store.dispatch('app/setType',row.type)
+                this.$router.push({name:'NewAsset'})
+                //修改资产类型
+                this.$store.dispatch('app/setAsset',row.type)
                 this.$store.dispatch('app/setEdit',{
                     editFlag:type==='edit'?true:false,
                     data:row

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        告警管理
-    </div>
+    <router-view></router-view>
 </template>
 
 <script>

@@ -60,10 +60,24 @@ const router= new Router({
               path:'asset',
               name:'Asset',
               component: () => import('@/views/SingleApply/Asset'),
+              redirect:'asset/list',
               meta: { 
                 title:'资产管理',
                 icon: 'el-icon-s-management'
-              }
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'AssetList',
+                  component: () => import('@/views/SingleApply/Asset/List'),
+                },
+                {
+                  path:'newAsset',
+                  name:'NewAsset',
+                  component: () => import('@/views/SingleApply/Asset/New'),
+                  meta:{title:'添加(编辑)资产'}
+                }
+              ]
             },
             {
               path:'equipment',
@@ -92,10 +106,24 @@ const router= new Router({
               path:'alarm',
               name:'Alarm',
               component: () => import('@/views/SingleApply/Alarm'),
+              redirect:'alarm/list',
               meta: { 
                 title:'告警管理',
                 icon: 'el-icon-alarm-clock'
-              }
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'AlarmList',
+                  component: () => import('@/views/SingleApply/Alarm/List'),
+                },
+                {
+                  path:'detail',
+                  name:'Detail',
+                  component: () => import('@/views/SingleApply/Alarm/Detail'),
+                  meta:{title:'告警详情'}
+                }
+              ]
             },
           ]
         }

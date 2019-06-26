@@ -114,7 +114,7 @@
         </el-form-item>
 
         <!--通过地图上点击,获取经纬度位置-->
-        <el-form-item label="网关经纬度" class="map">
+        <el-form-item label="设备经纬度" class="map">
             <MapSingle 
                 vid="newApply"
                 :position="form.position"
@@ -127,7 +127,7 @@
                 上一步
             </el-button>
             <el-button type="primary" @click="submit" >
-                {{type===0?'下一步':'完成'}}
+                {{type===0||type===5?'下一步':'完成'}}
             </el-button>
         </el-form-item>
         <el-form-item class="submit" v-else>
@@ -223,7 +223,7 @@
             submit() {
                 this.$refs.magicForm.validate((valid) => {
                     if (valid) {
-                        if(this.type===0){
+                        if(this.type===0||this.type===5){
                             this.next()
                         }else{
                             this.$message({
@@ -255,11 +255,6 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
     @import '@/styles/form.scss';
-
-    .el-form{
-        width: 1100px;
-    }
-
 </style>

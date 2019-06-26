@@ -7,6 +7,7 @@ const state={
     },
     device: 'desktop',
     appType:'',
+    assetType:'',
     editObj:{}
 }
 
@@ -39,6 +40,9 @@ const mutations={
     SET_TYPE:(state,type)=>{
         state.appType = type
     },
+    SET_ASSET:(state,type)=>{
+        state.assetType = type
+    },
     SET_EDIT:(state,obj)=>{
         state.editObj = obj
     }
@@ -60,6 +64,9 @@ const actions= {
     },
     setType({commit},type){
         commit('SET_TYPE',type)
+    },
+    setAsset({commit},type){
+        commit('SET_ASSET',type)
     },
     setEdit({commit},obj){
         commit('SET_EDIT',obj)
