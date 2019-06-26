@@ -57,6 +57,15 @@ const router= new Router({
               }
             },
             {
+              path:'asset',
+              name:'Asset',
+              component: () => import('@/views/SingleApply/Asset'),
+              meta: { 
+                title:'资产管理',
+                icon: 'el-icon-s-management'
+              }
+            },
+            {
               path:'equipment',
               name:'Equipment',
               component: () => import('@/views/SingleApply/Equipment'),
@@ -78,6 +87,15 @@ const router= new Router({
                   meta:{title:'添加(编辑)设备'}
                 }
               ]
+            },
+            {
+              path:'alarm',
+              name:'Alarm',
+              component: () => import('@/views/SingleApply/Alarm'),
+              meta: { 
+                title:'告警管理',
+                icon: 'el-icon-alarm-clock'
+              }
             },
           ]
         }

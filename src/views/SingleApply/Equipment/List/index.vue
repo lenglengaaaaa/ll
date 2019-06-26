@@ -66,11 +66,14 @@
                 data: [
                     {
                         type:5,
+                        id:110,
                         name:'集中器0049',
                         number:'0049',
                         eui:'47cb14a300490049',
                         pattern:'0',
                         status:1,
+                        coverId:'0',
+                        lineId:'0',
                         time:'2018-05-12 11:11:11'
                     }
                 ],

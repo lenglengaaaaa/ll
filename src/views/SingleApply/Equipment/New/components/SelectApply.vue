@@ -34,6 +34,7 @@
                     {label:'液位传感器',value:3},
                     {label:'烟感传感器',value:4},
                     {label:'集中器',value:5},
+                    {label:'魔戒',value:6},
                 ],
                 form:{
                     type: '',
