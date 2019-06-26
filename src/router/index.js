@@ -75,7 +75,7 @@ const router= new Router({
                   path:'newEqu',
                   name:'NewEqu',
                   component: () => import('@/views/SingleApply/Equipment/New'),
-                  meta:{title:'添加设备'}
+                  meta:{title:'添加(编辑)设备'}
                 }
               ]
             },

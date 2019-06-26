@@ -1,29 +1,23 @@
 <template>
     <div class="NewApplication_container">
         <el-dialog
-            :title="editFlag?'编辑应用':'添加应用'"
+            :title="editFlag?'编辑项目':'添加项目'"
             :visible.sync="dialogVisible"
             v-if="dialogVisible"
             @close="handleClose"
         >
             <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
-                <el-form-item label="应用ID" prop="id">
-                    <el-input v-model="form.id" placeholder="请输入应用ID"></el-input>
-                </el-form-item>
-                <el-form-item label="应用名称" prop="name">
+                <el-form-item label="项目名称" prop="name">
                     <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
                 </el-form-item>
-                <el-form-item label="应用描述">
+                <el-form-item label="项目描述">
                     <el-input v-model="form.description" placeholder="请输入应用描述"></el-input>
                 </el-form-item>
-                <el-form-item label="活动区域" prop="type">
-                    <el-select v-model="form.type" placeholder="请选择应用类型" :disabled="editFlag?true:false">
-                        <el-option label="低压应用" value="0"></el-option>
-                        <el-option label="魔节应用" value="1"></el-option>
-                    </el-select>
+                <el-form-item label="项目所属位置" prop="address">
+                    <el-cascader :options="options" v-model="form.address"  placeholder="请选择项目所属位置"></el-cascader>
                 </el-form-item>
                 <el-form-item class="submit">
-                    <el-button type="primary" @click="submitForm" size="small">
+                    <el-button type="primary" @click="submitForm" >
                         <i class="el-icon-check"></i>
                         {{editFlag?'确认编辑':'确认添加'}}
                     </el-button>
@@ -34,11 +28,12 @@
 </template>
 
 <script>
+    import {options} from '@/utils/options'
+
     const resetForm = {
-        id: '',
         name:'',
         description: '',
-        type:''
+        address:[]
     }
 
     export default {
@@ -52,23 +47,20 @@
         },
         data() {
             return {
+                options:options,
                 dialogVisible: false,
                 editFlag:false,
                 form: {
-                    id: '',
                     name:'',
                     description: '',
-                    type:''
+                    address:[]
                 },
                 rules: {
-                    id: [
-                        { required: true, message: '请输入应用ID', trigger: 'blur' },
-                    ],
                     name: [
                         { required: true, message: '请输入应用名称', trigger: 'blur' },
                     ],
-                    type: [
-                        { required: true, message: '请选择应用类型', trigger: 'blur' }
+                    address: [
+                        { required: true, message: '请选择活动区域', trigger: 'change' }
                     ],
                 }
             }
@@ -95,6 +87,7 @@
             submitForm() {
                 this.$refs.appForm.validate((valid) => {
                 if (valid) {
+                    console.log(this.form,'form')
                     this.handleClose()
                 } else {
                     console.log('error submit!!');
@@ -128,12 +121,14 @@
                         height: 35px;
                         line-height: 35px;
                     }
-                    .el-select{
+                    .el-select,.el-cascader{
                         width: 100%;
                     }
                 }
-                .el-button--small{
-                    width: 100%;
+                .submit{
+                    // width: 100%;
+                    padding-top: 20px;
+                    text-align: center;
                 }
             }
         }

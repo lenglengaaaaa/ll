@@ -27,6 +27,7 @@
                 <el-option label="井盖一" value="0"></el-option>
             </el-select>
         </el-form-item>
+
         <template v-if="type===1">
             <el-form-item label="所属线缆" prop="lineId">
                 <el-select v-model="form.lineId">
@@ -39,7 +40,9 @@
                 </el-select>
             </el-form-item>
         </template>
-        <el-form-item label="位置信息" prop="address">
+        
+        <el-form-item label="位置信息" prop="address" class="address">
+            <el-cascader :options="options" v-model="city"></el-cascader>
             <el-input v-model="form.address" placeholder="请输入设备位置信息"></el-input>
         </el-form-item>
         <el-form-item label="网关经纬度" class="map">
@@ -67,6 +70,7 @@
 
 <script>
     import {MapSingle} from '@/components/Maps'
+    import {options} from '@/utils/options'
 
     export default {
         components: {
@@ -81,16 +85,17 @@
                 if(!value){
                     return callback(new Error('请输入设备EUI'))
                 }
-                const r =  /^\+?[1-9][0-9]*$/;
-                // if(!r.test(value)){
-                //     return callback(new Error('请输入正整数'))
-                // }
+                const r =  /[\u4E00-\u9FA5]/;
+                if(r.test(value)){
+                    return callback(new Error('请输入数字或字母'))
+                }
                 if (value.length<16) {
                     return callback(new Error('设备EUI长度为16'));
                 }
                 callback();
             };
             return {
+                options:options,
                 form: {
                     pattern:'0',
                     id:'',
@@ -100,6 +105,7 @@
                     coverId:'',
                     lineId:'',
                     magicId:'',
+                    city:[],
                     address:'',
                     position:[113.991244,22.5959]
                 },
@@ -107,7 +113,7 @@
                     pattern: [{ required: true, trigger: 'blur' }],
                     id: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
-                    number: [{ required: true, message: '请输入设备EUI', trigger: 'blur' }],
+                    number: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
                     eui: [{ required: true, validator: checkEui, trigger: 'blur' }],
                     coverId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择设备所属线缆', trigger: 'change' }],
@@ -166,7 +172,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/styles/form.scss';
 
     .el-form{

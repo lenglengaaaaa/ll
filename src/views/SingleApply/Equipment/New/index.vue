@@ -29,8 +29,7 @@
 </template>
 
 <script>
-    import {SelectApply,ActApply} from './components'
-    import AddApply from '../AddApply'
+    import {SelectApply,AddApply,ActApply} from './components'
 
     export default {
         components: {
