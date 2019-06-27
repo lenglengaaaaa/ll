@@ -230,7 +230,7 @@
     }
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
     @import '@/styles/form.scss';
     .CREATE_EDIT{
         width: 100%;

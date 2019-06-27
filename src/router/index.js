@@ -53,7 +53,7 @@ const router= new Router({
               component: () => import('@/views/SingleApply/ApplyOverview'),
               meta: { 
                 title:'应用总览',
-                icon: 'el-icon-odometer'
+                icon: '#icon-zonglan'
               }
             },
             {
@@ -63,7 +63,7 @@ const router= new Router({
               redirect:'courts/list',
               meta: { 
                 title:'台区管理',
-                icon: 'el-icon-place'
+                icon: '#icon-transformer-area'
               },
               children:[
                 {
@@ -86,7 +86,7 @@ const router= new Router({
               redirect:'room/list',
               meta: { 
                 title:'配电房管理',
-                icon: 'el-icon-s-management'
+                icon: '#icon-peidianfang'
               },
               children:[
                 {
@@ -109,7 +109,7 @@ const router= new Router({
               redirect:'cabinet/list',
               meta: { 
                 title:'配电柜管理',
-                icon: 'el-icon-s-management'
+                icon: '#icon-peidiangui'
               },
               children:[
                 {
@@ -132,7 +132,7 @@ const router= new Router({
               redirect:'cover/list',
               meta: { 
                 title:'井盖管理',
-                icon: 'el-icon-s-management'
+                icon: '#icon-jinggai'
               },
               children:[
                 {
@@ -155,7 +155,7 @@ const router= new Router({
               redirect:'cable/list',
               meta: { 
                 title:'线缆管理',
-                icon: 'el-icon-s-management'
+                icon: '#icon-sjt-'
               },
               children:[
                 {
@@ -178,7 +178,7 @@ const router= new Router({
               redirect:'equipment/list',
               meta: { 
                 title:'设备管理',
-                icon: 'el-icon-connection'
+                icon: '#icon-shebei'
               },
               children:[
                 {
@@ -201,7 +201,7 @@ const router= new Router({
               redirect:'alarm/list',
               meta: { 
                 title:'告警管理',
-                icon: 'el-icon-alarm-clock'
+                icon: '#icon-gaojing'
               },
               children:[
                 {
