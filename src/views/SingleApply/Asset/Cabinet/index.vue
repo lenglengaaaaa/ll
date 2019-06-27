@@ -1,6 +1,6 @@
 <template>
     <ApplyMgt
-        title="资产"
+        title="配电柜"
         :data="data"
         :total="total"
         :getList="getList"
@@ -10,21 +10,21 @@
         <template>
             <el-table-column
                 prop="name"
-                label="资产名称"
+                label="配电柜名称"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="number"
-                label="资产编号"
+                label="配电柜编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="type"
-                label="台区类型"
+                prop="roomId"
+                label="所属配电房"
                 align="center"
                 sortable
                 show-overflow-tooltip
@@ -44,25 +44,12 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="preVoltage"
-                label="变压前电压"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
-                prop="nextVoltage"
-                label="变压后电压"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
                 prop="description"
-                label="资产描述"
+                label="描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.description || '-'"
             />
         </template>
     </ApplyMgt>
@@ -79,17 +66,11 @@
             return {
                 data: [
                     {
-                        type:0,
                         name:'演示平台',
                         number:'0049',
-                        type:'0',
+                        roomId:'1',
                         mainId:'0',
                         standbyId:'0',
-                        preVoltage:'1100V',
-                        nextVoltage:'220V',
-                        rating:'1',
-                        classes:'2',
-                        description:''
                     }
                 ],
                 total:100
@@ -100,9 +81,9 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewAsset'})
+                this.$router.push({name:'NewCabinet'})
                 //修改资产类型
-                this.$store.dispatch('app/setAsset',row.type)
+                this.$store.dispatch('app/setAsset',2)
                 this.$store.dispatch('app/setEdit',{
                     editFlag:type==='edit'?true:false,
                     data:row

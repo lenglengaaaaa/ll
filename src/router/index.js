@@ -57,25 +57,117 @@ const router= new Router({
               }
             },
             {
-              path:'asset',
-              name:'Asset',
+              path:'courts',
+              name:'Courts',
               component: () => import('@/views/SingleApply/Asset'),
-              redirect:'asset/list',
+              redirect:'courts/list',
               meta: { 
-                title:'资产管理',
+                title:'台区管理',
+                icon: 'el-icon-place'
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'CourtsList',
+                  component: () => import('@/views/SingleApply/Asset/Courts'),
+                },
+                {
+                  path:'newCourts',
+                  name:'NewCourts',
+                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  meta:{title:'添加(编辑)台区'}
+                }
+              ]
+            },
+            {
+              path:'room',
+              name:'Room',
+              component: () => import('@/views/SingleApply/Asset'),
+              redirect:'room/list',
+              meta: { 
+                title:'配电房管理',
                 icon: 'el-icon-s-management'
               },
               children:[
                 {
                   path:'list',
-                  name:'AssetList',
-                  component: () => import('@/views/SingleApply/Asset/List'),
+                  name:'RoomList',
+                  component: () => import('@/views/SingleApply/Asset/Room'),
                 },
                 {
-                  path:'newAsset',
-                  name:'NewAsset',
-                  component: () => import('@/views/SingleApply/Asset/New'),
-                  meta:{title:'添加(编辑)资产'}
+                  path:'newRoom',
+                  name:'NewRoom',
+                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  meta:{title:'添加(编辑)配电房'}
+                }
+              ]
+            },
+            {
+              path:'cabinet',
+              name:'Cabinet',
+              component: () => import('@/views/SingleApply/Asset'),
+              redirect:'cabinet/list',
+              meta: { 
+                title:'配电柜管理',
+                icon: 'el-icon-s-management'
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'CabinetList',
+                  component: () => import('@/views/SingleApply/Asset/Cabinet'),
+                },
+                {
+                  path:'newCabinet',
+                  name:'NewCabinet',
+                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  meta:{title:'添加(编辑)配电柜'}
+                }
+              ]
+            },
+            {
+              path:'cover',
+              name:'Cover',
+              component: () => import('@/views/SingleApply/Asset'),
+              redirect:'cover/list',
+              meta: { 
+                title:'井盖管理',
+                icon: 'el-icon-s-management'
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'CoverList',
+                  component: () => import('@/views/SingleApply/Asset/Cover'),
+                },
+                {
+                  path:'newCover',
+                  name:'NewCover',
+                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  meta:{title:'添加(编辑)井盖'}
+                }
+              ]
+            },
+            {
+              path:'cable',
+              name:'Cable',
+              component: () => import('@/views/SingleApply/Asset'),
+              redirect:'cable/list',
+              meta: { 
+                title:'线缆管理',
+                icon: 'el-icon-s-management'
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'CableList',
+                  component: () => import('@/views/SingleApply/Asset/Cable'),
+                },
+                {
+                  path:'newCable',
+                  name:'NewCable',
+                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  meta:{title:'添加(编辑)线缆'}
                 }
               ]
             },

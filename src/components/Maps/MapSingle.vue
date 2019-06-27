@@ -1,7 +1,7 @@
 <template>
     <div class="amap-page-container">
         <div class="amap_container">
-            <el-amap-search-box class="search-box" :on-search-result="onSearchResult" v-if="flag"/>
+            <el-amap-search-box class="search-box" :on-search-result="onSearchResult" v-if="hasSearch"/>
             <el-amap 
                 :vid="vid" 
                 class="amap-demo" 
@@ -27,7 +27,11 @@
                 default:()=>[113.991244,22.595988]
             },
             get:Function,
-            flag:{
+            hasSearch:{
+                type:Boolean,
+                default:true
+            },
+            hasClick:{
                 type:Boolean,
                 default:true
             }
@@ -40,6 +44,7 @@
                 events: {
                     init(o){},
                     click(e){
+                        if(!_this.hasClick)return
                         const lng = e.lnglat.lng;
                         const lat = e.lnglat.lat;
                         _this.marker.position = [lng,lat]

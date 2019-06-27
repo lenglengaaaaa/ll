@@ -66,7 +66,8 @@ import {
     MessageBox,
     Message,
     Notification,
-    Link
+    Link,
+    Divider
 } from 'element-ui';
 
 export default function(Vue){
@@ -135,6 +136,7 @@ export default function(Vue){
     Vue.use(Footer);
     Vue.use(Loading.directive);
     Vue.use(Link);
+    Vue.use(Divider);
     Vue.prototype.$loading = Loading.service;
     Vue.prototype.$msgbox = MessageBox;
     Vue.prototype.$alert = MessageBox.alert;
