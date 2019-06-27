@@ -21,7 +21,7 @@
             </div>
         </template>
         <template v-else>
-            <div>
+            <div class="edit">
                 <AddApply />
             </div>
         </template>
@@ -76,12 +76,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: 100%;
         .step{
             width: 60%;
         }
         .content{
             width: 100%;
             margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .edit{
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
         }

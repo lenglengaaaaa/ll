@@ -209,15 +209,20 @@
                 return this.$store.state.app.appType 
             },
             editFlag(){
+                
                 return this.$store.state.app.editObj.editFlag || false
             }
         },
         mounted () {
             const data = this.$store.state.app.editObj.data || {}; 
+            const editFlag=this.$store.state.app.editObj.editFlag || false
             this.form={
                 ...this.form,
                 ...data
             };
+            if(editFlag){
+                $('.el-form').css({maxHeight:'calc(100vh - 170px)'})
+            }
         },
         methods: {
             submit() {
@@ -257,4 +262,5 @@
 
 <style lang="scss" scoped>
     @import '@/styles/form.scss';
+
 </style>

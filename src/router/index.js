@@ -242,9 +242,39 @@ const router= new Router({
       component: OverallLayout,
       children: [
         {
-          path: '/',
+          path: '',
           name: 'Senior',
-          component: () => import('@/views/Senior/index'),
+          component:SideBarLayout,
+          redirect: '/senior/userControl',
+          children:[
+            {
+              path:'userControl',
+              name:'UserControl',
+              component: () => import('@/views/Senior/User'),
+              meta: { 
+                title:'用户管理',
+                icon: '#icon-zonglan'
+              }
+            },
+            {
+              path:'module',
+              name:'Module',
+              component: () => import('@/views/Senior/Module'),
+              meta: { 
+                title:'模组管理',
+                icon: '#icon-zonglan'
+              }
+            },
+            {
+              path:'product',
+              name:'Product',
+              component: () => import('@/views/Senior/Product'),
+              meta: { 
+                title:'产品管理',
+                icon: '#icon-zonglan'
+              }
+            },
+          ]
         }
       ]
     },

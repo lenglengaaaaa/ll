@@ -1,6 +1,6 @@
 <template>
-    <div class="Senior_container">
-        高级管理
+    <div>
+        用户管理
     </div>
 </template>
 
@@ -11,7 +11,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .Senior_container{
-        
-    }
+
 </style>

@@ -4,6 +4,7 @@
                 <div slot="header" class="clearfix" >
                     <slot name="header" >
                         <div>
+                            <slot name="select" />
                             <el-input
                                 size="small"
                                 :placeholder="placeholder"
@@ -182,14 +183,14 @@
                     div{
                         display: flex;
                         align-items: center;
+                        .el-input__inner{
+                            height: 40px;
+                        }
                     }
                 }
             }
             .el-card__body{
                 padding: 20px 20px 0px;
-                .body{
-
-                }
                 .footer{
                     padding: 15px 0;
                     display: flex;

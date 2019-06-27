@@ -46,8 +46,9 @@
         computed: {
             routes() {
                 const routes = this.$router.options.routes ;
-                const index = routes.findIndex((item)=>item.path ==='/application');
-                const result = routes[index].children[1].children;
+                const path = this.$route.path.split('/')[1]
+                const index = routes.findIndex((item)=>item.path ===`/${path}`);
+                const result = routes[index].children[path=="application"?1:0].children;
                 return result
             },
             device() {
