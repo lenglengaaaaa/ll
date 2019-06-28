@@ -1,93 +1,108 @@
 <template>
     <div>
         <ApplyMgt
-            title="用户"
+            title="系统操作"
             :data="data"
             :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
+            :hasAdd="false"
+            :hasOpera="false"
         >   
             <template>
                 <el-table-column
                     prop="name"
-                    label="用户名称"
+                    label="操作名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="userName"
-                    label="账号"
+                    prop="ip"
+                    label="操作IP"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="phoneNumber"
-                    label="手机号码"
+                    prop="user"
+                    label="操作用户"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="email"
-                    label="邮箱"
+                    prop="way"
+                    label="操作方式"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.email || '-' " 
                 />
                 <el-table-column
-                    prop="details"
-                    label="详情"
-                    align="center"
-                    show-overflow-tooltip
-                    :formatter="(row)=>row.details || '-' " 
-                />
-                <el-table-column
-                    prop="time"
-                    label="创建时间"
+                    prop="detail"
+                    label="操作详情"
                     align="center"
                     sortable
-                    :formatter="(row)=>this.$moment(row.time).format('YYYY-MM-DD HH:mm:ss')"
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="order"
+                    label="执行的命令"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="isSuccess"
+                    label="是否执行成功"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                >
+                    <template slot-scope="scope" >
+                        <el-tag
+                            :type="scope.row.isSuccess? 'success' : 'danger'"
+                            disable-transitions
+                        >
+                            {{scope.row.isSuccess?'成功':'失败'}}
+                        </el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="creater"
+                    label="创建者"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
                 />
             </template>
         </ApplyMgt>
-        <CreateEdit
-            :visible="dialogVisible"
-            :close="close"
-            :editFlag="editFlag"
-            :value="value"
-        />
     </div>
 </template>
 
 <script>
     import {ApplyMgt} from '@/components/Management'
-    import CreateEdit from './components/CreateEdit'
 
     export default {
         components: {
             ApplyMgt,
-            CreateEdit
         },
         data() {
             return {
                 data: [
                     {
-                        name:'侨城东电缆沟',
-                        userName:'userName',
-                        phoneNumber:'13612345678',
-                        email:'123@163.com',
-                        details:'震动值：静止',
+                        name:'操作一',
+                        ip:'11:21:33:14',
+                        user:'imei',
+                        way:'点击',
+                        detail:'我也不知道',
+                        order:'Hello world',
+                        isSuccess:1,
+                        creater:'Zain'
                     }
                 ],
                 total:100,
-                dialogVisible:false,
-                editFlag:false,
-                value:{}
             }
         },
         methods: {
@@ -95,16 +110,10 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-                this.dialogVisible = true;
-                if(type==="edit"){
-                    this.editFlag = true;
-                    this.value=row;
-                }
+
             },
             close(){
-                this.dialogVisible=false;
-                this.editFlag=false;
-                this.value  ={};
+
             },
             remove(){
                 console.log('删除')

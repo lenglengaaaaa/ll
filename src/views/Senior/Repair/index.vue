@@ -1,41 +1,47 @@
 <template>
     <div>
         <ApplyMgt
-            title="产品"
+            title="设备修复"
             :data="data"
             :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
-            :hasAdd="false"
         >   
             <template>
                 <el-table-column
-                    prop="name"
-                    label="产品名称"
+                    prop="eui"
+                    label="设备EUI"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="plugin"
-                    label="产品自解码插件"
+                    prop="creater"
+                    label="创建人"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="imei"
-                    label="IMEI"
+                    label="创建时间"
                     align="center"
                     sortable
                     show-overflow-tooltip
+                    :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
                 />
                 <el-table-column
-                    prop="apply"
-                    label="所关联应用"
+                    label="修改时间"
                     align="center"
                     sortable
+                    show-overflow-tooltip
+                    :formatter="(row)=>this.$moment(row.modifyTime).format('YYYY-MM-DD HH:mm:ss')"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="comment"
+                    label="备注"
+                    align="center"
                     show-overflow-tooltip
                 />
             </template>
@@ -54,10 +60,11 @@
             return {
                 data: [
                     {
-                        name:'产品一',
-                        plugin:'plugin',
-                        imei:'imei',
-                        apply:'应用一'
+                        eui:'119',
+                        creater:'plugin',
+                        creatTime:'1561714114536',
+                        comment:'Hello World',
+                        modifyTime:'1561714114536',
                     }
                 ],
                 total:100,

@@ -12,7 +12,7 @@
                                 v-model="input"
                             />
                         </div>
-                        <div>
+                        <div v-if="hasAdd">
                             <el-button size="small" type="success" @click="linkTo('add')">
                                 添加{{title}}<i class="el-icon-plus el-icon--right" />
                             </el-button>
@@ -33,9 +33,17 @@
                             <el-table-column
                                 label="操作"
                                 align="center"
-                                width="150"
+                                width="220"
+                                v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
+                                        <el-button
+                                            size="mini"
+                                            type="primary"
+                                            v-if="hasCheck"
+                                        >
+                                            查看
+                                        </el-button>
                                         <el-button
                                             size="mini"
                                             type="success"
@@ -47,7 +55,6 @@
                                             size="mini"
                                             type="danger"
                                             @click="linkTo('delete',scope.row)"
-
                                         >
                                             删除
                                         </el-button>
@@ -81,7 +88,16 @@
             title:String,
             getList:Function,
             skipTo:Function,
-            remove:Function
+            remove:Function,
+            hasCheck:Boolean,
+            hasOpera:{
+                type:Boolean,
+                default:true
+            },
+            hasAdd:{
+                type:Boolean,
+                default:true
+            }
         },
         computed: {
             placeholder() {

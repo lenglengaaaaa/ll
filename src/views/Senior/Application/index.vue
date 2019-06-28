@@ -1,7 +1,7 @@
 <template>
     <div>
         <ApplyMgt
-            title="用户"
+            title="应用"
             :data="data"
             :total="total"
             :getList="getList"
@@ -11,83 +11,96 @@
             <template>
                 <el-table-column
                     prop="name"
-                    label="用户名称"
+                    label="应用名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="userName"
-                    label="账号"
+                    prop="pass"
+                    label="应用密钥"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="phoneNumber"
-                    label="手机号码"
+                    prop="apply"
+                    label="应用类型"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="email"
-                    label="邮箱"
+                    prop="netIn"
+                    label="入网类型"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.email || '-' " 
                 />
                 <el-table-column
-                    prop="details"
-                    label="详情"
-                    align="center"
-                    show-overflow-tooltip
-                    :formatter="(row)=>row.details || '-' " 
-                />
-                <el-table-column
-                    prop="time"
-                    label="创建时间"
+                    prop="coap"
+                    label="coap链接方式"
                     align="center"
                     sortable
-                    :formatter="(row)=>this.$moment(row.time).format('YYYY-MM-DD HH:mm:ss')"
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="mqtt"
+                    label="mqtt链接方式"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="agent"
+                    label="AgenttLite链接方式"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                    width="200"
+                />
+                <el-table-column
+                    prop="https"
+                    label="https链接方式"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="description"
+                    label="描述"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
                 />
             </template>
         </ApplyMgt>
-        <CreateEdit
-            :visible="dialogVisible"
-            :close="close"
-            :editFlag="editFlag"
-            :value="value"
-        />
     </div>
 </template>
 
 <script>
     import {ApplyMgt} from '@/components/Management'
-    import CreateEdit from './components/CreateEdit'
 
     export default {
         components: {
             ApplyMgt,
-            CreateEdit
         },
         data() {
             return {
                 data: [
                     {
-                        name:'侨城东电缆沟',
-                        userName:'userName',
-                        phoneNumber:'13612345678',
-                        email:'123@163.com',
-                        details:'震动值：静止',
+                        name:'应用一',
+                        pass:'userName',
+                        apply:'13612345678',
+                        netIn:'123@163.com',
+                        coap:'1',
+                        mqtt:'2',
+                        agent:'3',
+                        https:'4',
+                        description:'震动值：静止',
                     }
                 ],
                 total:100,
-                dialogVisible:false,
-                editFlag:false,
-                value:{}
             }
         },
         methods: {
@@ -95,16 +108,10 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-                this.dialogVisible = true;
-                if(type==="edit"){
-                    this.editFlag = true;
-                    this.value=row;
-                }
+
             },
             close(){
-                this.dialogVisible=false;
-                this.editFlag=false;
-                this.value  ={};
+
             },
             remove(){
                 console.log('删除')

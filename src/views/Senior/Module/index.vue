@@ -7,6 +7,8 @@
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
+            :hasCheck="true"
+            :hasAdd="false"
         >   
             <template>
                 <el-table-column
@@ -18,61 +20,73 @@
                     :formatter="(row)=>row.name || '-' " 
                 />
                 <el-table-column
-                    prop="phoneNumber"
+                    prop="firmId"
                     label="厂商ID"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="phoneNumber"
+                    prop="firmName"
                     label="厂商名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="phoneNumber"
-                    label="模组类型"
+                    prop="mac"
+                    label="mac地址"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="phoneNumber"
-                    label="模组信号强度"
+                    prop="model"
+                    label="模组型号"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
                 />
                 <el-table-column
-                    prop="phoneNumber"
-                    label="信号等级"
+                    label="设备激活状态"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
-                />
+                >
+                    <template slot-scope="scope" >
+                        <el-tag
+                            :type="scope.row.status? 'success' : 'danger'"
+                            disable-transitions
+                        >
+                            {{scope.row.status?'已连接':'已断开'}}
+                        </el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column
-                    prop="phoneNumber"
-                    label="手机号码"
+                    label="模组状态"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
-                />
+                >
+                    <template slot-scope="scope" >
+                        <el-tag
+                            :type="scope.row.modStatus? 'success' : 'danger'"
+                            disable-transitions
+                        >
+                            {{scope.row.modStatus?'已连接':'已断开'}}
+                        </el-tag>
+                    </template>
+                </el-table-column>
+
                 <el-table-column
-                    prop="phoneNumber"
-                    label="手机号码"
+                    prop="description"
+                    label=描述
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
+                    :formatter="(row)=>row.description || '-' " 
                 />
+
             </template>
         </ApplyMgt>
     </div>
@@ -89,11 +103,14 @@
             return {
                 data: [
                     {
-                        name:'侨城东电缆沟',
-                        userName:'userName',
-                        phoneNumber:'13612345678',
-                        email:'123@163.com',
-                        details:'震动值：静止',
+                        name:'模组一',
+                        firmId:'110',
+                        firmName:'中科研究院',
+                        mac:'1234567',
+                        model:'AAA',
+                        status:0,
+                        modStatus:1,
+                        description:''
                     }
                 ],
                 total:100,

@@ -253,7 +253,25 @@ const router= new Router({
               component: () => import('@/views/Senior/User'),
               meta: { 
                 title:'用户管理',
-                icon: '#icon-zonglan'
+                icon: '#icon-touxiang'
+              }
+            },
+            {
+              path:'permission',
+              name:'Permission',
+              component: () => import('@/views/Senior/Permission'),
+              meta: { 
+                title:'权限管理',
+                icon: '#icon-quanxian'
+              }
+            },
+            {
+              path:'application',
+              name:'Application',
+              component: () => import('@/views/Senior/Application'),
+              meta: { 
+                title:'应用管理',
+                icon: '#icon-yingyong1'
               }
             },
             {
@@ -262,7 +280,7 @@ const router= new Router({
               component: () => import('@/views/Senior/Module'),
               meta: { 
                 title:'模组管理',
-                icon: '#icon-zonglan'
+                icon: '#icon-mozu'
               }
             },
             {
@@ -271,7 +289,25 @@ const router= new Router({
               component: () => import('@/views/Senior/Product'),
               meta: { 
                 title:'产品管理',
-                icon: '#icon-zonglan'
+                icon: '#icon-chanpin'
+              }
+            },
+            {
+              path:'system',
+              name:'System',
+              component: () => import('@/views/Senior/System'),
+              meta: { 
+                title:'系统操作管理',
+                icon: '#icon-xitongcaozuo'
+              }
+            },
+            {
+              path:'repair',
+              name:'Repair',
+              component: () => import('@/views/Senior/Repair'),
+              meta: { 
+                title:'设备修复管理',
+                icon: '#icon-xiufu'
               }
             },
           ]
