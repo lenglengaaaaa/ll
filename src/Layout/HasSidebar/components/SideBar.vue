@@ -48,7 +48,7 @@
                 const routes = this.$router.options.routes ;
                 const path = this.$route.path.split('/')[1]
                 const index = routes.findIndex((item)=>item.path ===`/${path}`);
-                const result = routes[index].children[path=="application"?1:0].children;
+                const result = routes[index].children[path=="project"?1:0].children;
                 return result
             },
             device() {

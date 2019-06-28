@@ -34,32 +34,32 @@ const router= new Router({
       }]
     },
     {
-      path: '/application',
+      path: '/project',
       component: OverallLayout,
       children: [
         {
           path: '/',
-          name: 'Application',
-          component: () => import('@/views/application/index'),
+          name: 'Project',
+          component: () => import('@/views/Project'),
         },
         {
           path:'',
           component:SideBarLayout,
-          redirect: '/applyOverview',
+          redirect: '/projectOverview',
           children:[
             {
-              path:'applyOverview',
-              name:'ApplyOverview',
-              component: () => import('@/views/SingleApply/ApplyOverview'),
+              path:'projectOverview',
+              name:'ProjectOverview',
+              component: () => import('@/views/SingleProject/ProjectOverview'),
               meta: { 
-                title:'应用总览',
+                title:'项目总览',
                 icon: '#icon-zonglan'
               }
             },
             {
               path:'courts',
               name:'Courts',
-              component: () => import('@/views/SingleApply/Asset'),
+              component: () => import('@/views/SingleProject/Asset'),
               redirect:'courts/list',
               meta: { 
                 title:'台区管理',
@@ -69,12 +69,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'CourtsList',
-                  component: () => import('@/views/SingleApply/Asset/Courts'),
+                  component: () => import('@/views/SingleProject/Asset/Courts'),
                 },
                 {
                   path:'newCourts',
                   name:'NewCourts',
-                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)台区'}
                 }
               ]
@@ -82,7 +82,7 @@ const router= new Router({
             {
               path:'room',
               name:'Room',
-              component: () => import('@/views/SingleApply/Asset'),
+              component: () => import('@/views/SingleProject/Asset'),
               redirect:'room/list',
               meta: { 
                 title:'配电房管理',
@@ -92,12 +92,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'RoomList',
-                  component: () => import('@/views/SingleApply/Asset/Room'),
+                  component: () => import('@/views/SingleProject/Asset/Room'),
                 },
                 {
                   path:'newRoom',
                   name:'NewRoom',
-                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)配电房'}
                 }
               ]
@@ -105,7 +105,7 @@ const router= new Router({
             {
               path:'cabinet',
               name:'Cabinet',
-              component: () => import('@/views/SingleApply/Asset'),
+              component: () => import('@/views/SingleProject/Asset'),
               redirect:'cabinet/list',
               meta: { 
                 title:'配电柜管理',
@@ -115,12 +115,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'CabinetList',
-                  component: () => import('@/views/SingleApply/Asset/Cabinet'),
+                  component: () => import('@/views/SingleProject/Asset/Cabinet'),
                 },
                 {
                   path:'newCabinet',
                   name:'NewCabinet',
-                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)配电柜'}
                 }
               ]
@@ -128,7 +128,7 @@ const router= new Router({
             {
               path:'cover',
               name:'Cover',
-              component: () => import('@/views/SingleApply/Asset'),
+              component: () => import('@/views/SingleProject/Asset'),
               redirect:'cover/list',
               meta: { 
                 title:'井盖管理',
@@ -138,12 +138,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'CoverList',
-                  component: () => import('@/views/SingleApply/Asset/Cover'),
+                  component: () => import('@/views/SingleProject/Asset/Cover'),
                 },
                 {
                   path:'newCover',
                   name:'NewCover',
-                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)井盖'}
                 }
               ]
@@ -151,7 +151,7 @@ const router= new Router({
             {
               path:'cable',
               name:'Cable',
-              component: () => import('@/views/SingleApply/Asset'),
+              component: () => import('@/views/SingleProject/Asset'),
               redirect:'cable/list',
               meta: { 
                 title:'线缆管理',
@@ -161,12 +161,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'CableList',
-                  component: () => import('@/views/SingleApply/Asset/Cable'),
+                  component: () => import('@/views/SingleProject/Asset/Cable'),
                 },
                 {
                   path:'newCable',
                   name:'NewCable',
-                  component: () => import('@/views/SingleApply/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)线缆'}
                 }
               ]
@@ -174,7 +174,7 @@ const router= new Router({
             {
               path:'equipment',
               name:'Equipment',
-              component: () => import('@/views/SingleApply/Equipment'),
+              component: () => import('@/views/SingleProject/Equipment'),
               redirect:'equipment/list',
               meta: { 
                 title:'设备管理',
@@ -184,12 +184,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'EquList',
-                  component: () => import('@/views/SingleApply/Equipment/List'),
+                  component: () => import('@/views/SingleProject/Equipment/List'),
                 },
                 {
                   path:'newEqu',
                   name:'NewEqu',
-                  component: () => import('@/views/SingleApply/Equipment/New'),
+                  component: () => import('@/views/SingleProject/Equipment/New'),
                   meta:{title:'添加(编辑)设备'}
                 }
               ]
@@ -197,7 +197,7 @@ const router= new Router({
             {
               path:'alarm',
               name:'Alarm',
-              component: () => import('@/views/SingleApply/Alarm'),
+              component: () => import('@/views/SingleProject/Alarm'),
               redirect:'alarm/list',
               meta: { 
                 title:'告警管理',
@@ -207,12 +207,12 @@ const router= new Router({
                 {
                   path:'list',
                   name:'AlarmList',
-                  component: () => import('@/views/SingleApply/Alarm/List'),
+                  component: () => import('@/views/SingleProject/Alarm/List'),
                 },
                 {
                   path:'detail',
                   name:'Detail',
-                  component: () => import('@/views/SingleApply/Alarm/Detail'),
+                  component: () => import('@/views/SingleProject/Alarm/Detail'),
                   meta:{title:'告警详情'}
                 }
               ]

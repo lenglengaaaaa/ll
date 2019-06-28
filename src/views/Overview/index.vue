@@ -34,16 +34,16 @@
                         has:4
                     },
                     {
-                        name:"应用",
+                        name:"项目",
                         icon:'#icon-yingyong',
-                        path:'/application',
+                        path:'/project',
                         total:1,
                         has:1,
                     },
                     {
                         name:'设备',
                         icon:'#icon-huabanfuben',
-                        path:'/application',
+                        path:'/project',
                         total:4,
                         has:2
                     }

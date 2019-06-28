@@ -124,7 +124,7 @@
                 </el-pagination>
             </div>
         </div>
-        <NewApplication
+        <NewProject
             :visible="visible"
             :value="value"
             :close="closeDia"
@@ -133,11 +133,11 @@
 </template>
 
 <script>
-    import NewApplication from '@/views/Application/components/NewApplication'
+    import NewProject from '@/views/Project/components/NewProject'
 
     export default {
         components: {
-            NewApplication
+            NewProject
         },
         props: {
             type:{
@@ -207,7 +207,7 @@
                         //跳转单个应用管理页面
                         this.$store.dispatch('app/setApp',row)
                         this.$router.push({
-                            name:'ApplyOverview',
+                            name:'ProjectOverview',
                             params:{
                                 type:row.type
                             }

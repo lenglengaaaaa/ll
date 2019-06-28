@@ -1,6 +1,6 @@
 <template>
     <Management
-        type="application"
+        type="project"
         btnName="新增项目"
         title='我的项目'
         placeholder="搜索项目"
@@ -10,10 +10,7 @@
 </template>
 
 <script>
-    // import {All} from '@/components/Management'
     import {Management} from '../../components/Management'
-
-
 
     export default {
         components: {
