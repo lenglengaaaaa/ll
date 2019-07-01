@@ -23,47 +23,47 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="type"
+                prop="courtsType"
                 label="台区类型"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="mainId"
+                prop="mainComeline"
                 label="主进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="standbyId"
+                prop="comeLine"
                 label="备用进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="preVoltage"
+                prop="beforeVoltage"
                 label="变压前电压"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="nextVoltage"
+                prop="afterVoltage"
                 label="变压后电压"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="description"
+                prop="detail"
                 label="描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.description || '-'"
+                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </ApplyMgt>
@@ -82,14 +82,14 @@
                     {
                         name:'演示平台',
                         number:'0049',
-                        type:'0',
-                        mainId:'0',
-                        standbyId:'0',
-                        preVoltage:'1100V',
-                        nextVoltage:'220V',
-                        rating:'1',
-                        classes:'2',
-                        description:''
+                        courtsType:'0',
+                        mainComeline:'0',
+                        comeLine:'0',
+                        beforeVoltage:'1100V',
+                        afterVoltage:'220V',
+                        electricityLevel:'2',
+                        voltageLevel:'1',
+                        detail:'Hello world'
                     }
                 ],
                 total:100

@@ -16,24 +16,23 @@
         >
         </el-table-column>
         <el-table-column
-            prop="time"
+            prop="updateAt"
             label="最后接收时间"
             align="center"
             sortable
-            :formatter="(row)=>this.$moment(row.time).fromNow()"
+            :formatter="(row)=>this.$moment(row.updateAt).fromNow()"
         />
         <el-table-column
-            prop="status"
             label="状态"
             align="center"
             sortable
         >
             <template slot-scope="scope" >
                 <el-tag
-                    :type="scope.row.status? 'success' : 'danger'"
+                    :type="scope.row.gatewayStatus? 'success' : 'danger'"
                     disable-transitions
                 >
-                    {{scope.row.status?'已连接':'已断开'}}
+                    {{scope.row.gatewayStatus?'已连接':'已断开'}}
                 </el-tag>
             </template>
         </el-table-column>
@@ -50,29 +49,29 @@
         data() {
             return {
                 columns:[
-                    { prop: "name" , label: "网关名称" },
-                    { prop: "number" , label: "网关编号" },
-                    { prop: "card" , label: "卡号" },
-                    { prop: "mac" , label: "MAC地址" },
+                    { prop: "gatewayName" , label: "网关名称" },
+                    { prop: "gatewayNo" , label: "网关编号" },
+                    { prop: "gatewayCard" , label: "卡号" },
+                    { prop: "gatewayMac" , label: "MAC地址" },
                 ],
                 data:[
                         {
-                            name:'国金源富室内网关',
-                            number:'0123456789',
-                            card:'0123456789',
-                            mac:'8cf957ffff8012f3',
-                            time: '2018-06-12 11:11:11',
-                            address:'中科研究院',
-                            status:0 //0:断开,1:连接
+                            gatewayName:'国金源富室内网关',
+                            gatewayNo:'0123456789',
+                            gatewayCard:'0123456789',
+                            gatewayMac:'8cf957ffff8012f3',
+                            updateAt: '2018-06-12 11:11:11',
+                            gatewaySite:'中科研究院',
+                            gatewayStatus:0 //0:断开,1:连接
                         },
                         {
-                            name:'云南网关433',
-                            number:'31900004',
-                            card:'31900004',
-                            mac:'b827ebfffe2accf5',
-                            time: '2018-05-12 11:11:11',
-                            address:'中科研究院',
-                            status:1 //0:断开,1:连接
+                            gatewayName:'云南网关433',
+                            gatewayNo:'31900004',
+                            gatewayCard:'31900004',
+                            gatewayMac:'b827ebfffe2accf5',
+                            updateAt: '2018-05-12 11:11:11',
+                            gatewaySite:'中科研究院',
+                            gatewayStatus:1 //0:断开,1:连接
                         }
                 ]
             }

@@ -6,14 +6,14 @@
         :editFlag="editFlag"
     >
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
-            <el-form-item label="项目名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
+            <el-form-item label="项目名称" prop="projectName">
+                <el-input v-model="form.projectName" placeholder="请输入应用名称"></el-input>
             </el-form-item>
             <el-form-item label="项目描述">
-                <el-input v-model="form.description" placeholder="请输入应用描述"></el-input>
+                <el-input v-model="form.projectDetail" placeholder="请输入应用描述"></el-input>
             </el-form-item>
-            <el-form-item label="项目所属位置" prop="address">
-                <el-cascader :options="options" v-model="form.address"  placeholder="请选择项目所属位置"></el-cascader>
+            <el-form-item label="项目所属位置" prop="areaId">
+                <el-cascader :options="options" v-model="form.areaId"  placeholder="请选择项目所属位置"></el-cascader>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm" >
@@ -30,9 +30,9 @@
     import {options} from '@/utils/options'
     
     const resetForm = {
-        name:'',
-        description: '',
-        address:[]
+        projectName:'',
+        projectDetail: '',
+        areaId:[]
     }
     export default {
         components: {
@@ -51,15 +51,15 @@
                 options:options,
                 editFlag:false,
                 form: {
-                    name:'',
-                    description: '',
-                    address:[]
+                    projectName:'',
+                    projectDetail: '',
+                    areaId:[]
                 },
                 rules: {
-                    name: [
+                    projectName: [
                         { required: true, message: '请输入应用名称', trigger: 'blur' },
                     ],
-                    address: [
+                    areaId: [
                         { required: true, message: '请选择活动区域', trigger: 'change' }
                     ],
                 }

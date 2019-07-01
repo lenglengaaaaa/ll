@@ -30,26 +30,26 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="mainId"
+                prop="mainComeline"
                 label="主进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="standbyId"
+                prop="comeLine"
                 label="备用进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="description"
+                prop="detail"
                 label="描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.description || '-'"
+                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </ApplyMgt>
@@ -69,8 +69,9 @@
                         name:'演示平台',
                         number:'0049',
                         roomId:'1',
-                        mainId:'0',
-                        standbyId:'0',
+                        mainComeline:'0',
+                        comeLine:'0',
+                        detail:'world'
                     }
                 ],
                 total:100

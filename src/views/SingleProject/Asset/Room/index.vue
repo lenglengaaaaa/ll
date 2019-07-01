@@ -1,6 +1,6 @@
 <template>
     <ApplyMgt
-        title="配电柜"
+        title="配电房"
         :data="data"
         :total="total"
         :getList="getList"
@@ -30,26 +30,26 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="mainId"
+                prop="mainComeline"
                 label="主进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="standbyId"
+                prop="comeLine"
                 label="备用进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="description"
+                prop="detail"
                 label="描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.description || '-'"
+                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </ApplyMgt>
@@ -70,9 +70,9 @@
                         number:'0049',
                         type:'0',
                         courtsId:'0',
-                        mainId:'0',
-                        standbyId:'0',
-                        description:''
+                        mainComeline:'0',
+                        comeLine:'0',
+                        detail:'Hello'
                     }
                 ],
                 total:100

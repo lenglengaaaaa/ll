@@ -30,12 +30,12 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="description"
+                prop="detail"
                 label="资产描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.description || '-'"
+                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </ApplyMgt>
@@ -54,8 +54,8 @@
                     {
                         name:'演示平台',
                         number:'0049',
-                        mainLineId:'0',
-                        description:''
+                        lineId:'0',
+                        detail:'Hi'
                     }
                 ],
                 total:100

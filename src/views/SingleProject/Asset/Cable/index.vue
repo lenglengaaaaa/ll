@@ -23,36 +23,36 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="isMainLine"
+                prop="parentId"
                 label="是否为主线缆"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>!row.isMainLine?'是':'否'"
+                :formatter="(row)=>row.parentId==0?'是':'否'"
             />
             <el-table-column
-                prop="mainLineId"
+                prop="linePid"
                 label="所属主线缆"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.mainLineId || '-'"
+                :formatter="(row)=>row.linePid || '-'"
             />
             <el-table-column
-                prop="coverId"
+                prop="trapId"
                 label="所属井盖"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.coverId || '-'"
+                :formatter="(row)=>row.trapId || '-'"
             />
             <el-table-column
-                prop="description"
+                prop="detail"
                 label="描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
-                :formatter="(row)=>row.description || '-'"
+                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </ApplyMgt>
@@ -71,10 +71,10 @@
                     {
                         name:'演示平台',
                         number:'0049',
-                        isMainLine:0,
-                        mainLineId:'1',
-                        coverId:'2',
-                        description:''
+                        parentId:"1",
+                        lineId:'0',
+                        trapId:'0',
+                        detail:'Hello'
                     }
                 ],
                 total:100

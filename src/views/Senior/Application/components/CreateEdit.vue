@@ -143,7 +143,6 @@
 <style lang="scss">
     .create_edit{
         .el-dialog{
-            width: 1000px;
             margin-top:3vh !important; 
         }
     }

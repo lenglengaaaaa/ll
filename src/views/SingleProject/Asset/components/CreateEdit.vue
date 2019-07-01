@@ -11,23 +11,23 @@
             <!-- 台区所需填写 -->
             <template v-if="type==0">
                 <el-form-item label="台区类型">
-                    <el-select v-model="form.type">
+                    <el-select v-model="form.courtsType">
                         <el-option label="开闭所变压器" value="0"></el-option>
                         <el-option label="柱上变压器" value="1"></el-option>
                         <el-option label="室内变压器" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="变压前电压" prop="address" class="address">
-                    <el-input v-model="form.preVoltage" placeholder="请输入变压前电压"></el-input>
+                <el-form-item label="变压前电压" prop="beforeVoltage">
+                    <el-input v-model="form.beforeVoltage" placeholder="请输入变压前电压"></el-input>
                 </el-form-item>
-                <el-form-item label="变压后电压" prop="address" class="address">
-                    <el-input v-model="form.nextVoltage" placeholder="请输入变压后电压"></el-input>
+                <el-form-item label="变压后电压" prop="afterVoltage">
+                    <el-input v-model="form.afterVoltage" placeholder="请输入变压后电压"></el-input>
                 </el-form-item>
-                <el-form-item label="电流等级" prop="rating" class="address">
-                    <el-input v-model="form.description" placeholder="请输入电流等级"></el-input>
+                <el-form-item label="电流等级" prop="electricityLevel">
+                    <el-input v-model="form.electricityLevel" placeholder="请输入电流等级"></el-input>
                 </el-form-item>
-                <el-form-item label="电压等级" prop="classes" class="address">
-                    <el-input v-model="form.description" placeholder="请输入电压等级"></el-input>
+                <el-form-item label="电压等级" prop="voltageLevel">
+                    <el-input v-model="form.voltageLevel" placeholder="请输入电压等级"></el-input>
                 </el-form-item>
             </template>
 
@@ -51,33 +51,34 @@
 
             <!-- 除井盖及线缆外需选择主进线,备用进线可选可不选 -->
             <template v-if="type!=3&&type!=4">
-                <el-form-item label="主进线" prop="mainId">
-                    <el-select v-model="form.mainId">
+                <el-form-item label="主进线" prop="mainComeline">
+                    <el-select v-model="form.mainComeline">
                         <el-option label="线缆一" value="0"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备用进线">
-                    <el-select v-model="form.standbyId">
+                    <el-select v-model="form.comeLine">
                         <el-option label="备用线缆一" value="0"></el-option>
                     </el-select>
                 </el-form-item>
             </template>
 
+            <!-- 线缆 -->
             <template v-if="type==4">
                 <el-form-item label="是否为主线缆">
-                    <el-select v-model="form.isMain">
+                    <el-select v-model="form.parentId">
                         <el-option label="是" value="0"></el-option>
                         <el-option label="否" value="1"></el-option>
                     </el-select>
                 </el-form-item>
-                <template v-if="form.isMain==1">
-                    <el-form-item label="所属主线缆" prop="mainLineId">
-                        <el-select v-model="form.mainLineId" >
+                <template v-if="form.parentId==1">
+                    <el-form-item label="所属主线缆" prop="lineId">
+                        <el-select v-model="form.lineId" >
                             <el-option label="主线缆一" value="0"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="所属井盖" prop="coverId">
-                        <el-select v-model="form.coverId" >
+                    <el-form-item label="所属井盖" prop="trapId">
+                        <el-select v-model="form.trapId" >
                             <el-option label="井盖一" value="0"></el-option>
                         </el-select>
                     </el-form-item>
@@ -86,21 +87,21 @@
 
             <!--type为井盖时,所需填写字段-->
             <template v-if="type==3">
-                <el-form-item label="所属主线缆" prop="mainLineId">
-                    <el-select v-model="form.mainLineId" >
+                <el-form-item label="所属主线缆" prop="lineId">
+                    <el-select v-model="form.lineId" >
                         <el-option label="主线缆一" value="0"></el-option>
                     </el-select>
                 </el-form-item>
             </template>
 
-            <el-form-item label="资产详情" prop="address" class="address">
-                <el-input v-model="form.description" placeholder="请输入资产详情"></el-input>
+            <el-form-item label="资产详情">
+                <el-input v-model="form.detail" placeholder="请输入资产详情"></el-input>
             </el-form-item>
 
             <!--选择省市区,填写详细地址-->
-            <el-form-item label="位置信息" prop="address" class="address">
+            <el-form-item label="位置信息" prop="location" class="address">
                 <el-cascader :options="options" v-model="form.city"></el-cascader>
-                <el-input v-model="form.address" placeholder="请输入设备位置信息"></el-input>
+                <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
 
             <!--通过地图上点击,获取经纬度位置-->
@@ -152,38 +153,37 @@
                 form: {
                     name:'',
                     number:'',
-                    type:'0',//台区类型
-                    preVoltage:'',
-                    nextVoltage:'',
-                    rating:'',
-                    classes:'',
-                    mainId:"",
-                    standbyId:'',
+                    courtsType:'0',//台区类型
+                    beforeVoltage:'',
+                    afterVoltage:'',
+                    electricityLevel:'',
+                    voltageLevel:'',
+                    mainComeline:"",
+                    comeLine:'',
                     courtsId:'',//台区ID
                     roomId:'',//配电房ID
-                    description:'',
+                    detail:'',
                     city:[],
-                    address:'',
+                    location:'',
                     position:[113.991244,22.5959],
-
-                    isMain:'0',
-                    mainLineId:'',
-                    coverId:'',
+                    
+                    parentId:'0',
+                    lineId:'',
+                    trapId:'',
                 },
                 rules: {
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
                     number: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
-                    mainId: [{ required: true, message: '请选择主进线', trigger: 'change' }],
+                    mainComeline: [{ required: true, message: '请选择主进线', trigger: 'change' }],
                     courtsId: [{ required: true, message: '请选择所属台区', trigger: 'change' }],
                     roomId: [{ required: true, message: '请选择所属配电房', trigger: 'change' }],
-                    mainLineId: [{ required: true, message: '请选择所属主线缆', trigger: 'change' }],
-                    coverId: [{ required: true, message: '请选择所属井盖', trigger: 'change' }],
+                    lineId: [{ required: true, message: '请选择所属主线缆', trigger: 'change' }],
+                    trapId: [{ required: true, message: '请选择所属井盖', trigger: 'change' }],
                 }
             }
         },
         computed: {
             type() {
-                console.log(this.$store.state.app ,'type')
                 return this.$store.state.app.assetType 
             },
             editFlag(){
@@ -230,7 +230,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/styles/form.scss';
     .CREATE_EDIT{
         width: 100%;

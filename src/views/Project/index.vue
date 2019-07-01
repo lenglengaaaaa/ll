@@ -6,25 +6,25 @@
     >
         <template>
             <el-table-column
-                prop="id"
-                label="应用ID"
+                prop="projectId"
+                label="项目ID"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="name"
-                label="应用名称"
+                prop="projectName"
+                label="项目名称"
                 align="center"
                 sortable
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.projectName}}</el-link>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="description"
-                label="应用描述"
+                prop="projectDetail"
+                label="项目描述"
                 align="center"
                 sortable
                 show-overflow-tooltip
@@ -44,16 +44,14 @@
             return {
                 data:[
                     {
-                        id:'22',
-                        name:'清华信息港魔戒演示平台',
-                        description:'清华信息港魔戒演示平台',
-                        type:'1'
+                        projectId:'22',
+                        projectName:'清华信息港魔戒演示平台',
+                        projectDetail:'清华信息港魔戒演示平台',
                     },
                     {
-                        id:'12',
-                        name:'低压配电应用',
-                        description:'低压配电应用',
-                        type:'0'
+                        projectId:'12',
+                        projectName:'低压配电应用',
+                        projectDetail:'低压配电应用',
                     }
                 ]
             }
@@ -62,12 +60,7 @@
             skipToDetail(row={}){
                 //跳转单个应用管理页面
                 this.$store.dispatch('app/setApp',row)
-                this.$router.push({
-                    name:'ProjectOverview',
-                    params:{
-                        type:row.type
-                    }
-                })
+                this.$router.push({name:'ProjectOverview',})
             },
         },
     }
