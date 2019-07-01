@@ -125,16 +125,6 @@
             //应用跳转
             linkTo(type,row={}){
                 switch (type) {
-                    case 'check':
-                        //跳转单个应用管理页面
-                        this.$store.dispatch('app/setApp',row)
-                        this.$router.push({
-                            name:'ProjectOverview',
-                            params:{
-                                type:row.type
-                            }
-                        })
-                        break;
                     case 'add':
                     case 'edit':
                         if(this.type==='gateway'){

@@ -41,6 +41,7 @@
                                             size="mini"
                                             type="primary"
                                             v-if="hasCheck"
+                                            @click="linkTo('check',scope.row)"
                                         >
                                             查看
                                         </el-button>
@@ -144,7 +145,7 @@
             linkTo(type,row={}){
                 switch (type) {
                     case 'check':
-                        console.log('cheack')
+                        this.skipTo(type,row);
                         break;
                     case 'add':
                     case 'edit':

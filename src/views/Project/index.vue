@@ -19,7 +19,7 @@
                 sortable
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="linkTo('check',scope.row)">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
                 </template>
             </el-table-column>
             <el-table-column
@@ -57,6 +57,18 @@
                     }
                 ]
             }
+        },
+        methods: {
+            skipToDetail(row={}){
+                //跳转单个应用管理页面
+                this.$store.dispatch('app/setApp',row)
+                this.$router.push({
+                    name:'ProjectOverview',
+                    params:{
+                        type:row.type
+                    }
+                })
+            },
         },
     }
 </script>

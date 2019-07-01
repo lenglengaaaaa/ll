@@ -95,7 +95,6 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-                console.log('添加')
                 this.dialogVisible = true;
                 if(type==="edit"){
                     this.editFlag = true;

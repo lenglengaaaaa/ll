@@ -17,14 +17,14 @@
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="pass"
+                    prop="key"
                     label="应用密钥"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="apply"
+                    prop="type"
                     label="应用类型"
                     align="center"
                     sortable
@@ -53,7 +53,7 @@
                 />
                 <el-table-column
                     prop="agent"
-                    label="AgenttLite链接方式"
+                    label="AgentLite链接方式"
                     align="center"
                     sortable
                     show-overflow-tooltip
@@ -75,23 +75,31 @@
                 />
             </template>
         </ApplyMgt>
+        <CreateEdit
+            :visible="dialogVisible"
+            :close="close"
+            :editFlag="editFlag"
+            :value="value"
+        />
     </div>
 </template>
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import CreateEdit from './components/CreateEdit'
 
     export default {
         components: {
             ApplyMgt,
+            CreateEdit
         },
         data() {
             return {
                 data: [
                     {
                         name:'应用一',
-                        pass:'userName',
-                        apply:'13612345678',
+                        key:'userName',
+                        type:'13612345678',
                         netIn:'123@163.com',
                         coap:'1',
                         mqtt:'2',
@@ -101,6 +109,9 @@
                     }
                 ],
                 total:100,
+                dialogVisible:false,
+                editFlag:false,
+                value:{}
             }
         },
         methods: {
@@ -108,10 +119,16 @@
                 console.log('获取数据')
             },
             skipTo(type,row) {
-
+                this.dialogVisible = true;
+                if(type==="edit"){
+                    this.editFlag = true;
+                    this.value=row;
+                }
             },
             close(){
-
+                this.dialogVisible=false;
+                this.editFlag=false;
+                this.value  ={};
             },
             remove(){
                 console.log('删除')

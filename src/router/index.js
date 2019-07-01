@@ -278,10 +278,30 @@ const router= new Router({
               path:'module',
               name:'Module',
               component: () => import('@/views/Senior/Module'),
+              redirect:'module/list',
               meta: { 
                 title:'模组管理',
                 icon: '#icon-mozu'
-              }
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'ModuleList',
+                  component: () => import('@/views/Senior/Module/List'),
+                },
+                {
+                  path:'detail',
+                  name:'ModuleDetail',
+                  component: () => import('@/views/Senior/Module/Detail'),
+                  meta:{title:'模组详情'}
+                },
+                {
+                  path:'edit',
+                  name:'ModuleEdit',
+                  component: () => import('@/views/Senior/Module/Edit'),
+                  meta:{title:'编辑模组'}
+                }
+              ]
             },
             {
               path:'product',
