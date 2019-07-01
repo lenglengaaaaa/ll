@@ -6,11 +6,11 @@
         :editFlag="editFlag"
     >
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="userForm">
-            <el-form-item label="用户名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入用户名称"></el-input>
+            <el-form-item label="用户名称" prop="userName">
+                <el-input v-model="form.userName" placeholder="请输入用户名称"></el-input>
             </el-form-item>
-            <el-form-item label="账号" prop="userName">
-                <el-input v-model="form.userName" placeholder="请输入用户账号" :disabled="editFlag"></el-input>
+            <el-form-item label="账号" prop="accountName">
+                <el-input v-model="form.accountName" placeholder="请输入用户账号" :disabled="editFlag"></el-input>
             </el-form-item>
             <template v-if="!editFlag">
                 <el-form-item label="密码" prop="password">
@@ -20,14 +20,14 @@
                     <el-input v-model="form.checkPass" type="password" placeholder="确认密码" ></el-input>
                 </el-form-item>
             </template>
-            <el-form-item label="手机号码" prop="phoneNumber">
-                <el-input v-model="form.phoneNumber" placeholder="请输入手机号码" maxlength="11" type="tel"></el-input>
+            <el-form-item label="手机号码" prop="phoneNum">
+                <el-input v-model="form.phoneNum" placeholder="请输入手机号码" maxlength="11" type="tel"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item label="详情">
-                <el-input v-model="form.details" placeholder="请输入用户详情"></el-input>
+                <el-input v-model="form.accountDetail" placeholder="请输入用户详情"></el-input>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm" >
@@ -43,13 +43,13 @@
     import Dialog from '@/components/Dialog'
 
     const restForm ={
-        name:'',
-        userName: '',
+        userName:'',
+        accountName: '',
         password:"",
         checkPass:'',
-        phoneNumber:'',
+        phoneNum:'',
         email:'',
-        details:''
+        accountDetail:''
     }
 
     export default {
@@ -101,20 +101,20 @@
             }
             return {
                 form: {
-                    name:'',
-                    userName: '',
+                    userName:'',
+                    accountName: '',
                     password:"",
                     checkPass:'',
-                    phoneNumber:'',
+                    phoneNum:'',
                     email:'',
-                    details:''
+                    accountDetail:''
                 },
                 rules: {
-                    name: [
-                        { required: true, message: '请输入应用名称', trigger: 'blur' },
-                    ],
                     userName: [
-                        { required: true, message: '请选择活动区域', trigger: 'change' }
+                        { required: true, message: '请输入用户名称', trigger: 'blur' },
+                    ],
+                    accountName: [
+                        { required: true, message: '请输入用户账号', trigger: 'blur' }
                     ],
                     password: [
                         { required: true, validator: validatePass, trigger: 'blur' }
@@ -122,7 +122,7 @@
                     checkPass: [
                         { required: true, validator: checkPass, trigger: 'blur' }
                     ],
-                    phoneNumber: [
+                    phoneNum: [
                         {  validator: checkPhone, trigger: 'blur' }
                     ],
                     email: [

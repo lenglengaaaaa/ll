@@ -12,42 +12,44 @@
         >   
             <template>
                 <el-table-column
-                    prop="name"
+                    prop="operationName"
                     label="操作名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="ip"
+                    prop="IP"
                     label="操作IP"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="user"
-                    label="操作用户"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                />
-                <el-table-column
-                    prop="way"
+                    prop="operationTerrace"
                     label="操作方式"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                />
+                >
+                    <template slot-scope="scope" >
+                        <span>
+                            {{scope.row.operationTerrace===0?
+                                'web端':scope.row.operationTerrace===1?
+                                    'IOS':scope.row.operationTerrace===2?
+                                        'Android':'API接口'}}
+                        </span>
+                    </template>
+                </el-table-column>
                 <el-table-column
-                    prop="detail"
+                    prop="operationDetail"
                     label="操作详情"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="order"
+                    prop="accountAction"
                     label="执行的命令"
                     align="center"
                     sortable
@@ -70,8 +72,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="creater"
-                    label="创建者"
+                    prop="accountId"
+                    label="操作用户"
                     align="center"
                     sortable
                     show-overflow-tooltip
@@ -92,14 +94,14 @@
             return {
                 data: [
                     {
-                        name:'操作一',
-                        ip:'11:21:33:14',
-                        user:'imei',
+                        operationName:'操作一',
+                        IP:'11:21:33:14',
+                        accountId:'imei',
                         way:'点击',
-                        detail:'我也不知道',
-                        order:'Hello world',
+                        operationDetail:'我也不知道',
+                        operationTerrace:0,
+                        accountAction:'Hello world',
                         isSuccess:1,
-                        creater:'Zain'
                     }
                 ],
                 total:100,
@@ -108,15 +110,6 @@
         methods: {
             getList(){
                 console.log('获取数据')
-            },
-            skipTo(type,row) {
-
-            },
-            close(){
-
-            },
-            remove(){
-                console.log('删除')
             }
         },
     }

@@ -6,32 +6,32 @@
         :editFlag="editFlag"
     >
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="applyForm">
-            <el-form-item label="应用名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
+            <el-form-item label="应用名称" prop="appName">
+                <el-input v-model="form.appName" placeholder="请输入应用名称"></el-input>
             </el-form-item>
-            <el-form-item label="应用密钥" prop="key">
-                <el-input v-model="form.key" placeholder="请输入应用密钥"></el-input>
+            <el-form-item label="应用密钥" prop="appKey">
+                <el-input v-model="form.appKey" placeholder="请输入应用密钥"></el-input>
             </el-form-item>
-            <el-form-item label="应用类型" prop="type">
-                <el-input v-model="form.type" placeholder="请输入应用类型"></el-input>
+            <el-form-item label="应用类型" prop="appType">
+                <el-input v-model="form.appType" placeholder="请输入应用类型"></el-input>
             </el-form-item>
-            <el-form-item label="入网模式" prop="netIn">
-                <el-input v-model="form.netIn" placeholder="请输入入网模式"></el-input>
+            <el-form-item label="入网模式" prop="netModel">
+                <el-input v-model="form.netModel" placeholder="请输入入网模式"></el-input>
             </el-form-item>
-            <el-form-item label="coap链接方式" prop="coap">
-                <el-input v-model="form.coap" placeholder="请输入coap链接方式"></el-input>
+            <el-form-item label="coap链接方式" prop="coapWay">
+                <el-input v-model="form.coapWay" placeholder="请输入coap链接方式"></el-input>
             </el-form-item>
-            <el-form-item label="mqtt链接方式" prop="mqtt">
-                <el-input v-model="form.mqtt" placeholder="请输入mqtt链接方式"></el-input>
+            <el-form-item label="mqtt链接方式" prop="mqttWay">
+                <el-input v-model="form.mqttWay" placeholder="请输入mqtt链接方式"></el-input>
             </el-form-item>
-            <el-form-item label="AgentLite链接方式" prop="agent">
-                <el-input v-model="form.agent" placeholder="请输入AgentLite链接方式"></el-input>
+            <el-form-item label="AgentLite链接方式" prop="agentliteWay">
+                <el-input v-model="form.agentliteWay" placeholder="请输入AgentLite链接方式"></el-input>
             </el-form-item>
-            <el-form-item label="https链接方式" prop="https">
-                <el-input v-model="form.https" placeholder="请输入https链接方式"></el-input>
+            <el-form-item label="https链接方式" prop="httpsWay">
+                <el-input v-model="form.httpsWay" placeholder="请输入https链接方式"></el-input>
             </el-form-item>
             <el-form-item label="描述">
-                <el-input v-model="form.description" placeholder="请输入应用描述"></el-input>
+                <el-input v-model="form.appDetail" placeholder="请输入应用描述"></el-input>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm" >
@@ -47,15 +47,15 @@
     import Dialog from '@/components/Dialog'
 
     const restForm ={
-        name:'',
-        key:'',
-        type:"",
-        netIn:'',
-        coap:'',
-        mqtt:'',
-        agent:'',
-        https:'',
-        description:''
+        appName:'',
+        appKey:'',
+        appType:'',
+        netModel:'',
+        coapWay:'',
+        mqttWay:'',
+        agentliteWay:'',
+        httpsWay:'',
+        appDetail:''
     }
     
     export default {
@@ -74,39 +74,39 @@
         data() {
             return {
                 form: {
-                    name:'',
-                    key:'',
-                    type:"",
-                    netIn:'',
-                    coap:'',
-                    mqtt:'',
-                    agent:'',
-                    https:'',
-                    description:''
+                    appName:'',
+                    appKey:'',
+                    appType:'',
+                    netModel:'',
+                    coapWay:'',
+                    mqttWay:'',
+                    agentliteWay:'',
+                    httpsWay:'',
+                    appDetail:''
                 },
                 rules: {
-                    name: [
+                    appName: [
                         { required: true, message: '请输入应用名称', trigger: 'blur' },
                     ],
-                    key: [
+                    appKey: [
                         { required: true, message: '请输入应用密钥', trigger: 'blur' }
                     ],
-                    type: [
+                    appType: [
                         { required: true, message: '请输入应用类型', trigger: 'blur' }
                     ],
-                    netIn: [
+                    netModel: [
                         { required: true, message: '请输入入网模式', trigger: 'blur' }
                     ],
-                    coap: [
+                    coapWay: [
                         { required: true, message: '请输入coap链接方式', trigger: 'blur' }
                     ],
-                    mqtt: [
+                    mqttWay: [
                         { required: true, message: '请输入mqtt链接方式', trigger: 'blur' }
                     ],
-                    agent: [
+                    agentliteWay: [
                         { required: true, message: '请输入AgentLite链接方式', trigger: 'blur' }
                     ],
-                    https: [
+                    httpsWay: [
                         { required: true, message: '请输入https链接方式', trigger: 'blur' }
                     ],
                 }

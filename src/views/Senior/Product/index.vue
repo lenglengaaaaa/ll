@@ -11,28 +11,28 @@
         >   
             <template>
                 <el-table-column
-                    prop="name"
+                    prop="productName"
                     label="产品名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="plugin"
+                    prop="productProfile"
                     label="产品自解码插件"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="imei"
+                    prop="deviceEUI"
                     label="IMEI"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="apply"
+                    prop="appId"
                     label="所关联应用"
                     align="center"
                     sortable
@@ -54,10 +54,10 @@
             return {
                 data: [
                     {
-                        name:'产品一',
-                        plugin:'plugin',
-                        imei:'imei',
-                        apply:'应用一'
+                        productName:'产品一',
+                        productProfile:'NB',
+                        deviceEUI:'imei',
+                        appId:'12,23'
                     }
                 ],
                 total:100,

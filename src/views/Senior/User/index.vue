@@ -10,26 +10,26 @@
         >   
             <template>
                 <el-table-column
-                    prop="name"
+                    prop="userName"
                     label="用户名称"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="userName"
+                    prop="accountName"
                     label="账号"
                     align="center"
                     sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="phoneNumber"
+                    prop="phoneNum"
                     label="手机号码"
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.phoneNumber || '-' " 
+                    :formatter="(row)=>row.phoneNum || '-' " 
                 />
                 <el-table-column
                     prop="email"
@@ -40,14 +40,14 @@
                     :formatter="(row)=>row.email || '-' " 
                 />
                 <el-table-column
-                    prop="details"
+                    prop="accountDetail"
                     label="详情"
                     align="center"
                     show-overflow-tooltip
                     :formatter="(row)=>row.details || '-' " 
                 />
                 <el-table-column
-                    prop="time"
+                    prop="createTime"
                     label="创建时间"
                     align="center"
                     sortable
@@ -77,11 +77,11 @@
             return {
                 data: [
                     {
-                        name:'侨城东电缆沟',
-                        userName:'userName',
-                        phoneNumber:'13612345678',
+                        userName:'侨城东电缆沟',
+                        accountName:'userName',
+                        phoneNum:'13612345678',
                         email:'123@163.com',
-                        details:'震动值：静止',
+                        accountDetail:'震动值：静止',
                     }
                 ],
                 total:100,

@@ -6,8 +6,8 @@
         :editFlag="editFlag"
     >
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="applyForm">
-            <el-form-item label="设备EUI" prop="eui">
-                <el-input v-model="form.eui" placeholder="请输入设备EUI"></el-input>
+            <el-form-item label="设备EUI" prop="deviceAdress">
+                <el-input v-model="form.deviceAdress" placeholder="请输入设备EUI"></el-input>
             </el-form-item>
             <el-form-item label="备注">
                 <el-input v-model="form.remark" placeholder="请输入备注"></el-input>
@@ -26,7 +26,7 @@
     import Dialog from '@/components/Dialog'
 
     const restForm ={
-        eui:'',
+        deviceAdress:'',
         remark:''
     }
     
@@ -50,7 +50,7 @@
                     remark:''
                 },
                 rules: {
-                    eui: [
+                    deviceAdress: [
                         { required: true, message: '请输入设备EUI', trigger: 'blur' },
                     ],
                 }

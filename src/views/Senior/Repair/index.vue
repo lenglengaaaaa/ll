@@ -10,7 +10,7 @@
         >   
             <template>
                 <el-table-column
-                    prop="eui"
+                    prop="deviceAdress"
                     label="设备EUI"
                     align="center"
                     sortable
@@ -68,7 +68,7 @@
             return {
                 data: [
                     {
-                        eui:'119',
+                        deviceAdress:'119',
                         creater:'plugin',
                         creatTime:'1561714114536',
                         comment:'Hello World',
