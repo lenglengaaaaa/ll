@@ -1,12 +1,43 @@
 <template>
     <Management
         type="gateway"
-        btnName="新增网关"
-        title='网关列表'
-        placeholder="搜索网关"
+        title='网关'
         :columns="columns"
         :data="data"
-    />
+    >
+        <el-table-column 
+            v-for="o in columns" 
+            :key="o.prop"
+            :prop="o.prop"
+            :label="o.label"
+            align="center"
+            sortable
+            show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+            prop="time"
+            label="最后接收时间"
+            align="center"
+            sortable
+            :formatter="(row)=>this.$moment(row.time).fromNow()"
+        />
+        <el-table-column
+            prop="status"
+            label="状态"
+            align="center"
+            sortable
+        >
+            <template slot-scope="scope" >
+                <el-tag
+                    :type="scope.row.status? 'success' : 'danger'"
+                    disable-transitions
+                >
+                    {{scope.row.status?'已连接':'已断开'}}
+                </el-tag>
+            </template>
+        </el-table-column>
+    </Management>
 </template>
 
 <script>

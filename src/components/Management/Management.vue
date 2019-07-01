@@ -2,16 +2,16 @@
     <div class="Management_container">
         <div class="title_bar">
             <el-button size="small" type="success" @click="linkTo('add')">
-                {{btnName}}<i class="el-icon-plus el-icon--right" />
+                新增{{title}}<i class="el-icon-plus el-icon--right" />
             </el-button>
         </div>
         <div class="body">
             <div class="header">
-                <span>{{title}}</span>
+                <span>我的{{title}}</span>
                 <div>
                     <el-input
                         size="small"
-                        :placeholder="placeholder"
+                        :placeholder="`搜索${title}`"
                         suffix-icon="el-icon-search"
                         v-model="input"
                     />
@@ -26,66 +26,7 @@
                     max-height="68.5vh"
                     header-cell-class-name="table_header"
                 >   
-                    <template v-if="type==='gateway'">
-                        <el-table-column 
-                            v-for="o in columns" 
-                            :key="o.prop"
-                            :prop="o.prop"
-                            :label="o.label"
-                            align="center"
-                            sortable
-                            show-overflow-tooltip
-                        >
-                        </el-table-column>
-                        <el-table-column
-                            prop="time"
-                            label="最后接收时间"
-                            align="center"
-                            sortable
-                            :formatter="(row)=>this.$moment(row.time).fromNow()"
-                        />
-                        <el-table-column
-                            prop="status"
-                            label="状态"
-                            align="center"
-                            sortable
-                        >
-                            <template slot-scope="scope" >
-                                <el-tag
-                                    :type="scope.row.status? 'success' : 'danger'"
-                                    disable-transitions
-                                >
-                                    {{scope.row.status?'已连接':'已断开'}}
-                                </el-tag>
-                            </template>
-                        </el-table-column>
-                    </template>
-                    <template v-else>
-                        <el-table-column
-                            prop="id"
-                            label="应用ID"
-                            align="center"
-                            sortable
-                            show-overflow-tooltip
-                        />
-                        <el-table-column
-                            prop="name"
-                            label="应用名称"
-                            align="center"
-                            sortable
-                        >
-                            <template slot-scope="scope">
-                                <el-link type="primary" @click="linkTo('check',scope.row)">{{scope.row.name}}</el-link>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            prop="description"
-                            label="应用描述"
-                            align="center"
-                            sortable
-                            show-overflow-tooltip
-                        />
-                    </template>
+                    <slot></slot>
                     <el-table-column
                         label="操作"
                         align="center"
@@ -140,27 +81,9 @@
             NewProject
         },
         props: {
-            type:{
-                type:String,
-                default:''
-            },
-            btnName: {
-                type: String,
-                default:''
-            },
-            title: {
-                type: String,
-                default:''
-            },
-            placeholder: {
-                type: String,
-                default:''
-            },
+            type:String,
+            title:String,
             data:{
-                type:Array,
-                default:()=>[]
-            },
-            columns:{
                 type:Array,
                 default:()=>[]
             },
@@ -182,13 +105,12 @@
         },
         watch: {
             '$store.state.app.device'(value) {
-                console.log(value,'value')
                 this.resizehandle(value);
             }
         },
         methods: {
             resizehandle(value){
-                value==='desktop'?this.layout='total, sizes,pager,jumper' :this.layout = 'pager'
+                value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
             handleSizeChange(val) {
                 this.currentPage =1;
@@ -239,7 +161,6 @@
                 }
             },
             open(row) {
-                console.log('delete',row)
                 const type = this.type==='gateway'?'网关':'应用'
                 this.$confirm(`此操作将永久删除该${type}, 是否继续?`, '提示', {
                     confirmButtonText: '确定',
