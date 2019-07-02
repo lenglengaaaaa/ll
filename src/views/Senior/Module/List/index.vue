@@ -12,7 +12,7 @@
         >   
             <template>
                 <el-table-column
-                    prop="moduleName"
+                    prop="name"
                     label="模组名称"
                     align="center"
                     sortable
@@ -77,32 +77,42 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    prop="moduleDetail"
+                    prop="detail"
                     label=描述
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>row.moduleDetail || '-' " 
+                    :formatter="(row)=>row.detail || '-' " 
                 />
             </template>
         </ApplyMgt>
+        <Detail
+            :visible="dialogVisible"
+            :close="close"
+            :value="value"
+        />
     </div>
 </template>
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import Detail from '../components/Detail'
 
     export default {
         components: {
             ApplyMgt,
+            Detail
         },
         data() {
             return {
                 data: [
                     {
-                        moduleName:'模组一',
+                        name:'模组一',
                         manufacturerId:'110',
                         manufacturerName:'中科研究院',
+                        moduleType:'类型一',
+                        moduleSign:'强',
+                        wifiLevel:'1',
                         mac:'123',
                         model:'AAA',
                         activated:0,
@@ -113,10 +123,16 @@
                         hwversion:'1.0',
                         protocolType:'1',
                         bridgeid:'1',
-                        moduleDetail:''
+                        detail:'详情',
+                        commWay:'NB',
+                        moduleSinr:'信噪比',
+                        sigVersion:'1.0',
+                        statusDetail:0
                     }
                 ],
                 total:100,
+                dialogVisible:false,
+                value:{}
             }
         },
         methods: {
@@ -133,7 +149,13 @@
                     })
                     return
                 }
-                this.$router.push({name:'ModuleDetail'})
+                //查看
+                this.value = row;
+                this.dialogVisible=true;
+            },
+            close(){
+                this.dialogVisible=false;
+                this.value  ={};
             },
             remove(){
                 console.log('删除')
@@ -143,7 +165,4 @@
 </script>
 
 <style lang="scss" scoped>
-    .red{
-        color: red;
-    }
 </style>

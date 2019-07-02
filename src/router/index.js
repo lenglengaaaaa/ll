@@ -290,12 +290,6 @@ const router= new Router({
                   component: () => import('@/views/Senior/Module/List'),
                 },
                 {
-                  path:'detail',
-                  name:'ModuleDetail',
-                  component: () => import('@/views/Senior/Module/Detail'),
-                  meta:{title:'模组详情'}
-                },
-                {
                   path:'edit',
                   name:'ModuleEdit',
                   component: () => import('@/views/Senior/Module/Edit'),

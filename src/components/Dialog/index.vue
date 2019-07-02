@@ -35,9 +35,11 @@
 <style lang="scss">
     .create_edit{
         .el-dialog{
+            border-radius: 10px;
             width: 600px;
             max-width: 90%;
             .el-dialog__header{
+                border-radius: 10px 10px 0px 0px;
                 padding: 12px 20px;
                 display: flex;
                 align-items: center;

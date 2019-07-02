@@ -2,7 +2,7 @@
     <div class="CREATE_EDIT">
         <el-form label-position="top" label-width="100px" :model="form" ref="moduleForm">
             <el-form-item label="模组名称">
-                <el-input v-model="form.moduleName" placeholder="请输入模组名称"></el-input>
+                <el-input v-model="form.name" placeholder="请输入模组名称"></el-input>
             </el-form-item>
             <el-form-item label="厂商ID">
                 <el-input v-model="form.manufacturerId" placeholder="请输入厂商ID"></el-input>
@@ -35,7 +35,7 @@
                 <el-input v-model="form.bridgeid" placeholder="请输入Bridge标识"></el-input>
             </el-form-item>
             <el-form-item label="描述">
-                <el-input v-model="form.moduleDetail" placeholder="请输入模组信息描述"></el-input>
+                <el-input v-model="form.detail" placeholder="请输入模组信息描述"></el-input>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submit" >
