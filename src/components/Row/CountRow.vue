@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="15" type="flex">
-        <el-col :span="span" v-for="item in rows" :key="item.icon">
+        <el-col :span="8" v-for="item in rows" :key="item.icon" :xs="24">
             <div class="grid-content" @click="rowClick(item.path)">
                 <div class="msg">
                     <div>
@@ -29,40 +29,18 @@
             rows:{
                 type:Array,
                 default:()=>[]
-            },
-            width:{
-                type:Number,
-                default:0
-            }
-        },
-        data() {
-            return {
-                span:8
-            }
-        },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
-        },
-        watch: {
-            '$store.state.app.device'(value) {
-                this.resizehandle(value);
             }
         },
         methods:{
             rowClick(path){
                 this.$router.push(path)
             },
-            //监听视窗
-            resizehandle(value){
-                value==="desktop"?this.span=8 :this.span = 24
-            }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
         .el-row{
                 flex-direction: column;
         }

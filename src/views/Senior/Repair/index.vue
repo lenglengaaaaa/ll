@@ -35,9 +35,8 @@
                     align="center"
                     sortable
                     show-overflow-tooltip
-                    :formatter="(row)=>this.$moment(row.modifyTime).format('YYYY-MM-DD HH:mm:ss')"
-                >
-                </el-table-column>
+                    :formatter="(row)=>this.$moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss')"
+                />
                 <el-table-column
                     prop="comment"
                     label="备注"
@@ -70,9 +69,9 @@
                     {
                         deviceAdress:'119',
                         creater:'plugin',
-                        creatTime:'1561714114536',
+                        createTime:1561714114536,
+                        updateTime:1561714114536,
                         comment:'Hello World',
-                        modifyTime:'1561714114536',
                     }
                 ],
                 total:100,

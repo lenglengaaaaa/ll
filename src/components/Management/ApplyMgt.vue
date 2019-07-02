@@ -121,7 +121,6 @@
         },
         watch: {
             '$store.state.app.device'(value) {
-                console.log(value,'value')
                 this.resizehandle(value);
             },
             input(value){
@@ -181,7 +180,7 @@
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
         .Apply-Management{
             .footer{
                 justify-content: center !important;

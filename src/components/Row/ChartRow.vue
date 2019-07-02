@@ -1,11 +1,11 @@
 <template>
     <el-row :gutter="20" type="flex" >
-        <el-col :span="span" >
+        <el-col :span="12" :xs="24">
             <div class="data-content" >
                 <SoeChart></SoeChart>
             </div>
         </el-col>
-        <el-col :span="span" >
+        <el-col :span="12" :xs="24">
             <div class="data-content" >
                 <CategoryChart></CategoryChart>
             </div>
@@ -20,37 +20,12 @@
         components: {
             SoeChart,
             CategoryChart
-        },
-        props: {
-            width: {
-                type: Number,
-                default:document.body.clientWidth
-            }
-        },
-        data() {
-            return {
-                span: 12
-            }
-        },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
-        },
-        watch: {
-            '$store.state.app.device'(value) {
-                this.resizehandle(value) ;
-            }
-        },
-        methods: {
-            resizehandle(value){
-                value==="desktop"?this.span=12 :this.span = 24
-            }
-        },
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
         .el-row{
                 flex-direction: column;
         }

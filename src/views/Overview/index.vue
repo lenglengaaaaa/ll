@@ -54,7 +54,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 796px) {
+    @media screen and (max-width: 768px) {
         .Overview_container{
             padding: 0px !important;
             .body{

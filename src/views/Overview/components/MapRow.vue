@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="20" type="flex" >
-        <el-col :span="span" >
+        <el-col :span="12" :xs="24">
             <el-card class="box-card">
                 <div slot="header" class="clearfix"  >
                     <span>设备地图</span>
@@ -14,7 +14,7 @@
                 </div>
             </el-card>
         </el-col>
-        <el-col :span="span">
+        <el-col :span="span" :xs="24">
             <el-card class="box-card">
                 <div slot="header" class="clearfix"  >
                     <span>网关地图</span>
@@ -50,10 +50,6 @@
                 marker:[]
             }
         },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
-        },
         created () {
             let marker = [];
             for (let i = 0 ; i < 10 ; i ++) {
@@ -63,21 +59,11 @@
             }
             this.marker=marker;
         },
-        watch: {
-            '$store.state.app.device'(value) {
-                this.resizehandle(value) ;
-            }
-        },
-        methods: {
-            resizehandle(value){
-                value==="desktop"?this.span=12 :this.span = 24
-            }
-        },
     }
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
         .el-row{
                 flex-direction: column;
         }

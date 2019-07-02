@@ -52,7 +52,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
         .apply_main{
             .bar{
                 margin: 0 0 15px 0 !important;
