@@ -12,12 +12,12 @@
         <el-form-item label="设备名称" prop="name">
             <el-input v-model="form.name" placeholder="请输入设备名称"></el-input>
         </el-form-item>
-        <el-form-item label="设备编号" prop="number">
-            <el-input v-model="form.number" placeholder="请输入设备编号"></el-input>
+        <el-form-item label="设备编号" prop="deviceNo">
+            <el-input v-model="form.deviceNo" placeholder="请输入设备编号"></el-input>
         </el-form-item>
-        <el-form-item :label="`设备EUI(请填写${form.pattern==0?16:15}位设备EUI)`" prop="eui">
+        <el-form-item :label="`设备EUI(请填写${form.pattern==0?16:15}位设备EUI)`" prop="deviceEUI">
             <el-input 
-                v-model="form.eui" 
+                v-model="form.deviceEUI" 
                 :placeholder="form.pattern==0?'0000000000000000':'000000000000000'" 
                 :maxlength="form.pattern==0?16:15"
             />
@@ -31,8 +31,8 @@
             </el-select>
         </el-form-item>
         <template v-if="form.assetType==0">
-            <el-form-item label="所属井盖" prop="coverId">
-                <el-select v-model="form.coverId">
+            <el-form-item label="所属井盖" prop="trapId">
+                <el-select v-model="form.trapId">
                     <el-option label="井盖一" value="0"></el-option>
                 </el-select>
             </el-form-item>
@@ -48,8 +48,8 @@
                     <el-option label="台区一" value="0"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属配电柜" prop="powerId">
-                <el-select v-model="form.powerId">
+            <el-form-item label="所属配电柜" prop="chestId">
+                <el-select v-model="form.chestId">
                     <el-option label="配电柜一" value="0"></el-option>
                 </el-select>
             </el-form-item>
@@ -108,9 +108,9 @@
         </template>
 
         <!--选择省市区,填写详细地址-->
-        <el-form-item label="位置信息" prop="address" class="address">
+        <el-form-item label="位置信息" prop="location" class="address">
             <el-cascader :options="options" v-model="form.city"></el-cascader>
-            <el-input v-model="form.address" placeholder="请输入设备位置信息"></el-input>
+            <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
         </el-form-item>
 
         <!--通过地图上点击,获取经纬度位置-->
@@ -170,15 +170,15 @@
                     pattern:'0',
                     id:'',
                     name:'',
-                    number:'',
-                    eui:'',
+                    deviceNo:'',
+                    deviceEUI:'',
                     assetType:'0',//所属类型
                     //井盖
-                    coverId:'',
+                    trapId:'',
                     lineId:'',
                     //台区
                     courtsId:'',
-                    powerId:'',
+                    chestId:'',
                     Independent:{ //是否为独立传感
                         flag:'0',
                         type:'0'
@@ -193,12 +193,12 @@
                     pattern: [{ required: true, trigger: 'blur' }],
                     id: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
-                    number: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
-                    eui: [{ required: true, validator: checkEui, trigger: 'blur' }],
-                    coverId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
+                    deviceNo: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
+                    deviceEUI: [{ required: true, validator: checkEui, trigger: 'blur' }],
+                    trapId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择设备所属线缆', trigger: 'change' }],
                     courtsId: [{ required: true, message: '请选择设备所属台区', trigger: 'change' }],
-                    powerId: [{ required: true, message: '请选择设备所属配电柜', trigger: 'change' }],
+                    chestId: [{ required: true, message: '请选择设备所属配电柜', trigger: 'change' }],
                     magicId: [{ required: true, message: '请选择设备所属魔节', trigger: 'change' }],
                     centerId: [{ required: true, message: '请选择设备所属集中器', trigger: 'change' }],
                 }
@@ -260,7 +260,6 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/styles/form.scss';
-
 </style>

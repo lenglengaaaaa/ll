@@ -191,7 +191,13 @@ const router= new Router({
                   name:'NewEqu',
                   component: () => import('@/views/SingleProject/Equipment/New'),
                   meta:{title:'添加(编辑)设备'}
-                }
+                },
+                {
+                  path:'detail',
+                  name:'EquDetail',
+                  component: () => import('@/views/SingleProject/Equipment/Detail'),
+                  meta:{title:'设备视图'}
+                },
               ]
             },
             {
