@@ -87,10 +87,22 @@
             data:Array,
             total:Number,
             title:String,
-            getList:Function,
-            skipTo:Function,
-            remove:Function,
-            hasCheck:Boolean,
+            getList:{
+                type:Function,
+                default:()=>{}
+            },
+            skipTo:{
+                type:Function,
+                default:()=>{}
+            },
+            remove:{
+                type:Function,
+                default:()=>{}
+            },
+            hasCheck:{
+                type:Boolean,
+                default:false
+            },
             hasOpera:{
                 type:Boolean,
                 default:true

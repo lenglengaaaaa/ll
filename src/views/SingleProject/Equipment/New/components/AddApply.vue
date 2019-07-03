@@ -24,36 +24,63 @@
         </el-form-item>
 
         <!--设备所属资产类型,分为井盖及台区-->
-        <el-form-item label="所属资产类型">
-            <el-select v-model="form.assetType">
-                <el-option label="井盖" value="0"></el-option>
-                <el-option label="台区" value="1"></el-option>
-            </el-select>
-        </el-form-item>
-        <template v-if="form.assetType==0">
-            <el-form-item label="所属井盖" prop="trapId">
-                <el-select v-model="form.trapId">
-                    <el-option label="井盖一" value="0"></el-option>
+        <template v-if="type !=6">
+            <el-form-item label="所属资产类型">
+                <el-select v-model="form.assetType">
+                    <el-option label="井盖" value="0"></el-option>
+                    <el-option label="台区" value="1"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属线缆" prop="lineId">
-                <el-select v-model="form.lineId">
-                    <el-option label="线缆一" value="0"></el-option>
-                </el-select>
-            </el-form-item>
+            <template v-if="form.assetType==0">
+                <el-form-item label="所属井盖" prop="trapId">
+                    <el-select v-model="form.trapId">
+                        <el-option label="井盖一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="所属线缆" prop="lineId">
+                    <el-select v-model="form.lineId">
+                        <el-option label="线缆一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+            </template>
+            <template v-else>
+                <el-form-item label="所属台区" prop="courtsId">
+                    <el-select v-model="form.courtsId">
+                        <el-option label="台区一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="所属配电房" prop="roomId">
+                    <el-select v-model="form.roomId">
+                        <el-option label="配电房一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="所属配电柜" prop="chestId">
+                    <el-select v-model="form.chestId">
+                        <el-option label="配电柜一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+            </template>
         </template>
+
+        <!--魔戒只能绑定在配电柜-->
         <template v-else>
-            <el-form-item label="所属台区" prop="courtsId">
-                <el-select v-model="form.courtsId">
-                    <el-option label="台区一" value="0"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="所属配电柜" prop="chestId">
-                <el-select v-model="form.chestId">
-                    <el-option label="配电柜一" value="0"></el-option>
-                </el-select>
-            </el-form-item>
-        </template>
+                <el-form-item label="所属台区" prop="courtsId">
+                    <el-select v-model="form.courtsId">
+                        <el-option label="台区一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="所属配电房" prop="roomId">
+                    <el-select v-model="form.roomId">
+                        <el-option label="配电房一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="所属配电柜" prop="chestId">
+                    <el-select v-model="form.chestId">
+                        <el-option label="配电柜一" value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+            </template>
+        
         
         <!--是否为独立传感器(独立,自身上传数据;非独立,通过集中器或者魔节上传),非独立需选择所属魔节或集中器-->
         <template v-if="type==2||type==3||type==4">
@@ -178,6 +205,7 @@
                     lineId:'',
                     //台区
                     courtsId:'',
+                    roomId:'',
                     chestId:'',
                     Independent:{ //是否为独立传感
                         flag:'0',
@@ -196,6 +224,7 @@
                     deviceNo: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
                     deviceEUI: [{ required: true, validator: checkEui, trigger: 'blur' }],
                     trapId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
+                    roomId: [{ required: true, message: '请选择设备所属配电房', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择设备所属线缆', trigger: 'change' }],
                     courtsId: [{ required: true, message: '请选择设备所属台区', trigger: 'change' }],
                     chestId: [{ required: true, message: '请选择设备所属配电柜', trigger: 'change' }],

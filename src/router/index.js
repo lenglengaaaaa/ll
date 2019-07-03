@@ -334,6 +334,38 @@ const router= new Router({
         }
       ]
     },
+    {
+      path: '/account',
+      component: OverallLayout,
+      children: [
+        {
+          path: '',
+          name: 'Account',
+          component:SideBarLayout,
+          redirect: '/account/detail',
+          children:[
+            {
+              path:'detail',
+              name:'AccountDetail',
+              component: () => import('@/views/Account/Detail'),
+              meta: { 
+                title:'账户详情',
+                icon: '#icon-zhanghaoxiangqing'
+              }
+            },
+            {
+              path:'changePass',
+              name:'ChangePass',
+              component: () => import('@/views/Account/ChangePass'),
+              meta: { 
+                title:'修改密码',
+                icon: '#icon-xiugai'
+              }
+            },
+          ]
+        }
+      ]
+    }
   ]
 })
 

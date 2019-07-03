@@ -29,6 +29,9 @@
                         </div>
                         <el-dropdown-menu slot="dropdown" class="user-dropdown">
                             <el-dropdown-item>
+                                <span style="display:block;" @click="skipAccount">账号管理</span>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
                                 <span style="display:block;" @click="logout">退出登录</span>
                             </el-dropdown-item>
                         </el-dropdown-menu>
@@ -39,7 +42,6 @@
                 <i class="el-icon-more" @click="moreClick"></i>
             </div>
         </div>
-
         <div class="list" ref="list" v-if="phone">
             <el-menu 
                 :default-active="activeIndex"
@@ -55,20 +57,17 @@
                         <img src="../../../assets/img/avatar.png" />
                         <span>{{username}}</span>
                     </template>
-                    <el-menu-item @click="logout" index="1-1">退出登录</el-menu-item>
+                    <el-menu-item @click="skipAccount" index="1-1">账号管理</el-menu-item>
+                    <el-menu-item @click="logout" index="1-2">退出登录</el-menu-item>
                 </el-submenu>
-
             </el-menu>
         </div>
-
         <GlobalSearch :visible="flag" :close="closeSearch"/>
     </div>
 </template>
 
 <script>
-    import GlobalSearch from '@/components/Search'
-
-
+    import GlobalSearch from '@/components/Search'  
     export default {
         name:'Header',
         data() {
@@ -113,6 +112,10 @@
             skipHome(){
                 this.$router.push({name:'Overview'})
             },
+            //skipAccount
+            skipAccount(){
+                this.$router.push({name:'Account'})
+            },
             //关闭搜索弹窗
             closeSearch(){
                 this.flag = false;
@@ -147,135 +150,5 @@
 </script>
 
 <style lang="scss">
-    $height:50px;
-    .Navbar{
-        width: 100vw;
-        max-height: 50px;
-        background: linear-gradient(135deg,#22a7f0,#22a7f0,#36d7b7);
-        transition: max-height 0.5s;
-        overflow: hidden;
-        position: fixed;
-        top:0;
-        left: 0;
-        z-index: 1030;
-        .container{
-            height: $height;
-            padding: 0 35px;
-            .title{
-                float: left;
-                height: 100%;
-                flex: 0;
-                padding-right:40px; 
-                display: flex;
-                align-items: center;
-                img{
-                    width: 145px;
-                    cursor: pointer;
-                }
-            }
-            .menu{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex: 2;
-                .left_menu{
-                    height: $height;
-                    .el-menu-demo{
-                        background: transparent;
-                        border: none;
-                    }
-                    .el-menu--horizontal{
-                        .el-menu-item{
-                            border-bottom: none;
-                            width: 100px;
-                            height: $height;
-                            text-align: center;
-                            line-height: $height;
-                        }
-                        .el-menu-item:not(.is-disabled):hover{
-                            &:hover{
-                                background: #3498db;
-                            }
-                        }
-                        & > .el-menu-item.is-active{
-                            border-bottom: none;
-                            color: #fff;
-                            background: #4183d7;
-                        }
-                    }
-                }
-                .right_menu{
-                    height: $height;
-                    display: flex;
-                    align-items: center;
-                    .el-icon-setting,.el-icon-search{
-                        padding: 0px 20px;
-                        color: #fff;
-                        cursor: pointer;
-                    }
-                    .avatar-container {
-                        .avatar-wrapper {
-                            display: flex;
-                            align-items: center;
-                            color: #fff;
-                            cursor: pointer;
-                            .user-avatar {
-                                width: 40px;
-                                height: 40px;
-                                border-radius: 10px;
-                            }
-                            .username{
-                                padding:0 10px;
-                                font-size: 14px;
-                            }
-                            .el-icon-caret-bottom {
-                                padding: 0px 5px;
-                                font-size: 12px;
-                            }
-                        }
-                    }
-                }
-            }
-            .phone_list{
-                height: 100%;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                .el-icon-more{
-                    font-size: 24px;
-                    color: #fff;
-                    cursor: pointer;
-                }
-            }
-        }
-        .list{
-            border-top: 1px solid #d8d6d6;
-            margin: 0 35px;
-            .el-menu{
-                margin: 7.5px 0;
-                background: transparent;
-                border: none;
-                .el-menu-item,.el-submenu__title{
-                    color: #fff;
-                    border-bottom: none;
-                    height: 40px;
-                    line-height: 40px;
-                }
-                .el-submenu__title{
-                    i{
-                        color: #fff;
-                    }
-                    &:hover{
-                        background: transparent;
-                    }
-                }
-                & > .el-menu-item.is-active{
-                    border-bottom: none;
-                    color: #fff;
-                    background: #4183d7;
-                }
-                
-            }
-        }
-    }
+    @import '@/styles/navbar.scss';
 </style>

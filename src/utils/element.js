@@ -67,7 +67,7 @@ import {
     Message,
     Notification,
     Link,
-    Divider
+    Divider,
 } from 'element-ui';
 
 export default function(Vue){

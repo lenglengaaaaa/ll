@@ -28,12 +28,7 @@
 </template>
 
 <script> 
-    import Dialog from '@/components/Dialog'
-    
     export default {
-        components: {
-            Dialog
-        },
         props: {
             visible:Boolean,
             close:Function,
