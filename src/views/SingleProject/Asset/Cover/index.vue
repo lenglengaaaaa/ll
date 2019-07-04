@@ -14,7 +14,11 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-            />
+            >
+                <template slot-scope="scope">
+                    <el-link type="primary">{{scope.row.name}}</el-link>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="number"
                 label="井盖编号"

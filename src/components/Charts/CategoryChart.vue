@@ -10,7 +10,6 @@
         data() {
             return {
                 chart: null,
-                timer: null
             }
         },
         
@@ -19,10 +18,7 @@
             setTimeout(()=>{this.initChart()})
             this.chart&&this.chart.resize();
             window.addEventListener('resize',()=>{
-                clearTimeout(this.timer)
-                this.timer = setTimeout(()=>{
-                    this.chart&&this.chart.resize()
-                },200)
+                this.chart&&this.chart.resize()
             },false);
         },
         beforeDestroy() {

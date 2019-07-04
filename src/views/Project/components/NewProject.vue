@@ -96,7 +96,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .create_edit{
         .el-dialog{
             width: 450px;

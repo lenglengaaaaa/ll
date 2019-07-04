@@ -10,17 +10,13 @@
         data() {
             return {
                 chart: null,
-                timer: null,
             }
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.soeChart);
             setTimeout(()=>{this.initChart()})
             window.addEventListener('resize',()=>{
-                clearTimeout(this.timer)
-                this.timer = setTimeout(()=>{
-                    this.chart&&this.chart.resize()
-                },200)
+                this.chart&&this.chart.resize()
             },false);
         },
         beforeDestroy() {
