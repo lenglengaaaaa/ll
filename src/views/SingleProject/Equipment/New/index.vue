@@ -65,7 +65,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 870px) {
         .create_container{
             .step{
                 width: 100% !important;

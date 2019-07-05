@@ -2,12 +2,12 @@
     <div>
         <div>
             <el-row :gutter="20">
-                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="24">
+                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="12">
                     <Gauge />
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="24">
+                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="12">
                     <Gauge />
                 </el-col>
             </el-row>

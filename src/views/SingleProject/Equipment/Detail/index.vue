@@ -68,7 +68,7 @@
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 870px) {
         .EQUIP_CONTAINER{
             .seletGroup{
                 flex-direction: column;
@@ -128,6 +128,7 @@
                     // justify-content: space-between;
                     align-items: center;
                     .el-form{
+                        width: 100%;
                         display: flex;
                         .el-form-item{
                             padding: 0 10px;

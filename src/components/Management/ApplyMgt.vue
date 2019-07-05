@@ -192,7 +192,7 @@
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 870px) {
         .Apply-Management{
             .footer{
                 justify-content: center !important;

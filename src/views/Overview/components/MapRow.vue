@@ -63,7 +63,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 870px) {
         .el-row{
                 flex-direction: column;
         }

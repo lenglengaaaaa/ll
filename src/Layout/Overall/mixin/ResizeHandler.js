@@ -1,7 +1,7 @@
 import store from '@/store'
 
 const { body } = document
-const WIDTH = 768 // refer to Bootstrap's responsive design
+const WIDTH = 870 // refer to Bootstrap's responsive design
 
 export default {
   watch: {
