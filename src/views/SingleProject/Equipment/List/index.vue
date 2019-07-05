@@ -36,7 +36,8 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)" v-if="scope.row.type===0">{{scope.row.name}}</el-link>
+                    <span v-else>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -161,7 +162,8 @@
                 value:0,
                 data: [
                     {
-                        deviceType:'集中器',
+                        type:0,
+                        deviceType:'魔节',
                         id:110,
                         name:'集中器0049',
                         deviceNo:'0049',

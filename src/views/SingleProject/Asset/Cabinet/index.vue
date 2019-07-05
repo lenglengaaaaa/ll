@@ -9,6 +9,13 @@
     >
         <template>
             <el-table-column
+                prop="number"
+                label="配电柜编号"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
                 prop="name"
                 label="配电柜名称"
                 align="center"
@@ -16,16 +23,9 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
                 </template>
             </el-table-column>
-            <el-table-column
-                prop="number"
-                label="配电柜编号"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
             <el-table-column
                 prop="roomId"
                 label="所属配电房"
@@ -93,6 +93,9 @@
                     editFlag:type==='edit'?true:false,
                     data:row
                 })
+            },
+            skipToDetail(row){
+                this.$router.push({name:'CabinetDetail'})
             },
             remove(){
                 console.log('删除')

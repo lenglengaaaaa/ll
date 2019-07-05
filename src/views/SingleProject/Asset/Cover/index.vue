@@ -9,6 +9,13 @@
     >
         <template>
             <el-table-column
+                prop="number"
+                label="井盖编号"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
                 prop="name"
                 label="井盖名称"
                 align="center"
@@ -16,16 +23,9 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
                 </template>
             </el-table-column>
-            <el-table-column
-                prop="number"
-                label="井盖编号"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
             <el-table-column
                 prop="lineId"
                 label="所属主线缆"
@@ -77,6 +77,9 @@
                     editFlag:type==='edit'?true:false,
                     data:row
                 })
+            },
+            skipToDetail(row){
+                this.$router.push({name:'CoverDetail'})
             },
             remove(){
                 console.log('删除')

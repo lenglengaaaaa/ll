@@ -76,7 +76,13 @@ const router= new Router({
                   name:'NewCourts',
                   component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)台区'}
-                }
+                },
+                {
+                  path:'courtsDetail',
+                  name:'CourtsDetail',
+                  component: () => import('@/views/SingleProject/Asset/Courts/Detail'),
+                  meta:{title:'台区详情'}
+                },
               ]
             },
             {
@@ -99,7 +105,13 @@ const router= new Router({
                   name:'NewRoom',
                   component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)配电房'}
-                }
+                },
+                {
+                  path:'roomDetail',
+                  name:'RoomDetail',
+                  component: () => import('@/views/SingleProject/Asset/Room/Detail'),
+                  meta:{title:'配单房详情'}
+                },
               ]
             },
             {
@@ -122,7 +134,13 @@ const router= new Router({
                   name:'NewCabinet',
                   component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)配电柜'}
-                }
+                },
+                {
+                  path:'cabinetDetail',
+                  name:'CabinetDetail',
+                  component: () => import('@/views/SingleProject/Asset/Cabinet/Detail'),
+                  meta:{title:'配电柜详情'}
+                },
               ]
             },
             {
@@ -145,7 +163,13 @@ const router= new Router({
                   name:'NewCover',
                   component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
                   meta:{title:'添加(编辑)井盖'}
-                }
+                },
+                {
+                  path:'coverDetail',
+                  name:'CoverDetail',
+                  component: () => import('@/views/SingleProject/Asset/Cover/Detail'),
+                  meta:{title:'井盖详情'}
+                },
               ]
             },
             {

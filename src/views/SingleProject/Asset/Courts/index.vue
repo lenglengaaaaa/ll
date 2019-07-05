@@ -9,19 +9,23 @@
     >
         <template>
             <el-table-column
-                prop="name"
-                label="台区名称"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
                 prop="number"
                 label="台区编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
+            <el-table-column
+                prop="name"
+                label="台区名称"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            >
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="courtsType"
                 label="台区类型"
@@ -107,6 +111,9 @@
                     editFlag:type==='edit'?true:false,
                     data:row
                 })
+            },
+            skipToDetail(row){
+                this.$router.push({name:'CourtsDetail'})
             },
             remove(){
                 console.log('删除')

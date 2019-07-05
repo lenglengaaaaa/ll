@@ -9,19 +9,23 @@
     >
         <template>
             <el-table-column
-                prop="name"
-                label="配电房名称"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
                 prop="number"
                 label="配电房编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
+            <el-table-column
+                prop="name"
+                label="配电房名称"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            >
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="courtsId"
                 label="所属台区"
@@ -90,6 +94,9 @@
                     data:row
                 })
                 this.$router.push({name:'NewRoom'})
+            },
+            skipToDetail(row){
+                this.$router.push({name:'RoomDetail'})
             },
             remove(){
                 console.log('删除')
