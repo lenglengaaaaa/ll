@@ -1,6 +1,13 @@
 <template>
     <div class="CREATE_EDIT">
-        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="magicForm">
+        <el-form 
+            label-position="top" 
+            label-width="100px" 
+            :model="form" 
+            :rules="rules" 
+            ref="magicForm"
+            :style="{maxHeight:'calc(100vh - 170px)'}"
+        >
             <el-form-item label="资产名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入资产名称"></el-input>
             </el-form-item>
@@ -230,7 +237,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/styles/form.scss';
     .CREATE_EDIT{
         width: 100%;

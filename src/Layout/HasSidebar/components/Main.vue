@@ -29,13 +29,17 @@
         watch: {
             '$store.state.app.device'(type){
                 if(type ==='mobile'){
-                    $('.apply_main').css({width:'100%'})
+                    $('.apply_main').css({width:''})
                 } 
+                if(type ==='desktop'){
+                    const fold = this.$store.state.app.sidebar.opened;
+                    $('.apply_main').css({width:!fold?'calc(100% - 54px)':'calc(100% - 210px)'})
+                }
             },
             '$store.state.app.sidebar.opened'(flag) {
                 const type = this.$store.state.app.device;
                 if(type ==='mobile')return;
-                $('.apply_main').css({width:!flag?'calc(100vw - 54px)':'calc(100vw - 210px)'})
+                $('.apply_main').css({width:!flag?'calc(100% - 54px)':'calc(100% - 210px)'})
             }
         },
         computed: {

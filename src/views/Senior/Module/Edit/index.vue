@@ -92,7 +92,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/styles/form.scss';
     .CREATE_EDIT{
         width: 100%;
