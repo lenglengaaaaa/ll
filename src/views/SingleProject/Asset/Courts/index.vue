@@ -62,6 +62,20 @@
                 show-overflow-tooltip
             />
             <el-table-column
+                prop="electricityLevel"
+                label="电流等级"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
+                prop="voltageLevel"
+                label="电压等级"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
                 prop="detail"
                 label="描述"
                 align="center"
@@ -113,7 +127,12 @@
                 })
             },
             skipToDetail(row){
-                this.$router.push({name:'CourtsDetail'})
+                this.$router.push({
+                    name:'CourtsDetail',
+                    params:{
+                        data:row
+                    }
+                })
             },
             remove(){
                 console.log('删除')

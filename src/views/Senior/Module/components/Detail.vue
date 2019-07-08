@@ -74,7 +74,6 @@
                     }
                     return i
                 })
-                console.log(value,'data')
                 this.options = value;
             }
         },
