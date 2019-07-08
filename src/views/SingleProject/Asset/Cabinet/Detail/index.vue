@@ -3,13 +3,13 @@
         :table="false"
     >
         <template>
-            <el-tab-pane label="魔戒总览">
-                
+            <el-tab-pane label="魔戒总览" lazy>
+                <RingView></RingView>
             </el-tab-pane>
-            <el-tab-pane label="魔戒列表">
-                
+            <el-tab-pane label="魔戒列表" lazy>
+                <RingList></RingList>
             </el-tab-pane>
-            <el-tab-pane label="独立传感器">
+            <el-tab-pane label="独立传感器" lazy>
                 
             </el-tab-pane>
         </template>
@@ -18,10 +18,14 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
+    import RingView from './components/RingView'
+    import RingList from './components/RingList'
 
     export default {
         components: {
-            AssetDetail
+            AssetDetail,
+            RingView,
+            RingList
         },
         data() {
             return {

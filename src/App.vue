@@ -18,6 +18,13 @@
     padding: 0;
   }
 
+  ul {
+    padding: 0;
+  }
+  ul li{
+    list-style:none;
+  }
+
   html {
     font-size: 16px;
   }

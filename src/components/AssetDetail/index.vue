@@ -39,5 +39,17 @@
 </script>
 
 <style lang="scss">
-    @import '@/styles/assetDetail.scss';
+    .ASSET_DETail{
+        height: 100%;
+        .el-tabs{
+            .el-tabs__content{
+                height: calc(100vh - 215px);
+                max-height: calc(100vh - 215px);
+                overflow: scroll;
+                .el-tab-pane{
+                    height: 100%;
+                }
+            }
+        }
+    }
 </style>

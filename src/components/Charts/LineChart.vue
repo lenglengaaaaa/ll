@@ -19,6 +19,10 @@
 
                 ]
             },
+            text:{
+                type:String,
+                default:''
+            }
         },
         data() {
             return {
@@ -29,7 +33,7 @@
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.lineChart);
-            this.legend = 
+            this.legend =
             this.series = this.value.reduce((pre,current)=>{
                 this.legend.push(current.legend)
                 return [
@@ -62,11 +66,15 @@
             initChart() {
             // 把配置和数据放这里
                 this.chart.setOption({
+                    title: {
+                        text: this.text
+                    },
                     tooltip: {
                         trigger: 'axis'
                     },
                     legend: {
                         data:this.legend,
+                        x:'right',
                     },
                     xAxis: {
                         type: 'category',

@@ -53,10 +53,10 @@
             />
         </template>
         <template>
-            <el-tab-pane label="魔节">
-                
+            <el-tab-pane label="魔节" lazy class="magic">
+                <Magic></Magic>
             </el-tab-pane>
-            <el-tab-pane label="独立传感器">
+            <el-tab-pane label="独立传感器" >
                 
             </el-tab-pane>
         </template>
@@ -65,10 +65,12 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
+    import Magic from './components/Magic'
 
     export default {
         components: {
-            AssetDetail
+            AssetDetail,
+            Magic
         },
         data() {
             return {
@@ -82,6 +84,18 @@
                         detail:'world'
                     }
                 ],
+                options: [
+                        {value: '0',label: '环境温度'}, 
+                        {value: '1',label: '环境湿度'}, 
+                        {value: '6',label: '氧气含量'}, 
+                        {value: '2',label: '硫化氢'}, 
+                        {value: '3',label: '一氧化碳'}, 
+                        {value: '4',label: '烷类'}, 
+                        {value: '5',label: '臭氧'}, 
+                        {value: '7',label: '电池电压'}
+                    ],
+                value: '0',
+                time: [new Date(), new Date()],
             }
         },
         methods: {
