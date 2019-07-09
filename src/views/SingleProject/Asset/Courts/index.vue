@@ -127,12 +127,8 @@
                 })
             },
             skipToDetail(row){
-                this.$router.push({
-                    name:'CourtsDetail',
-                    params:{
-                        data:row
-                    }
-                })
+                this.$router.push({name:'CourtsDetail',})
+                sessionStorage.setItem('obj',JSON.stringify(row))
             },
             remove(){
                 console.log('删除')

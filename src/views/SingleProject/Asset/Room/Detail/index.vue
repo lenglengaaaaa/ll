@@ -98,11 +98,15 @@
                 time: [new Date(), new Date()],
             }
         },
+        created () {
+            const result =JSON.parse(sessionStorage.getItem("obj"));
+        },
         methods: {
-            skipToDetail() {
+            skipToDetail(row) {
                 this.$router.push({
                     name:'CabinetDetail'
                 })
+                sessionStorage.setItem('obj',JSON.stringify(row))
             }
         },
     }

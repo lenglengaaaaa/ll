@@ -27,6 +27,9 @@
             Magic,
             Tline
         },
+        created () {
+            const result =JSON.parse(sessionStorage.getItem("obj"));
+        },
     }
 </script>
 

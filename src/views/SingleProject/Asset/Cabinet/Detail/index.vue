@@ -27,6 +27,10 @@
             RingView,
             RingList
         },
+        created () {
+            const result =JSON.parse(sessionStorage.getItem("obj"));
+            ;
+        },
         data() {
             return {
             }

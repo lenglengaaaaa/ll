@@ -77,11 +77,13 @@
                 ],
             }
         },
+        created () {
+            const result =JSON.parse(sessionStorage.getItem("obj"));
+        },
         methods: {
-            skipToDetail() {
-                this.$router.push({
-                    name:'RoomDetail'
-                })
+            skipToDetail(row) {
+                this.$router.push({ name:'RoomDetail'})
+                sessionStorage.setItem('obj',JSON.stringify(row))
             }
         },
     }

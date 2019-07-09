@@ -97,6 +97,7 @@
             },
             skipToDetail(row){
                 this.$router.push({name:'RoomDetail'})
+                sessionStorage.setItem('obj',JSON.stringify(row))
             },
             remove(){
                 console.log('删除')

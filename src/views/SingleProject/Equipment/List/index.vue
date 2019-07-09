@@ -197,6 +197,7 @@
             },
             skipToDetail(row){
                 this.$router.push({name:'EquDetail'})
+                sessionStorage.setItem('obj',JSON.stringify(row))
             },
             remove(){
                 console.log('删除')
