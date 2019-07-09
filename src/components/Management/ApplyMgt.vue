@@ -24,8 +24,8 @@
                         :data="data"
                         border
                         stripe
-                        height="68.5vh"
-                        max-height="68.5vh"
+                        height="68vh"
+                        max-height="68vh"
                         header-cell-class-name="table_header"
                     >   
                         <slot></slot>

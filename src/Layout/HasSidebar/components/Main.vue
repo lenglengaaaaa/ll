@@ -26,15 +26,13 @@
                 
             }
         },
+        mounted () {
+            const screen = this.$store.state.app.device;
+            this.fitScreen(screen)
+        },
         watch: {
-            '$store.state.app.device'(type){
-                if(type ==='mobile'){
-                    $('.apply_main').css({width:''})
-                } 
-                if(type ==='desktop'){
-                    const fold = this.$store.state.app.sidebar.opened;
-                    $('.apply_main').css({width:!fold?'calc(100% - 54px)':'calc(100% - 210px)'})
-                }
+            '$store.state.app.device'(screen){
+                this.fitScreen(screen)
             },
             '$store.state.app.sidebar.opened'(flag) {
                 const type = this.$store.state.app.device;
@@ -51,6 +49,15 @@
             toggleSideBar() {
                 this.$store.dispatch('app/toggleSideBar')
             },
+            fitScreen(screen){
+                if(screen ==='mobile'){
+                    $('.apply_main').css({width:''})
+                } 
+                if(screen ==='desktop'){
+                    const fold = this.$store.state.app.sidebar.opened;
+                    $('.apply_main').css({width:!fold?'calc(100% - 54px)':'calc(100% - 210px)'})
+                }
+            }
         },
     }
 </script>
