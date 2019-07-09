@@ -9,8 +9,8 @@
             <el-form-item label="用户名称" prop="userName">
                 <el-input v-model="form.userName" placeholder="请输入用户名称"></el-input>
             </el-form-item>
-            <el-form-item label="账号" prop="accountName">
-                <el-input v-model="form.accountName" placeholder="请输入用户账号" :disabled="editFlag"></el-input>
+            <el-form-item label="账号" prop="name">
+                <el-input v-model="form.name" placeholder="请输入用户账号" :disabled="editFlag"></el-input>
             </el-form-item>
             <template v-if="!editFlag">
                 <el-form-item label="密码" prop="password">
@@ -27,7 +27,7 @@
                 <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item label="详情">
-                <el-input v-model="form.accountDetail" placeholder="请输入用户详情"></el-input>
+                <el-input v-model="form.description" placeholder="请输入用户详情"></el-input>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm" >
@@ -44,12 +44,12 @@
 
     const restForm ={
         userName:'',
-        accountName: '',
+        name: '',
         password:"",
         checkPass:'',
         phoneNum:'',
         email:'',
-        accountDetail:''
+        description:''
     }
 
     export default {
@@ -66,6 +66,18 @@
             }
         },
         data() {
+            const checkAccount = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('请输入用户账号'));
+                }
+                this.$store.dispatch('user/checkAccout', value).then(res=>{
+                    if(!res){
+                        return callback(new Error('用户名已存在'));
+                    }else{
+                        callback()
+                    }
+                });
+            };
             const validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
@@ -102,19 +114,19 @@
             return {
                 form: {
                     userName:'',
-                    accountName: '',
+                    name: '',
                     password:"",
                     checkPass:'',
                     phoneNum:'',
                     email:'',
-                    accountDetail:''
+                    description:''
                 },
                 rules: {
                     userName: [
                         { required: true, message: '请输入用户名称', trigger: 'blur' },
                     ],
-                    accountName: [
-                        { required: true, message: '请输入用户账号', trigger: 'blur' }
+                    name: [
+                        { required: true, validator: checkAccount, trigger: 'blur' }
                     ],
                     password: [
                         { required: true, validator: validatePass, trigger: 'blur' }
@@ -147,7 +159,7 @@
             submitForm() {
                 this.$refs.userForm.validate((valid) => {
                 if (valid) {
-                    console.log(this.form,'form')
+                    this.$store.dispatch('user/createAccount', this.form);
                     this.handleClose()
                 } else {
                     console.log('error submit!!');

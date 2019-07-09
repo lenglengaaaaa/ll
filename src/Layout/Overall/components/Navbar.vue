@@ -90,7 +90,7 @@
         },
         mounted () {
             //这里进行权限配置,改变navbar
-            this.username = this.$store.state.user.userDetail.userName;
+            this.username = JSON.parse(sessionStorage.getItem('userDetail')).userName;
             this.hightlight(this.$route.path)
         },
         watch: {
@@ -99,7 +99,7 @@
             },
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
-            }
+            },
         },
         methods: {
             //判断当前路径,menu高亮

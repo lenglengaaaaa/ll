@@ -1,6 +1,18 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import {request} from '@/utils/Request'
 import {api} from '@/utils/API'
+import { message } from 'element-ui'
+
+/** 
+ * 提示函数 
+ */
+const tip = (msg,type="error") => {    
+    message({
+        type,
+        message:msg,
+        // duration: 1000, 
+    });
+}
 
 const state={
     token: getToken(),
@@ -20,39 +32,22 @@ const actions= {
     // user login
     login({ commit }, userInfo) {
         const { username, password } = userInfo
-        return new Promise((resolve, reject) => {
-            request({
+        return request({
                 method:'post',
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
-                const { jtoken,user_detail } = res.data
-                commit('SET_TOKEN', jtoken)
-                commit('SET_USER', user_detail)
-                setToken(jtoken)
-                resolve()
-            }).catch(error=>{
-                reject(error)
+                if(res.code===10000000&&res.data){
+                    const { jtoken,user_detail } = res.data
+                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail))
+                    commit('SET_TOKEN', jtoken)
+                    setToken(jtoken)
+                    return true;
+                }else{
+                    tip(res.meassage)
+                    return false;
+                }   
             })
-        })
     },
-
-    // get user info
-    // getInfo({ commit, state }) {
-    //     return new Promise((resolve, reject) => {
-    //     getInfo(state.token).then(response => {
-    //         const { data } = response
-    //         if (!data) {
-    //             reject('Verification failed, please Login again.')
-    //         }
-    //         const { name, avatar } = data
-    //         commit('SET_NAME', name)
-    //         commit('SET_AVATAR', avatar)
-    //         resolve(data)
-    //     }).catch(error => {
-    //         reject(error)
-    //     })
-    //     })
-    // },
 
     // user logout
     logout({ commit, state }) {
@@ -75,6 +70,48 @@ const actions= {
             resolve()
         })
     },
+
+    getAccountList({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.accountList}`,
+            data:obj
+        }).then(res=>{
+            if(res.code === 10000000&&res.data){
+                return res;
+            }else{
+                tip(res.meassage)
+            }
+        })
+    },
+
+    //验证账户名是否存在
+    checkAccout({commit},name){
+        return request({
+            url:`${api.checkAccout}?accountName=${name}`
+        }).then(res=>{
+            if(res.code===10000000){
+                return true;
+            }else{
+                return false;
+            }
+        })
+    },
+
+    //用户创建
+    createAccount({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.createAccount}`,
+            data:obj
+        }).then(res=>{
+            if(res.code===10000000){
+                tip(res.meassage,'success')
+            }else{
+                tip(res.meassage)
+            }
+        })
+    }
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

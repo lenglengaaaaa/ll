@@ -130,6 +130,7 @@
         mounted () {
             const value = this.$store.state.app.device;
             this.resizehandle(value);
+            this.getList();
         },
         watch: {
             '$store.state.app.device'(value) {

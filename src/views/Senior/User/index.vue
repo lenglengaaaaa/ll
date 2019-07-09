@@ -17,7 +17,7 @@
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="accountName"
+                    prop="name"
                     label="账号"
                     align="center"
                     sortable
@@ -40,18 +40,18 @@
                     :formatter="(row)=>row.email || '-' " 
                 />
                 <el-table-column
-                    prop="accountDetail"
+                    prop="description"
                     label="详情"
                     align="center"
                     show-overflow-tooltip
-                    :formatter="(row)=>row.details || '-' " 
+                    :formatter="(row)=>row.description || '-' " 
                 />
                 <el-table-column
                     prop="createTime"
                     label="创建时间"
                     align="center"
                     sortable
-                    :formatter="(row)=>this.$moment(row.time).format('YYYY-MM-DD HH:mm:ss')"
+                    :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
                 />
             </template>
         </ApplyMgt>
@@ -75,24 +75,25 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        userName:'侨城东电缆沟',
-                        accountName:'userName',
-                        phoneNum:'13612345678',
-                        email:'123@163.com',
-                        accountDetail:'震动值：静止',
-                    }
-                ],
+                data: [],
                 total:100,
                 dialogVisible:false,
                 editFlag:false,
-                value:{}
+                value:{},
+                param:{
+                    size:10,    
+                    current:1 ,   
+                    projectId: 0
+                }
             }
         },
         methods: {
             getList(){
-                console.log('获取数据')
+                this.$store.dispatch('user/getAccountList', this.param).then(res=>{
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                });
             },
             skipTo(type,row) {
                 this.dialogVisible = true;
