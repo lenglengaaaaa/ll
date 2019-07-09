@@ -90,7 +90,7 @@
         },
         mounted () {
             //这里进行权限配置,改变navbar
-            this.username = this.$store.state.user.name;
+            this.username = this.$store.state.user.userDetail.userName;
             this.hightlight(this.$route.path)
         },
         watch: {

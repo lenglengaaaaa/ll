@@ -1,21 +1,20 @@
-    let url;
+let url;
 
-    //判断环境
-    const env =process.env.NODE_ENV;
-    if(env ==='development'){
-        url = $cfg.dev_url;
-    }else{
-        url = $cfg.pro_url;
-    }
+//判断环境
+const env =process.env.NODE_ENV;
+if(env ==='development'){
+    url = $cfg.dev_url;
+}else{
+    url = $cfg.pro_url;
+}
 
-
-const api={
+export const api={
     //=======================================登录登出=====================================================
     //登录 post
     login:`${url}/login`,
 
     //登出 get
-    logout:`${url}/logout`,
+    logout:`${url}/e_view/logout`,
     //=======================================用户中心=====================================================
     //用户列表 post
     accountList:`${url}/e_view/account/list`,
@@ -43,7 +42,7 @@ const api={
 
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get
-    checkNo:`${url}`,
+    checkNo:`${url}/e_view/number/exis`,
 
     //=================台区===================
     //台区创建 post

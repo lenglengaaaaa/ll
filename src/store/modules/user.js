@@ -1,22 +1,19 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import {request} from '@/utils/Request'
+import {api} from '@/utils/API'
 
 const state={
     token: getToken(),
-    name: 'Zain',
-    avatar: ''
+    userDetail:{}
 }
 
 const mutations={
     SET_TOKEN: (state, token) => {
         state.token = token
     },
-    SET_NAME: (state, name) => {
-        state.name = name
+    SET_USER: (state, obj) => {
+        state.userDetail = obj
     },
-    SET_AVATAR: (state, avatar) => {
-        state.avatar = avatar
-    }
 }
 
 const actions= {
@@ -24,51 +21,49 @@ const actions= {
     login({ commit }, userInfo) {
         const { username, password } = userInfo
         return new Promise((resolve, reject) => {
-            commit('SET_TOKEN', '111')
-            setToken('111')
-            resolve()
-            // login({ username: username.trim(), password: password }).then(response => {
-            //     const { data } = response
-                // commit('SET_TOKEN', data.token)
-                // setToken(data.token)
-            //     resolve()
-            // }).catch(error => {
-            //     reject(error)
-            // })
+            request({
+                method:'post',
+                url:`${api.login}?accountName=${username}&password=${password}`,
+            }).then(res=>{
+                const { jtoken,user_detail } = res.data
+                commit('SET_TOKEN', jtoken)
+                commit('SET_USER', user_detail)
+                setToken(jtoken)
+                resolve()
+            }).catch(error=>{
+                reject(error)
+            })
         })
     },
 
     // get user info
-    getInfo({ commit, state }) {
-        return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-            const { data } = response
-            if (!data) {
-                reject('Verification failed, please Login again.')
-            }
-            const { name, avatar } = data
-            commit('SET_NAME', name)
-            commit('SET_AVATAR', avatar)
-            resolve(data)
-        }).catch(error => {
-            reject(error)
-        })
-        })
-    },
+    // getInfo({ commit, state }) {
+    //     return new Promise((resolve, reject) => {
+    //     getInfo(state.token).then(response => {
+    //         const { data } = response
+    //         if (!data) {
+    //             reject('Verification failed, please Login again.')
+    //         }
+    //         const { name, avatar } = data
+    //         commit('SET_NAME', name)
+    //         commit('SET_AVATAR', avatar)
+    //         resolve(data)
+    //     }).catch(error => {
+    //         reject(error)
+    //     })
+    //     })
+    // },
 
     // user logout
     logout({ commit, state }) {
         return new Promise((resolve, reject) => {
-            commit('SET_TOKEN', '')
-            removeToken()
-            resolve()
-            // logout(state.token).then(() => {
-            //     commit('SET_TOKEN', '')
-            //     removeToken()
-            //     resolve()
-            // }).catch(error => {
-            //     reject(error)
-            // })
+            request({
+                url:`${api.logout}`
+            }).then(()=>{
+                commit('SET_TOKEN', '')
+                removeToken()
+                resolve()
+            })
         })
     },
 
