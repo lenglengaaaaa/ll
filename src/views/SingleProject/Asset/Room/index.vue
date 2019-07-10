@@ -107,13 +107,11 @@
                 })
             },
             skipTo(type,row) {
-                //修改资产类型
-                this.$store.dispatch('app/setAsset',1)
-                this.$store.dispatch('app/setEdit',{
+                this.$router.push({name:'NewRoom'})
+                sessionStorage.setItem('assetObj',JSON.stringify({
                     editFlag:type==='edit'?true:false,
                     data:row
-                })
-                this.$router.push({name:'NewRoom'})
+                }))
             },
             skipToDetail(row){
                 this.$router.push({name:'RoomDetail'})

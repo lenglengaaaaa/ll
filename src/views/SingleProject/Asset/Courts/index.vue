@@ -137,11 +137,10 @@
             skipTo(type,row) {
                 this.$router.push({name:'NewCourts'})
                 //修改资产类型
-                this.$store.dispatch('app/setAsset',0)
-                this.$store.dispatch('app/setEdit',{
+                sessionStorage.setItem('assetObj',JSON.stringify({
                     editFlag:type==='edit'?true:false,
                     data:row
-                })
+                }))
             },
             skipToDetail(row){
                 this.$router.push({name:'CourtsDetail',})

@@ -74,7 +74,7 @@ const router= new Router({
                 {
                   path:'newCourts',
                   name:'NewCourts',
-                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/Courts/CreateEdit'),
                   meta:{title:'添加(编辑)台区'}
                 },
                 {

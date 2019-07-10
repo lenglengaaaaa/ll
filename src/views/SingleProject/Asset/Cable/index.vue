@@ -86,12 +86,10 @@
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewCable'})
-                //修改资产类型
-                this.$store.dispatch('app/setAsset',4)
-                this.$store.dispatch('app/setEdit',{
+                sessionStorage.setItem('assetObj',JSON.stringify({
                     editFlag:type==='edit'?true:false,
                     data:row
-                })
+                }))
             },
             remove(){
                 console.log('删除')
