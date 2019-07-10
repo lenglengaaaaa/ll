@@ -67,6 +67,7 @@
 <script>
     import {ApplyMgt} from '@/components/Management'
     import CreateEdit from './components/CreateEdit'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -76,24 +77,44 @@
         data() {
             return {
                 data: [],
-                total:100,
+                total:0,
                 dialogVisible:false,
                 editFlag:false,
                 value:{},
-                param:{
+                params:{
                     size:10,    
                     current:1 ,   
                     projectId: 0
                 }
             }
         },
+        mounted () {
+            this.getList();
+        },
         methods: {
-            getList(){
-                this.$store.dispatch('user/getAccountList', this.param).then(res=>{
+            ...mapActions('user',[
+                'getAccountList', 
+                'deleteAccount'
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getAccountList(data).then(res=>{
+                    if(!res)return;
                     const {data,page} = res;
                     this.data = data;
                     this.total = page.total;
-                });
+                })
+            },
+            remove(row){
+                const {id} = row;
+                this.deleteAccount(id).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
             },
             skipTo(type,row) {
                 this.dialogVisible = true;
@@ -102,14 +123,13 @@
                     this.value=row;
                 }
             },
-            close(){
+            close(result){
                 this.dialogVisible=false;
                 this.editFlag=false;
                 this.value  ={};
+                if(!result)return;
+                this.getList(this.params);
             },
-            remove(){
-                console.log('删除')
-            }
         },
     }
 </script>

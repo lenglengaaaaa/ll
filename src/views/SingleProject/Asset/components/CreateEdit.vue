@@ -33,8 +33,8 @@
                 <el-form-item label="电流等级" prop="electricityLevel">
                     <el-input v-model="form.electricityLevel" placeholder="请输入电流等级"></el-input>
                 </el-form-item>
-                <el-form-item label="电压等级" prop="voltageLevel">
-                    <el-input v-model="form.voltageLevel" placeholder="请输入电压等级"></el-input>
+                <el-form-item label="电压等级" prop="covoltageLevel">
+                    <el-input v-model="form.covoltageLevel" placeholder="请输入电压等级"></el-input>
                 </el-form-item>
             </template>
 
@@ -150,10 +150,6 @@
         components: {
             MapSingle
         },
-        props: {
-            next:Function,
-            pre:Function,
-        },
         data() {
             return {
                 options:options,
@@ -164,7 +160,7 @@
                     beforeVoltage:'',
                     afterVoltage:'',
                     electricityLevel:'',
-                    voltageLevel:'',
+                    covoltageLevel:'',
                     mainComeline:"",
                     comeLine:'',
                     courtsId:'',//台区ID
@@ -197,11 +193,12 @@
                 return this.$store.state.app.editObj.editFlag || false
             }
         },
-        mounted () {
+        created () {
             const data = this.$store.state.app.editObj.data || {}; 
             this.form={
                 ...this.form,
-                ...data
+                ...data,
+                position:[data.longitude,data.latitude],
             };
         },
         methods: {

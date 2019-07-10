@@ -69,7 +69,7 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="voltageLevel"
+                prop="covoltageLevel"
                 label="电压等级"
                 align="center"
                 sortable
@@ -89,6 +89,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -96,26 +97,42 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        name:'演示平台',
-                        number:'0049',
-                        courtsType:'0',
-                        mainComeline:'0',
-                        comeLine:'0',
-                        beforeVoltage:'1100V',
-                        afterVoltage:'220V',
-                        electricityLevel:'2',
-                        voltageLevel:'1',
-                        detail:'Hello world'
-                    }
-                ],
-                total:100
+                data: [],
+                total:0,
+                params:{
+                    size:10,    
+                    current:1 ,   
+                    projectId: 1
+                }
             }
         },
+        mounted () {
+            this.getList();
+        },
         methods: {
-            getList(){
-                console.log('获取数据')
+            ...mapActions('asset',[
+                'getCourtsList', 
+                'deleteCourts'
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getCourtsList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
+            },
+            remove(row){
+                const {id} = row;
+                this.deleteCourts(id).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewCourts'})
@@ -130,9 +147,6 @@
                 this.$router.push({name:'CourtsDetail',})
                 sessionStorage.setItem('obj',JSON.stringify(row))
             },
-            remove(){
-                console.log('删除')
-            }
         },
     }
 </script>

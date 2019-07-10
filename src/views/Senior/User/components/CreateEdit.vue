@@ -40,6 +40,7 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
     import Dialog from '@/components/Dialog'
 
     const restForm ={
@@ -67,6 +68,7 @@
         },
         data() {
             const checkAccount = (rule, value, callback) => {
+                if(this.editFlag) return callback();
                 if (!value) {
                     return callback(new Error('请输入用户账号'));
                 }
@@ -152,19 +154,29 @@
             },
         },
         methods: {
-            handleClose() {
+            ...mapActions('user',[
+                'createAccount', 
+                'updateAccount'
+            ]),
+            handleClose(result=false) {
                 this.form = restForm
-                this.close();
+                this.close(result);
             },
             submitForm() {
                 this.$refs.userForm.validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('user/createAccount', this.form);
-                    this.handleClose()
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
+                    if (valid) {
+                        if(!this.editFlag){
+                            this.createAccount(this.form).then(res=>{
+                                this.handleClose(res)
+                            })
+                        }else{
+                            this.updateAccount(this.form).then(res=>{
+                                this.handleClose(res)
+                            })
+                        }
+                    } else {
+                        return false;
+                    }
                 });
             },
         },

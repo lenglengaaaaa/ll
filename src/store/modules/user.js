@@ -1,6 +1,7 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import {request} from '@/utils/Request'
 import {api} from '@/utils/API'
+import router from '@/router'
 import { message } from 'element-ui'
 
 /** 
@@ -71,6 +72,14 @@ const actions= {
         })
     },
 
+    /**
+     * 获取用户列表
+     * @param {
+     *      size 每页显示大小
+     *      current 页码
+     *      projectId 项目id,0查询
+     * }
+     */
     getAccountList({commit},obj){
         return request({
             method:'post',
@@ -81,14 +90,22 @@ const actions= {
                 return res;
             }else{
                 tip(res.meassage)
+                return false;
             }
         })
     },
 
-    //验证账户名是否存在
+    /**
+     * 验证账户名是否存在
+     * @param accountName 账户名称
+     */
     checkAccout({commit},name){
         return request({
-            url:`${api.checkAccout}?accountName=${name}`
+            method:'get',
+            url:`${api.checkAccout}`,
+            data:{
+                accountName:name
+            }
         }).then(res=>{
             if(res.code===10000000){
                 return true;
@@ -98,7 +115,17 @@ const actions= {
         })
     },
 
-    //用户创建
+    /**
+    *用户创建 
+    * @param {
+        *      name 账户名称
+        *      userName 用户名
+        *      password 密码
+        *      phoneNum 手机号
+        *      email 邮箱
+        *      description 描述
+        * }
+        */
     createAccount({commit},obj){
         return request({
             method:'post',
@@ -107,8 +134,135 @@ const actions= {
         }).then(res=>{
             if(res.code===10000000){
                 tip(res.meassage,'success')
+                return true;
             }else{
                 tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    *用户创建 
+    * @param {
+        *      id 用户ID
+        *      name 账户名称
+        *      userName 用户名
+        *      phoneNum 手机号
+        *      email 邮箱
+        *      description 描述
+        * }
+        */
+    updateAccount({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updateAccount}`,
+            data:obj
+        }).then(res=>{
+            if(res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    //用户删除
+    /**
+     * 用户删除
+     * @param id 用户ID
+     */
+    deleteAccount({commit},id){
+        return request({
+            method:'get',
+            url:`${api.deleteAccount}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res.code ===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    *修改密码 
+    * @param {
+        *      id 用户ID
+        *      oldPassword 旧密码
+        *      firstNewPassword 新密码
+        *      againNewPassword 再次验证新密码
+        * }
+        */
+    updatePass({dispatch,commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updatePass}`,
+            data:obj
+        }).then(res=>{
+            if(res.code ===10000000){
+                tip(res.meassage,'success')
+                setTimeout(() => {
+                    dispatch('resetToken').then(res=>{
+                        router.push({name:'Login'})
+                    })
+                }, 1000);
+            }else{
+                tip(res.meassage)
+            }
+        })
+    },
+
+    /**
+     * 头像上传
+     * @param file 图片
+     */
+    uploadAvatar({commit},file){
+        return request({
+            method:'post',
+            url:`${api.uploadAvatar}`,
+            data:{
+                file
+            }
+        }).then(res=>{
+            if(res.code ===10000000&&res.data){
+                tip(res.meassage,'success')
+                return res.data;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 头像上传
+     * @param {
+        *       id 图片ID
+        *       accountId 用户ID
+        *       name 图片名字
+        *       iamgePath 图片地址
+        * }
+        */
+    updateAvatar({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updateAvatar}`,
+            data:obj
+        }).then(res=>{
+            if(res.code ===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
             }
         })
     }

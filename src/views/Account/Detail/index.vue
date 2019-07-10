@@ -4,7 +4,8 @@
             <div class="avatar">
                 <el-upload
                     class="avatar-uploader"
-                    action="https://jsonplaceholder.typicode.com/posts/"
+                    action="http://47.92.235.125:8888/e_view/file/upload/image"
+                    :headers="{'jtoken':token}"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload"
@@ -39,12 +40,27 @@
             return {
                 imageUrl: '',
                 options:[
-                    {title:'用户名',value:'username'},
-                    {title:'账号',value:'name'},
-                    {title:'手机号码',value:'1361234568'},
-                    {title:'邮箱',value:'123@163.com'},
-                ]
+                    {title:'用户名',value:'',sign:'userName'},
+                    {title:'账号',value:'',sign:'name'},
+                    {title:'手机号码',value:'',sign:'phoneNum'},
+                    {title:'邮箱',value:'',sign:'email'},
+                ],
+                token:this.$store.state.user.token
             };
+        },
+        created () {
+            const userDetail = JSON.parse(sessionStorage.getItem('userDetail'));
+            this.options.reduce((pre,current)=>{
+                for(let i in userDetail){
+                    if(current.sign === i){
+                        current.value = userDetail[i];
+                    }
+                }
+                return {
+                    ...pre,
+                    current
+                }
+            },{})
         },
         methods: {
             handleAvatarSuccess(res, file) {

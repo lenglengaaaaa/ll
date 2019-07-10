@@ -53,7 +53,7 @@
                 },
             }
         },
-        created () {
+        mounted() {
             this.center = this.position;
             this.marker={ position: this.position}
         },

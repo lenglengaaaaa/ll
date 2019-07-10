@@ -6,14 +6,14 @@
             status-icon :rules="rules" 
             ref="ruleForm" 
         >
-            <el-form-item label="原密码" prop="oldPass">
-                <el-input  type="password" v-model="ruleForm.oldPass"></el-input>
+            <el-form-item label="原密码" prop="oldPassword">
+                <el-input  type="password" v-model="ruleForm.oldPassword"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="pass">
-                <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+            <el-form-item label="密码" prop="firstNewPassword">
+                <el-input type="password" v-model="ruleForm.firstNewPassword" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+            <el-form-item label="确认密码" prop="againNewPassword">
+                <el-input type="password" v-model="ruleForm.againNewPassword" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -24,13 +24,15 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+
     export default {
         data() {
             const pass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
                 } else {
-                    if (this.ruleForm.checkPass !== '') {
+                    if (this.ruleForm.againNewPassword !== '') {
                         this.$refs.ruleForm.validateField('checkPass');
                     }
                     callback();
@@ -39,7 +41,7 @@
             const checkPass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm.pass) {
+                } else if (value !== this.ruleForm.firstNewPassword) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();
@@ -47,30 +49,36 @@
             };
             return {
                 ruleForm: {
-                    oldPass:'',
-                    pass: '',
-                    checkPass: '',
+                    oldPassword:'',
+                    firstNewPassword: '',
+                    againNewPassword: '',
                 },
                 rules: {
-                    oldPass: [
+                    oldPassword: [
                         { required: true, message: '请输入当前密码', trigger: 'blur' },
                     ],
-                    pass: [
+                    firstNewPassword: [
                         {required: true,validator: pass, trigger: 'blur' }
                     ],
-                    checkPass: [
+                    againNewPassword: [
                         {required: true, validator: checkPass, trigger: 'blur' }
                     ]
                 }
             }
         },
         methods: {
+            ...mapActions('user',[
+                'updatePass', 
+            ]),
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        const {id} = JSON.parse(sessionStorage.getItem('userDetail'));
+                        this.updatePass({
+                            id,
+                            ...this.ruleForm
+                        })
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });

@@ -69,9 +69,9 @@
                     <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page="currentPage"
+                        :current-page="current"
                         :page-sizes="[10, 20, 30, 50]"
-                        :page-size="pageSize"
+                        :page-size="size"
                         :layout="layout"
                         :total="total"
                     >
@@ -121,37 +121,40 @@
             return {
                 input:'',
                 layout:'total, sizes,pager,jumper',
-                currentPage:1,
-                pageSize:10,
-                visible:false,
-                value:{},
+                current:1,
+                size:10,
             }
         },
         mounted () {
             const value = this.$store.state.app.device;
             this.resizehandle(value);
-            this.getList();
         },
         watch: {
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
             },
             input(value){
-                this.getList()
+                // this.getList()
             }
         },
         methods: {
             resizehandle(value){
                 value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
+            //切换显示个数
             handleSizeChange(val) {
-                this.currentPage =1;
-                this.getList()
-                console.log(`每页 ${val} 条`);
+                this.size = val;
+                this.current =1;
+                this.getList({
+                    size:val
+                })
             },
+            //切页
             handleCurrentChange(val) {
-                this.getList()
-                console.log(`当前页: ${val}`);
+                this.current = val;
+                this.getList({
+                    current:val
+                })
             },
             //应用跳转
             linkTo(type,row={}){
@@ -176,7 +179,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.remove();
+                    this.remove(row);
                     this.$message({
                         type: 'success',
                         message: '删除成功!'

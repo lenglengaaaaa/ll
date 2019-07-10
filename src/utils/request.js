@@ -5,7 +5,6 @@ import router from '../router'
 import store from '../store'
 import lodash from 'lodash'
 import { message } from 'element-ui'
-import {getToken} from './auth'
 
 /** 
  * 提示函数 
@@ -21,6 +20,7 @@ const tip = msg => {
 /** 
  * 跳转登录页
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
+ * 请求已发出，但是不在2xx的范围
  */
 const toLogin = () => {
   router.replace({
@@ -60,6 +60,8 @@ const errorHandle = (status, other) => {
         console.log(other);   
 }}
 
+
+
 //拦截请求
 axios.interceptors.request.use(
   config=> {
@@ -68,7 +70,7 @@ axios.interceptors.request.use(
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码        
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。   
-    const token = getToken();        
+    const token = store.state.user.token;        
     token && (config.headers['jtoken'] = token);    
 
     return config
@@ -79,7 +81,21 @@ axios.interceptors.request.use(
 //拦截响应
 axios.interceptors.response.use(
   response => {
-    return response.status===200?Promise.resolve(response) :Promise.reject(response)
+    if(response.status===200){
+      if(response.data.code === 11000005){
+        tip(response.data.meassage);
+        store.dispatch('user/resetToken').then(()=>{
+          setTimeout(() => {
+              toLogin();
+          }, 1000);
+        })
+      }else{
+        return Promise.resolve(response);
+      }
+    }else{
+      Promise.reject(response)
+    }
+    // return response.status===200?Promise.resolve(response) :Promise.reject(response)
   },
   error => {
     const {res} = error;
@@ -176,31 +192,6 @@ export const request=(options)=>{
     })
     .catch(error => {
       console.log(error,'error')
-      // const { response } = error
-      // let msg, statusCode
-      // if (response && response instanceof Object) {
-      //   const { data, status, statusText } = response
-      //   statusCode = response.status
-      //   msg = data.message || statusText
-      //   if (response.status === 401) {
-      //     console.log('status', 401)
-      //   } else if (status === 403) {
-      //     console.log('接口没配置权限，自动退出系统')
-      //   } else if ( status === 405 ) {
-      //     console.log('禁止IP，自动退出系统')
-      //   }
-      // } else {
-      //   tip('系统服务异常，自动退出系统');
-      //   localStorage.removeItem('token');
-      //   setTimeout(() => {
-      //       toLogin();
-      //   }, 1000);
-      // }
-      // return Promise.resolve({
-      //   error: true,
-      //   statusCode: statusCode,
-      //   statusMessage: msg
-      // })
     })
 }
 

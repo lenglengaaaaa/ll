@@ -22,9 +22,6 @@ export const api={
     //验证用户名是否存在 get
     checkAccout:`${url}/e_view/account/exist`,
 
-    //用户头像上传 post
-    uploadAvatar:`${url}/e_view/file/upload/image`,
-
     //用户创建 post
     createAccount:`${url}/e_view/account/create`,
 
@@ -33,6 +30,9 @@ export const api={
 
     //用户删除 get
     deleteAccount:`${url}/e_view/account/delete`,
+
+    //用户头像上传 post
+    uploadAvatar:`${url}/e_view/file/upload/image`,
 
     //用户更改头像 post
     updateAvatar:`${url}/e_view/image/update`,
