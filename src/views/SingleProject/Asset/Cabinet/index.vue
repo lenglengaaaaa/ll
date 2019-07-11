@@ -27,7 +27,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="roomId"
+                prop="roomName"
                 label="所属配电房"
                 align="center"
                 sortable

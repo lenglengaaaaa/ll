@@ -15,8 +15,8 @@
                     />
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属配电房" prop="roomId">
-                <el-select v-model="form.roomId">
+            <el-form-item label="所属配电房" prop="roomId" >
+                <el-select v-model="form.roomId" @change="changeRoom">
                     <el-option 
                         v-for="i in roomMenu" 
                         :key="i.id" 
@@ -26,14 +26,19 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="是否在配电柜中">
-                <el-select v-model="form.parentId">
+                <el-select v-model="form.inChest" @change="changeInChest">
                     <el-option label="否" :value="0"></el-option>
                     <el-option label="是" :value="1"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属配电柜" v-if="form.parentId===1" prop="cabinetId">
-                <el-select v-model="form.cabinetId">
-                    <el-option label="配电柜一" :value="1"></el-option>
+            <el-form-item label="所属配电柜" v-if="form.inChest===1" prop="parentId">
+                <el-select v-model="form.parentId">
+                    <el-option 
+                        v-for="i in chestMenu" 
+                        :key="i.id" 
+                        :label="i.name" 
+                        :value="i.id"
+                    />
                 </el-select>
             </el-form-item>
         </template>
@@ -52,10 +57,12 @@
             return {
                 form: {
                     roomId:'',
-                    parentId:0
+                    parentId:0,
+                    inChest:0
                 },
                 courtsMenu:[],
-                roomMenu:[]
+                roomMenu:[],
+                chestMenu:[],
             }
         },
         created () {
@@ -67,10 +74,12 @@
                 this.courtsMenu = res;
                 if(editFlag){
                     this.getRoomList(data.courtsId);
+                    this.getChestList(data.roomId);
                 }
             })
             this.form={
                 ...this.form,
+                inChest:data.parentId>0?1:0,
                 ...data
             };
         },
@@ -78,6 +87,7 @@
             ...mapActions('asset',[
                 'getCourtsMenu',
                 'getRoomMenu',
+                'getChestMenu',
                 'createChest', 
                 'updateChest'
             ]),
@@ -96,13 +106,31 @@
             //根据台区ID获取台区下的配电房列表
             changeCourts(id){
                 this.form.roomId = '';
+                this.form.parentId = '';
                 this.getRoomList(id);
+            },
+            //根据配电房ID获取台区下的配电柜
+            changeRoom(id){
+                this.form.parentId = '';
+                this.getChestList(id)
+            },
+            changeInChest(val){
+                if(val===0){
+                    this.form.parentId=0;
+                }
             },
             //获取配电房列表
             getRoomList(id){
                 this.getRoomMenu(id).then(res=>{
                     if(!res)return;
                     this.roomMenu = res;
+                })
+            },
+            //获取配电柜列表
+            getChestList(id){
+                this.getChestMenu({id,type:0}).then(res=>{
+                    if(!res) return;
+                    this.chestMenu = res;
                 })
             }
         },

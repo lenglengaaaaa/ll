@@ -399,16 +399,16 @@ const actions= {
 
     /**
      * 配电柜下拉
-     * @param roomId 配电房ID
+     * @param roomIds 配电房ID
      * @param chestType 配电柜类型，0 室内 1 室外 2所有（考虑到 室外配电柜 新建时，需要获取一次父配电柜<父配电柜只能是室内配电房>的下拉列表，chestType = 0 ,获取所有室内配电柜，chestType = 1时获取所有室外，为chestType  = 2 时所有配电柜）
      */
-    getChestMenu({commit},id,type){
+    getChestMenu({commit},obj){
         return request({
             method:'get',
             url:`${api.chestListAll}`,
             data:{
-                roomId:id,
-                chestType:type
+                roomIds:obj.id,
+                chestType:obj.type
             }
         }).then(res=>{
             if(res.code===10000000&&res.data){

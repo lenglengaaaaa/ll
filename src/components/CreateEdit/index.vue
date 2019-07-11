@@ -79,7 +79,7 @@
                     comeLine: [{ required: true, message: '请输入备用进线', trigger: 'blur' }],
                     courtsId: [{ required: true, message: '请选择所属台区', trigger: 'change' }],
                     roomId: [{ required: true, message: '请选择所属配电房', trigger: 'change' }],
-                    cabinetId:[{ required: true, message: '请选择所属配电柜', trigger: 'change' }],
+                    parentId:[{ required: true, message: '请选择所属配电柜', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择所属主线缆', trigger: 'change' }],
                     trapId: [{ required: true, message: '请选择所属井盖', trigger: 'change' }],
                 }

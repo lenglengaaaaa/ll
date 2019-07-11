@@ -7,9 +7,9 @@
         <template>
             <el-form-item label="台区类型">
                 <el-select v-model="form.courtsType">
-                    <el-option label="开闭所变压器" value="0"></el-option>
-                    <el-option label="柱上变压器" value="1"></el-option>
-                    <el-option label="室内变压器" value="2"></el-option>
+                    <el-option label="开闭所变压器" value="开闭所变压器"></el-option>
+                    <el-option label="柱上变压器" value="柱上变压器"></el-option>
+                    <el-option label="室内变压器" value="室内变压器"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="变压前电压">
