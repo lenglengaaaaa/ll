@@ -44,12 +44,12 @@
             return {
                 data:[
                     {
-                        projectId:'22',
+                        projectId:'1',
                         projectName:'清华信息港魔戒演示平台',
                         projectDetail:'清华信息港魔戒演示平台',
                     },
                     {
-                        projectId:'12',
+                        projectId:'2',
                         projectName:'低压配电应用',
                         projectDetail:'低压配电应用',
                     }
@@ -59,8 +59,8 @@
         methods: {
             skipToDetail(row={}){
                 //跳转单个应用管理页面
-                this.$store.dispatch('app/setApp',row)
-                this.$router.push({name:'ProjectOverview',})
+                sessionStorage.setItem('project',JSON.stringify(row));
+                this.$router.push({name:'ProjectOverview'})
             },
         },
     }

@@ -7,7 +7,6 @@ const state={
     },
     device: 'desktop',
     appType:'',
-    assetType:'',
     editObj:{}
 }
 
@@ -31,17 +30,8 @@ const mutations={
         state.device = device
     },
     //保存应用信息
-    SET_APP:(state,obj)=>{
-        state.appObj=obj
-    },
-    SET_STATUS:(state,flag)=>{
-        state.isCollapse = flag
-    },
     SET_TYPE:(state,type)=>{
         state.appType = type
-    },
-    SET_ASSET:(state,type)=>{
-        state.assetType = type
     },
     SET_EDIT:(state,obj)=>{
         state.editObj = obj
@@ -58,15 +48,8 @@ const actions= {
     toggleDevice({ commit }, device) {
         commit('TOGGLE_DEVICE', device)
     },
-    //set appObj
-    setApp({commit},obj){
-        commit('SET_APP', obj)
-    },
     setType({commit},type){
         commit('SET_TYPE',type)
-    },
-    setAsset({commit},type){
-        commit('SET_ASSET',type)
     },
     setEdit({commit},obj){
         commit('SET_EDIT',obj)

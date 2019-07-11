@@ -48,6 +48,13 @@
                 show-overflow-tooltip
             />
             <el-table-column
+                prop="cutoff"
+                label="所属断路柜"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <el-table-column
                 prop="beforeVoltage"
                 label="变压前电压"
                 align="center"

@@ -103,7 +103,7 @@ const router= new Router({
                 {
                   path:'newRoom',
                   name:'NewRoom',
-                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/Room/CreateEdit'),
                   meta:{title:'添加(编辑)配电房'}
                 },
                 {
@@ -132,7 +132,7 @@ const router= new Router({
                 {
                   path:'newCabinet',
                   name:'NewCabinet',
-                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/Cabinet/CreateEdit'),
                   meta:{title:'添加(编辑)配电柜'}
                 },
                 {
@@ -161,7 +161,7 @@ const router= new Router({
                 {
                   path:'newCover',
                   name:'NewCover',
-                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/Cover/CreateEdit'),
                   meta:{title:'添加(编辑)井盖'}
                 },
                 {
@@ -190,7 +190,7 @@ const router= new Router({
                 {
                   path:'newCable',
                   name:'NewCable',
-                  component: () => import('@/views/SingleProject/Asset/components/CreateEdit'),
+                  component: () => import('@/views/SingleProject/Asset/Cable/CreateEdit'),
                   meta:{title:'添加(编辑)线缆'}
                 }
               ]

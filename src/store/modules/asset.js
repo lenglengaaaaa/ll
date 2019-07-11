@@ -540,6 +540,125 @@ const actions= {
         })
     },
 
+    //==================================线缆==================================
+
+    /**
+     * 获取线缆列表
+     * @param {
+        *      size 每页显示大小
+        *      current 页码
+        *      projectId 项目id,0查询
+        * }
+        */
+    getLineList({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.lineList}`,
+            data:obj
+        }).then(res=>{
+            if(res.code === 10000000&&res.data){
+                return res;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    *创建线缆
+    * @param {
+        *      name 线缆名称
+        *      number 线缆资产编码
+        *      detail 描述
+        *      parentId  所属父类id（父类id为非0时表示所属公司管辖的区段线缆信息）
+        *      projectId 项目id
+        *      longitude 经度
+        *      latitude 纬度
+        *      location 位置
+        * }
+        */
+    createLine({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.createLine}`,
+            data:obj
+        }).then(res=>{
+            if(res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    *线缆编辑 
+    * @param {
+        *      id 井盖ID
+        *      ...同上
+        * }
+        */
+    updateLine({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updateLine}`,
+            data:obj
+        }).then(res=>{
+            if(res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 删除线缆
+     * @param id 井盖ID
+     */
+    deleteLine({commit},id){
+        return request({
+            method:'get',
+            url:`${api.deleteLine}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 线缆下拉
+     * @param courtsId 台区ID
+     */
+    getLineMenu({commit},id){
+        return request({
+            method:'get',
+            url:`${api.lineListAll}`,
+            data:{
+                courtsId:id
+            }
+        }).then(res=>{
+            if(res.code===10000000&&res.data){
+                return res.data
+            }else{
+                tip(res.meassage)
+                return false
+            }
+        })
+    },
 
 }   
 

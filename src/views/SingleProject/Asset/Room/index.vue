@@ -27,7 +27,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="courtsId"
+                prop="courtsName"
                 label="所属台区"
                 align="center"
                 sortable

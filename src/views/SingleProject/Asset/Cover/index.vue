@@ -47,6 +47,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -54,20 +55,42 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        name:'演示平台',
-                        number:'0049',
-                        lineId:'0',
-                        detail:'Hi'
-                    }
-                ],
-                total:100
+                data: [],
+                total:0,
+                params:{
+                    size:10,    
+                    current:1 ,   
+                    projectId: 1
+                }
             }
         },
+        mounted () {
+            this.getList();
+        },
         methods: {
-            getList(){
-                console.log('获取数据')
+            ...mapActions('asset',[
+                'getTrapList', 
+                'deleteTrap'
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getTrapList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
+            },
+            remove(row){
+                const {id} = row;
+                this.deleteTrap(id).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewCover'})
@@ -80,9 +103,6 @@
                 this.$router.push({name:'CoverDetail'})
                 sessionStorage.setItem('obj',JSON.stringify(row))
             },
-            remove(){
-                console.log('删除')
-            }
         },
     }
 </script>

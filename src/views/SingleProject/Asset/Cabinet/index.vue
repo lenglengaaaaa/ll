@@ -61,6 +61,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -68,22 +69,42 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        name:'演示平台',
-                        number:'0049',
-                        roomId:'1',
-                        mainComeline:'0',
-                        comeLine:'0',
-                        detail:'world'
-                    }
-                ],
-                total:100
+                data: [],
+                total:0,
+                params:{
+                    size:10,    
+                    current:1 ,   
+                    projectId: 1
+                }
             }
         },
+        mounted () {
+            this.getList();
+        },
         methods: {
-            getList(){
-                console.log('获取数据')
+            ...mapActions('asset',[
+                'getChestList', 
+                'deleteChest'
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getChestList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
+            },
+            remove(row){
+                const {id} = row;
+                this.deleteChest(id).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewCabinet'})
@@ -96,9 +117,6 @@
                 this.$router.push({name:'CabinetDetail'})
                 sessionStorage.setItem('obj',JSON.stringify(row))
             },
-            remove(){
-                console.log('删除')
-            }
         },
     }
 </script>
