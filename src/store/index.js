@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import app from './modules/app'
 import user from './modules/user'
 import asset from './modules/asset'
+import equip from './modules/equip'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ const store = new Vuex.Store({
     modules: {
         app,
         user,
-        asset
+        asset,
+        equip
     },
 })
 

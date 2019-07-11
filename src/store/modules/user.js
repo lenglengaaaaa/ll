@@ -143,7 +143,7 @@ const actions= {
     },
 
     /**
-    *用户创建 
+    *用户编辑 
     * @param {
         *      id 用户ID
         *      name 账户名称
@@ -169,7 +169,6 @@ const actions= {
         })
     },
 
-    //用户删除
     /**
      * 用户删除
      * @param id 用户ID
@@ -243,7 +242,7 @@ const actions= {
     },
 
     /**
-     * 头像上传
+     * 头像更新
      * @param {
         *       id 图片ID
         *       accountId 用户ID
@@ -258,7 +257,7 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res.code ===10000000){
-                tip(res.meassage,'success')
+                tip(`${res.meassage},重新登录头像生效`,'success')
                 return true;
             }else{
                 tip(res.meassage)

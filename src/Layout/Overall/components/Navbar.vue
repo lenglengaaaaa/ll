@@ -23,7 +23,7 @@
                     <i class="el-icon-search" @click="flag = true"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
-                            <img src="../../../assets/img/avatar.gif" class="user-avatar">
+                            <img :src="imagePath" class="user-avatar">
                             <span class="username" >{{username}}</span>
                             <i class="el-icon-caret-bottom" />
                         </div>
@@ -67,7 +67,10 @@
 </template>
 
 <script>
-    import GlobalSearch from '@/components/Search'  
+    import GlobalSearch from '@/components/Search' 
+    import avatar from '@/assets/img/avatar.gif'
+    
+    
     export default {
         name:'Header',
         data() {
@@ -82,7 +85,8 @@
                 flag:false,
                 phone:false,
                 fold:false,
-                username:''
+                username:'',
+                imagePath:''
             }
         },
         components: {
@@ -90,7 +94,9 @@
         },
         mounted () {
             //这里进行权限配置,改变navbar
-            this.username = JSON.parse(sessionStorage.getItem('userDetail')).userName;
+            const {userName,imagePath} =JSON.parse(sessionStorage.getItem('userDetail')); 
+            this.username = userName;
+            this.imagePath = imagePath?imagePath:avatar;
             this.hightlight(this.$route.path)
         },
         watch: {

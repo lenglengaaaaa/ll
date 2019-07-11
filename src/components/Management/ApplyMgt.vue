@@ -8,9 +8,10 @@
                             <el-input
                                 size="small"
                                 :placeholder="placeholder"
-                                suffix-icon="el-icon-search"
                                 v-model="input"
-                            />
+                            >
+                                <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                            </el-input>
                         </div>
                         <div v-if="hasAdd">
                             <el-button size="small" type="success" @click="linkTo('add')">
@@ -133,13 +134,17 @@
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
             },
-            input(value){
-                // this.getList()
-            }
         },
         methods: {
             resizehandle(value){
                 value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
+            },
+            search(){
+                this.current = 1;
+                const val = this.input.replace(/ /g,'');
+                this.getList({
+                    filterStr:val
+                })
             },
             //切换显示个数
             handleSizeChange(val) {
@@ -216,6 +221,16 @@
                         align-items: center;
                         .el-input__inner{
                             height: 40px;
+                        }
+                        .el-input-group__append{
+                            width: 50px;
+                            padding: 0;
+                            height: 38px;
+                            display: flex;
+                            justify-content: center;
+                            .el-button{
+                                padding: 0;
+                            }
                         }
                     }
                 }

@@ -38,18 +38,19 @@
     export default {
         data() {
             return {
-                imageUrl: '',
+                imageUrl: 'http://47.92.235.125:90/eiot/c9e80d63ebf94c15a3960e1df8219323.jpg',
                 options:[
                     {title:'用户名',value:'',sign:'userName'},
                     {title:'账号',value:'',sign:'name'},
                     {title:'手机号码',value:'',sign:'phoneNum'},
                     {title:'邮箱',value:'',sign:'email'},
                 ],
-                token:this.$store.state.user.token
+                token:this.$store.state.user.token,
             };
         },
         created () {
             const userDetail = JSON.parse(sessionStorage.getItem('userDetail'));
+            this.imageUrl = userDetail.imagePath;
             this.options.reduce((pre,current)=>{
                 for(let i in userDetail){
                     if(current.sign === i){
@@ -64,7 +65,14 @@
         },
         methods: {
             handleAvatarSuccess(res, file) {
+                const {id,imageId} = JSON.parse(sessionStorage.getItem('userDetail'));
                 this.imageUrl = URL.createObjectURL(file.raw);
+                this.$store.dispatch('user/updateAvatar',{
+                    id:imageId,
+                    accountId:id,
+                    name:'xxx',
+                    imagePath:res.data
+                })
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -122,6 +130,7 @@
                     width: 100px;
                     height: 100px;
                     display: block;
+                    padding: 0;
                 }
             }
             .info{
