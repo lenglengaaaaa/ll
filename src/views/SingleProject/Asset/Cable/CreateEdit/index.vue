@@ -2,28 +2,30 @@
     <CreateEdit
         :form="form"
         :hasCable="false"
+        :hasMap="false"
         :create="create"
         :edit="edit"
+        :type="5"
     >
         <template>
-            <el-form-item label="是否为主线缆">
+            <!-- <el-form-item label="是否为主线缆">
                 <el-select v-model="form.parentId">
                     <el-option label="是" :value="0"></el-option>
                     <el-option label="否" :value="1"></el-option>
                 </el-select>
+            </el-form-item> -->
+            <!-- <template v-if="form.parentId==1"> -->
+            <el-form-item label="所属主线缆" prop="parentId">
+                <el-select v-model="form.lineId" >
+                    <el-option label="主线缆一" :value="0"></el-option>
+                </el-select>
             </el-form-item>
-            <template v-if="form.parentId==1">
-                <el-form-item label="所属主线缆" prop="lineId">
-                    <el-select v-model="form.lineId" >
-                        <el-option label="主线缆一" value="0"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="所属井盖" prop="trapId">
+                <!-- <el-form-item label="所属井盖" prop="trapId">
                     <el-select v-model="form.trapId" >
                         <el-option label="井盖一" value="0"></el-option>
                     </el-select>
-                </el-form-item>
-            </template>
+                </el-form-item> -->
+            <!-- </template> -->
         </template>
     </CreateEdit>
 </template>

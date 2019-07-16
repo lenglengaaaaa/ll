@@ -39,10 +39,26 @@ export const api={
 
     //修改密码 post
     updatePass:`${url}/e_view/account/update/password`,
+    //=======================================全局=====================================================
+
+    //获取区域树 get
+    getAreaTree:`${url}/e_view/area/tree`,
+
+    //项目列表 post
+    projectList:`${url}/e_view/project/list`,
+    
+    //项目创建 post
+    createProject:`${url}/e_view/project/create`,
+
+    //项目修改 post
+    updateProject:`${url}/e_view/project/update`,
+
+    //项目删除 get
+    deleteProject:`${url}/e_view/project/delete`,
 
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get
-    checkNo:`${url}/e_view/number/exis`,
+    checkNo:`${url}/e_view/number/exist`,
 
     //=================台区===================
     //台区创建 post

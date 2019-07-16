@@ -7,6 +7,10 @@
 <script>
   export default {
     name: 'App',
+    mounted () {
+      if(sessionStorage.getItem('areaTree'))return;
+      this.$store.dispatch('overall/getAreaTree');
+    },
   }
 </script>
 

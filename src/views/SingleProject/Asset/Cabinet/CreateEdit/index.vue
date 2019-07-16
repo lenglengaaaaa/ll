@@ -3,6 +3,7 @@
         :form="form"
         :create="create"
         :edit="edit"
+        :type="2"
     >
         <template>
             <el-form-item label="所属台区" prop="courtsId">

@@ -44,7 +44,6 @@
                                 size="mini"
                                 type="danger"
                                 @click="linkTo('delete',scope.row)"
-
                             >
                                 删除
                             </el-button>
@@ -56,47 +55,42 @@
                 <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :current-page="currentPage"
+                    :current-page="current"
                     :page-sizes="[10, 20, 30, 50]"
-                    :page-size="pageSize"
+                    :page-size="size"
                     :layout="layout"
                     :total="total"
                 >
                 </el-pagination>
             </div>
         </div>
-        <NewProject
-            :visible="visible"
-            :value="value"
-            :close="closeDia"
-        />
     </div>
 </template>
 
 <script>
-    import NewProject from '@/views/Project/components/NewProject'
 
     export default {
-        components: {
-            NewProject
-        },
         props: {
             type:String,
             title:String,
-            data:{
-                type:Array,
-                default:()=>[]
+            data:Array,
+            total:Number,
+            skipTo:Function,
+            getList:{
+                type:Function,
+                default:()=>{}
+            },
+            remove:{
+                type:Function,
+                default:()=>{}
             },
         },
         data() {
             return {
                 input: '',
                 layout:'total, sizes,pager,jumper',
-                total:100,
-                currentPage:1,
-                pageSize:10,
-                visible:false,
-                value:{}
+                current:1,
+                size:10,
             }
         },
         mounted () {
@@ -112,15 +106,20 @@
             resizehandle(value){
                 value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
+            //切换显示个数
             handleSizeChange(val) {
-                this.currentPage =1;
-                console.log(`每页 ${val} 条`);
+                this.size = val;
+                this.current =1;
+                this.getList({
+                    size:val
+                })
             },
+            //切页
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
-            },
-            closeDia(){
-                this.visible = false;
+                this.current = val;
+                this.getList({
+                    current:val
+                })
             },
             //应用跳转
             linkTo(type,row={}){
@@ -136,11 +135,7 @@
                                 }
                             })
                         }else{
-                            this.visible = true;
-                            this.value = {
-                                editFlag:type==='add'?false:true,
-                                data:row
-                            }
+                            this.skipTo(type,row)
                         }
                         break;
                     case 'delete' :
@@ -157,10 +152,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    this.remove(row);
                 }).catch(() => {
                     this.$message({
                         type: 'info',

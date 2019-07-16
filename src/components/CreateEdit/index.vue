@@ -32,13 +32,17 @@
                 <el-cascader :options="options" v-model="form.city"></el-cascader>
                 <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
-            <el-form-item label="资产经纬度" class="map">
-                <MapSingle 
-                    vid="newApply"
-                    :position="position"
-                    :get="getPostion"
-                />
-            </el-form-item>
+
+            <template v-if="hasMap">
+                <el-form-item label="资产经纬度" class="map">
+                    <MapSingle 
+                        vid="newApply"
+                        :position="position"
+                        :get="getPostion"
+                    />
+                </el-form-item>
+            </template>
+            
             <el-form-item class="submit">
                 <el-button type="primary" @click="submit" >
                     {{!editFlag?'创建完成':'编辑完成'}}
@@ -66,15 +70,34 @@
             hasCable:{
                 type:Boolean,
                 default:true
-            }
+            },
+            hasMap:{
+                type:Boolean,
+                default:true
+            },
+            type:Number
         },
         data() {
+            const checkAccount = (rule, value, callback) => {
+                if(this.editFlag) return callback();
+                if (!value) {
+                    return callback(new Error('请输入用户账号'));
+                }
+                const obj ={num:value,type:this.type}
+                this.$store.dispatch('asset/checkNo', obj).then(res=>{
+                    if(!res){
+                        return callback(new Error('资产编号已存在'));
+                    }else{
+                        callback()
+                    }
+                });
+            };
             return {
                 options:options,
                 position:[],
                 rules:{
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
-                    number: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
+                    number: [{ required: true, validator: checkAccount, trigger: 'blur' }],
                     mainComeline: [{ required: true, message: '请输入主进线', trigger: 'blur' }],
                     comeLine: [{ required: true, message: '请输入备用进线', trigger: 'blur' }],
                     courtsId: [{ required: true, message: '请选择所属台区', trigger: 'change' }],

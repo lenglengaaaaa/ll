@@ -6,14 +6,23 @@
         :editFlag="editFlag"
     >
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
-            <el-form-item label="项目名称" prop="projectName">
-                <el-input v-model="form.projectName" placeholder="请输入应用名称"></el-input>
+            <el-form-item label="项目名称" prop="name">
+                <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
             </el-form-item>
             <el-form-item label="项目描述">
-                <el-input v-model="form.projectDetail" placeholder="请输入应用描述"></el-input>
+                <el-input v-model="form.detail" placeholder="请输入应用描述"></el-input>
             </el-form-item>
-            <el-form-item label="项目所属位置" prop="areaId">
-                <el-cascader :options="options" v-model="form.areaId"  placeholder="请选择项目所属位置"></el-cascader>
+            <el-form-item label="项目所属位置" prop="area">
+                <el-cascader 
+                    :options="options" 
+                    v-model="form.area"  
+                    placeholder="请选择项目所属区域"
+                    :props="{
+                        children:'childList',
+                        value:'id',
+                        label:'name'
+                    }"
+                />
             </el-form-item>
             <el-form-item class="submit">
                 <el-button type="primary" @click="submitForm" >
@@ -27,12 +36,12 @@
 
 <script>
     import Dialog from '@/components/Dialog'
-    import {options} from '@/utils/options'
+    import {mapActions} from 'vuex'
     
     const resetForm = {
         projectName:'',
         projectDetail: '',
-        areaId:[]
+        area:['44','4403','440305']
     }
     export default {
         components: {
@@ -40,56 +49,75 @@
         },
         props: {
             visible:Boolean,
+            editFlag:Boolean,
+            close:Function,
             value:{
                 type:Object,
                 default:()=>{}
-            },
-            close:Function
+            }
         },
         data() {
             return {
-                options:options,
-                editFlag:false,
+                options:[],
                 form: {
                     projectName:'',
                     projectDetail: '',
-                    areaId:[]
+                    area:['44','4403','440305']
                 },
                 rules: {
-                    projectName: [
+                    name: [
                         { required: true, message: '请输入应用名称', trigger: 'blur' },
                     ],
-                    areaId: [
+                    area: [
                         { required: true, message: '请选择活动区域', trigger: 'change' }
                     ],
                 }
             }
         },
+        mounted () {
+            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
+            this.options = areaTree
+        },
         watch: {
-            value(newValue, oldValue) {
-                const {editFlag,data} = newValue
-                this.editFlag = editFlag;
+            value(value) {
                 this.form = {
                     ...this.form,
-                    ...data
+                    ...value
                 }
             },
         },
         methods: {
-            handleClose() {
-                this.form =resetForm;
-                this.editFlag = false;
-                this.close();
+            ...mapActions('overall',[
+                'createProject', 
+                'updateProject'
+            ]),
+            handleClose(res) {
+                this.form = resetForm;
+                this.close(res);
             },
             submitForm() {
                 this.$refs.appForm.validate((valid) => {
-                if (valid) {
-                    console.log(this.form,'form')
-                    this.handleClose()
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
+                    if (valid) {
+                        if(!this.editFlag){
+                            this.createProject({
+                                ...this.form,
+                                areaId:this.form.area.length&&this.form.area[2],
+                                location:''
+                            }).then(res=>{
+                                this.handleClose(res)
+                            })
+                        }else{
+                            this.updateProject({
+                                ...this.form,
+                                areaId:this.form.area.length&&this.form.area[2],
+                                location:''
+                            }).then(res=>{
+                                this.handleClose(res)
+                            })
+                        }
+                    } else {
+                        return false;
+                    }
                 });
             },
         },

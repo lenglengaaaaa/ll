@@ -37,14 +37,14 @@ const actions= {
                 method:'post',
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
-                if(res.code===10000000&&res.data){
+                if(res&&res.code===10000000&&res.data){
                     const { jtoken,user_detail } = res.data
                     sessionStorage.setItem('userDetail',JSON.stringify(user_detail))
                     commit('SET_TOKEN', jtoken)
                     setToken(jtoken)
                     return true;
                 }else{
-                    tip(res.meassage)
+                    res&&tip(res.meassage)
                     return false;
                 }   
             })
@@ -86,10 +86,10 @@ const actions= {
             url:`${api.accountList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -107,7 +107,7 @@ const actions= {
                 accountName:name
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 return true;
             }else{
                 return false;
@@ -132,11 +132,11 @@ const actions= {
             url:`${api.createAccount}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -159,11 +159,11 @@ const actions= {
             url:`${api.updateAccount}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -181,11 +181,11 @@ const actions= {
                 id
             }
         }).then(res=>{
-            if(res.code ===10000000){
+            if(res&&res.code ===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -206,7 +206,7 @@ const actions= {
             url:`${api.updatePass}`,
             data:obj
         }).then(res=>{
-            if(res.code ===10000000){
+            if(res&&res.code ===10000000){
                 tip(res.meassage,'success')
                 setTimeout(() => {
                     dispatch('resetToken').then(res=>{
@@ -214,7 +214,7 @@ const actions= {
                     })
                 }, 1000);
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
             }
         })
     },
@@ -231,11 +231,11 @@ const actions= {
                 file
             }
         }).then(res=>{
-            if(res.code ===10000000&&res.data){
+            if(res&&res.code ===10000000&&res.data){
                 tip(res.meassage,'success')
                 return res.data;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -256,11 +256,11 @@ const actions= {
             url:`${api.updateAvatar}`,
             data:obj
         }).then(res=>{
-            if(res.code ===10000000){
+            if(res&&res.code ===10000000){
                 tip(`${res.meassage},重新登录头像生效`,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })

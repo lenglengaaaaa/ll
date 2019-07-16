@@ -27,16 +27,16 @@ const actions= {
      * @param number 资产编号
      * @param type 资产类型
      */
-    checkNo({commit},num,type){
+    checkNo({commit},obj){
         return request({
             method:'get',
             url:`${api.checkNo}`,
             data:{
-                number:num,
-                type
+                number:obj.num,
+                type:obj.type
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 return true;
             }else{
                 return false;
@@ -60,10 +60,10 @@ const actions= {
             url:`${api.courtsList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -95,11 +95,11 @@ const actions= {
             url:`${api.createCourts}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -118,11 +118,11 @@ const actions= {
             url:`${api.updateCourts}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -140,11 +140,11 @@ const actions= {
                 id
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -162,10 +162,10 @@ const actions= {
                 projectId:id
             }
         }).then(res=>{
-            if(res.code===10000000&&res.data){
+            if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false
             }
         })
@@ -187,10 +187,10 @@ const actions= {
             url:`${api.roomList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -217,11 +217,11 @@ const actions= {
             url:`${api.createRoom}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -240,11 +240,11 @@ const actions= {
             url:`${api.updateRoom}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -262,11 +262,11 @@ const actions= {
                 id
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -284,10 +284,10 @@ const actions= {
                 courtsId:id
             }
         }).then(res=>{
-            if(res.code===10000000&&res.data){
+            if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false
             }
         })
@@ -309,10 +309,10 @@ const actions= {
             url:`${api.chestList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -340,11 +340,11 @@ const actions= {
             url:`${api.createChest}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -363,11 +363,11 @@ const actions= {
             url:`${api.updateChest}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -387,11 +387,11 @@ const actions= {
                 parentId
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -411,10 +411,10 @@ const actions= {
                 chestType:obj.type
             }
         }).then(res=>{
-            if(res.code===10000000&&res.data){
+            if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false
             }
         })
@@ -436,10 +436,10 @@ const actions= {
             url:`${api.trapList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -464,11 +464,11 @@ const actions= {
             url:`${api.createTrap}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -487,11 +487,11 @@ const actions= {
             url:`${api.updateTrap}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -509,11 +509,11 @@ const actions= {
                 id
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -531,10 +531,10 @@ const actions= {
                 courtsId:id
             }
         }).then(res=>{
-            if(res.code===10000000&&res.data){
+            if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false
             }
         })
@@ -556,10 +556,10 @@ const actions= {
             url:`${api.lineList}`,
             data:obj
         }).then(res=>{
-            if(res.code === 10000000&&res.data){
+            if(res&&res.code === 10000000&&res.data){
                 return res;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -584,11 +584,11 @@ const actions= {
             url:`${api.createLine}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -607,11 +607,11 @@ const actions= {
             url:`${api.updateLine}`,
             data:obj
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -629,11 +629,11 @@ const actions= {
                 id
             }
         }).then(res=>{
-            if(res.code===10000000){
+            if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false;
             }
         })
@@ -651,10 +651,10 @@ const actions= {
                 courtsId:id
             }
         }).then(res=>{
-            if(res.code===10000000&&res.data){
+            if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                tip(res.meassage)
+                res&&tip(res.meassage)
                 return false
             }
         })

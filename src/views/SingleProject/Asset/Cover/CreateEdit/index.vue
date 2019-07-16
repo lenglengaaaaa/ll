@@ -4,6 +4,7 @@
         :hasCable="false"
         :create="create"
         :edit="edit"
+        :type="4"
     >
         <template>
             <el-form-item label="所属主线缆" prop="lineId">

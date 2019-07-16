@@ -3,6 +3,7 @@
         :form="form"
         :create="create"
         :edit="edit"
+        :type="0"
     >
         <template>
             <el-form-item label="台区类型">
@@ -42,7 +43,7 @@
         data() {
             return {
                 form: {
-                    courtsType:"0"
+                    courtsType:"开闭所变压器"
                 }
             }
         },
