@@ -74,7 +74,7 @@
                 params:{
                     size:10,    
                     current:1 ,   
-                    projectId: 1
+                    projectId:JSON.parse(sessionStorage.getItem('project')).id
                 }
             }
         },

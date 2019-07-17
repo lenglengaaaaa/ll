@@ -68,7 +68,7 @@
         },
         created () {
             const {editFlag,data} = JSON.parse(sessionStorage.getItem('assetObj'));
-            const projectId=JSON.parse(sessionStorage.getItem('project')).projectId;
+            const projectId=JSON.parse(sessionStorage.getItem('project')).id;
             //获取台区下拉
             this.getCourtsMenu(projectId).then(res=>{
                 if(!res)return;

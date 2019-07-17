@@ -36,7 +36,7 @@
         },
         created () {
             const data = JSON.parse(sessionStorage.getItem('assetObj')).data;
-            const projectId=JSON.parse(sessionStorage.getItem('project')).projectId;
+            const projectId=JSON.parse(sessionStorage.getItem('project')).id;
             this.form={
                 ...this.form,
                 ...data,

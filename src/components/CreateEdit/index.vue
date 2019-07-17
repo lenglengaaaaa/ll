@@ -29,7 +29,16 @@
                 <el-input v-model="form.detail" placeholder="请输入资产详情"></el-input>
             </el-form-item>
             <el-form-item label="位置信息" prop="location" class="address">
-                <el-cascader :options="options" v-model="form.city"></el-cascader>
+                <el-cascader 
+                    :options="options" 
+                    v-model="form.city"  
+                    placeholder="省/市/区"
+                    :props="{
+                        children:'childList',
+                        value:'name',
+                        label:'name'
+                    }"
+                />
                 <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
 
@@ -54,7 +63,6 @@
 
 <script>
     import {MapSingle} from '@/components/Maps'
-    import {options} from '@/utils/options'
 
     export default {
         components: {
@@ -93,7 +101,7 @@
                 });
             };
             return {
-                options:options,
+                options:[],
                 position:[],
                 rules:{
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
@@ -108,6 +116,10 @@
                 }
             }
         },
+        mounted () {
+            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
+            this.options = areaTree
+        },
         created () {
             const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
@@ -118,7 +130,7 @@
                 return data.id;
             },
             projectId(){
-                return JSON.parse(sessionStorage.getItem('project')).projectId;
+                return JSON.parse(sessionStorage.getItem('project')).id;
             },
             editFlag(){
                 return JSON.parse(sessionStorage.getItem('assetObj')).editFlag;
@@ -128,19 +140,20 @@
             submit() {
                 this.$refs.magicForm.validate((valid) => {
                     if (valid) {
+                        const location = `${this.form.city.join(',')},${this.form.location}`
+                        const data ={
+                            ...this.form,
+                            location,
+                            longitude:this.position[0],
+                            latitude:this.position[1]
+                        }
                         if(!this.editFlag){
                             this.create({
-                                ...this.form,
-                                projectId:this.projectId,
-                                longitude:this.position[0],
-                                latitude:this.position[1]
+                                ...data,
+                                projectId:this.projectId
                             })
                         }else{
-                            this.edit({
-                                ...this.form,
-                                longitude:this.position[0],
-                                latitude:this.position[1]
-                            })
+                            this.edit(data)
                         }
                     } else {
                         return false;
