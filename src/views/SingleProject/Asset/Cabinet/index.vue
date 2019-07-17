@@ -83,6 +83,7 @@
         },
         methods: {
             ...mapActions('asset',[
+                'skipToEdit',
                 'getChestList', 
                 'deleteChest'
             ]),
@@ -108,11 +109,8 @@
                 })
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewCabinet'})
-                sessionStorage.setItem('assetObj',JSON.stringify({
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                }))
+                this.$router.push({name:'NewCabinet'});
+                this.skipToEdit({type,row});
             },
             skipToDetail(row){
                 this.$router.push({name:'CabinetDetail'})

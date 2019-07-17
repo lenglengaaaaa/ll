@@ -118,6 +118,7 @@
         },
         methods: {
             ...mapActions('asset',[
+                'skipToEdit',
                 'getCourtsList', 
                 'deleteCourts'
             ]),
@@ -143,12 +144,8 @@
                 })
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewCourts'})
-                //修改资产类型
-                sessionStorage.setItem('assetObj',JSON.stringify({
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                }))
+                this.$router.push({name:'NewCourts'});
+                this.skipToEdit({type,row})
             },
             skipToDetail(row){
                 this.$router.push({name:'CourtsDetail',})

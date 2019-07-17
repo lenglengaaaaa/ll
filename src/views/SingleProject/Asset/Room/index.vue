@@ -83,6 +83,7 @@
         },
         methods: {
             ...mapActions('asset',[
+                'skipToEdit',
                 'getRoomList', 
                 'deleteRoom'
             ]),
@@ -109,10 +110,7 @@
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewRoom'})
-                sessionStorage.setItem('assetObj',JSON.stringify({
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                }))
+                this.skipToEdit({type,row})
             },
             skipToDetail(row){
                 this.$router.push({name:'RoomDetail'})

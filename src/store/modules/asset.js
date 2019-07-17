@@ -44,6 +44,26 @@ const actions= {
         })
     },
 
+    /**
+     * 页面跳转
+     * @param obj 列表数据
+     */
+    skipToEdit({commit},obj){
+        console.log(obj,'obj')
+        const address =obj.row.location? obj.row.location.split(','):[];
+        const city = address.slice(0,3);
+        const location = address[3]||"";
+        //修改资产类型
+        sessionStorage.setItem('assetObj',JSON.stringify({
+            editFlag:obj.type==='edit'?true:false,
+            data:{
+                ...obj.row,
+                city,
+                location
+            }
+        }))
+    },
+
     //==================================台区==================================
 
     /**

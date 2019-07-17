@@ -83,6 +83,7 @@
         },
         methods: {
             ...mapActions('asset',[
+                'skipToEdit',
                 'getLineList', 
                 'deleteLine'
             ]),
@@ -108,11 +109,8 @@
                 })
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewCable'})
-                sessionStorage.setItem('assetObj',JSON.stringify({
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                }))
+                this.$router.push({name:'NewCable'});
+                this.skipToEdit({type,row});
             },
         },
     }

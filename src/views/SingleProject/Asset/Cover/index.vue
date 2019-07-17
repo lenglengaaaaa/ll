@@ -70,6 +70,7 @@
         },
         methods: {
             ...mapActions('asset',[
+                'skipToEdit',
                 'getTrapList', 
                 'deleteTrap'
             ]),
@@ -96,10 +97,7 @@
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewCover'})
-                sessionStorage.setItem('assetObj',JSON.stringify({
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                }))
+                this.skipToEdit({type,row})
             },
             skipToDetail(row){
                 this.$router.push({name:'CoverDetail'})
