@@ -140,6 +140,12 @@ export const api={
     //线缆下拉 get
     lineListAll:`${url}/e_view/line/list/all`,
 
+    //线缆树状下拉 post 
+    lineTree:`${url}/e_view/line/list/tree`,
+
+    //线缆下所有井盖
+    trapBelowLine:`${url}/e_view/line/list/allTrap`
+
 }
 
 export default function(Vue){

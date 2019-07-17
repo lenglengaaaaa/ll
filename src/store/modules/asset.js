@@ -567,7 +567,8 @@ const actions= {
      * @param {
         *      size 每页显示大小
         *      current 页码
-        *      projectId 项目id,0查询
+        *      projectId 项目id,0查询(查询主线缆列表不用传)
+        *      parentId  父类ID(查询线缆不用传)
         * }
         */
     getLineList({commit},obj){
@@ -591,8 +592,8 @@ const actions= {
         *      name 线缆名称
         *      number 线缆资产编码
         *      detail 描述
-        *      parentId  所属父类id（父类id为非0时表示所属公司管辖的区段线缆信息）
-        *      projectId 项目id
+        *      parentId  主线缆id(创建主线缆时,传0)
+        *      projectId 项目id(创建主线缆不用传)
         *      longitude 经度
         *      latitude 纬度
         *      location 位置
@@ -643,7 +644,7 @@ const actions= {
      */
     deleteLine({commit},id){
         return request({
-            method:'get',
+            method:'post',
             url:`${api.deleteLine}`,
             data:{
                 id
@@ -660,15 +661,15 @@ const actions= {
     },
 
     /**
-     * 线缆下拉
-     * @param courtsId 台区ID
+     * 获取主线缆下拉菜单
+     * @param parentId 父类ID,value:0
      */
-    getLineMenu({commit},id){
+    getLineMenu({commit}){
         return request({
-            method:'get',
+            method:'post',
             url:`${api.lineListAll}`,
             data:{
-                courtsId:id
+                parentId:0
             }
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
@@ -679,6 +680,47 @@ const actions= {
             }
         })
     },
+
+
+    /**
+     * 线缆级联下拉(用于井盖创建,选中所属该井盖下的线缆)
+     */
+    getLineTree({commit}){
+        return request({
+            method:'post',
+            url:`${api.lineTree}`
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage);
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取线缆下所有井盖(用于主线缆模块)
+     * @param lineId 线缆ID
+     */
+    getLineBelowTrap({commit},lineId){
+        return request({
+            method:'post',
+            url:`${api.trapBelowLine}`,
+            data:{
+                lineId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage);
+                return false
+            }
+        })
+    }
+
+
 
 }   
 

@@ -296,6 +296,35 @@ const router= new Router({
               }
             },
             {
+              path:'mainLine',
+              name:'MainLine',
+              component: () => import('@/views/Senior/MainLine'),
+              redirect:'mainLine/list',
+              meta: { 
+                title:'主线缆管理',
+                icon: '#icon-sjt-'
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'MainLineList',
+                  component: () => import('@/views/Senior/MainLine/List'),
+                },
+                {
+                  path:'newMainLine',
+                  name:'NewMainLine',
+                  component: () => import('@/views/Senior/MainLine/CreateEdit'),
+                  meta:{title:'添加(编辑)主线缆'}
+                },
+                {
+                  path:'mainLineDetail',
+                  name:'MainLineDetail',
+                  component: () => import('@/views/Senior/MainLine/Detail'),
+                  meta:{title:'主线缆详情'}
+                },
+              ]
+            },
+            {
               path:'application',
               name:'Application',
               component: () => import('@/views/Senior/Application'),

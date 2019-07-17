@@ -34,7 +34,8 @@
     export default {
         data() {
             return {
-                activeIndex: '',
+                path:'',
+                activeIndex: ''
             }
         },
         watch: {
@@ -47,6 +48,7 @@
             routes() {
                 const routes = this.$router.options.routes ;
                 const path = this.$route.path.split('/')[1]
+                this.path=path;
                 const index = routes.findIndex((item)=>item.path ===`/${path}`);
                 const result = routes[index].children[path=="project"?1:0].children;
                 return result
@@ -58,7 +60,7 @@
                 return !this.$store.state.app.sidebar.opened
             },
             projectName(){
-                if(this.activeIndex==='userControl') return '高级管理';
+                if(this.path==='senior') return '高级管理';
                 const project = JSON.parse(sessionStorage.getItem('project'));
                 return project.name
             }

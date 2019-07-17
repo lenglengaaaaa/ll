@@ -1,6 +1,6 @@
 <template>
     <ApplyMgt
-        title="线缆"
+        title="主线缆"
         :data="data"
         :total="total"
         :getList="getList"
@@ -14,21 +14,17 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-            />
+            >
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="number"
                 label="线缆编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
-            />
-            <el-table-column
-                prop="parentName"
-                label="所属主线缆"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.parentName || '-'"
             />
             <el-table-column
                 prop="detail"
@@ -57,7 +53,7 @@
                 params:{
                     size:10,    
                     current:1 ,   
-                    projectId:JSON.parse(sessionStorage.getItem('project')).id
+                    parentId:0,
                 }
             }
         },
@@ -92,8 +88,12 @@
                 })
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewCable'});
+                this.$router.push({name:'NewMainLine'});
                 this.skipToEdit({type,row});
+            },
+            skipToDetail(row){
+                this.$router.push({name:'MainLineDetail'})
+                sessionStorage.setItem('obj',JSON.stringify(row))
             },
         },
     }

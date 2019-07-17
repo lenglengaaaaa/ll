@@ -64,21 +64,19 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        name:'演示平台',
-                        number:'0049',
-                        type:'0',
-                        courtsId:'0',
-                        mainComeline:'0',
-                        comeLine:'0',
-                        detail:'Hello'
-                    }
-                ],
+                data: [],
             }
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
+            const obj =JSON.parse(sessionStorage.getItem("obj"));
+            this.$store.dispatch('asset/getRoomList',{
+                size:20,
+                current:1,
+                courtsId:obj.id
+            }).then(res=>{
+                if(!res)return;
+                this.data = res.data;
+            })
         },
         methods: {
             skipToDetail(row) {

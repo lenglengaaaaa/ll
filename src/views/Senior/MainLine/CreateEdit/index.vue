@@ -7,18 +7,6 @@
         :edit="edit"
         :type="5"
     >
-        <template>
-            <el-form-item label="所属主线缆" prop="parentId">
-                <el-select v-model="form.parentId" >
-                    <el-option 
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.name" 
-                        :value="item.id"
-                    />
-                </el-select>
-            </el-form-item>
-        </template>
     </CreateEdit>
 </template>
 
@@ -33,16 +21,10 @@
         data() {
             return {
                 form: {
-                    parentId:''
+                    parentId:0
                 },
                 options:[]
             }
-        },
-        mounted () {
-            this.getLineMenu().then(res=>{
-                if(!res)return;
-                this.options = res;
-            });
         },
         created () {
             const data = JSON.parse(sessionStorage.getItem('assetObj')).data;
@@ -53,20 +35,27 @@
         },
         methods: {
             ...mapActions('asset',[
-                'getLineMenu',
                 'createLine', 
                 'updateLine'
             ]),
             create(obj) {
-                this.createLine(obj).then(res=>{
+                const data ={
+                    ...obj,
+                    projectId:null
+                }
+                this.createLine(data).then(res=>{
                     if(!res)return
-                    this.$router.push({name:'CableList'})
+                    this.$router.push({name:'MainLineList'})
                 })
             },
             edit(obj){
-                this.updateLine(obj).then(res=>{
+                const data ={
+                    ...obj,
+                    projectId:null
+                }
+                this.updateLine(data).then(res=>{
                     if(!res)return
-                    this.$router.push({name:'CableList'})
+                    this.$router.push({name:'MainLineList'})
                 })
             }
         },
