@@ -3,8 +3,8 @@
         <div v-if="device==='mobile'&&!isCollapse" class="drawer-bg" @click="handleClickOutside" />
         <div class="Sidebar_container" :style="{left:device==='mobile'&&!isCollapse?'':'-54px'}">
             <div class="app_title">
-                <p v-if="!isCollapse">新魔节测试</p>
-                <i v-else class="el-icon-info" title="新魔节测试"></i>
+                <p v-if="!isCollapse">{{projectName}}</p>
+                <i v-else class="el-icon-info" :title="projectName"></i>
             </div>
             <div :class="{foldSidebar: isCollapse}">
                 <el-menu 
@@ -57,6 +57,11 @@
             isCollapse() {
                 return !this.$store.state.app.sidebar.opened
             },
+            projectName(){
+                if(this.activeIndex==='userControl') return '高级管理';
+                const project = JSON.parse(sessionStorage.getItem('project'));
+                return project.name
+            }
         },
         mounted () {
             const path = this.$route.path.split('/')[2]
