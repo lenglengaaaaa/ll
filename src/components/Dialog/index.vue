@@ -1,9 +1,8 @@
 <template>
-    <div class="create_edit">
+    <div class="create_edit" >
         <el-dialog
             :title="editFlag?`编辑${title}`:`创建${title}`"
             :visible.sync="dialogVisible"
-            v-if="dialogVisible"
             @close="close"
         >
             <slot></slot>

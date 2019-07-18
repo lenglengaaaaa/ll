@@ -82,7 +82,7 @@
                 editFlag:false,
                 value:{},
                 params:{
-                    size:10,    
+                    size:20,    
                     current:1 ,   
                     projectId: 0
                 }

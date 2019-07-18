@@ -90,7 +90,7 @@
                 input: '',
                 layout:'total, sizes,pager,jumper',
                 current:1,
-                size:10,
+                size:20,
             }
         },
         mounted () {

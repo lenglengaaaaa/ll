@@ -55,7 +55,7 @@
                 data: [],
                 total:0,
                 params:{
-                    size:10,    
+                    size:20,    
                     current:1 ,   
                     projectId:JSON.parse(sessionStorage.getItem('project')).id
                 }

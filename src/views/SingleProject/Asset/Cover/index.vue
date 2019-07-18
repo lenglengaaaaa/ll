@@ -27,11 +27,12 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="lineId"
-                label="所属主线缆"
+                prop="lineNames"
+                label="附属线缆"
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.lineNames || '-'"
             />
             <el-table-column
                 prop="detail"
@@ -58,10 +59,9 @@
                 data: [],
                 total:0,
                 params:{
-                    size:10,    
+                    size:20,    
                     current:1 ,   
                     projectId:JSON.parse(sessionStorage.getItem('project')).id
-
                 }
             }
         },

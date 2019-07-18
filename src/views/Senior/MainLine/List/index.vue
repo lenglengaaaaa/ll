@@ -51,7 +51,7 @@
                 data: [],
                 total:0,
                 params:{
-                    size:10,    
+                    size:20,    
                     current:1 ,   
                     parentId:0,
                 }

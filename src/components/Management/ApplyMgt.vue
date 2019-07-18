@@ -9,6 +9,7 @@
                                 size="small"
                                 :placeholder="placeholder"
                                 v-model="input"
+                                @blur="search"
                             >
                                 <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                             </el-input>
@@ -71,7 +72,7 @@
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="current"
-                        :page-sizes="[10, 20, 30, 50]"
+                        :page-sizes="[20, 30, 50]"
                         :page-size="size"
                         :layout="layout"
                         :total="total"
@@ -123,7 +124,7 @@
                 input:'',
                 layout:'total, sizes,pager,jumper',
                 current:1,
-                size:10,
+                size:20,
             }
         },
         mounted () {

@@ -418,7 +418,12 @@ const router= new Router({
           ]
         }
       ]
-    }
+    },
+    //404页面
+    // {
+    //   path:'*',
+    //   component:PageNotFound
+    // }
   ]
 })
 

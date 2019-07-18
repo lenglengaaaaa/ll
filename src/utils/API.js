@@ -115,14 +115,11 @@ export const api={
     //井盖修改 post
     updateTrap:`${url}/e_view/trap/update`,
 
-    //井盖删除 get
+    //井盖删除 post
     deleteTrap:`${url}/e_view/trap/delete`,
 
     //井盖列表 post
     trapList:`${url}/e_view/trap/list`,
-
-    //井盖下拉 get
-    trapListAll:`${url}/e_view/trap/list/all`,
 
     //================线缆===================
     //线缆创建 post
@@ -131,13 +128,13 @@ export const api={
     //线缆修改 post
     updateLine:`${url}/e_view/line/update`,
 
-    //线缆删除 get
+    //线缆删除 post
     deleteLine:`${url}/e_view/line/delete`,
 
     //线缆列表 post
     lineList:`${url}/e_view/line/list`,
 
-    //线缆下拉 get
+    //线缆下拉 post
     lineListAll:`${url}/e_view/line/list/all`,
 
     //线缆树状下拉 post 

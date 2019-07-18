@@ -13,6 +13,20 @@ const tip = (msg,type="error") => {
     });
 }
 
+/**
+ * 过滤下拉菜单中children为空数组的问题
+ */
+const clearEmpty=(data)=>{
+    for(let i = 0;i < data.length; i++){
+        if(data[i].childList.length===0){
+            data[i].childList = undefined;
+        }else{
+            clearEmpty(data[i].childList)
+        }
+    }
+    return data
+}
+
 const state={
 
 }
@@ -457,6 +471,15 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
+                res.data.map(item=>{
+                    if(item.lineList&&item.lineList.length){
+                        const nameArray=item.lineList.map(name=>{
+                            return name.lineName
+                        })
+                        item.lineNames=nameArray.join(",")
+                    }
+                    return item
+                });
                 return res;
             }else{
                 res&&tip(res.meassage)
@@ -471,10 +494,8 @@ const actions= {
         *      name 井盖名称
         *      number 井盖资产编码
         *      detail 描述
-        *      lineIds 井盖关联的线缆，多个之间逗号隔开  
         *      projectId 项目id
-        *      longitude 经度
-        *      latitude 纬度
+        *      lineIds 井盖关联的线缆，多个之间逗号隔开  
         *      location 位置
         * }
         */
@@ -523,7 +544,7 @@ const actions= {
      */
     deleteTrap({commit},id){
         return request({
-            method:'get',
+            method:'post',
             url:`${api.deleteTrap}`,
             data:{
                 id
@@ -535,27 +556,6 @@ const actions= {
             }else{
                 res&&tip(res.meassage)
                 return false;
-            }
-        })
-    },
-
-    /**
-     * 井盖下拉
-     * @param courtsId 台区ID
-     */
-    getTrapMenu({commit},id){
-        return request({
-            method:'get',
-            url:`${api.trapListAll}`,
-            data:{
-                courtsId:id
-            }
-        }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
-                return res.data
-            }else{
-                res&&tip(res.meassage)
-                return false
             }
         })
     },
@@ -691,7 +691,8 @@ const actions= {
             url:`${api.lineTree}`
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
-                return res.data
+                const result = clearEmpty(res.data)
+                return result;
             }else{
                 res&&tip(res.meassage);
                 return false
