@@ -717,7 +717,9 @@ const actions= {
             method:'post',
             url:`${api.trapBelowLine}`,
             data:{
-                lineId
+                lineId,
+                size:50,
+                current:1
             }
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){

@@ -93,7 +93,7 @@
             },
             skipToDetail(row){
                 this.$router.push({name:'MainLineDetail'})
-                sessionStorage.setItem('obj',JSON.stringify(row))
+                sessionStorage.setItem('mainLine',JSON.stringify(row))
             },
         },
     }

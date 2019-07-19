@@ -44,6 +44,8 @@ export const api={
     //获取区域树 get
     getAreaTree:`${url}/e_view/area/tree`,
 
+    //===========================项目管理====================================
+
     //项目列表 post
     projectList:`${url}/e_view/project/list`,
     
@@ -55,6 +57,29 @@ export const api={
 
     //项目删除 get
     deleteProject:`${url}/e_view/project/delete`,
+
+    //========================== 网关管理=====================================
+
+    //网关列表 post
+    gatewayList:`${url}/e_view/gateway/list`,
+
+    //网关创建 post
+    createGateway:`${url}/e_view/gateway/create`,
+
+    //网关修改 post
+    updateGateway:`${url}/e_view/gateway/update`,
+
+    //网关删除 post
+    deleteGateway:`${url}/e_view/gateway/delete`,
+
+    //网关激活 post
+    activeGateway:`${url}/e_view/gateway/activate`,
+
+    //验证mac & Card get
+    checkMacOrCard:`${url}/e_view/gateway/exist`,
+
+    //获取网关下拉 get
+    getGatewayMenu:`${url}/e_view/gateway/list/all`,
 
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get
@@ -121,7 +146,7 @@ export const api={
     //井盖列表 post
     trapList:`${url}/e_view/trap/list`,
 
-    //================线缆===================
+    //================线缆&主线缆===================
     //线缆创建 post
     createLine:`${url}/e_view/line/create`,
 
@@ -141,7 +166,7 @@ export const api={
     lineTree:`${url}/e_view/line/list/tree`,
 
     //线缆下所有井盖
-    trapBelowLine:`${url}/e_view/line/list/allTrap`
+    trapBelowLine:`${url}/e_view/line-trap/list`
 
 }
 
