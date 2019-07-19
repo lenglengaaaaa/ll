@@ -2,8 +2,13 @@
     <Management
         type="gateway"
         title='网关'
-        :columns="columns"
         :data="data"
+        :total="total"
+        :columns="columns"
+        :getList="getList"
+        :skipTo="skipTo"
+        :remove="remove"
+        :active="active"
     >
         <el-table-column 
             v-for="o in columns" 
@@ -16,23 +21,16 @@
         >
         </el-table-column>
         <el-table-column
-            prop="updateAt"
-            label="最后接收时间"
-            align="center"
-            sortable
-            :formatter="(row)=>this.$moment(row.updateAt).fromNow()"
-        />
-        <el-table-column
-            label="状态"
+            label="激活状态"
             align="center"
             sortable
         >
             <template slot-scope="scope" >
                 <el-tag
-                    :type="scope.row.gatewayStatus? 'success' : 'danger'"
+                    :type="scope.row.isActivate? 'success' : 'danger'"
                     disable-transitions
                 >
-                    {{scope.row.gatewayStatus?'已连接':'已断开'}}
+                    {{scope.row.isActivate?'已激活':'未激活'}}
                 </el-tag>
             </template>
         </el-table-column>
@@ -41,6 +39,7 @@
 
 <script>
     import {Management} from '../../components/Management'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -49,34 +48,57 @@
         data() {
             return {
                 columns:[
-                    { prop: "gatewayName" , label: "网关名称" },
-                    { prop: "gatewayNo" , label: "网关编号" },
-                    { prop: "gatewayCard" , label: "卡号" },
-                    { prop: "gatewayMac" , label: "MAC地址" },
+                    { prop: "name" , label: "网关名称" },
+                    { prop: "number" , label: "网关编号" },
+                    { prop: "card" , label: "卡号" },
+                    { prop: "mac" , label: "MAC地址" },
                 ],
-                data:[
-                        {
-                            gatewayName:'国金源富室内网关',
-                            gatewayNo:'0123456789',
-                            gatewayCard:'0123456789',
-                            gatewayMac:'8cf957ffff8012f3',
-                            updateAt: '2018-06-12 11:11:11',
-                            gatewaySite:'中科研究院',
-                            gatewayStatus:0 //0:断开,1:连接
-                        },
-                        {
-                            gatewayName:'云南网关433',
-                            gatewayNo:'31900004',
-                            gatewayCard:'31900004',
-                            gatewayMac:'b827ebfffe2accf5',
-                            updateAt: '2018-05-12 11:11:11',
-                            gatewaySite:'中科研究院',
-                            gatewayStatus:1 //0:断开,1:连接
-                        }
-                ]
+                data:[],
+                total:0,
+                params:{
+                    size:20,    
+                    current:1 ,   
+                }
             }
         },
         mounted () {
+            this.getList();
+        },
+        methods: {
+            ...mapActions('overall',[
+                'getGatewayList',
+                'activeGateway',
+                'deleteGateway', 
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getGatewayList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
+            },
+            remove(row){
+                this.deleteGateway(row).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
+            },
+            active(row){
+                this.activeGateway(row).then(res=>{
+                    if(!res)return;
+                    this.getList(this.params);
+                })
+            },
+            skipTo(type,row){
+                this.$router.push({name:'NewGateway'})
+                this.$store.dispatch('asset/skipToEdit',{type,row})
+            },
         },
     }
 </script>

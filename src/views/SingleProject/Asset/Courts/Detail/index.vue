@@ -69,6 +69,7 @@
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=obj.name
             this.$store.dispatch('asset/getRoomList',{
                 size:20,
                 current:1,

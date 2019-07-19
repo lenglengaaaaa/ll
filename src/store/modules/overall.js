@@ -53,10 +53,9 @@ const actions= {
                 encode:obj.value
             }
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res&&res.code===10000000){
                 return true
             }else{
-                res&&tip(res.meassage)
                 return false
             }
         })

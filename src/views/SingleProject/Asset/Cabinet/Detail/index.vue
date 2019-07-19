@@ -28,8 +28,8 @@
             RingList
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
-            ;
+            const obj =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=obj.name
         },
         data() {
             return {

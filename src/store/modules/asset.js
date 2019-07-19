@@ -63,7 +63,6 @@ const actions= {
      * @param obj 列表数据
      */
     skipToEdit({commit},obj){
-        console.log(obj,'obj')
         const address =obj.row.location? obj.row.location.split(','):[];
         const city = address.slice(0,3);
         const location = address[3]||"";

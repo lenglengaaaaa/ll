@@ -30,12 +30,20 @@
                     <el-table-column
                         label="操作"
                         align="center"
-                        width="150"
+                        width="240"
                     >
                         <template slot-scope="scope">
                             <el-button
                                 size="mini"
                                 type="success"
+                                @click="linkTo('active',scope.row)"
+                                v-if="scope.row.isActivate===false"
+                            >
+                                激活
+                            </el-button>
+                            <el-button
+                                size="mini"
+                                type="primary"
                                 @click="linkTo('edit',scope.row)"
                             >
                                 编辑
@@ -76,14 +84,9 @@
             data:Array,
             total:Number,
             skipTo:Function,
-            getList:{
-                type:Function,
-                default:()=>{}
-            },
-            remove:{
-                type:Function,
-                default:()=>{}
-            },
+            getList:Function,
+            remove:Function,
+            active:Function
         },
         data() {
             return {
@@ -126,20 +129,13 @@
                 switch (type) {
                     case 'add':
                     case 'edit':
-                        if(this.type==='gateway'){
-                            this.$router.push({
-                                name:'NewGateway',
-                                params:{
-                                    editFlag:type==='add'?false:true,
-                                    data:row
-                                }
-                            })
-                        }else{
-                            this.skipTo(type,row)
-                        }
+                        this.skipTo(type,row)
                         break;
                     case 'delete' :
                         this.open(row);
+                        break;
+                    case 'active':
+                        this.active(row);
                         break;
                     default:
                         break;

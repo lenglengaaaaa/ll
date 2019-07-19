@@ -8,25 +8,38 @@
         </div>
         <div class="body">
             <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="form">
-                <el-form-item label="网关名称" prop="gatewayName">
-                    <el-input v-model="form.gatewayName" placeholder="请输入网关名称"></el-input>
+                <el-form-item label="网关名称" prop="name">
+                    <el-input v-model="form.name" placeholder="请输入网关名称"></el-input>
                 </el-form-item>
-                <el-form-item label="网关编号" >
-                    <el-input v-model="form.gatewayNo" placeholder="请输入字母,下划线或数字"></el-input>
+                <el-form-item label="网关编号" prop="number">
+                    <el-input v-model="form.number" placeholder="请输入字母,下划线或数字"></el-input>
                 </el-form-item>
-                <el-form-item label="卡号">
-                    <el-input v-model="form.gatewayCard" placeholder="请输入卡号"></el-input>
+                <el-form-item label="卡号" prop="card">
+                    <el-input v-model="form.card" placeholder="请输入卡号"></el-input>
                 </el-form-item>
-                <el-form-item label="MAC地址" prop="gatewayMac">
-                    <el-input v-model="form.gatewayMac" placeholder="0000000000000000" maxlength="16"></el-input>
+                <el-form-item label="MAC地址" prop="mac">
+                    <el-input v-model="form.mac" placeholder="请输入网关MAC地址" maxlength="16"></el-input>
                 </el-form-item>
-                <el-form-item label="网关地址">
-                    <el-input v-model="form.gatewaySite" placeholder="请输入网关地址"></el-input>
+                <el-form-item label="网关详情">
+                    <el-input v-model="form.detail" placeholder="请输入网关详情"></el-input>
+                </el-form-item>
+                <el-form-item label="位置信息" prop="location" class="address">
+                    <el-cascader 
+                        :options="options" 
+                        v-model="form.city"  
+                        placeholder="省/市/区"
+                        :props="{
+                            children:'childList',
+                            value:'name',
+                            label:'name'
+                        }"
+                    />
+                    <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
                 </el-form-item>
                 <el-form-item label="网关经纬度" class="map">
                     <MapSingle 
                         vid="newGateway"
-                        :position="form.position"
+                        :position="position"
                         :get="getPostion"
                     />
                 </el-form-item>
@@ -47,61 +60,107 @@
 
 <script>
     import {MapSingle} from '@/components/Maps'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
             MapSingle
         },
         data() {
+            const checkMac = (rule, value, callback) => {
+                if(this.editFlag) return callback();
+                if (!value) {
+                    return callback(new Error('请输入MAC地址'));
+                }
+                const obj ={value,type:0}
+                this.$store.dispatch('overall/checkMacOrCard', obj).then(res=>{
+                    if(!res){
+                        return callback(new Error('MAC已存在'));
+                    }else{
+                        callback()
+                    }
+                });
+            };
+            const checkCard = (rule, value, callback) => {
+                if(this.editFlag) return callback();
+                if (!value) {
+                    return callback(new Error('请输入网关地址'));
+                }
+                const obj ={value,type:1}
+                this.$store.dispatch('overall/checkMacOrCard', obj).then(res=>{
+                    if(!res){
+                        return callback(new Error('Card已存在'));
+                    }else{
+                        callback()
+                    }
+                });
+            };
             return {
+                options:[],
+                position:[],
                 editFlag:false,
-                form: {
-                    gatewayName: '',
-                    gatewayNo:'',
-                    gatewayCard: '',
-                    gatewayMac: '',
-                    gatewaySite:'',
-                    position:[113.991244,22.5959]
-                },
+                form: {},
                 rules: {
-                    gatewayName: [
-                        { required: true, message: '请输入网关名称', trigger: 'blur' },
-                    ],
-                    gatewayMac: [
-                        { required: true, message: '请输入MAC地址', trigger: 'blur' },
-                        { min: 16, max: 16, message: 'MAC地址长度为16', trigger: 'blur' }
+                    name: [{ required: true, message: '请输入网关名称', trigger: 'blur' }],
+                    number: [{ required: true, message: '请输入网关资产编号', trigger: 'blur' }],
+                    card: [ { required: true, validator: checkCard, trigger: 'blur' }],
+                    mac: [
+                        // { min: 16, max: 16, message: 'MAC地址长度为16', trigger: 'blur' },
+                        { required: true, validator: checkMac, trigger: 'blur' }
                     ],
                 }
             }
         },
         mounted () {
-            const {editFlag,data} = this.$route.params;
-            this.editFlag  = editFlag
-            this.form ={
+            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
+            this.options = areaTree
+        },
+        created () {
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('assetObj'));
+            this.form={
                 ...this.form,
                 ...data
-            }
+            };
+            this.position = [data.longitude||113.991244,data.latitude||22.5959];
+            this.editFlag=editFlag;
         },
         methods: {
+            ...mapActions('overall',[
+                'createGateway',
+                'updateGateway'
+            ]),
             goBack(){
                 this.$router.push('/gateway')
             },
             submitForm() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        this.$router.push('/gateway')
+                        const location = `${this.form.city.join(',')},${this.form.location}`
+                        const data ={
+                            ...this.form,
+                            location,
+                            longitude:this.position[0],
+                            latitude:this.position[1]
+                        }
+                        if(!this.editFlag){
+                            this.createGateway(data).then(res=>{
+                                if(!res)return;
+                                this.goBack();
+                            })
+                                
+                        }else{
+                            this.updateGateway(data).then(res=>{
+                                if(!res)return;
+                                this.goBack();
+                            })
+                        }
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
             },
             getPostion(lng,lat){
-                this.form ={
-                    ...this.form,
-                    position:[lng,lat]
-                }
-                console.log(this.form,'form')
+                this.position =[lng,lat];
             }
         },
     }
@@ -132,10 +191,20 @@
                     height: 35px;
                     line-height: 35px;
                 }
+                .address{
+                    .el-form-item__content{
+                        display: flex;
+                        .el-cascader{
+                            width: 300px;
+                            padding-right: 10px;
+                        }
+                    }
+                }
                 .map{
                     justify-self: flex-end;
                 }
                 .submit{
+                    text-align: center;
                     padding: 15px 0 10px 0;
                 }
             }
