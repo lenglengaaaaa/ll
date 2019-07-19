@@ -471,16 +471,24 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
-                res.data.map(item=>{
+                const result = res.data.map(item=>{
                     if(item.lineList&&item.lineList.length){
-                        const nameArray=item.lineList.map(name=>{
-                            return name.lineName
-                        })
-                        item.lineNames=nameArray.join(",")
+                        const {idArray,nameArray} = item.lineList.reduce((pre,current)=>{
+                            return {
+                                ...pre,
+                                idArray:[...pre.idArray,current.lineId],
+                                nameArray:[...pre.nameArray,current.lineName]
+                            }
+                        },{idArray:[],nameArray:[]})
+                        item.lineId = idArray;
+                        item.lineNames = nameArray.join(',');
                     }
                     return item
                 });
-                return res;
+                return {
+                    ...res,
+                    data:result
+                };
             }else{
                 res&&tip(res.meassage)
                 return false;

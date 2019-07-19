@@ -7,10 +7,20 @@
         :type="4"
     >
         <template>
-            <el-form-item label="所属主线缆" prop="lineId">
-                <el-select v-model="form.lineId" >
-                    <el-option label="主线缆一" value="0"></el-option>
-                </el-select>
+            <el-form-item label="附属线缆" prop="lineId">
+                <el-cascader 
+                    v-model="form.lineId"
+                    :options="options" 
+                    :show-all-levels="false"
+                    clearable
+                    :props="{
+                        multiple:true,
+                        children:'childList',
+                        value:'id',
+                        label:'name',
+                        emitPath:false
+                    }"
+                />
             </el-form-item>
         </template>
     </CreateEdit>
@@ -26,6 +36,7 @@
         },
         data() {
             return {
+                options:[],
                 form: {}
             }
         },
@@ -36,19 +47,36 @@
                 ...data
             };
         },
+        mounted () {
+            this.getLineTree().then(res=>{
+                if(!res)return;
+                this.options=res;
+            });
+        },
         methods: {
             ...mapActions('asset',[
+                'getLineTree',
                 'createTrap', 
                 'updateTrap'
             ]),
             create(obj) {
-                this.createTrap(obj).then(res=>{
+                const result = {
+                    ...obj,
+                    lineIds:obj.lineId
+                }
+                delete result.lineId
+                this.createTrap(result).then(res=>{
                     if(!res)return
                     this.$router.push({name:'CoverList'})
                 })
             },
             edit(obj){
-                this.updateTrap(obj).then(res=>{
+                const result = {
+                    ...obj,
+                    lineIds:obj.lineId
+                }
+                delete result.lineId
+                this.updateTrap(result).then(res=>{
                     if(!res)return
                     this.$router.push({name:'CoverList'})
                 })
