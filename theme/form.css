@@ -64,6 +64,8 @@
 -------------------------- */
 /* Pagination
 -------------------------- */
+/* Popup
+-------------------------- */
 /* Popover
 -------------------------- */
 /* Tooltip
@@ -106,9 +108,13 @@
 --------------------------*/
 /* Timeline
 --------------------------*/
+/* Backtop
+--------------------------*/
 /* Link
 --------------------------*/
 /* Calendar
+--------------------------*/
+/* Avatar
 --------------------------*/
 /* Break-point
 --------------------------*/
@@ -184,6 +190,8 @@
 -------------------------- */
 /* Pagination
 -------------------------- */
+/* Popup
+-------------------------- */
 /* Popover
 -------------------------- */
 /* Tooltip
@@ -226,9 +234,13 @@
 --------------------------*/
 /* Timeline
 --------------------------*/
+/* Backtop
+--------------------------*/
 /* Link
 --------------------------*/
 /* Calendar
+--------------------------*/
+/* Avatar
 --------------------------*/
 /* Break-point
 --------------------------*/
@@ -239,8 +251,7 @@
   float: none;
   display: inline-block;
   text-align: left;
-  /* padding: 0 0 10px 0;  */
-}
+  padding: 0 0 10px 0; }
 
 .el-form--inline .el-form-item {
   display: inline-block;
@@ -259,8 +270,7 @@
   display: block; }
 
 .el-form-item {
-  margin-bottom: 15px; 
-}
+  margin-bottom: 22px; }
   .el-form-item::before,
   .el-form-item::after {
     display: table;
@@ -301,8 +311,7 @@
     vertical-align: middle;
     float: left;
     font-size: 14px;
-    color: #171717;
-    font-weight: bold;
+    color: #606266;
     line-height: 40px;
     padding: 0 12px 0 0;
     -webkit-box-sizing: border-box;
@@ -318,7 +327,7 @@
     .el-form-item__content::after {
       clear: both; }
     .el-form-item__content .el-input-group {
-      vertical-align: middle; }
+      vertical-align: top; }
   .el-form-item__error {
     color: #F56C6C;
     font-size: 12px;
@@ -347,14 +356,5 @@
     border-color: transparent; }
   .el-form-item.is-error .el-input__validateIcon {
     color: #F56C6C; }
-  .el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus,
-  .el-form-item.is-success .el-textarea__inner,
-  .el-form-item.is-success .el-textarea__inner:focus {
-    border-color: #67C23A; }
-  .el-form-item.is-success .el-input-group__append .el-input__inner,
-  .el-form-item.is-success .el-input-group__prepend .el-input__inner {
-    border-color: transparent; }
-  .el-form-item.is-success .el-input__validateIcon {
-    color: #67C23A; }
   .el-form-item--feedback .el-input__validateIcon {
     display: inline-block; }
