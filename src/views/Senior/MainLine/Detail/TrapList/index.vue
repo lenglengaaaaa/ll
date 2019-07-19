@@ -40,7 +40,7 @@
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("mainLine"));
-            this.$route.meta.title=obj.name
+            console.log(this.$route,'route')
             this.$store.dispatch('asset/getLineBelowTrap',obj.id).then(res=>{
                 if(!res)return;
                 this.data = res;

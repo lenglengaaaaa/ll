@@ -321,12 +321,12 @@ const router= new Router({
                   name:'MainLineDetail',
                   redirect:'mainLineDetail/list',
                   component: () => import('@/views/Senior/MainLine/Detail'),
+                  meta:{title:'主线缆详情'},
                   children:[
                     {
                       path:'list',
                       name:'List',
-                      component: () => import('@/views/Senior/MainLine/Detail/List'),
-                      meta:{title:'主线缆详情'},
+                      component: () => import('@/views/Senior/MainLine/Detail/TrapList'),
                     },
                     {
                       path:'mainTrap',
