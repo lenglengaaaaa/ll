@@ -61,9 +61,14 @@
             },
             projectName(){
                 const path = this.$route.path.split('/')[1];
-                if(path==='/senior') return '高级管理';
-                const project = JSON.parse(sessionStorage.getItem('project'));
-                return project.name
+                if(path==='senior'){
+                    return '高级管理';
+                } else if(path==="account"){
+                    return '账号管理'
+                }else{
+                    const project = sessionStorage.getItem('project')&&JSON.parse(sessionStorage.getItem('project'));
+                    return  project&&project.name
+                }
             }
         },
         mounted () {
