@@ -1,5 +1,5 @@
 <template>
-    <div class="CREATE_EDIT">
+    <div class="CREATE_EDIT_EQUIP">
         <el-form 
             label-position="top" 
             label-width="100px" 
@@ -170,9 +170,7 @@
                     上一步
                 </el-button>
                 <el-button type="primary" @click="submit" >
-                    {{type===0||type===5?
-                        '下一步':!editFlag?'添加完成':'编辑完成'
-                    }}
+                    {{editFlag?'编辑完成':type===0 || type===5?'下一步':'创建完成'}}
                 </el-button>
             </el-form-item>
         </el-form>
@@ -251,7 +249,7 @@
         created () {
             const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
             const appType = sessionStorage.getItem('appType');
-            this.type = appType;
+            this.type = +appType;
             this.form={
                 ...this.form,
                 ...data
@@ -262,9 +260,9 @@
         mounted () {
             const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
             this.options = areaTree;
-            if(this.editFlag){
-                $('.el-form').css({maxHeight:'calc(100vh - 170px)'})
-            }
+            // if(this.editFlag){
+            //     $('.el-form').css({maxHeight:'calc(100vh - 170px)'})
+            // }
         },
         methods: {
             submit() {
@@ -278,8 +276,12 @@
                             latitude:this.position[1]
                         }
                         //添加 & 编辑
-                        //this.type===0||this.type===5 进入激活页面
-                        this.$router.push({name:'EquList'})
+                        // this.type===0||this.type===5 进入激活页面
+                        if(this.type===0 || this.type ===5){
+                            this.next()
+                        }else{
+                            this.$router.push({name:'EquList'})
+                        }
                     } else {
                         return false;
                     }

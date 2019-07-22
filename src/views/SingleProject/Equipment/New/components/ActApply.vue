@@ -77,6 +77,7 @@
         padding: 15px;
         background:#fff;
         box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+        margin-bottom: 5px;
         .el-input__inner{
             border-radius: 0px;
             height: 35px;
@@ -89,7 +90,7 @@
             position: relative;
             .random{
                 position: absolute;
-                top: -33px;
+                top: -40px;
                 left: 75px;
             }
         }

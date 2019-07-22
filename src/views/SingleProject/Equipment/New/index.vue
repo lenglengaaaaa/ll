@@ -81,6 +81,7 @@
             width: 60%;
         }
         .content{
+            overflow: scroll;
             width: 100%;
             margin-top: 30px;
             display: flex;
@@ -88,7 +89,7 @@
         }
         .edit{
             width: 100%;
-            height: 100%;
+            // height: 100%;
             display: flex;
             justify-content: center;
         }
