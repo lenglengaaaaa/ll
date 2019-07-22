@@ -1,5 +1,5 @@
 <template>
-    <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
+    <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="actForm">
         <el-form-item label="设备地址" prop="address">
             <el-link type="primary" class="random" @click="random">(随机生成)</el-link>
             <el-input v-model="form.address" placeholder="00000000"></el-input>
@@ -58,15 +58,14 @@
                 console.log('随机获取')
             },
             submit() {
-                this.next();
-                // this.$refs.appForm.validate((valid) => {
-                //     if (valid) {
-                //         this.next()
-                //     } else {
-                //         console.log('error submit!!');
-                //         return false;
-                //     }
-                // });
+                this.$refs.actForm.validate((valid) => {
+                    if (valid) {
+                        this.next()
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             }
         },
     }

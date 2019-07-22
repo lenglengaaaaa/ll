@@ -1,6 +1,12 @@
 <template>
     <div class="CREATE_EDIT">
-        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="magicForm">
+        <el-form 
+            label-position="top" 
+            label-width="100px" 
+            :model="form" 
+            :rules="rules" 
+            ref="magicForm"
+        >
             <el-form-item label="技术选型" prop="pattern">
                 <el-select v-model="form.pattern">
                     <el-option label="LoRa" value="0"></el-option>
@@ -137,30 +143,36 @@
 
             <!--选择省市区,填写详细地址-->
             <el-form-item label="位置信息" prop="location" class="address">
-                <el-cascader :options="options" v-model="form.city"></el-cascader>
+                <el-cascader 
+                    :options="options" 
+                    v-model="form.city"  
+                    placeholder="请选择项目所属区域"
+                    :props="{
+                        children:'childList',
+                        value:'name',
+                        label:'name'
+                    }"
+                />
                 <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
 
             <!--通过地图上点击,获取经纬度位置-->
             <el-form-item label="设备经纬度" class="map">
                 <MapSingle 
-                    vid="newApply"
-                    :position="form.position"
-                    :get="getPostion"
-                />
+                        vid="newEquip"
+                        :position="position"
+                        :get="getPostion"
+                    />
             </el-form-item>
             
-            <el-form-item class="submit" v-if="!editFlag">
-                <el-button type="danger" @click="pre">
+            <el-form-item class="submit">
+                <el-button type="danger" @click="pre" v-if="!editFlag">
                     上一步
                 </el-button>
                 <el-button type="primary" @click="submit" >
-                    {{type===0||type===5?'下一步':'完成'}}
-                </el-button>
-            </el-form-item>
-            <el-form-item class="submit" v-else>
-                <el-button type="primary" @click="edit" >
-                    编辑完成
+                    {{type===0||type===5?
+                        '下一步':!editFlag?'添加完成':'编辑完成'
+                    }}
                 </el-button>
             </el-form-item>
         </el-form>
@@ -169,7 +181,6 @@
 
 <script>
     import {MapSingle} from '@/components/Maps'
-    import {options} from '@/utils/options'
 
     export default {
         components: {
@@ -194,7 +205,10 @@
                 callback();
             };
             return {
-                options:options,
+                options:[],
+                position:[],
+                type:0,//设备类型
+                editFlag:false,
                 form: {
                     pattern:'0',
                     id:'',
@@ -217,7 +231,6 @@
                     centerId:'',
                     city:[],
                     address:'',
-                    position:[113.991244,22.5959]
                 },
                 rules: {
                     pattern: [{ required: true, trigger: 'blur' }],
@@ -235,23 +248,21 @@
                 }
             }
         },
-        computed: {
-            type() {
-                return this.$store.state.app.appType 
-            },
-            editFlag(){
-                
-                return this.$store.state.app.editObj.editFlag || false
-            }
-        },
-        mounted () {
-            const data = this.$store.state.app.editObj.data || {}; 
-            const editFlag=this.$store.state.app.editObj.editFlag || false
+        created () {
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const appType = sessionStorage.getItem('appType');
+            this.type = appType;
             this.form={
                 ...this.form,
                 ...data
             };
-            if(editFlag){
+            this.editFlag = editFlag;
+            this.position = [data.longitude||113.991244,data.latitude||22.5959];
+        },
+        mounted () {
+            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
+            this.options = areaTree;
+            if(this.editFlag){
                 $('.el-form').css({maxHeight:'calc(100vh - 170px)'})
             }
         },
@@ -259,34 +270,24 @@
             submit() {
                 this.$refs.magicForm.validate((valid) => {
                     if (valid) {
-                        if(this.type===0||this.type===5){
-                            this.next()
-                        }else{
-                            this.$message({
-                                message: '添加设备成功',
-                                type: 'success'
-                            });
-                            this.$router.push({name:'EquList'})
+                        const location = `${this.form.city.join(',')},${this.form.location}`
+                        const data ={
+                            ...this.form,
+                            location,
+                            longitude:this.position[0],
+                            latitude:this.position[1]
                         }
+                        //添加 & 编辑
+                        //this.type===0||this.type===5 进入激活页面
+                        this.$router.push({name:'EquList'})
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
             },
             getPostion(lng,lat){
-                this.form ={
-                    ...this.form,
-                    position:[lng,lat]
-                }
+                this.position =[lng,lat];
             },
-            edit(){
-                this.$message({
-                    message: '编辑成功',
-                    type: 'success'
-                });
-                this.$router.push({name:'EquList'})
-            }
         },
     }
 </script>

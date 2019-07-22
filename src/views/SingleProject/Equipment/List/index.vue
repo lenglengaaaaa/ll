@@ -122,6 +122,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { mapActions } from 'vuex';
 
     const deviceType ={
         20: "氧气传感器",
@@ -172,28 +173,39 @@
                         trapId:'0',
                         lineId:'0',
                         createTime:'2018-05-12 11:11:11',
+                        location:'广东,深圳市,罗湖区,中科研究院'
                     }
                 ],
-                total:100
-            }
-        },
-        watch: {
-            value(newValue, oldValue) {
-                console.log(newValue,'value')
+                total:0,
+                params:{
+                    size:20,    
+                    current:1 ,   
+                    projectId:JSON.parse(sessionStorage.getItem('project')).id
+                }
             }
         },
         methods: {
+            ...mapActions('equip',[
+
+            ]),
             getList(){
-                console.log('获取数据')
+                const data = {
+                    ...this.params,
+                    current:obj.filterStr?1:this.params.current,
+                    ...obj
+                }
+                this.params = data ;
+                // this.getLineList(data).then(res=>{
+                //     if(!res)return;
+                //     const {data,page} = res;
+                //     this.data = data;
+                //     this.total = page.total;
+                // })
             },
             skipTo(type,row) {
-                this.$router.push({name:'NewEqu',})
-                //修改设备类型
-                this.$store.dispatch('app/setType',row.type)
-                this.$store.dispatch('app/setEdit',{
-                    editFlag:type==='edit'?true:false,
-                    data:row
-                })
+                this.$router.push({name:'NewEqu'});
+                sessionStorage.setItem('appType',row.type);
+                this.$store.dispatch('asset/skipToEdit',{type,row,storage:'equipObj'})
             },
             skipToDetail(row){
                 this.$router.push({name:'EquDetail'})

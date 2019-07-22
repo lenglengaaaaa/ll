@@ -173,8 +173,5 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        .el-form{
-            max-height: calc(100vh - 170px);
-        }
     }
 </style>

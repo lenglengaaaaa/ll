@@ -50,10 +50,9 @@
             submit() {
                 this.$refs.appForm.validate((valid) => {
                     if (valid) {
-                        this.$store.dispatch('app/setType',this.form.type)
+                        sessionStorage.setItem('appType',this.form.type);
                         this.next()
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });

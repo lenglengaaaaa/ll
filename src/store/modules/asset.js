@@ -66,8 +66,9 @@ const actions= {
         const address =obj.row.location? obj.row.location.split(','):[];
         const city = address.slice(0,3);
         const location = address[3]||"";
+        const storage = obj.storage || 'assetObj'
         //修改资产类型
-        sessionStorage.setItem('assetObj',JSON.stringify({
+        sessionStorage.setItem( storage , JSON.stringify({
             editFlag:obj.type==='edit'?true:false,
             data:{
                 ...obj.row,

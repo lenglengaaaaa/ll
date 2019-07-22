@@ -1,13 +1,10 @@
 import Cookies from 'js-cookie'
 
 const state={
-    appObj:{}, //应用对象
     sidebar: {
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
     device: 'desktop',
-    appType:'',
-    editObj:{}
 }
 
 const mutations={
@@ -29,13 +26,6 @@ const mutations={
     TOGGLE_DEVICE: (state, device) => {
         state.device = device
     },
-    //保存应用信息
-    SET_TYPE:(state,type)=>{
-        state.appType = type
-    },
-    SET_EDIT:(state,obj)=>{
-        state.editObj = obj
-    }
 }
 
 const actions= {
@@ -48,12 +38,6 @@ const actions= {
     toggleDevice({ commit }, device) {
         commit('TOGGLE_DEVICE', device)
     },
-    setType({commit},type){
-        commit('SET_TYPE',type)
-    },
-    setEdit({commit},obj){
-        commit('SET_EDIT',obj)
-    }
 }   
 
 export default {

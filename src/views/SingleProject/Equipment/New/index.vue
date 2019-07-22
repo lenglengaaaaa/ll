@@ -39,13 +39,13 @@
         },
         data() {
             return {
-                active: 0
+                active: 0,
+                editFlag:false,
             };
         },
-        computed:{
-            editFlag(){
-                return this.$store.state.app.editObj.editFlag || false
-            }
+        created () {
+            const {editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            this.editFlag = editFlag;
         },
         methods: {
             pre(){
