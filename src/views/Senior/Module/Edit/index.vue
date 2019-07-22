@@ -93,13 +93,4 @@
 </script>
 
 <style lang="scss">
-    @import '@/styles/form.scss';
-    .CREATE_EDIT{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        .el-form{
-            max-height: calc(100vh - 170px);
-        }
-    }
 </style>

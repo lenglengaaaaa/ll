@@ -167,10 +167,39 @@
 </script>
 
 <style lang="scss">
-    @import '@/styles/form.scss';
     .CREATE_EDIT_ASSET{
         width: 100%;
         display: flex;
         justify-content: center;
+        .el-form{
+            width:1100px;
+            max-width: 100%;
+            overflow: scroll;
+            padding: 15px;
+            margin-bottom: 5px;
+            background:#fff;
+            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+            .el-input__inner{
+                border-radius: 0px;
+                height: 35px;
+                line-height: 35px;
+            }
+            .el-select,.el-cascader{
+                width: 100%;
+            }
+            .address{
+                .el-form-item__content{
+                    display: flex;
+                    .el-cascader{
+                        width: 300px;
+                        padding-right: 10px;
+                    }
+                }
+            }
+            .submit{
+                padding-top: 20px;
+                text-align: center;
+            }
+        }
     }
 </style>
