@@ -15,6 +15,8 @@ import api from './utils/API'
 import element from './utils/Element'
 import '../theme/index.css'
 
+import mqtt from './utils/Mqtt'
+
 import App from './App'
 
 
@@ -43,21 +45,24 @@ VueAMap.initAMapApiLoader({
 });
 
 //挂载elemtnt-ui
-Vue.use(element)
+Vue.use(element);
 
 //挂载echarts
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts;
 
 //全局挂载request方法
 Vue.use(request);
 
+//挂载mqtt
+Vue.prototype.$mqtt = mqtt;
+
 //全局挂载api
-Vue.use(api)
+Vue.use(api);
 
 //挂载moment
-Vue.prototype.$moment = moment
+Vue.prototype.$moment = moment;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({

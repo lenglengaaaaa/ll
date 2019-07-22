@@ -9,7 +9,7 @@
     >
         <template #select>
             <div class="equipSelect">
-                <el-select v-model="value" placeholder="请选择">
+                <el-select v-model="value" placeholder="请选择" @change="changeEquip">
                     <el-option
                         v-for="item in types"
                         :key="item.value"
@@ -102,20 +102,20 @@
                 show-overflow-tooltip
                 :formatter="(row)=>row.cenId || '-'"
             />
-            <el-table-column
+            <!-- <el-table-column
                 prop="location"
                 label="位置信息"
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>row.location || '-'"
-            />
-            <el-table-column
+            /> -->
+            <!-- <el-table-column
                 prop="createTime"
                 label="创建时间"
                 align="center"
                 sortable
                 :formatter="(row)=>this.$moment(row.createTime).fromNow()"
-            />
+            /> -->
         </template>
     </ApplyMgt>
 </template>
@@ -180,15 +180,19 @@
                 params:{
                     size:20,    
                     current:1 ,   
+                    type:0,
                     projectId:JSON.parse(sessionStorage.getItem('project')).id
                 }
             }
+        },
+        mounted () {
+            // this.getList();
         },
         methods: {
             ...mapActions('equip',[
 
             ]),
-            getList(){
+            getList(obj={}){
                 const data = {
                     ...this.params,
                     current:obj.filterStr?1:this.params.current,
@@ -201,6 +205,15 @@
                 //     this.data = data;
                 //     this.total = page.total;
                 // })
+            },
+            //切换设备
+            changeEquip(type){
+                const data ={
+                    ...this.params,
+                    type
+                }
+                this.params = data;
+                this.getList(data)
             },
             skipTo(type,row) {
                 this.$router.push({name:'NewEqu'});
