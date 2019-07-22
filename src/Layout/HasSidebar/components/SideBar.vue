@@ -60,7 +60,8 @@
                 return !this.$store.state.app.sidebar.opened
             },
             projectName(){
-                if(this.path==='senior') return '高级管理';
+                const path = this.$route.path.split('/')[1];
+                if(path==='/senior') return '高级管理';
                 const project = JSON.parse(sessionStorage.getItem('project'));
                 return project.name
             }
