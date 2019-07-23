@@ -175,15 +175,13 @@
         }
         .body{
             margin-top: 10px;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
+            overflow: scroll;
+            height: calc(100% - 44px);
             .el-form{
-                max-height: calc(100vh - 160px);
-                overflow: scroll;
+                margin: 0px auto;
                 width: 1140px;
                 padding: 15px;
+                margin-bottom: 5px;
                 background:#fff;
                 box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
                 .el-input__inner{
