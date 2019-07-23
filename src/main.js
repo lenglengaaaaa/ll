@@ -40,7 +40,8 @@ VueAMap.initAMapApiLoader({
       'AMap.MapType', 
       'AMap.PolyEditor', 
       'AMap.CircleEditor',
-      'AMap.MarkerClusterer'
+      'AMap.MarkerClusterer',
+      'AMap.Geocoder'
     ],
 });
 

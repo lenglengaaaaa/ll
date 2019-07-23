@@ -55,6 +55,7 @@
             for (let i = 0 ; i < 10 ; i ++) {
                 marker.push({
                     position: [121.59996, 31.197646 + i * 0.001],
+                    content:`设备${i}`
                 });
             }
             this.marker=marker;

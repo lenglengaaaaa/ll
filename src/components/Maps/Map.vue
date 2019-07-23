@@ -13,13 +13,20 @@
                     :key="index"
                     :position="marker.position"
                     :events="marker.events"
-                />
+                >   
+                    <!-- 当设备出现故障时 , 坐标标红 -->
+                    <div class="markStyle" :style="{background:marker.alarm?'red':''}">
+                    </div>
+                </el-amap-marker>
                 <el-amap-info-window 
                     v-if="window" 
                     :position="window.position" 
                     :visible="window.visible" 
-                    :content="window.content"
-                />
+                >
+                    <div class="prompt">
+                        {{window.content}}
+                    </div>
+                </el-amap-info-window>
             </el-amap>
         </div>
     </div>
@@ -41,31 +48,39 @@
         data(){
             let self = this;
             return {
+                title:'aaa',
                 center:[113.991244,22.595988],
                 markers: [],
                 markerRefs: [],
                 windows: [],
                 window: '',
+                lng:'',
+                lat:'',
+                address:'',
                 events: {
                     init(o) {
                         setTimeout(() => {
                             let cluster = new window.AMap.MarkerClusterer(o, self.markerRefs,{
-                                gridSize: 80,
+                                gridSize: 150,
                                 renderCluserMarker: self._renderCluserMarker
                             });
-                        }, 1000);
+                        }, 500);
                     },
+                    click(e){
+                        self.window&&(self.window.visible = false);
+                        //用于设备故障时告警 , 点坐标报警
+                        self.markers[0].alarm = true;
+                    }
                 },
             }
         },
         created(){
             let self = this;
-            let markers = [];
-            let windows = [];
+            let markers = [];//点坐标
+            let windows = [];//信息窗体
             this.marker.map((item,index)=>{
                 markers.push({
                     position: item.position,
-                    // content: '<div style="text-align:center; background-color: hsla(180, 100%, 50%, 0.7); height: 24px; width: 24px; border: 1px solid hsl(180, 100%, 40%); border-radius: 12px; box-shadow: hsl(180, 100%, 50%) 0px 0px 1px;"></div>',
                     events: {
                         init(o) {
                             self.markerRefs.push(o);
@@ -82,8 +97,8 @@
                     }
                 });
                 windows.push({
-                    position: item.position,
-                    content: `<div class="prompt">${ index }</div>`,
+                    position:item.position,
+                    content: `${ item.content }`,
                     visible: false
                 });
             })
@@ -122,6 +137,19 @@
     .amap_container{
         .amap-demo {
             height: 500px;
+            .markStyle{
+                text-align:center; 
+                background-color: hsla(180, 100%, 50%, 1); 
+                height: 24px; 
+                width: 24px; 
+                border: 1px solid hsl(180, 100%, 40%); 
+                border-radius: 12px; 
+                box-shadow: hsl(180, 100%, 50%) 0px 0px 1px
+            }
+            .prompt{
+                font-size: 14px;
+                color: red;
+            }
         }
     }
 </style>
