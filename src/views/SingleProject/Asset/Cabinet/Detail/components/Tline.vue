@@ -2,7 +2,7 @@
     <div class="DATA_DETAIL">
         <div class="wrap">
             <div class="seletGroup">
-                <el-form label-position="top">
+                <el-form label-position="left">
                     <el-form-item label="时间段:">
                         <el-date-picker
                             v-model="time"
@@ -38,16 +38,36 @@
     }
 </script>
 
-<style lang="scss" scoped>
-    @import '@/styles/dataDetail.scss';
-
+<style lang="scss">
     .DATA_DETAIL{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 15px 0;
         .wrap{
+            width: 98%;
             #line{
                 height: 300px !important;
-            }   
+            }  
+            .seletGroup{
+                padding-bottom: 20px;
+                display: flex;
+                align-items: center;
+                .el-form{
+                    width: 100%;
+                    .el-form-item{
+                        margin: 0;
+                    }
+                }
+                .icon{
+                    i{
+                        cursor: pointer;
+                        background: #ecefef;
+                        padding: 5px;
+                        border-radius: 5px;
+                    }
+                }
+            }
         }
-        
     }
-    
 </style>

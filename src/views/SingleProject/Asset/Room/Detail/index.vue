@@ -53,11 +53,8 @@
             />
         </template>
         <template>
-            <el-tab-pane label="魔节" lazy class="magic">
-                <Magic></Magic>
-            </el-tab-pane>
-            <el-tab-pane label="独立传感器" >
-                
+            <el-tab-pane label="设备数据总览" lazy class="magic">
+                <RoomEquip></RoomEquip>
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -65,12 +62,12 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
-    import Magic from './components/Magic'
+    import RoomEquip from './components/RoomEquip'
 
     export default {
         components: {
             AssetDetail,
-            Magic
+            RoomEquip
         },
         data() {
             return {

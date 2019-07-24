@@ -3,14 +3,8 @@
         :table="false"
     >
         <template>
-            <el-tab-pane label="魔节" lazy>
-                <Magic></Magic>
-            </el-tab-pane>
-            <el-tab-pane label="线缆温度传感器" lazy>
-                <Tline></Tline>
-            </el-tab-pane>
-            <el-tab-pane label="独立传感器" lazy>
-                
+            <el-tab-pane label="设备数据总览" lazy>
+                <EquipDetail />
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -18,14 +12,12 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
-    import Magic from './components/Magic'
-    import Tline from './components/Tline'
+    import EquipDetail from '@/components/EquipDetail'
     
     export default {
         components: {
             AssetDetail,
-            Magic,
-            Tline
+            EquipDetail
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));

@@ -10,7 +10,10 @@
                 <RingList></RingList>
             </el-tab-pane>
             <el-tab-pane label="独立传感器" lazy>
-                
+
+            </el-tab-pane>
+            <el-tab-pane label="数据模拟" lazy>
+                <Simulate />
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -20,12 +23,14 @@
     import AssetDetail from '@/components/AssetDetail'
     import RingView from './components/RingView'
     import RingList from './components/RingList'
+    import Simulate from './components/Simulate'
 
     export default {
         components: {
             AssetDetail,
             RingView,
-            RingList
+            RingList,
+            Simulate
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));

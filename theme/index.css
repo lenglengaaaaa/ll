@@ -8625,7 +8625,7 @@
     color: #909399; }
   .el-menu-item:hover, .el-menu-item:focus {
     outline: none;
-    background-color: #ecf5ff; }
+    background-color: #3498db; }
   .el-menu-item.is-disabled {
     opacity: 0.25;
     cursor: not-allowed;
@@ -36936,7 +36936,7 @@
   position: relative;
   left: 100%; }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 870px) {
   .el-col-xs-0 {
     display: none; }
   .el-col-xs-0 {

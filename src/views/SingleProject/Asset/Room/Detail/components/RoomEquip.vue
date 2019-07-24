@@ -1,6 +1,6 @@
 <template>
     <EquipDetail 
-
+        :hasLine="false"
     />
 </template>
 
@@ -12,7 +12,7 @@
             EquipDetail
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
+            // const result =JSON.parse(sessionStorage.getItem("obj"));
         },
         data() {
             return {
