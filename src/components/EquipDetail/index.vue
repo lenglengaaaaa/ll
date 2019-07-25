@@ -79,11 +79,16 @@
             close:{
                 type:Function,
                 default:()=>{}
+            },
+            getData:{
+                type:Function,
+                default:()=>{}
             }
         },
         created () {
-            // const result =JSON.parse(sessionStorage.getItem("obj"));
-            console.log('I am here!')
+            const result =JSON.parse(sessionStorage.getItem("obj"));
+            //获取设备数据 or 线缆数据
+            this.getData();
         },
         data() {
             return {

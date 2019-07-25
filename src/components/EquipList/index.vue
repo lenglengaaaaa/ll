@@ -89,6 +89,7 @@
                 :hasLine="false"
                 :hasLone="false"
                 :close="skipToList"
+                :getData="getData"
             />
         </div>
     </div>
@@ -101,12 +102,16 @@
         components: {
             EquipDetail,
         },
+        props:{
+            data:Array,
+            getData:{
+                type:Function,
+                default:()=>{}
+            }
+        },
         data() {
             return {
                 detailFlag:false,
-                data: [{
-                    name:'test'
-                }]
             }
         },
         methods: {
@@ -115,8 +120,7 @@
             },
             skipToDetail(row) {
                 this.detailFlag = true;
-            },
-
+            }
         },
     }
 </script>

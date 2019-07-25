@@ -54,7 +54,10 @@
         </template>
         <template>
             <el-tab-pane label="设备列表" lazy>
-                <EquipList></EquipList>
+                <EquipList 
+                    :data="equipList"
+                    :getData="getEquipData"
+                />
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -72,19 +75,14 @@
         data() {
             return {
                 data: [],
+                equipList:[]
             }
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=obj.name
-            this.$store.dispatch('asset/getChestList',{
-                size:20,
-                current:1,
-                roomId:obj.id
-            }).then(res=>{
-                if(!res)return;
-                this.data = res.data;
-            })
+            this.getList(obj);
+            this.getEquipList();
         },
         methods: {
             skipToDetail(row) {
@@ -92,6 +90,27 @@
                 this.$router.push({
                     name:'CabinetDetail'
                 })
+            },
+            //获取附属配电柜列表
+            getList(obj){
+                this.$store.dispatch('asset/getChestList',{
+                    size:20,
+                    current:1,
+                    roomId:obj.id
+                }).then(res=>{
+                    if(!res)return;
+                    this.data = res.data;
+                })
+            },
+            //获取附属设备列表
+            getEquipList(){
+                this.equipList=[{
+                    name:'test'
+                }]
+            },
+            //获取设备数据
+            getEquipData(){
+                console.log('获取设备数据')
             }
         },
     }
