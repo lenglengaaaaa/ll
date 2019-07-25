@@ -9,9 +9,9 @@
             <el-tab-pane label="魔戒列表" lazy>
                 <RingList></RingList>
             </el-tab-pane>
-            <el-tab-pane label="独立传感器" lazy>
-
-            </el-tab-pane>
+            <el-tab-pane label="设备列表" lazy>
+                <EquipList />
+            </el-tab-pane>  
             <el-tab-pane label="数据模拟" lazy>
                 <Simulate />
             </el-tab-pane>
@@ -24,13 +24,15 @@
     import RingView from './components/RingView'
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
+    import EquipList from '@/components/EquipList'
 
     export default {
         components: {
             AssetDetail,
             RingView,
             RingList,
-            Simulate
+            Simulate,
+            EquipList
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));

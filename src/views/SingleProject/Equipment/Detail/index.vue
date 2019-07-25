@@ -1,6 +1,6 @@
 <template>
     <EquipDetail 
-
+        :close="close"
     />
 </template>
 
@@ -12,11 +12,17 @@
             EquipDetail
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
+            const obj =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=obj.name
         },
         data() {
             return {
                 
+            }
+        },
+        methods: {
+            close() {
+                this.$router.push({name:'EquList'})
             }
         },
     }

@@ -53,8 +53,8 @@
             />
         </template>
         <template>
-            <el-tab-pane label="设备数据总览" lazy class="magic">
-                <RoomEquip></RoomEquip>
+            <el-tab-pane label="设备列表" lazy>
+                <EquipList></EquipList>
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -62,12 +62,12 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
-    import RoomEquip from './components/RoomEquip'
+    import EquipList from '@/components/EquipList'
 
     export default {
         components: {
             AssetDetail,
-            RoomEquip
+            EquipList
         },
         data() {
             return {
@@ -88,10 +88,10 @@
         },
         methods: {
             skipToDetail(row) {
+                sessionStorage.setItem('obj',JSON.stringify(row))
                 this.$router.push({
                     name:'CabinetDetail'
                 })
-                sessionStorage.setItem('obj',JSON.stringify(row))
             }
         },
     }

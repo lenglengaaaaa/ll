@@ -3,8 +3,8 @@
         :table="false"
     >
         <template>
-            <el-tab-pane label="设备数据总览" lazy>
-                <EquipDetail />
+            <el-tab-pane label="设备列表" lazy>
+                <EquipList />
             </el-tab-pane>
         </template>
     </AssetDetail>
@@ -12,12 +12,12 @@
 
 <script>
     import AssetDetail from '@/components/AssetDetail'
-    import EquipDetail from '@/components/EquipDetail'
+    import EquipList from '@/components/EquipList'
     
     export default {
         components: {
             AssetDetail,
-            EquipDetail
+            EquipList
         },
         created () {
             const obj =JSON.parse(sessionStorage.getItem("obj"));

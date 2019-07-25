@@ -12,6 +12,10 @@
             </el-popover>
             <i class="el-icon-info" v-popover:popover4></i>
         </div> -->
+        <i 
+            class="el-icon-back"
+            @click="close"
+        />
         <div class="magic" v-if="hasMagic"> 
             <div class="title">
                 <span>魔节环境数据</span>
@@ -72,9 +76,14 @@
                 type: Boolean,
                 default: true
             },
+            close:{
+                type:Function,
+                default:()=>{}
+            }
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
+            // const result =JSON.parse(sessionStorage.getItem("obj"));
+            console.log('I am here!')
         },
         data() {
             return {
@@ -98,6 +107,15 @@
 
     .EQUIP_CONTAINER{
         position: relative;
+        .el-icon-back{
+            border-radius: 5px;
+            position: absolute;
+            right: 0px;
+            top: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            background: #ecefef;
+        }
         .info{
             z-index: 1000;
             position: absolute;
@@ -108,7 +126,7 @@
             }
         }
         .title{
-            padding: 20px 0 10px 0;
+            padding: 10px 0 10px 0;
             >span{
                 font-size: 20px;
                 font-weight: bold;
