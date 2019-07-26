@@ -19,8 +19,8 @@
             <el-form-item label="设备名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入设备名称"></el-input>
             </el-form-item>
-            <el-form-item label="设备编号" prop="deviceNo">
-                <el-input v-model="form.deviceNo" placeholder="请输入设备编号"></el-input>
+            <el-form-item label="设备资产编号" prop="number">
+                <el-input v-model="form.number" placeholder="设备资产编号"></el-input>
             </el-form-item>
             <el-form-item :label="`设备EUI(请填写${form.pattern==0?16:15}位设备EUI)`" prop="deviceEUI">
                 <el-input 
@@ -189,6 +189,7 @@
             pre:Function,
         },
         data() {
+            //验证EUI
             var checkEui = (rule, value, callback) => {
                 if(!value){
                     return callback(new Error('请输入设备EUI'))
@@ -202,6 +203,22 @@
                 }
                 callback();
             };
+            //验证资产编号
+            const checkNumber = (rule, value, callback) => {
+                console.log(this.form,'form')
+                const id = this.form.id || null
+                const obj ={id,num:value,type:this.type}
+                if (!value) {
+                    return callback(new Error('请输入资产编号'));
+                }
+                this.$store.dispatch('asset/checkNo', obj).then(res=>{
+                    if(!res){
+                        return callback(new Error('资产编号已存在'));
+                    }else{
+                        callback()
+                    }
+                });
+            };
             return {
                 options:[],
                 position:[],
@@ -209,32 +226,32 @@
                 editFlag:false,
                 form: {
                     pattern:'0',
-                    id:'',
-                    name:'',
-                    deviceNo:'',
-                    deviceEUI:'',
-                    assetType:'0',//所属类型
-                    //井盖
-                    trapId:'',
-                    lineId:'',
-                    //台区
-                    courtsId:'',
-                    roomId:'',
-                    chestId:'',
-                    Independent:{ //是否为独立传感
-                        flag:'0',
-                        type:'0'
-                    },
-                    magicId:'',
-                    centerId:'',
-                    city:[],
-                    address:'',
+                    // id:'',
+                    // name:'',
+                    // deviceNo:'',
+                    // deviceEUI:'',
+                    // assetType:'0',//所属类型
+                    // //井盖
+                    // trapId:'',
+                    // lineId:'',
+                    // //台区
+                    // courtsId:'',
+                    // roomId:'',
+                    // chestId:'',
+                    // Independent:{ //是否为独立传感
+                    //     flag:'0',
+                    //     type:'0'
+                    // },
+                    // magicId:'',
+                    // centerId:'',
+                    // city:[],
+                    // address:'',
                 },
                 rules: {
                     pattern: [{ required: true, trigger: 'blur' }],
                     id: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
-                    deviceNo: [{ required: true, message: '请输入设备编号', trigger: 'blur' }],
+                    number: [{ required: true, validator: checkNumber, trigger: 'blur' }],
                     deviceEUI: [{ required: true, validator: checkEui, trigger: 'blur' }],
                     trapId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
                     roomId: [{ required: true, message: '请选择设备所属配电房', trigger: 'change' }],

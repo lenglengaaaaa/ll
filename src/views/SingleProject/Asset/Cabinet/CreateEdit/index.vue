@@ -42,6 +42,16 @@
                     />
                 </el-select>
             </el-form-item>
+            <el-form-item label="出线数量">
+                <el-input v-model.number="form.count" placeholder="请输入出现数量"></el-input>
+            </el-form-item>
+            <el-form-item 
+                v-for="(i,index) in form.count" 
+                :key="index" 
+                :label="`出线线路-${index+1}`" 
+            >
+                <el-input v-model="form.listName[index]" placeholder="请输入线路名称"></el-input>
+            </el-form-item>
         </template>
     </CreateEdit>
 </template>
@@ -59,7 +69,8 @@
                 form: {
                     roomId:'',
                     parentId:0,
-                    inChest:0
+                    inChest:0,
+                    listName:[]
                 },
                 courtsMenu:[],
                 roomMenu:[],
@@ -73,14 +84,22 @@
             this.getCourtsMenu(projectId).then(res=>{
                 if(!res)return;
                 this.courtsMenu = res;
+                //当状态为编辑时,获取下拉配电房&配电柜
                 if(editFlag){
                     this.getRoomList(data.courtsId);
                     this.getChestList(data.roomId);
                 }
             })
+            //排序后获取出现名称
+            const arr = data.switchList&&this._.sortBy(data.switchList,(item)=>{
+                return item.id
+            }).map(item=>item.name) || [];
+            //赋值
             this.form={
                 ...this.form,
                 inChest:data.parentId>0?1:0,
+                count:data.switchList&&data.switchList.length || 0,
+                listName:arr,
                 ...data
             };
         },
@@ -93,13 +112,39 @@
                 'updateChest'
             ]),
             create(obj) {
-                this.createChest(obj).then(res=>{
+                const {listName} = obj;
+                let list ;
+                if(listName&&listName.length){
+                    list = listName.reduce((pre,current,index)=>{
+                        return [...pre,{name:current}]
+                    },[])
+                }
+                const data = {
+                    ...obj,
+                    switchList:list || null
+                }
+                this.createChest(data).then(res=>{
                     if(!res)return
                     this.$router.push({name:'CabinetList'})
                 })
             },
             edit(obj){
-                this.updateChest(obj).then(res=>{
+                const {switchList,listName} = obj;
+                const result = this._.sortBy(switchList,item=>item.id);
+                let list ;
+                if(listName&&listName.length){
+                    list = listName.reduce((pre,current,index)=>{
+                        return [...pre,{
+                            id:result&&result.length&&result[index]&&result[index].id || null,
+                            name:current
+                        }]
+                    },[])
+                }
+                const data = {
+                    ...obj,
+                    switchList:list || null
+                }
+                this.updateChest(data).then(res=>{
                     if(!res)return
                     this.$router.push({name:'CabinetList'})
                 })
@@ -107,12 +152,12 @@
             //根据台区ID获取台区下的配电房列表
             changeCourts(id){
                 this.form.roomId = '';
-                this.form.parentId = '';
+                this.form.parentId = 0;
                 this.getRoomList(id);
             },
             //根据配电房ID获取台区下的配电柜
             changeRoom(id){
-                this.form.parentId = '';
+                this.form.parentId = 0;
                 this.getChestList(id)
             },
             changeInChest(val){

@@ -19,6 +19,8 @@ import mqtt from './utils/Mqtt'
 
 import App from './App'
 
+import _ from 'lodash'
+
 
 //挂载vue-amap
 setTimeout(()=>{
@@ -59,6 +61,9 @@ Vue.prototype.$mqtt = mqtt;
 
 //全局挂载api
 Vue.use(api);
+
+//挂载lodash
+Vue.prototype._ = _
 
 //挂载moment
 Vue.prototype.$moment = moment;

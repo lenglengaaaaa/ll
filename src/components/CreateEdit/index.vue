@@ -85,12 +85,13 @@
             type:Number
         },
         data() {
-            const checkAccount = (rule, value, callback) => {
-                if(this.editFlag) return callback();
+            const checkNumber = (rule, value, callback) => {
+                const id = this.form.id || null
+                console.log(this.form,'form')
+                const obj ={id,num:value,type:this.type}
                 if (!value) {
-                    return callback(new Error('请输入用户账号'));
+                    return callback(new Error('请输入资产编号'));
                 }
-                const obj ={num:value,type:this.type}
                 this.$store.dispatch('asset/checkNo', obj).then(res=>{
                     if(!res){
                         return callback(new Error('资产编号已存在'));
@@ -104,7 +105,7 @@
                 position:[],
                 rules:{
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
-                    number: [{ required: true, validator: checkAccount, trigger: 'blur' }],
+                    number: [{ required: true, validator: checkNumber, trigger: 'blur' }],
                     mainComeline: [{ required: true, message: '请输入主进线', trigger: 'blur' }],
                     comeLine: [{ required: true, message: '请输入备用进线', trigger: 'blur' }],
                     courtsId: [{ required: true, message: '请选择所属台区', trigger: 'change' }],
@@ -115,13 +116,13 @@
                 }
             }
         },
-        mounted () {
-            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
-            this.options = areaTree
-        },
         created () {
             const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
+        },
+        mounted () {
+            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
+            this.options = areaTree
         },
         computed: {
             id(){

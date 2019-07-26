@@ -46,6 +46,7 @@ const actions= {
             method:'get',
             url:`${api.checkNo}`,
             data:{
+                id:obj.id,
                 number:obj.num,
                 type:obj.type
             }
@@ -362,6 +363,7 @@ const actions= {
         *      roomId 关联的配电房id（配电房外的配电柜这个值可为空但是其父类对应的配电房id不能为空）
         *      mainComeline 主进线
         *      comeLine 副进线
+        *      switchList 出线
         *      projectId 项目id
         *      longitude 经度
         *      latitude 纬度
