@@ -117,7 +117,7 @@
             position: absolute;
             right: 0px;
             top: 15px;
-            font-size: 30px;
+            font-size: 1.4rem;
             cursor: pointer;
             background: #ecefef;
         }
@@ -133,7 +133,7 @@
         .title{
             padding: 10px 0 10px 0;
             >span{
-                font-size: 20px;
+                font-size: 1.2rem;
                 font-weight: bold;
                 padding: 0 10px;
                 border: 0 solid #e4e6eb;
@@ -149,7 +149,7 @@
                 display: flex;
                 align-items: center;
                 span,strong{
-                    font-size: 15px;
+                    font-size: 0.8rem;
                 }
             }
         }

@@ -205,19 +205,19 @@
                             height: 45px;
                             border: 1px solid #d2d6d9;
                             border-radius: 20px;
-                            font-size: 15px;
+                            font-size: 0.9rem;
                             &:focus{
                                 border-color:#82c4f2; 
                             }
                             &::-webkit-input-placeholder {
                                 color: #757575;
-                                font-size: 15px;
+                                font-size: 0.9rem;
                             }
                         }
                     }
                     .body_content{
                         .content_title{
-                            font-size: 30px;
+                            font-size: 1.3rem;
                             font-weight: 100;
                             color: #6c7a89;
                             text-align: center;

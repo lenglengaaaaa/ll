@@ -119,7 +119,7 @@
                 }
                 .avatar-uploader-icon {
                     border-radius: 50%;
-                    font-size: 28px;
+                    font-size: 1.75rem;
                     color: #8c939d;
                     width: 100px;
                     height: 100px;
@@ -134,7 +134,7 @@
                 }
             }
             .info{
-                font-size: 16px;
+                font-size: 1rem;
                 padding: 15px 0 ;
                 .title{
                     font-weight: bold;

@@ -147,7 +147,7 @@
                 box-shadow: hsl(180, 100%, 50%) 0px 0px 1px
             }
             .prompt{
-                font-size: 14px;
+                font-size: 0.8rem;
                 color: red;
             }
         }

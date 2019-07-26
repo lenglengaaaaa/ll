@@ -67,7 +67,7 @@
                             height: 4em;
                         }
                         .name{
-                            font-size: 30px;
+                            font-size: 1.5rem;
                         }
                         span{
                             padding: 15px 0;

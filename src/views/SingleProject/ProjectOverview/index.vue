@@ -43,7 +43,8 @@
                 padding: 8px 15px;
             }
             .clearfix{
-                font-size: 16px;
+                font-size: 0.8rem;
+                font-weight: bold;
                 color: #171717;
             }
         }

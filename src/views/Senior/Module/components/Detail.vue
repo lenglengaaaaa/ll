@@ -99,7 +99,7 @@
                 background-color: rgb(218, 218, 218);
                 .el-dialog__title{
                     color: #000;
-                    font-size: 16px;
+                    font-size: 1rem;
                     font-weight: bold;
                 }
             }

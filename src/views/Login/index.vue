@@ -138,21 +138,25 @@
 
 <style lang="scss" scoped>
     @media screen and (max-width: 992px){
-        .header{
-            justify-content: center;
-            padding-left: 0px !important;
+        .Login_container{
+            .header{
+                justify-content: center;
+                padding-left: 0px !important;
+            }
         }
     }
     @media screen and (max-width:1300px) {
-        .body{
-            justify-content: center;
-            .bg{
-                display: none;
+        .Login_container{
+            .body{
+                justify-content: center;
+                .bg{
+                    display: none;
+                }
             }
-        }
-        .footer{
-            flex-direction: column;
-        }
+            .footer{
+                flex-direction: column;
+            }
+        }   
     }
     .Login_container{
         height: 100vh;
@@ -169,13 +173,12 @@
                 padding: 0px 20px;
                 border-right: 2px solid #e1e1e1;
                 img{
-                    width: 5.225rem;
+                    width: 7rem;
                 }
             }
             .title{
                 padding: 0px 20px;
                 font-weight: 600;
-                font-size: 0.77rem;
                 color: #43393a;
             }
         }
@@ -187,7 +190,7 @@
                 padding-left: 19.8vw;
                 padding-right: 7.2vw;
                 img{
-                    width: 25rem;
+                    width: 30rem;
                 }
             }
             .login{
@@ -204,7 +207,7 @@
                 .login_title{
                     color: #666666;
                     font-weight: 400;
-                    font-size: 24px;
+                    font-size: 1.5rem;
                     text-align: center;
                     padding:10px 0 15px 0;
                 }
@@ -230,7 +233,7 @@
             align-items: center;
             justify-content: center;
             span{
-                font-size: 0.6rem;
+                font-size: 0.7rem;
                 color: #464646;
             }
         }

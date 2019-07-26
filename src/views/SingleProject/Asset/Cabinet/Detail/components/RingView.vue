@@ -84,7 +84,7 @@
                             top: -99px;
                             left: 120px;
                             padding: 5px;
-                            font-size: 16px;
+                            font-size: 0.8rem;
                             border-radius: 5px;
                             border: 4px solid black;
                         }
@@ -99,7 +99,7 @@
                                     justify-content: center;
                                     align-items: center;
                                     span{
-                                        font-size: 16px;
+                                        font-size: 0.8rem;
                                         font-weight: bold;
                                         cursor: pointer;
                                         width: 100%;
@@ -129,7 +129,7 @@
                                         border-left: 4px solid #000;
                                 }
                                 li{
-                                    font-size: 14px;
+                                    font-size: 0.75rem;
                                     position: relative;
                                     height: 26.5px;
                                     .info{

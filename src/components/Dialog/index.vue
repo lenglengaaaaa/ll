@@ -45,7 +45,6 @@
                 background-color: #eee;
                 .el-dialog__title{
                     color: #869198;
-                    font-size: 16px;
                 }
             }
             .el-dialog__body{

@@ -106,7 +106,7 @@
             overflow: scroll;
             background: #fff;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) ;
-            font-size: 15px;
+            font-size: 0.75rem;
             .el-divider--horizontal{
                 margin: 28px 0;
             }

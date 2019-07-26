@@ -97,7 +97,10 @@
             const {userName,imagePath} =JSON.parse(sessionStorage.getItem('userDetail')); 
             this.username = userName;
             this.imagePath = imagePath?imagePath:avatar;
+            //高亮
             this.hightlight(this.$route.path)
+            //适配
+            this.resizehandle(this.$store.state.app.device);
         },
         watch: {
             $route(to,from){

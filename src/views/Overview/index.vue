@@ -75,7 +75,7 @@
             display: flex;
             align-items: center;
             span{
-                font-size: 17px;
+                font-size: 1.06rem;
                 font-weight: 300;
                 color: #4abced;
             }
