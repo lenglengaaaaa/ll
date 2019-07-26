@@ -456,6 +456,69 @@ const actions= {
         })
     },
 
+    /**
+     * 获取配电柜视图(详情数据)
+     * @param id 配电柜ID
+     */
+    getChestDetail({commit},id){
+        return request({
+            method:'get',
+            url:`${api.chestDetail}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取配电柜出线下拉列表
+     * @param chestId 配电柜ID
+     */
+    getSwitchMenu({commit},chestId){
+        return request({
+            method:'get',
+            url:`${api.switchMenu}`,
+            data:{
+                chestId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取出线相序下拉列表
+     * @param switchId 相序ID
+     */
+    getOutLineMenu({commit},switchId){
+        return request({
+            method:'get',
+            url:`${api.outLineMenu}`,
+            data:{
+                switchId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
     //==================================井盖==================================
 
     /**

@@ -133,6 +133,15 @@ export const api={
     //配电柜下拉 get
     chestListAll:`${url}/e_view/chest/list/all`,
 
+    //配电柜视图(详情) get
+    chestDetail:`${url}/e_view/chest/view`,
+
+    //获取出线下拉列表 get
+    switchMenu:`${url}/e_view/switch/list`,
+
+    //获取出线下相序 get
+    outLineMenu:`${url}/e_view/outline/list`,
+
     //================井盖===================
     //井盖创建 post
     createTrap:`${url}/e_view/trap/create`,
@@ -166,7 +175,24 @@ export const api={
     lineTree:`${url}/e_view/line/list/tree`,
 
     //线缆下所有井盖
-    trapBelowLine:`${url}/e_view/line-trap/list`
+    trapBelowLine:`${url}/e_view/line-trap/list`,
+
+    //=======================================设备管理=====================================================
+    
+    //验证dev_EUI是否存在 get
+    checkEUI:`${url}/e_view/device/exist`,
+
+    //设备类型下拉 get
+    equipTypeMenu:`${url}/e_view/init/list`,
+
+    //设备创建 post
+    createEquip:`${url}/e_view/device/create`,
+
+    //设备编辑 post
+    updateEquip:`${url}/e_view/device/update`,
+
+    //设备删除 post
+    deleteEquip:`${url}/e_view/device/delete`,
 
 }
 

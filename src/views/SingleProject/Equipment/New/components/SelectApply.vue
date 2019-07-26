@@ -5,9 +5,9 @@
                 <el-select v-model="form.type" placeholder="请选择设备类型">
                     <el-option 
                         v-for="item in types" 
-                        :key="item.value" 
-                        :label="item.label" 
-                        :value="item.value"
+                        :key="item.id" 
+                        :label="item.value" 
+                        :value="item.id"
                     />
                 </el-select>
             </el-form-item>
@@ -21,21 +21,15 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
+
     export default {
         props: {
             next:Function
         },
         data() {
             return {
-                types:[
-                    {label:'魔节',value:0},
-                    {label:'线缆温度传感器',value:1},
-                    {label:'红外门禁传感器',value:2},
-                    {label:'液位传感器',value:3},
-                    {label:'烟感传感器',value:4},
-                    {label:'集中器',value:5},
-                    {label:'魔戒',value:6},
-                ],
+                types:[],
                 form:{
                     type: '',
                 },
@@ -46,7 +40,16 @@
                 }
             }
         },
+        mounted () {
+            this.getEquipMenu().then(res=>{
+                if(!res) return;
+                this.types = res;
+            });
+        },
         methods: {
+            ...mapActions('equip',[
+                'getEquipMenu', 
+            ]),
             submit() {
                 this.$refs.appForm.validate((valid) => {
                     if (valid) {
