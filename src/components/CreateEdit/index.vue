@@ -87,7 +87,6 @@
         data() {
             const checkNumber = (rule, value, callback) => {
                 const id = this.form.id || null
-                console.log(this.form,'form')
                 const obj ={id,num:value,type:this.type}
                 if (!value) {
                     return callback(new Error('请输入资产编号'));

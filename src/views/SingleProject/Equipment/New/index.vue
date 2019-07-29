@@ -13,7 +13,10 @@
                     <SelectApply :next="next"></SelectApply>
                 </template>
                 <template v-if="active==1">
-                    <AddApply :next="next" :pre="pre"></AddApply>
+                    <AddApply 
+                        :pre="pre"
+                        :next="next"
+                    />
                 </template>
                 <template v-else-if="active===2">
                     <ActApply :next="next"></ActApply>
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-    import {SelectApply,AddApply,ActApply} from './components'
+    import {SelectApply,AddApply,ActApply} from './module'
 
     export default {
         components: {
@@ -84,8 +87,6 @@
             overflow: scroll;
             width: 100%;
             margin-top: 30px;
-            display: flex;
-            justify-content: center;
         }
         .edit{
             width: 100%;
