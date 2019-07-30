@@ -41,14 +41,14 @@
             }
         },
         mounted () {
-            this.getEquipMenu().then(res=>{
+            this.getEquipTypeMenu().then(res=>{
                 if(!res) return;
                 this.types = res;
             });
         },
         methods: {
             ...mapActions('equip',[
-                'getEquipMenu', 
+                'getEquipTypeMenu', 
             ]),
             submit() {
                 this.$refs.appForm.validate((valid) => {

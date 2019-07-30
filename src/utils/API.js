@@ -155,6 +155,12 @@ export const api={
     //井盖列表 post
     trapList:`${url}/e_view/trap/list`,
 
+    //井盖下拉 post
+    trapMenu:`${url}/e_view/trap/list/all`,
+
+    //井盖下所有线缆 post
+    lineInTrapMenu:`${url}/e_view/line-trap/line/list`,
+
     //================线缆&主线缆===================
     //线缆创建 post
     createLine:`${url}/e_view/line/create`,
@@ -193,6 +199,9 @@ export const api={
 
     //设备删除 post
     deleteEquip:`${url}/e_view/device/delete`,
+
+    //设备列表下拉 post
+    equipMenu:`${url}/e_view/device/search`,
 
 }
 

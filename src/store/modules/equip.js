@@ -44,7 +44,7 @@ const actions= {
      * 设备类型下拉
      * @param type 操作表类型默认为0
      */
-    getEquipMenu({commit},number){
+    getEquipTypeMenu({commit},number){
         return request({
             method:'get',
             url:`${api.equipTypeMenu}`,
@@ -151,6 +151,40 @@ const actions= {
             }
         })
     },
+
+    /**
+     * 设备下拉列表
+     * @param {
+        *      deviceType 设备ID
+        *      projectId 项目ID
+        *      isSon 是否是附属传感器（0.为是 1.为否）
+        *      isSingle 是否为独立上传（0.为是 1.为否）
+        *      commWay 使用的通讯技术（0.NB-IoT 1.LoRa）
+        *      trapId 井盖id
+        *      roomId 关联的配电房id
+        *      chestId 关联的配电柜id
+        *      lineId 关联的线缆id
+        *      parentId 父类id
+        *      gatewayId 关联的网关Id
+        * 
+        *      ** 所有字段都可以不传，或者传null
+        * }
+    */
+    getEquipMenu({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.equipMenu}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
 
 
 }   

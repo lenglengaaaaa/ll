@@ -500,7 +500,7 @@ const actions= {
 
     /**
      * 获取出线相序下拉列表
-     * @param switchId 相序ID
+     * @param switchId 出线ID
      */
     getOutLineMenu({commit},switchId){
         return request({
@@ -626,6 +626,48 @@ const actions= {
             if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 获取井盖下拉列表
+     * @param projectId 项目ID
+        */
+    getTrapMenu({commit},projectId ){
+        return request({
+            method:'post',
+            url:`${api.trapMenu}`,
+            data:{
+                projectId
+            }
+        }).then(res=>{
+            if(res&&res.code === 10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 获取井盖下所有线缆列表
+     * @param trapId 井盖ID
+     */
+    getLineInTrapMenu({commit},trapId){
+        return request({
+            method:'post',
+            url:`${api.lineInTrapMenu}`,
+            data:{
+                trapId
+            }
+        }).then(res=>{
+            if(res&&res.code === 10000000&&res.data){
+                return res.data;
             }else{
                 res&&tip(res.meassage)
                 return false;

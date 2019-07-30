@@ -21,19 +21,34 @@
             <template v-if="form.assetType===0">
                 <el-form-item label="所属井盖" prop="trapId">
                     <el-select v-model="form.trapId">
-                        <el-option label="井盖一" value="0"></el-option>
+                        <el-option 
+                            v-for="item in trapMenus"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
                     </el-select>
                 </el-form-item>
             </template>
             <template v-else>
-                <el-form-item label="所属台区" prop="courtsId">
-                    <el-select v-model="form.courtsId">
-                        <el-option label="台区一" value="0"></el-option>
+                <el-form-item label="所属台区" prop="courtsId" >
+                    <el-select v-model="form.courtsId" @change="courtsChange">
+                        <el-option 
+                            v-for="item in courtsMenus"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="所属配电房" prop="roomId">
                     <el-select v-model="form.roomId">
-                        <el-option label="配电房一" value="0"></el-option>
+                        <el-option 
+                            v-for="item in roomMenus"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
                     </el-select>
                 </el-form-item>
             </template>
@@ -43,6 +58,8 @@
 
 <script>
     import AddEquipForm from '@/components/AddEquipForm'
+    import {resetSingle} from '@/utils/methods'
+    import { mapActions } from 'vuex'
 
     export default {
         components: {
@@ -54,11 +71,55 @@
         },
         data() {
             return {
+                projectId:0,
                 form: {
                     commWay:0,
                     assetType:0
-                }
+                },
+                trapMenus:[],
+                courtsMenus:[],
+                roomMenus:[]
             }
+        },
+        mounted () {
+            const {id} = JSON.parse(sessionStorage.getItem('project'));
+            this.projectId = id;
+            this.getTrapMenu(id).then(res=>{
+                if(!res)return;
+                this.trapMenus = res ;
+            });
+        },
+        watch: {
+            'form.assetType'(value) {
+                if(!value){
+                    resetSingle(this,['courtsId','roomId'])
+                    this.getTrapMenu(this.projectId).then(res=>{
+                        if(!res)return;
+                        this.trapMenus = res ;
+                    });
+                    return;
+                }
+                resetSingle(this,['trapId'])
+                this.getCourtsMenu(this.projectId).then(res=>{
+                    if(!res)return;
+                    this.courtsMenus = res ;
+                });
+            },
+        },
+        methods: {
+            ...mapActions('asset',[
+                'getTrapMenu',
+                'getCourtsMenu',
+                'getRoomMenu',
+            ]),
+            //台区切换回调
+            courtsChange(id){
+                this.getRoomMenu(id).then(res=>{
+                    if(!res)return;
+                    resetSingle(this,['roomId']);
+                    this.roomMenus = res;
+                })
+            },
         },
     }
 </script>

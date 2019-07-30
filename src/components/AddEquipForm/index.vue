@@ -5,7 +5,7 @@
             label-width="100px" 
             :model="form" 
             :rules="rules" 
-            ref="magicForm"
+            ref="equipForm"
         >
             <!-- 必备字段 √ -->
             <el-form-item label="通讯技术">
@@ -21,6 +21,7 @@
                 <el-input v-model="form.number" placeholder="设备资产编号"></el-input>
             </el-form-item>
 
+            <!-- 插槽 -->
             <slot></slot>
 
             <!--选择省市区,填写详细地址(必备) √-->
@@ -52,8 +53,7 @@
                     上一步
                 </el-button>
                 <el-button type="primary" @click="submit" >
-                    完成
-                    <!-- {{editFlag?'编辑完成':type===0 || type===5?'下一步':'创建完成'}} -->
+                    {{editFlag?'编辑完成':'创建完成'}}
                 </el-button>
             </el-form-item>
         </el-form>
@@ -74,11 +74,15 @@
                 default: ()=>{}
             },
             next:Function,
-            pre:Function
+            pre:Function,
+            hasChest:{
+                type:Boolean,
+                default:true
+            }
         },
         data() {
             //验证EUI
-            var checkEui = (rule, value, callback) => {
+            const checkEui = (rule, value, callback) => {
                 if(!value){
                     return callback(new Error('请输入设备EUI'))
                 }
@@ -86,10 +90,10 @@
                 if(r.test(value)){
                     return callback(new Error('请输入数字或字母'))
                 }
-                if (value.length<this.form.commWay?16:15) {
-                    return callback(new Error(`设备EUI长度为${this.form.commWay?'16':'15'}`));
+                if (value.length<(!this.form.commWay?15:16)) {
+                    return callback(new Error(`设备EUI长度为${!this.form.commWay?'15':'16'}`));
                 }
-                this.checkEui(value).then(res=>{
+                this.checkEUI(value).then(res=>{
                     if(!res){
                         return callback(new Error('设备EUI已存在'));
                     }else{
@@ -125,16 +129,18 @@
                     roomId: [{ required: true, message: '请选择设备所属配电房', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择设备所属线缆', trigger: 'change' }],
                     courtsId: [{ required: true, message: '请选择设备所属台区', trigger: 'change' }],
-                    chestId: [{ required: true, message: '请选择设备所属配电柜', trigger: 'change' }],
+                    chestId: [{ required: this.hasChest, message: '请选择设备所属配电柜', trigger: 'change' }],
                     magicId: [{ required: true, message: '请选择设备所属魔节', trigger: 'change' }],
                     centerId: [{ required: true, message: '请选择设备所属集中器', trigger: 'change' }],
                     switchId: [{ required: true, message: '请选择出线线路', trigger: 'change' }],
                     outLineId: [{ required: true, message: '请选择所属相序', trigger: 'change' }],
+                    parentId: [{ required: true, message: '请选择附属设备', trigger: 'change' }],
                 }
             }
         },
         created () {
-            const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            this.editFlag = editFlag;
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
         },
         mounted () {
@@ -147,18 +153,24 @@
             ]),
             ...mapActions('equip',[
                 'checkEUI',
+                'createEquip'
             ]),
-            
             submit() {
-                this.$refs.magicForm.validate((valid) => {
+                this.$refs.equipForm.validate((valid) => {
                     if (valid) {
-                        // const location = `${this.form.city.join(',')},${this.form.location}`
-                        // const data ={
-                        //     ...this.form,
-                        //     location,
-                        //     longitude:this.position[0],
-                        //     latitude:this.position[1]
-                        // }
+                        const location = `${this.form.city.join(',')},${this.form.location}`
+                        const deviceType = +sessionStorage.getItem('appType')
+                        const data ={
+                            ...this.form,
+                            deviceType,
+                            location,
+                            longitude:this.position[0],
+                            latitude:this.position[1]
+                        }
+                        this.createEquip(data).then(res=>{
+                            if(!res)return;
+                            this.$router.push({name:'EquList'});
+                        })
                         // //添加 & 编辑
                         // // this.type===0||this.type===5 进入激活页面
                         // if(this.type===0 || this.type ===5){

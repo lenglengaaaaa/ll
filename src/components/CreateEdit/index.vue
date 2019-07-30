@@ -5,7 +5,7 @@
             label-width="100px" 
             :model="form" 
             :rules="rules" 
-            ref="magicForm"
+            ref="assetForm"
         >
             <el-form-item label="资产名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入资产名称"></el-input>
@@ -137,7 +137,7 @@
         },
         methods: {
             submit() {
-                this.$refs.magicForm.validate((valid) => {
+                this.$refs.assetForm.validate((valid) => {
                     if (valid) {
                         const location = `${this.form.city.join(',')},${this.form.location}`
                         const data ={
