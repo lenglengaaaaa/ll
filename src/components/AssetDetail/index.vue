@@ -1,7 +1,7 @@
 <template>
     <div class="ASSET_DETail">
         <el-tabs type="border-card" >
-            <el-tab-pane :label="label" v-if="table">
+            <el-tab-pane :label="label" v-if="table" lazy>
                 <el-table
                     :data="data"
                     border

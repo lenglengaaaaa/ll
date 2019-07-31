@@ -8,7 +8,7 @@
             header-cell-class-name="table_header"
         >   
             <el-table-column
-                prop="rid"
+                prop="id"
                 label="编码"
                 align="center"
                 sortable
@@ -21,34 +21,34 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="temp"
                 label="温度(℃)"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>(row.data && row.data.CBtemp) || '-'"
             />
             <el-table-column
-                prop="v"
                 label="电压(V)"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>(row.data && row.data.v) || '-'"
             />
             <el-table-column
-                prop="a"
                 label="电流(A)"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>(row.data && row.data.a) || '-'"
             />
             <el-table-column
-                prop="bat"
                 label="电池电压(V)"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>(row.data && row.data.bat) || '-'"
             />
             <el-table-column
-                prop="rssi"
                 label="信号"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>(row.data && row.data.rssi) || '-'"
             />
             <el-table-column
                 prop="time"
@@ -61,19 +61,35 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         data() {
             return {
-                data: [{
-                    rid:'0776',
-                    name:'魔戒',
-                    temp:'29.9',
-                    v:'41.8',
-                    a:'67.1',
-                    bat:'3.58',
-                    rssi:'-71',
-                    tiem:1561714114536
-                }]
+                data: [],
+                params:{
+                    size:50,
+                    current:1,
+                    type:0
+                }
+            }
+        },
+        mounted () {
+            const {id} = JSON.parse(sessionStorage.getItem('obj'));
+            this.getEquipInAsset({
+                ...this.params,
+                chestId:id
+            }).then(res=>{
+                if(!res)return;
+                this.data = res;
+            });
+        },
+        methods: {
+            ...mapActions('equip',[
+                'getEquipInAsset',
+            ]),
+            selectRing(index) {
+                this.highlight = index;
             }
         },
     }

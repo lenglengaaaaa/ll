@@ -133,9 +133,6 @@ export const api={
     //配电柜下拉 get
     chestListAll:`${url}/e_view/chest/list/all`,
 
-    //配电柜视图(详情) get
-    chestDetail:`${url}/e_view/chest/view`,
-
     //获取出线下拉列表 get
     switchMenu:`${url}/e_view/switch/list`,
 
@@ -202,6 +199,14 @@ export const api={
 
     //设备列表下拉 post
     equipMenu:`${url}/e_view/device/search`,
+
+    //配电柜下魔戒数据(详情) get
+    ringDetail:`${url}/e_view/chest/view`,
+
+    //获取配电房/配电柜下的设备列表 post
+    equipInAsset:`${url}/e_view/device/room/list`,
+
+
 
 }
 

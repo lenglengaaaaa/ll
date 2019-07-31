@@ -4,23 +4,25 @@
             <el-col :span="10" :xs="24">
                 <div class="view">
                     <ul class="wrap">
-                        <strong>宝善街线段</strong>
-                        <li v-for="(i,index) in 3" :key="index">
+                        <strong>{{title}}</strong>
+                        <li v-for="(item,index) in switchList" :key="item.switchId">
                             <div class="title">
                                 <span 
                                     @click="selectRing(index)" 
                                     :class="highlight===index&&'active'"
                                 >
-                                    标题
+                                    {{item.switchName}}
                                 </span>
                             </div>
                             <ul class="list">
-                                <li v-for="(i,index) in 4" :key="index">
+                                <li v-for="k in item.outLineList" :key="k.deviceId">
                                     <div class="info">
-                                        <svg class="icon" aria-hidden="true">
-                                            <use xlink:href="#icon-ring"></use>
-                                        </svg>
-                                        <span>26.1℃</span>
+                                        <el-tooltip class="item" effect="dark" :content="`${k.deviceId}` || 'null'" placement="right">
+                                            <svg class="icon" aria-hidden="true" >
+                                                <use xlink:href="#icon-ring" :title="k.deviceId"></use>
+                                            </svg>
+                                        </el-tooltip>
+                                        <span>{{(k.data&&k.data.CBTemp)||'---'}}℃</span>
                                         <span>37.0A</span>
                                         <span>有压</span>
                                     </div>
@@ -40,7 +42,9 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     import Tline from './Tline'
+
 
     export default {
         components: {
@@ -48,10 +52,23 @@
         },
         data() {
             return {
-                highlight: 0
+                title:'',
+                highlight: 0,
+                switchList:[]
             }
         },
+        mounted () {
+            const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
+            this.title = name ;
+            this.getRingDetail(id).then(res=>{
+                if(!res)return;
+                this.switchList = res.switchList;
+            })
+        },
         methods: {
+            ...mapActions('equip',[
+                'getRingDetail',
+            ]),
             selectRing(index) {
                 this.highlight = index;
             }
@@ -141,7 +158,8 @@
                                         align-items: center;
                                         .icon{
                                             width: 20px;
-                                            height: 19px;;
+                                            height: 19px;
+                                            cursor: pointer;
                                         }
                                         span{
                                             padding: 0 5px;
@@ -151,9 +169,6 @@
                             }
                         }
                     }
-                }
-                .chart{
-
                 }
             }
         }

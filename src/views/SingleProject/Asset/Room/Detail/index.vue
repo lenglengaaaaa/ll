@@ -66,6 +66,7 @@
 <script>
     import AssetDetail from '@/components/AssetDetail'
     import EquipList from '@/components/EquipList'
+    import { mapActions } from 'vuex'
 
     export default {
         components: {
@@ -75,16 +76,28 @@
         data() {
             return {
                 data: [],
-                equipList:[]
+                equipList:[],
+                params:{
+                    size:50,
+                    current:1,
+                    type:1
+                }
             }
         },
         created () {
-            const obj =JSON.parse(sessionStorage.getItem("obj"));
-            this.$route.meta.title=obj.name
-            this.getList(obj);
-            this.getEquipList();
+            const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=name
+            this.getList(id);
+            this.getEquipList(id);
         },
+
         methods: {
+            ...mapActions('asset',[
+                'getChestList',
+            ]),
+            ...mapActions('equip',[
+                'getEquipInAsset',
+            ]),
             skipToDetail(row) {
                 sessionStorage.setItem('obj',JSON.stringify(row))
                 this.$router.push({
@@ -92,21 +105,25 @@
                 })
             },
             //获取附属配电柜列表
-            getList(obj){
-                this.$store.dispatch('asset/getChestList',{
+            getList(roomId){
+                this.getChestList({
                     size:20,
                     current:1,
-                    roomId:obj.id
+                    roomId
                 }).then(res=>{
                     if(!res)return;
                     this.data = res.data;
                 })
             },
-            //获取附属设备列表
-            getEquipList(){
-                this.equipList=[{
-                    name:'test'
-                }]
+            //获取设备列表
+            getEquipList(roomId){
+                this.getEquipInAsset({
+                    ...this.params,
+                    roomId
+                }).then(res=>{
+                    if(!res)return;
+                    this.equipList = res;
+                })
             },
             //获取设备数据
             getEquipData(){

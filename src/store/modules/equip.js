@@ -185,6 +185,51 @@ const actions= {
         })
     },
 
+    /**
+     * 获取配电柜下魔戒视图(详情数据)
+     * @param id 配电柜ID
+     */
+    getRingDetail({commit},id){
+        return request({
+            method:'get',
+            url:`${api.ringDetail}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取资产下设备列表
+     *  @param {
+     *      roomId 配电房ID,二选一
+     *      chestId 配电柜ID,二选一
+     *      type  0 魔戒 1 独立传感器列表
+     *      size 每页显示条目个数
+     *      current 当前页码
+     * }
+     */
+    getEquipInAsset({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.equipInAsset}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    }
 
 
 }   
