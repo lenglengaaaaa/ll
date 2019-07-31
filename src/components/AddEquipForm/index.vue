@@ -9,7 +9,7 @@
         >
             <!-- 必备字段 √ -->
             <el-form-item label="通讯技术">
-                <el-select v-model="form.commWay">
+                <el-select v-model="form.commWay" :disabled="editFlag">
                     <el-option label="NB-IOT" :value="0"></el-option>
                     <el-option label="LoRa" :value="1"></el-option>
                 </el-select>
@@ -93,6 +93,7 @@
                 if (value.length<(!this.form.commWay?15:16)) {
                     return callback(new Error(`设备EUI长度为${!this.form.commWay?'15':'16'}`));
                 }
+                if(this.editFlag)return callback();
                 this.checkEUI(value).then(res=>{
                     if(!res){
                         return callback(new Error('设备EUI已存在'));
@@ -147,13 +148,19 @@
             const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
             this.options = areaTree;
         },
+        computed: {
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            },
+        },
         methods: {
             ...mapActions('asset',[
                 'checkNo',
             ]),
             ...mapActions('equip',[
                 'checkEUI',
-                'createEquip'
+                'createEquip',
+                'updateEquip'
             ]),
             submit() {
                 this.$refs.equipForm.validate((valid) => {
@@ -161,16 +168,25 @@
                         const location = `${this.form.city.join(',')},${this.form.location}`
                         const deviceType = +sessionStorage.getItem('appType')
                         const data ={
+                            projectId:this.projectId,
                             ...this.form,
                             deviceType,
                             location,
                             longitude:this.position[0],
                             latitude:this.position[1]
                         }
-                        this.createEquip(data).then(res=>{
-                            if(!res)return;
-                            this.$router.push({name:'EquList'});
-                        })
+                        if(!this.editFlag){
+                            this.createEquip(data).then(res=>{
+                                if(!res)return;
+                                this.$router.push({name:'EquList'});
+                            })
+                        }else{
+                            this.updateEquip(data).then(res=>{
+                                if(!res)return;
+                                this.$router.push({name:'EquList'});
+                            })
+                        }
+                        
                         // //添加 & 编辑
                         // // this.type===0||this.type===5 进入激活页面
                         // if(this.type===0 || this.type ===5){

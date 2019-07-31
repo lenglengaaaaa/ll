@@ -238,7 +238,6 @@
             getDeviceMenu(deviceType){
                 const data = {
                     deviceType,
-                    projectId:this.projectId,
                     commWay:this.form.commWay,
                     roomId:this.form.roomId || null,
                     trapId:this.form.trapId || null

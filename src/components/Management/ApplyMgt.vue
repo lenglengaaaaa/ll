@@ -140,11 +140,13 @@
             resizehandle(value){
                 value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
+            //搜索
             search(){
                 this.current = 1;
                 const val = this.input.replace(/ /g,'');
                 this.getList({
-                    filterStr:val
+                    filterStr:val,
+                    current:1
                 })
             },
             //切换显示个数

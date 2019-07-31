@@ -10,6 +10,7 @@
                     v-model="form.deviceEui" 
                     :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
                     :maxlength="form.commWay==0?16:15"
+                    :disabled="editFlag"
                 />
             </el-form-item>
             <el-form-item label="所属资产类型">
@@ -72,9 +73,13 @@
         data() {
             return {
                 projectId:0,
+                editFlag:false,
                 form: {
                     commWay:0,
-                    assetType:0
+                    assetType:0,
+                    trapId:null,
+                    courtsId:null,
+                    roomId:null,
                 },
                 trapMenus:[],
                 courtsMenus:[],
@@ -83,11 +88,24 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('project'));
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
             this.projectId = id;
+            this.editFlag = editFlag;
+            this.form={
+                ...this.form,
+                ...data,
+                assetType:(!data.trapName&&!data.courtsName)?0:data.trapName?0:1
+            };
             this.getTrapMenu(id).then(res=>{
                 if(!res)return;
                 this.trapMenus = res ;
             });
+            if(editFlag&&data.courtsId){
+                this.getRoomMenu(data.courtsId).then(res=>{
+                    if(!res)return;
+                    this.roomMenus = res;
+                })
+            }
         },
         watch: {
             'form.assetType'(value) {

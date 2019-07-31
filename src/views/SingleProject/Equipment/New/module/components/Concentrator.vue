@@ -10,6 +10,7 @@
                 v-model="form.deviceEui" 
                 :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
                 :maxlength="form.commWay==0?16:15"
+                :disabled="editFlag"
             />
         </el-form-item>
         <el-form-item label="所属台区" prop="courtsId" >
@@ -61,9 +62,12 @@
         data() {
             return {
                 projectId:0,
+                editFlag:false,
                 form: {
                     commWay:0,
-                    assetType:0
+                    assetType:0,
+                    roomId:null,
+                    chestId:null
                 },
                 courtsMenus:[],
                 roomMenus:[],
@@ -72,9 +76,16 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('project'));
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            this.editFlag = editFlag;
+            this.form={
+                ...this.form,
+                ...data,
+            };
             this.getCourtsMenu(id).then(res=>{
                 if(!res)return;
                 this.courtsMenus = res ;
+                if(editFlag){ this.getItsAssets(data) }
             });
         },
         methods: {
@@ -95,10 +106,20 @@
             roomChange(id){
                 this.getChestMenu({id,type:2}).then(res=>{
                     if(!res)return;
-                    resetSingle(this,['chestId','switchId','outLineId']);
+                    resetSingle(this,['chestId']);
                     this.chestMenus = res;
                 })
             },
+            //编辑状态时请求配电房&配电柜
+            getItsAssets(obj){
+                if(!obj.courtsId)return;
+                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({id:obj.roomId,type:2})]).then(res=>{
+                    const [res1,res2] = res;
+                    if(!res1 || !res2) return;
+                    this.roomMenus = res1;
+                    this.chestMenus = res2;
+                })
+            }
         },
     }
 </script>

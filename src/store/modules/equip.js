@@ -62,6 +62,37 @@ const actions= {
     },
 
     /**
+     * 获取设备列表
+      * @param {
+        *      size 每页显示条数
+        *      current 当前页码
+        *      deviceType 设备类型
+        *      commWay 通讯技术,0:NB,1:Lora
+        *      projectId 项目id
+        *      trapId 井盖ID
+        *      roomId 配电房ID
+        *      chestId 配电柜ID
+        *      lineId 线缆ID
+        *      isSingle 是否为独立
+        *      filterStr 模糊查询
+        * }
+        */
+    getEquipList({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.equipList}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
     *创建设备
     * @param {
         *      deviceType 设备类型

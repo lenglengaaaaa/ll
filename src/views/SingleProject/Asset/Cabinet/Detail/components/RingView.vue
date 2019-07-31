@@ -22,8 +22,8 @@
                                                 <use xlink:href="#icon-ring" :title="k.deviceId"></use>
                                             </svg>
                                         </el-tooltip>
-                                        <span>{{(k.data&&k.data.CBTemp)||'---'}}℃</span>
-                                        <span>37.0A</span>
+                                        <span>{{(k.data&&k.data.CBTemp)||'---'}} ℃</span>
+                                        <span>{{(k.data&&k.data.a)||'---'}} A</span>
                                         <span>有压</span>
                                     </div>
                                 </li>
@@ -44,7 +44,35 @@
 <script>
     import { mapActions } from 'vuex'
     import Tline from './Tline'
-
+    
+    const defaultValue  = [
+            {
+                "switchId": "出线一",
+                "switchName": "出线一",
+                "outLineList": [
+                    {
+                        "outLineName": "A",
+                        "deviceId": "魔戒1",
+                        "data": null
+                    },
+                    {
+                        "outLineName": "B",
+                        "deviceId": "魔戒2",
+                        "data": null
+                    },
+                    {
+                        "outLineName": "C",
+                        "deviceId": "魔戒3",
+                        "data": null
+                    },
+                    {
+                        "outLineName": "N",
+                        "deviceId": "魔戒4",
+                        "data": null
+                    }
+                ]
+            }
+        ]
 
     export default {
         components: {
@@ -62,7 +90,7 @@
             this.title = name ;
             this.getRingDetail(id).then(res=>{
                 if(!res)return;
-                this.switchList = res.switchList;
+                this.switchList =res.switchList.length? res.switchList : defaultValue;
             })
         },
         methods: {

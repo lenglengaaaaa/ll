@@ -77,7 +77,6 @@
             getList(obj={}){
                 const data = {
                     ...this.params,
-                    current:obj.filterStr?1:this.params.current,
                     ...obj
                 }
                 this.params = data ;

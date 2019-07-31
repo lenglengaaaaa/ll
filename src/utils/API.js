@@ -188,6 +188,9 @@ export const api={
     //设备类型下拉 get
     equipTypeMenu:`${url}/e_view/init/list`,
 
+    //设备列表
+    equipList:`${url}/e_view/device/list`,
+
     //设备创建 post
     createEquip:`${url}/e_view/device/create`,
 

@@ -6,16 +6,17 @@
     >
         <template>
             <el-form-item label="是否为独立传感器(是否自身上传数据)">
-                <el-select v-model="form.isSingle">
+                <el-select v-model="form.isSingle" :disabled ="singleFlag">
                     <el-option label="是" :value="0"></el-option>
                     <el-option label="否" :value="1"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="`设备EUI(请填写${form.commWay===0?15:16}位设备EUI)`" prop="deviceEui" v-if="!form.isSingle">
+            <el-form-item :label="`设备EUI(请填写${form.commWay===0?15:16}位设备EUI)`" prop="deviceEui" v-if="!form.isSingle" >
                 <el-input 
                     v-model="form.deviceEui" 
                     :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
                     :maxlength="form.commWay===0?15:16"
+                    :disabled="editFlag"
                 />
             </el-form-item>
             <el-form-item label="所属集中器" prop="parentId" v-else>
@@ -97,10 +98,18 @@
         },
         data() {
             return {
+                euiFlag:false,
+                singleFlag:false,
                 form: {
                     deviceEui:'',
                     commWay:0,
-                    isSingle:1
+                    isSingle:1,
+                    courstId:null,
+                    roomId:null,
+                    chestId:null,
+                    switchId:null,
+                    outLineId:null,
+                    parentId:null
                 },
                 courtsMenus:[],
                 roomMenus:[],
@@ -112,18 +121,28 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('project'));
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            this.editFlag = editFlag;
+            this.singleFlag = editFlag;
+            this.form={
+                ...this.form,
+                ...data,
+            };
             this.getCourtsMenu(id).then(res=>{
                 if(!res)return;
                 this.courtsMenus = res ;
+                if(editFlag){
+                    this.getItsAssets(data);
+                }
             });
         },
         watch: {
             "form.isSingle"(value) {
                 if(!value){
-                    this.form.deviceEui = '';
+                    resetSingle(this,['deviceEui']);
                     return;
                 }
-                this.form.parentId = '';
+                resetSingle(this,['parentId']);
             },
             "form.commway"(value){
                 if(!this.form.roomId)return;
@@ -149,7 +168,7 @@
             ...mapActions('equip',[
                 'getEquipMenu'
             ]),
-            //井盖切换回调
+            //配电房切换回调
             courtsChange(id){
                 this.getRoomMenu(id).then(res=>{
                     if(!res)return;
@@ -188,6 +207,34 @@
                     this.outlineMenus = res;
                 })
             },
+            //编辑状态时请求配电房&配电柜
+            getItsAssets(obj){
+                if(!obj.courtsId)return;
+                Promise.all([
+                    this.getRoomMenu(obj.courtsId),
+                    this.getChestMenu({id:obj.roomId,type:2}),
+                    this.getSwitchMenu(obj.chestId),
+                    this.getOutLineMenu(obj.switchId)
+                ]).then(res=>{
+                    const [res1,res2,res3,res4] = res;
+                    if(!res1 || !res2 || !res3 || !res4) return;
+                    this.roomMenus = res1;
+                    this.chestMenus = res2;
+                    this.switchMenus = res3;
+                    this.outlineMenus = res4;
+                })
+                if(obj.isSingle){
+                    this.getEquipMenu({
+                        deviceType:33,
+                        projectId:this.projectId,
+                        commWay:obj.commWay,
+                        roomId:obj.roomId
+                    }).then(res=>{
+                        if(!res)return;
+                        this.concenMenus = res ;
+                    })
+                }
+            }
         },
     }
 </script>
