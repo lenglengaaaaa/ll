@@ -7,24 +7,25 @@
     >   
         <template>
             <el-form-item label="是否为独立传感器(是否自身上传数据)">
-                <el-select v-model="form.isSingle">
-                    <el-option label="是" :value="true"></el-option>
-                    <el-option label="否" :value="false"></el-option>
+                <el-select v-model="form.isSingle" :disabled ="singleFlag">
+                    <el-option label="是" :value="0"></el-option>
+                    <el-option label="否" :value="1"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item 
                 :label="`设备EUI(请填写${form.commWay===0?15:16}位设备EUI)`" 
                 prop="deviceEui"
-                v-if="form.isSingle"
+                v-if="!form.isSingle"
             >
                 <el-input 
                     v-model="form.deviceEui" 
                     :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
                     :maxlength="form.commWay==0?16:15"
+                    :disabled="editFlag"
                 />
             </el-form-item>
             <el-form-item label="所属资产类型">
-                <el-select v-model="form.assetType">
+                <el-select v-model="form.assetType" @change="assetTypeChange">
                     <el-option label="井盖" :value="0"></el-option>
                     <el-option label="台区" :value="1"></el-option>
                 </el-select>
@@ -44,9 +45,9 @@
                     <el-select v-model="form.lineId">
                         <el-option 
                             v-for="item in lineMenus"
-                            :key="item.id"
+                            :key="item.lineId"
                             :label="item.lineName" 
-                            :value="item.id"
+                            :value="item.lineId"
                         />
                     </el-select>
                 </el-form-item>
@@ -72,8 +73,8 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属配电柜" prop="chestId">
-                    <el-select v-model="form.chestId">
+                <el-form-item label="所属配电柜" prop="chestId" >
+                    <el-select v-model="form.chestId" clearable>
                         <el-option 
                             v-for="item in chestMenus"
                             :key="item.id"
@@ -85,10 +86,10 @@
             </template>
             <el-form-item 
                 label="所属魔节" 
-                :prop="!form.isSingle?'parentId':''"
+                :prop="form.isSingle?'parentId':''"
                 v-if="!form.assetType"
             >
-                <el-select v-model="form.parentId">
+                <el-select v-model="form.parentId" clearable>
                     <el-option 
                         v-for="item in deviceMenus"
                         :key="item.id"
@@ -99,17 +100,17 @@
             </el-form-item>
             <template v-else>
                 <el-form-item label="所属传感设备" >
-                    <el-select v-model="form.sensorType">
+                    <el-select v-model="form.sensorType" @change="sensorChange">
                         <el-option label="魔节" :value="0"></el-option>
                         <el-option label="集中器" :value="1"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item 
                     label="所属魔节" 
-                    :prop="!form.isSingle?'parentId':''"
+                    :prop="form.isSingle?'parentId':''"
                     v-if="!form.sensorType"
                 >
-                    <el-select v-model="form.parentId">
+                    <el-select v-model="form.parentId" clearable>
                         <el-option 
                             v-for="item in deviceMenus"
                             :key="item.id"
@@ -120,10 +121,10 @@
                 </el-form-item>
                 <el-form-item 
                     label="所属集中器" 
-                    :prop="!form.isSingle?'parentId':''" 
+                    :prop="form.isSingle?'parentId':''" 
                     v-else
                 >
-                    <el-select v-model="form.parentId">
+                    <el-select v-model="form.parentId" clearable>
                         <el-option 
                             v-for="item in deviceMenus"
                             :key="item.id"
@@ -153,11 +154,19 @@
         data() {
             return {
                 projectId:0,
+                editFlag:false,
+                singleFlag:false,
                 form: {
                     commWay:0,
-                    isSingle:false,
+                    isSingle:1,
                     assetType:0,
-                    sensorType:0
+                    sensorType:0,
+                    courtsId:null,
+                    roomId:null,
+                    chestId:null,
+                    trapId:null,
+                    lineId:null,
+                    parentId:null
                 },
                 trapMenus:[],
                 lineMenus:[],
@@ -169,31 +178,31 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('project'));
+            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
             this.projectId = id;
+            this.editFlag = editFlag;
+            this.singleFlag = editFlag;
+            this.form={
+                ...this.form,
+                ...data,
+                assetType:(!data.trapName&&!data.courtsName)?0:data.trapName?0:1,
+                sensorType:!data.parentType?0:data.parentType==33?1:0
+            };
+            //井盖
             this.getTrapMenu(id).then(res=>{
                 if(!res)return;
                 this.trapMenus = res ;
-            });
-        },
-        watch: {
-            'form.assetType'(value) {
-                if(!value){
-                    resetSingle(this,['courtsId','roomId','chestId','parentId'])
-                    this.getTrapMenu(this.projectId).then(res=>{
-                        if(!res)return;
-                        this.trapMenus = res ;
-                    });
-                    return;
+                if(editFlag&&data.trapId){
+                    this.getItsTrap(data);
                 }
-                resetSingle(this,['trapId','lineId','parentId'])
-                this.getCourtsMenu(this.projectId).then(res=>{
+            });
+            //台区
+            if(editFlag&&data.courtsId){
+                this.getCourtsMenu(id).then(res=>{
                     if(!res)return;
                     this.courtsMenus = res ;
+                    this.getItsCourts(data);
                 });
-            },
-            'form.sensorType'(value){
-                const type = !value?30:33;
-                this.getDeviceMenu(type);
             }
         },
         methods: {
@@ -234,6 +243,29 @@
                     this.chestMenus = res1;
                 })
             },
+            //设备类型切换回调
+            assetTypeChange(value){
+                this.form.parentId = null;
+                if(!value){
+                    resetSingle(this,['courtsId','roomId','chestId'])
+                    this.getTrapMenu(this.projectId).then(res=>{
+                        if(!res)return;
+                        this.trapMenus = res ;
+                    });
+                    return;
+                }
+                resetSingle(this,['trapId','lineId'])
+                this.getCourtsMenu(this.projectId).then(res=>{
+                    if(!res)return;
+                    this.courtsMenus = res ;
+                });
+            },
+            //传感设备切换回调
+            sensorChange(value){
+                this.form.parentId = null;
+                const type = !value?30:33;
+                this.getDeviceMenu(type);
+            },
             //设备下拉列表
             getDeviceMenu(deviceType){
                 const data = {
@@ -245,6 +277,24 @@
                 this.getEquipMenu(data).then(res=>{
                     if(!res)return;
                     this.deviceMenus=res;
+                })
+            },
+            //获取台区下属设备(编辑时)
+            getItsCourts(obj){
+                const type = !this.form.sensorType?30:33
+                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({id:obj.roomId,type:2}),this.getDeviceMenu(type)]).then(res=>{
+                    const [res1,res2] = res;
+                    if(!res1 || !res2 )return;
+                    this.roomMenus = res1;
+                    this.chestMenus = res2;
+                })
+            },
+            //获取井盖下资产&设备(编辑时)
+            getItsTrap(obj){
+                Promise.all([this.getLineInTrapMenu(obj.trapId),this.getDeviceMenu(30)]).then(res=>{
+                    const [res1] = res;
+                    if(!res1) return;
+                    this.lineMenus = res1;
                 })
             }
         },

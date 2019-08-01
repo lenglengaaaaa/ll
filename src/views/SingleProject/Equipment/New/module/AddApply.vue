@@ -29,7 +29,7 @@
         },
         data() {
             return {
-                currentForm: Ring
+                currentForm: null
             }
         },
         mounted () {

@@ -210,6 +210,7 @@
     .CREATE_EDIT_EQUIP{
         display: flex;
         justify-content: center;
+        max-width: 100%;
         .el-form{
             width:1100px;
             max-width: 100%;
