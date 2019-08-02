@@ -96,6 +96,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { judgeLastData } from '@/utils/methods'
     import Detail from '../components/Detail'
 
     export default {

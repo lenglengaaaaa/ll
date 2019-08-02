@@ -10,3 +10,17 @@ export const resetSingle =(_this,arr=[],form="equipForm")=>{
         }
     })
 }
+
+/**
+ * 判断是否最后一条,是请求上一页
+ */
+export const judgeLastData=(list,current)=>{
+    const nextSize = list.length - 1;
+    if(!nextSize){
+        if(current===1){
+            return 1;
+        }else{
+            return current -1;
+        }
+    }
+}

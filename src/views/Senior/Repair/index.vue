@@ -56,6 +56,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { judgeLastData } from '@/utils/methods'
     import CreateEdit from './components/CreateEdit'
 
     export default {

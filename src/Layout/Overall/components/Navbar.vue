@@ -95,7 +95,7 @@
         mounted () {
             //这里进行权限配置,改变navbar
             const {userName,imagePath} =JSON.parse(sessionStorage.getItem('userDetail')); 
-            this.username = userName;
+            this.username = userName || 'xxx';
             this.imagePath = imagePath?imagePath:avatar;
             //高亮
             this.hightlight(this.$route.path)

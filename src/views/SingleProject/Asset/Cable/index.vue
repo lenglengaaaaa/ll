@@ -44,6 +44,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
@@ -85,6 +86,11 @@
             },
             remove(row){
                 const {id} = row;
+                const current = judgeLastData(this.data,this.params.current);
+                this.params ={
+                    ...this.params,
+                    current
+                }
                 this.deleteLine(id).then(res=>{
                     if(!res)return;
                     this.getList(this.params);

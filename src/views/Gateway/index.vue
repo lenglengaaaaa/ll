@@ -39,6 +39,7 @@
 
 <script>
     import {Management} from '../../components/Management'
+    import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
@@ -84,9 +85,14 @@
                 })
             },
             remove(row){
+                const current = judgeLastData(this.data,this.params.current);
+                this.params ={
+                    ...this.params,
+                    current
+                }
                 this.deleteGateway(row).then(res=>{
                     if(!res)return;
-                    this.getList(this.params);
+                    this.getList();
                 })
             },
             active(row){

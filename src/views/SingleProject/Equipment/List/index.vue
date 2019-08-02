@@ -25,7 +25,7 @@
                 prop="typeName"
                 label="设备类型"
                 align="center"
-                sortable
+                width="200"
                 show-overflow-tooltip
             />
             <el-table-column
@@ -45,6 +45,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                width="200"
                 :formatter="(row)=>row.deviceEui || '-'"
             />
             <el-table-column
@@ -58,7 +59,6 @@
                 prop="courtsName"
                 label="所属台区"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.courtsName || '-'"
             />
@@ -66,7 +66,6 @@
                 prop="roomName"
                 label="所属配电房"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.roomName || '-'"
             />
@@ -74,7 +73,6 @@
                 prop="chestName"
                 label="所属配电柜"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.chestName || '-'"
             />
@@ -82,7 +80,6 @@
                 prop="trapName"
                 label="所属井盖"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.trapName || '-'"
             />
@@ -90,21 +87,18 @@
                 prop="lineName"
                 label="所属线缆"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.lineName || '-'"
             />
             <el-table-column
                 label="所属魔节"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>( row.parentType==30&&row.parentName )|| '-'"
             />
             <el-table-column
                 label="所属集中器"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>( row.parentType==33&&row.parentName )|| '-'"
             />
@@ -128,6 +122,7 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
+    import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
@@ -207,6 +202,11 @@
             },
             //删除设备
             remove(row){
+                const current = judgeLastData(this.data,this.params.current);
+                this.params ={
+                    ...this.params,
+                    current
+                }
                 this.deleteEquip(row).then(res=>{
                     if(!res)return;
                     this.getList();

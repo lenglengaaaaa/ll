@@ -53,8 +53,9 @@
 </template>
 
 <script>
-    import {Management} from '../../components/Management'
+    import {Management} from '@/components/Management'
     import NewProject from '@/views/Project/components/NewProject'
+    import { judgeLastData } from '@/utils/methods'
     import {mapActions} from 'vuex'
 
     export default {
@@ -98,9 +99,14 @@
             },
             remove(row){
                 const {id} = row;
+                const current = judgeLastData(this.data,this.params.current);
+                this.params ={
+                    ...this.params,
+                    current
+                }
                 this.deleteProject(id).then(res=>{
                     if(!res)return;
-                    this.getList(this.params);
+                    this.getList();
                 })
             },
             skipTo(type,row){
