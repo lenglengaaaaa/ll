@@ -8,6 +8,23 @@
             ref="equipForm"
         >
             <!-- 必备字段 √ -->
+            <el-form-item label="设备图片">
+                <el-upload
+                    :class="{hide:hideUpload}"
+                    action="http://47.92.235.125:8888/e_view/file/upload/image"
+                    :headers="{'jtoken':token}"
+                    list-type="picture-card"
+                    :limit="limitCount"
+                    :file-list="fileList"
+                    :on-success="handleSuccess"
+                    :before-upload="beforeUpload"
+                    :on-remove="handleRemove"
+                    :on-error="handleError"
+                    multiple
+                >
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+            </el-form-item>
             <el-form-item label="通讯技术">
                 <el-select v-model="form.commWay" :disabled="editFlag">
                     <el-option label="NB-IOT" :value="0"></el-option>
@@ -118,9 +135,15 @@
                 });
             };
             return {
+                imageUrl: '',
+                token:this.$store.state.user.token,
                 options:[],
                 position:[113.991244,22.5959],
                 editFlag:false,
+                hideUpload: false,
+                limitCount:3,
+                fileList:[],
+                imageUrls:[],
                 rules: {
                     pattern: [{ required: true, trigger: 'blur' }],
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
@@ -141,8 +164,14 @@
         },
         created () {
             const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const imgUrls = data.imageUrls&&data.imageUrls.length&&data.imageUrls.map(item=>{ 
+                return { ...item,url:item.imagePath } 
+            }) || [];
             this.editFlag = editFlag;
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
+            this.fileList = imgUrls;
+            this.imageUrls = imgUrls.map(item=>{return {...item,imagePath:item.url}});
+            this.hideUpload = this.imageUrls.length >= this.limitCount;
         },
         mounted () {
             const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
@@ -170,6 +199,7 @@
                         const data ={
                             projectId:this.projectId,
                             ...this.form,
+                            imageUrls:this.imageUrls,
                             deviceType,
                             location,
                             longitude:this.position[0],
@@ -186,18 +216,45 @@
                                 this.$router.push({name:'EquList'});
                             })
                         }
-                        
-                        // //添加 & 编辑
-                        // // this.type===0||this.type===5 进入激活页面
-                        // if(this.type===0 || this.type ===5){
-                        //     this.next()
-                        // }else{
-                        //     this.$router.push({name:'EquList'})
-                        // }
                     } else {
                         return false;
                     }
                 });
+            },
+            //文件上传成功回调
+            handleSuccess(res, file,fileList) {
+                this.imageUrls = [
+                    ...this.imageUrls,
+                    { imagePath:res.data }
+                ]
+                this.hideUpload = fileList.length >= this.limitCount;
+            },
+            //文件上传失败时的钩子
+            handleError(err, file, fileList){  
+                this.hideUpload = fileList.length >= this.limitCount;
+            },
+            //上传文件之前的钩子
+            beforeUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 10240 < 10;
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 10MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            //删除图片回调
+            handleRemove(file, fileList) {
+                let url = this.editFlag ? file.imagePath:file.response.data;
+                this.imageUrls = this.imageUrls.reduce((pre,current)=>{
+                    if(current.imagePath !== url){
+                        pre.push(current);
+                    }
+                    return pre
+                },[])
+                this.hideUpload = fileList.length >= this.limitCount;
             },
             getPostion(lng,lat){
                 this.position =[lng,lat];
@@ -219,6 +276,9 @@
             margin-bottom: 5px;
             background:#fff;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+            .hide .el-upload--picture-card {
+                display: none;
+            }
             .el-input__inner{
                 border-radius: 0px;
                 height: 35px;
