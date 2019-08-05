@@ -49,23 +49,32 @@
             };
         },
         created () {
-            const userDetail = JSON.parse(sessionStorage.getItem('userDetail'));
-            this.imageUrl = userDetail.imagePath;
-            this.options.reduce((pre,current)=>{
-                for(let i in userDetail){
-                    if(current.sign === i){
-                        current.value = userDetail[i];
-                    }
-                }
-                return {
-                    ...pre,
-                    current
-                }
-            },{})
+            this.getAccountDetail()
+        },
+        computed: {
+            userDetail() {
+                return JSON.parse(sessionStorage.getItem('userDetail'));
+            }
         },
         methods: {
+            //获取用户信息
+            getAccountDetail(){
+                const userDetail = this.userDetail;
+                this.imageUrl = userDetail.imagePath;
+                this.options.reduce((pre,current)=>{
+                    for(let i in userDetail){
+                        if(current.sign === i){
+                            current.value = userDetail[i];
+                        }
+                    }
+                    return {
+                        ...pre,
+                        current
+                    }
+                },{})
+            },
             handleAvatarSuccess(res, file) {
-                const {id,imageId} = JSON.parse(sessionStorage.getItem('userDetail'));
+                const {id,imageId} = this.userDetail;
                 this.imageUrl = URL.createObjectURL(file.raw);
                 this.$store.dispatch('user/updateAvatar',{
                     id:imageId,

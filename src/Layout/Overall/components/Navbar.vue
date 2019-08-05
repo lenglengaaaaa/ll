@@ -69,6 +69,7 @@
 <script>
     import GlobalSearch from '@/components/Search' 
     import avatar from '@/assets/img/avatar.gif'
+    import {judgeUserDetail} from '@/utils/methods'
     
     
     export default {
@@ -86,17 +87,19 @@
                 phone:false,
                 fold:false,
                 username:'',
-                imagePath:''
+                imagePath:avatar
             }
         },
         components: {
             GlobalSearch,
         },
-        mounted () {
+        created (){
             //这里进行权限配置,改变navbar
-            const {userName,imagePath} =JSON.parse(sessionStorage.getItem('userDetail')); 
-            this.username = userName || 'xxx';
-            this.imagePath = imagePath?imagePath:avatar;
+
+            //获取区域树
+            this.getArea();
+            //获取用户详情
+            this.getAccount();
             //高亮
             this.hightlight(this.$route.path)
             //适配
@@ -111,6 +114,20 @@
             },
         },
         methods: {
+            //获取用户详情
+            getAccount(){
+                judgeUserDetail().then(res=>{
+                    const {userName,imagePath} = res;
+                    this.username = userName || 'xxx';
+                    this.imagePath = imagePath ? imagePath : avatar ;
+                });
+            },
+            //获取区域树
+            getArea(){
+                if(!sessionStorage.getItem('areaTree')){
+                    this.$store.dispatch('overall/getAreaTree');
+                };
+            },
             //判断当前路径,menu高亮
             hightlight(path){
                 const index = path.replace('/','a').indexOf('/');

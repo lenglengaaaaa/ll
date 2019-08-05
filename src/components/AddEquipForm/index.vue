@@ -139,8 +139,6 @@
                 });
             };
             return {
-                imageUrl: '',
-                token:this.$store.state.user.token,
                 options:[],
                 position:[113.991244,22.5959],
                 editFlag:false,
@@ -187,6 +185,9 @@
             projectId(){
                 return JSON.parse(sessionStorage.getItem('project')).id;
             },
+            token(){
+                return this.$store.state.user.token;
+            }
         },
         methods: {
             ...mapActions('asset',[
@@ -267,6 +268,7 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
+            //获取经纬度
             getPostion(lng,lat){
                 this.position =[lng,lat];
             },

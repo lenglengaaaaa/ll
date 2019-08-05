@@ -49,6 +49,8 @@
                 v-for="(i,index) in form.count" 
                 :key="index" 
                 :label="`出线线路-${index+1}`" 
+                :prop="`listName[${index}]`"
+                :rules="{ required: true, message: '填写出线名称', trigger: 'blur' }"
             >
                 <el-input v-model="form.listName[index]" placeholder="请输入线路名称"></el-input>
             </el-form-item>
@@ -68,7 +70,7 @@
             return {
                 form: {
                     roomId:'',
-                    parentId:0,
+                    parentId:null,
                     inChest:0,
                     listName:[]
                 },

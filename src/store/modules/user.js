@@ -17,15 +17,11 @@ const tip = (msg,type="error") => {
 
 const state={
     token: getToken(),
-    userDetail:{}
 }
 
 const mutations={
     SET_TOKEN: (state, token) => {
         state.token = token
-    },
-    SET_USER: (state, obj) => {
-        state.userDetail = obj
     },
 }
 
@@ -38,8 +34,7 @@ const actions= {
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
                 if(res&&res.code===10000000&&res.data){
-                    const { jtoken,user_detail } = res.data
-                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail))
+                    const { jtoken } = res.data
                     commit('SET_TOKEN', jtoken)
                     setToken(jtoken)
                     return true;
@@ -57,7 +52,7 @@ const actions= {
                 url:`${api.logout}`
             }).then(()=>{
                 commit('SET_TOKEN', '')
-                removeToken()
+                removeToken();
                 resolve()
             })
         })
@@ -88,6 +83,26 @@ const actions= {
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
                 return res;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 获取用户详情
+     * @param id 用户ID
+     */
+    getAccountDetail({commit},id){
+        return request({
+            method:'get',
+            url:`${api.accountDetail}`,
+            data:{id}
+        }).then(res=>{
+            if(res&&res.code === 10000000&&res.data){
+                sessionStorage.setItem('userDetail',JSON.stringify(res.data))
+                return res.data;
             }else{
                 res&&tip(res.meassage)
                 return false;

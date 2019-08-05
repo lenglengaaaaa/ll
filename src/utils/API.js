@@ -19,6 +19,9 @@ export const api={
     //用户列表 post
     accountList:`${url}/e_view/account/list`,
 
+    //用户详情 get
+    accountDetail:`${url}/e_view/account/detail`,
+
     //验证用户名是否存在 get
     checkAccout:`${url}/e_view/account/exist`,
 

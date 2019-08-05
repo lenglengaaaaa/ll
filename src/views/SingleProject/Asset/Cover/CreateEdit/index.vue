@@ -7,7 +7,7 @@
         :type="4"
     >
         <template>
-            <el-form-item label="附属线缆" prop="lineId">
+            <el-form-item label="附属线缆">
                 <el-cascader 
                     v-model="form.lineId"
                     :options="options" 

@@ -66,6 +66,11 @@
                 }
             }
         },
+        computed: {
+            userId() {
+                return JSON.parse(sessionStorage.getItem('userDetail')).id; 
+            }
+        },
         methods: {
             ...mapActions('user',[
                 'updatePass', 
@@ -73,9 +78,8 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        const {id} = JSON.parse(sessionStorage.getItem('userDetail'));
                         this.updatePass({
-                            id,
+                            id:this.userId,
                             ...this.ruleForm
                         })
                     } else {

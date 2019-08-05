@@ -14,9 +14,9 @@
             </el-form-item>
             <el-form-item label="项目所属位置" prop="area">
                 <el-cascader 
+                    placeholder="请选择项目所属区域"
                     :options="options" 
                     v-model="form.area"  
-                    placeholder="请选择项目所属区域"
                     :props="{
                         children:'childList',
                         value:'id',
@@ -39,9 +39,9 @@
     import {mapActions} from 'vuex'
     
     const resetForm = {
-        projectName:'',
-        projectDetail: '',
-        area:['44','4403','440305']
+        name:'',
+        detail: '',
+        area:[]
     }
     export default {
         components: {
@@ -60,8 +60,8 @@
             return {
                 options:[],
                 form: {
-                    projectName:'',
-                    projectDetail: '',
+                    name:'',
+                    detail: '',
                     area:['44','4403','440305']
                 },
                 rules: {
@@ -82,7 +82,8 @@
             value(value) {
                 this.form = {
                     ...this.form,
-                    ...value
+                    ...value,
+                    area:(value.areaId&&`${value.areaId}`.split()) || []
                 }
             },
         },
