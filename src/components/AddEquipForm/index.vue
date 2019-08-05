@@ -18,12 +18,16 @@
                     :file-list="fileList"
                     :on-success="handleSuccess"
                     :before-upload="beforeUpload"
+                    :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove"
                     :on-error="handleError"
                     multiple
                 >
                     <i class="el-icon-plus"></i>
                 </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img :src="dialogImageUrl" alt="">
+                </el-dialog>
             </el-form-item>
             <el-form-item label="通讯技术">
                 <el-select v-model="form.commWay" :disabled="editFlag">
@@ -142,6 +146,8 @@
                 editFlag:false,
                 hideUpload: false,
                 limitCount:3,
+                dialogImageUrl: '',
+                dialogVisible: false,
                 fileList:[],
                 imageUrls:[],
                 rules: {
@@ -256,6 +262,11 @@
                 },[])
                 this.hideUpload = fileList.length >= this.limitCount;
             },
+            //点击文件列表中已上传的文件时的钩子
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
             getPostion(lng,lat){
                 this.position =[lng,lat];
             },
@@ -278,6 +289,15 @@
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
             .hide .el-upload--picture-card {
                 display: none;
+            }
+            .el-dialog{
+                .el-dialog__body{
+                    text-align: center;
+                    padding: 15px 0px;
+                    img{
+                        width: 100%;
+                    }
+                }
             }
             .el-input__inner{
                 border-radius: 0px;
