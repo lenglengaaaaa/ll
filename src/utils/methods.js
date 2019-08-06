@@ -43,3 +43,13 @@ export const judgeUserDetail = () =>{
         })  
     }
 }
+
+/**
+ * 拆分字符串
+ */
+export const splitString = (value) =>{
+    const data  = `${value}`;
+    if(data.length !==6)return data;
+    const result = [data.slice(0,2),data.slice(0,4),data];
+    return result;
+}

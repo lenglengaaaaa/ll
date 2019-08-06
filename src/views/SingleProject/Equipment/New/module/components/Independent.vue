@@ -84,31 +84,18 @@
                     </el-select>
                 </el-form-item>
             </template>
-            <el-form-item 
-                label="所属魔节" 
-                :prop="form.isSingle?'parentId':''"
-                v-if="!form.assetType"
-            >
-                <el-select v-model="form.parentId" clearable>
-                    <el-option 
-                        v-for="item in deviceMenus"
-                        :key="item.id"
-                        :label="item.name" 
-                        :value="item.id"
-                    />
+
+            <el-form-item label="是否为附属传感器">
+                <el-select v-model="form.isSon">
+                    <el-option label="是" :value="0"></el-option>
+                    <el-option label="否" :value="1"></el-option>
                 </el-select>
             </el-form-item>
-            <template v-else>
-                <el-form-item label="所属传感设备" >
-                    <el-select v-model="form.sensorType" @change="sensorChange">
-                        <el-option label="魔节" :value="0"></el-option>
-                        <el-option label="集中器" :value="1"></el-option>
-                    </el-select>
-                </el-form-item>
+            <template v-if="!form.isSon">
                 <el-form-item 
                     label="所属魔节" 
                     :prop="form.isSingle?'parentId':''"
-                    v-if="!form.sensorType"
+                    v-if="!form.assetType"
                 >
                     <el-select v-model="form.parentId" clearable>
                         <el-option 
@@ -119,20 +106,42 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item 
-                    label="所属集中器" 
-                    :prop="form.isSingle?'parentId':''" 
-                    v-else
-                >
-                    <el-select v-model="form.parentId" clearable>
-                        <el-option 
-                            v-for="item in deviceMenus"
-                            :key="item.id"
-                            :label="item.name" 
-                            :value="item.id"
-                        />
-                    </el-select>
-                </el-form-item>
+                <template v-else>
+                    <el-form-item label="所属传感设备" >
+                        <el-select v-model="form.sensorType" @change="sensorChange">
+                            <el-option label="魔节" :value="0"></el-option>
+                            <el-option label="集中器" :value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item 
+                        label="所属魔节" 
+                        :prop="form.isSingle?'parentId':''"
+                        v-if="!form.sensorType"
+                    >
+                        <el-select v-model="form.parentId" clearable>
+                            <el-option 
+                                v-for="item in deviceMenus"
+                                :key="item.id"
+                                :label="item.name" 
+                                :value="item.id"
+                            />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item 
+                        label="所属集中器" 
+                        :prop="form.isSingle?'parentId':''" 
+                        v-else
+                    >
+                        <el-select v-model="form.parentId" clearable>
+                            <el-option 
+                                v-for="item in deviceMenus"
+                                :key="item.id"
+                                :label="item.name" 
+                                :value="item.id"
+                            />
+                        </el-select>
+                    </el-form-item>
+                </template>
             </template>
         </template>
     </AddEquipForm>
@@ -159,6 +168,7 @@
                 form: {
                     commWay:0,
                     isSingle:1,
+                    isSon:0,
                     assetType:0,
                     sensorType:0,
                     courtsId:null,

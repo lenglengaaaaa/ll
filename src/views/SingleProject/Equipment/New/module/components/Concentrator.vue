@@ -64,6 +64,8 @@
                 projectId:0,
                 editFlag:false,
                 form: {
+                    isSon:1,
+                    isSingle:0,
                     commWay:0,
                     assetType:0,
                     roomId:null,

@@ -10,7 +10,7 @@
             v-if="!detailFlag"
         >   
             <el-table-column
-                prop="deviceType"
+                prop="typeName"
                 label="设备类型"
                 align="center"
                 sortable
@@ -28,20 +28,20 @@
                 </template>
             </el-table-column>
             <el-table-column
-                prop="deviceEUI"
-                label="设备EUI"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
-                prop="deviceNo"
+                prop="number"
                 label="设备编号"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
+                prop="deviceEui"
+                label="设备EUI"
+                align="center"
+                sortable
+                show-overflow-tooltip
+            />
+            <!-- <el-table-column
                 prop="courtsId"
                 label="所属台区"
                 align="center"
@@ -82,7 +82,7 @@
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>row.cenId || '-'"
-            />
+            /> -->
         </el-table>
         <div v-else>
             <EquipDetail 

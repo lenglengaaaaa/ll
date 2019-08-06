@@ -37,6 +37,7 @@
 <script>
     import Dialog from '@/components/Dialog'
     import {mapActions} from 'vuex'
+    import {splitString} from '@/utils/methods'
     
     const resetForm = {
         name:'',
@@ -62,7 +63,7 @@
                 form: {
                     name:'',
                     detail: '',
-                    area:['44','4403','440305']
+                    area:["11", "1101", "110101"]
                 },
                 rules: {
                     name: [
@@ -83,7 +84,7 @@
                 this.form = {
                     ...this.form,
                     ...value,
-                    area:(value.areaId&&`${value.areaId}`.split()) || []
+                    area:(value.areaId&&splitString(value.areaId))|| []
                 }
             },
         },
