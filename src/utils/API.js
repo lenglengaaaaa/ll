@@ -68,8 +68,11 @@ export const api={
     //项目修改 post
     updateProject:`${url}/e_view/project/update`,
 
-    //项目删除 get
+    //项目冻结 get
     deleteProject:`${url}/e_view/project/delete`,
+
+    //项目恢复 get
+    recoveProject:`${url}/e_view/project/recove`,
 
     //========================== 网关管理=====================================
 

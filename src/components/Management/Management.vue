@@ -33,6 +33,7 @@
                         width="240"
                     >
                         <template slot-scope="scope">
+                            <!-- 用于未激活网关 -->
                             <el-button
                                 size="mini"
                                 type="success"
@@ -41,6 +42,8 @@
                             >
                                 激活
                             </el-button>
+
+                            <!-- 公有 -->
                             <el-button
                                 size="mini"
                                 type="primary"
@@ -48,12 +51,24 @@
                             >
                                 编辑
                             </el-button>
+
+                            <!-- 项目管理未删除状态显示为冻结,删除状态显示为恢复 -->
+                            <!-- 网关管理不受影响 -->
+                            <el-button
+                                v-if="type!=='gateway'&&scope.row.isDelete"
+                                size="mini"
+                                type="success"
+                                @click="linkTo('recover',scope.row)"
+                            >
+                                恢复
+                            </el-button>
                             <el-button
                                 size="mini"
                                 type="danger"
                                 @click="linkTo('delete',scope.row)"
+                                v-else
                             >
-                                删除
+                                {{type==='gateway'?'删除':'冻结'}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -86,7 +101,8 @@
             skipTo:Function,
             getList:Function,
             remove:Function,
-            active:Function
+            active:Function,
+            recover:Function
         },
         data() {
             return {
@@ -137,23 +153,22 @@
                     case 'active':
                         this.active(row);
                         break;
+                    case 'recover':
+                        this.recover(row);
+                        break;
                     default:
                         break;
                 }
             },
             open(row) {
                 const type = this.type==='gateway'?'网关':'应用'
-                this.$confirm(`此操作将永久删除该${type}, 是否继续?`, '提示', {
+                this.$confirm(`此操作将${type==="应用"?'冻结':'删除'}该${type}, 是否继续?`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     this.remove(row);
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });          
+                }).catch(action => {
                 });
             }
         },

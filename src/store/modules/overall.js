@@ -136,13 +136,35 @@ const actions= {
     },
 
     /**
-     * 删除项目
+     * 冻结项目
      * @param id 项目ID
     */
     deleteProject({commit},id){
         return request({
             method:'get',
             url:`${api.deleteProject}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return true
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 恢复项目
+     * @param id 项目ID
+     */
+    recoveProject({commit},id){
+        return request({
+            method:'get',
+            url:`${api.recoveProject}`,
             data:{
                 id
             }

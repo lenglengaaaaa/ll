@@ -8,6 +8,7 @@
             :skipTo="skipTo"
             :getList="getList"
             :remove="remove"
+            :recover="recover"
         >
             <template>
                 <el-table-column
@@ -24,7 +25,8 @@
                     sortable
                 >
                     <template slot-scope="scope">
-                        <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                        <el-link type="primary" @click="skipToDetail(scope.row)" v-if="!scope.row.isDelete">{{scope.row.name}}</el-link>
+                        <span v-else>{{scope.row.name}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -82,7 +84,8 @@
         methods: {
             ...mapActions('overall',[
                 'getProjectList', 
-                'deleteProject'
+                'deleteProject',
+                'recoveProject'
             ]),
             getList(obj={}){
                 const data = {
@@ -99,12 +102,14 @@
             },
             remove(row){
                 const {id} = row;
-                const current = judgeLastData(this.data,this.params.current);
-                this.params ={
-                    ...this.params,
-                    current
-                }
                 this.deleteProject(id).then(res=>{
+                    if(!res)return;
+                    this.getList();
+                })
+            },
+            recover(row){
+                const {id} = row;
+                this.recoveProject(id).then(res=>{
                     if(!res)return;
                     this.getList();
                 })
