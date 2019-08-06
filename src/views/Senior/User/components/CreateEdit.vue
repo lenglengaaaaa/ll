@@ -19,6 +19,9 @@
                 <el-form-item label="确认密码" prop="checkPass">
                     <el-input v-model="form.checkPass" type="password" placeholder="确认密码" ></el-input>
                 </el-form-item>
+                <el-form-item label="操作密码(用于功能操作验证)" prop="operationPwd">
+                    <el-input v-model="form.operationPwd" type="password" placeholder="请输入操作密码" :maxlength="6"></el-input>
+                </el-form-item>
             </template>
             <el-form-item label="手机号码" prop="phoneNum">
                 <el-input v-model="form.phoneNum" placeholder="请输入手机号码" maxlength="11" type="tel"></el-input>
@@ -48,6 +51,7 @@
         name: '',
         password:"",
         checkPass:'',
+        operationPwd:'',
         phoneNum:'',
         email:'',
         description:''
@@ -99,6 +103,18 @@
                     callback();
                 }
             };
+            const operatePass =(rule,value,callback)=>{
+                const myreg=/^[1-9]+[0-9]*]*$/;
+                if (value === '') {
+                    callback(new Error('请输入操作密码'));
+                } else if (value&&value.length !== 6) {
+                    callback(new Error('操作密码长度为6!'));
+                } else if(!myreg.test(value)){
+                    callback(new Error('请输入正整数'));
+                }else{
+                    callback();
+                }
+            }
             const checkPhone = (rule,value,callback) =>{
                 const myreg=/^[1][34578][0-9]{9}$/;  
                 if (!myreg.test(value)) {  
@@ -119,6 +135,7 @@
                     name: '',
                     password:"",
                     checkPass:'',
+                    operationPwd:'',
                     phoneNum:'',
                     email:'',
                     description:''
@@ -135,6 +152,9 @@
                     ],
                     checkPass: [
                         { required: true, validator: checkPass, trigger: 'blur' }
+                    ],
+                    operationPwd: [
+                        { required: true, validator: operatePass, trigger: 'blur' }
                     ],
                     phoneNum: [
                         {  validator: checkPhone, trigger: 'blur' }
@@ -155,7 +175,7 @@
         },
         methods: {
             ...mapActions('user',[
-                'createAccount', 
+                'createAccount',
                 'updateAccount'
             ]),
             handleClose(result=false) {
@@ -167,10 +187,12 @@
                     if (valid) {
                         if(!this.editFlag){
                             this.createAccount(this.form).then(res=>{
+                                if(!res)return;
                                 this.handleClose(res)
                             })
                         }else{
                             this.updateAccount(this.form).then(res=>{
+                                if(!res)return;
                                 this.handleClose(res)
                             })
                         }

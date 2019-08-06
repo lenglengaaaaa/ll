@@ -37,6 +37,7 @@
             border-radius: 10px;
             width: 600px;
             max-width: 90%;
+            margin-top:2vh !important;
             .el-dialog__header{
                 border-radius: 10px 10px 0px 0px;
                 padding: 12px 20px;
@@ -48,7 +49,11 @@
                 }
             }
             .el-dialog__body{
+                padding: 15px 20px;
                 .el-form{
+                    .el-form-item{
+                        margin-bottom: 10px;
+                    } 
                     .el-input__inner{
                         border-radius: 0px;
                         height: 35px;

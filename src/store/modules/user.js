@@ -52,6 +52,7 @@ const actions= {
                 url:`${api.logout}`
             }).then(()=>{
                 commit('SET_TOKEN', '')
+                sessionStorage.clear();
                 removeToken();
                 resolve()
             })
@@ -136,6 +137,7 @@ const actions= {
         *      name 账户名称
         *      userName 用户名
         *      password 密码
+        *      operationPwd 操作密码
         *      phoneNum 手机号
         *      email 邮箱
         *      description 描述
@@ -279,7 +281,81 @@ const actions= {
                 return false;
             }
         })
-    }
+    },
+    
+    /**
+     * 设置用户操作密码
+     * @param id 用户ID
+     * @param operationPwd 操作密码
+     */
+    // setOperatePass({commit},obj){
+    //     return request({
+    //         method:'post',
+    //         url:`${api.setOperatePass}`,
+    //         data:{
+    //             id:obj.id,
+    //             operationPwd:obj.operationPwd
+    //         }
+    //     }).then(res=>{
+    //         if(res&&res.code ===10000000){
+    //             return true;
+    //         }else{
+    //             res&&tip(res.meassage)
+    //             return false;
+    //         }
+    //     })
+    // },
+
+    /**
+     * 修改用户操作密码
+     * @param id 用户ID
+     * @param password 登录密码
+     * @param operationPwd 操作密码
+     */
+    updateOperatePass({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updateOperatePass}`,
+            data:{
+                id:obj.id,
+                password:obj.password,
+                operationPwd:obj.operationPwd
+            }
+        }).then(res=>{
+            if(res&&res.code ===10000000){
+                tip(`${res.meassage}`,'success')
+                return true;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 验证用户操作密码
+     * @param id 用户ID
+     * @param operationPwd 操作密码
+     */
+    checkOperatePass({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.checkOperatePass}`,
+            data:{
+                id:obj.id,
+                operationPwd:obj.operationPwd
+            }
+        }).then(res=>{
+            if(res&&res.code ===10000000){
+                return true;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

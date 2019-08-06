@@ -429,7 +429,7 @@ const router= new Router({
                 title:'修改密码',
                 icon: '#icon-xiugai'
               }
-            },
+            }
           ]
         }
       ]

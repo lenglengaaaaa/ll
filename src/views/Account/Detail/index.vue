@@ -15,7 +15,7 @@
                 </el-upload>
             </div>
             <div>
-                <div class="info" v-for="i in options" :key="i.value">
+                <div class="info" v-for="i in options" :key="i.sign">
                     <el-row :gutter="20">
                         <el-col :span="8">
                             <div class="title">
@@ -143,10 +143,10 @@
                 }
             }
             .info{
-                font-size: 1rem;
+                font-size: 0.9rem;
                 padding: 15px 0 ;
                 .title{
-                    font-weight: bold;
+                    font-weight: 600;
                     padding: 5px 10px;
                 }
                 .value{

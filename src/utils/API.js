@@ -42,6 +42,16 @@ export const api={
 
     //修改密码 post
     updatePass:`${url}/e_view/account/update/password`,
+
+    //设置用户操作密码 post 
+    // setOperatePass:`${url}/e_view/account/set/operationPwd`,
+
+    //修改用户操作密码 post
+    updateOperatePass:`${url}/e_view/account/update/operationPwd`,
+
+    //验证操作密码 
+    checkOperatePass:`${url}/e_view/account/verify/operationPwd`,
+
     //=======================================全局=====================================================
 
     //获取区域树 get
