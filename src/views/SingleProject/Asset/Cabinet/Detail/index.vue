@@ -10,7 +10,9 @@
                 <RingList></RingList>
             </el-tab-pane>
             <el-tab-pane label="设备列表" lazy>
-                <EquipList />
+                <EquipList 
+                    :data="equipList"
+                />
             </el-tab-pane>  
             <el-tab-pane label="数据模拟" lazy>
                 <Simulate />
@@ -25,6 +27,7 @@
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
     import EquipList from '@/components/EquipList'
+    import { mapActions } from 'vuex'
 
     export default {
         components: {
@@ -34,13 +37,35 @@
             Simulate,
             EquipList
         },
-        created () {
-            const obj =JSON.parse(sessionStorage.getItem("obj"));
-            this.$route.meta.title=obj.name
-        },
         data() {
             return {
+                equipList:[],
+                params:{
+                    size:50,
+                    current:1,
+                    type:1
+                }
             }
+        },
+        created () {
+            const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=name;
+            this.getEquipList(id);
+        },
+        methods: {
+            ...mapActions('equip',[
+                'getEquipInAsset',
+            ]),
+            //获取设备列表
+            getEquipList(chestId){
+                this.getEquipInAsset({
+                    ...this.params,
+                    chestId
+                }).then(res=>{
+                    if(!res)return;
+                    this.equipList = res;
+                })
+            },
         },
     }
 </script>

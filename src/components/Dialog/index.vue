@@ -4,6 +4,7 @@
             :title="editFlag?`编辑${title}`:`创建${title}`"
             :visible.sync="dialogVisible"
             @close="close"
+            v-if="dialogVisible"
         >
             <slot></slot>
         </el-dialog>

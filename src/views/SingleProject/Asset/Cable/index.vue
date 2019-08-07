@@ -9,13 +9,6 @@
     >
         <template>
             <el-table-column
-                prop="name"
-                label="线缆名称"
-                align="center"
-                sortable
-                show-overflow-tooltip
-            />
-            <el-table-column
                 prop="number"
                 label="线缆编号"
                 align="center"
@@ -23,10 +16,19 @@
                 show-overflow-tooltip
             />
             <el-table-column
+                prop="name"
+                label="线缆名称"
+                align="center"
+                show-overflow-tooltip
+            >
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                </template>
+            </el-table-column>
+            <el-table-column
                 prop="parentName"
                 label="所属主线缆"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.parentName || '-'"
             />
@@ -34,7 +36,6 @@
                 prop="detail"
                 label="描述"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.detail || '-'"
             />
@@ -99,6 +100,10 @@
             skipTo(type,row) {
                 this.$router.push({name:'NewCable'});
                 this.skipToEdit({type,row});
+            },
+            skipToDetail(row){
+                // this.$router.push({name:'CoverDetail'})
+                // sessionStorage.setItem('obj',JSON.stringify(row))
             },
         },
     }

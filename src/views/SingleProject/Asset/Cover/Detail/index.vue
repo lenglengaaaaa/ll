@@ -24,25 +24,34 @@
         },
         data() {
             return {
-                equipList: []
+                equipList: [],
+                params:{
+                    projectId:JSON.parse(sessionStorage.getItem('project')).id,
+                    current:1,
+                    size:50
+                }
             }
         },
         created () {
-            const obj =JSON.parse(sessionStorage.getItem("obj"));
-            this.$route.meta.title=obj.name||obj.trapName
-            this.getEquipList({
-                trapId:obj.id,
-                current:1,
-                size:50
-            }).then(res=>{
-                if(!res)return;
-                this.equipList = res.data
-            })
+            const {name,trapName,id} =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title=name|trapName;
+            this.getEquip(id);
+            
         },
         methods: {
             ...mapActions('equip',[
                 'getEquipList',
             ]),
+            //获取设备列表
+            getEquip(trapId){
+                this.getEquipList({
+                    ...this.params,
+                    trapId,
+                }).then(res=>{
+                    if(!res)return;
+                    this.equipList = res.data
+                })
+            }
         },
     }
 </script>

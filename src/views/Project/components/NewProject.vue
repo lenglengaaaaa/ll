@@ -44,6 +44,7 @@
         detail: '',
         area:[]
     }
+    
     export default {
         components: {
             Dialog
@@ -72,7 +73,7 @@
                     area: [
                         { required: true, message: '请选择活动区域', trigger: 'change' }
                     ],
-                    // detail: [],
+                    detail: [],
                 }
             }
         },
@@ -97,7 +98,6 @@
             handleClose(res) {
                 this.form = resetForm;
                 this.close(res);
-                // this.$refs.projectForm.resetFields();
             },
             submitForm() {
                 this.$refs.projectForm.validate((valid) => {
