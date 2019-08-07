@@ -80,6 +80,18 @@
                     </el-pagination>
                 </div>
         </el-card>
+        <!-- 用于资产删除验证操作密码 -->
+        <el-dialog title="提示" :visible.sync="dialogFormVisible" @close="close">
+            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm">
+                <el-form-item label="操作密码" prop="pass">
+                    <el-input v-model="form.pass" autocomplete="off" type="password" :maxlength="6"></el-input>
+                </el-form-item>
+                <el-form-item class="submit">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="submit">确 定</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </div>
 </template>
 
@@ -89,10 +101,7 @@
             data:Array,
             total:Number,
             title:String,
-            getList:{
-                type:Function,
-                default:()=>{}
-            },
+            getList:Function,
             skipTo:{
                 type:Function,
                 default:()=>{}
@@ -112,19 +121,41 @@
             hasAdd:{
                 type:Boolean,
                 default:true
-            }
-        },
-        computed: {
-            placeholder() {
-                return `搜索${this.$props.title}` 
+            },
+            verify:{
+                type:Boolean,
+                default:true
             }
         },
         data() {
+            const checkOperaPass = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('请输入操作密码'));
+                }
+                this.$store.dispatch('user/checkOperatePass',{
+                    id:this.userId,
+                    operationPwd:value
+                }).then(res=>{
+                    if(!res){
+                        return callback(new Error('操作密码错误'));
+                    }else{
+                        callback()
+                    }
+                })
+            };
             return {
                 input:'',
                 layout:'total, sizes,pager,jumper',
                 current:1,
                 size:20,
+                dialogFormVisible: false,
+                row:{},
+                form:{
+                    pass:''
+                },
+                rules:{
+                    pass: [{ required: true, validator: checkOperaPass, trigger: 'blur' }],
+                }
             }
         },
         mounted () {
@@ -135,6 +166,14 @@
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
             },
+        },
+        computed: {
+            placeholder() {
+                return `搜索${this.$props.title}` 
+            },
+            userId() {
+                return JSON.parse(sessionStorage.getItem('userDetail')).id; 
+            }
         },
         methods: {
             resizehandle(value){
@@ -182,17 +221,33 @@
                 }
             },
             open(row) {
-                this.$confirm(`此操作将永久删除该${this.title}, 是否继续?`, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.remove(row);
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });          
+                if(this.verify){
+                    this.dialogFormVisible = true;
+                    this.row = row;
+                }else{
+                    this.$confirm(`此操作将永久删除该${this.title}, 是否继续?`, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.remove(row);
+                    }).catch(() => {});
+                }
+            },
+            //关闭弹窗
+            close(){
+                this.dialogFormVisible = false;
+                this.$refs.passForm.resetFields();
+            },
+            //提交表单
+            submit(){
+                this.$refs.passForm.validate((valid) => {
+                    if (valid) {
+                        this.remove(this.row);
+                        this.close();
+                    } else {
+                        return false;
+                    }
                 });
             }
         },
@@ -244,6 +299,26 @@
                         display: flex;
                         align-items: center; 
                     }
+                }
+            }
+        }
+        .el-dialog{
+            width: 350px;
+            max-width: 100%;
+            border-radius: 10px;
+            .el-dialog__header{
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                .el-dialog__headerbtn{
+                    top: 15px;
+                }
+            }
+            .el-dialog__body{
+                padding: 4px 20px;
+                .submit{
+                    padding-top: 10px;
+                    text-align: center;
                 }
             }
         }

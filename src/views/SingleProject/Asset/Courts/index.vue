@@ -53,6 +53,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.cutoff || '-'"
             />
             <el-table-column
                 prop="beforeVoltage"
@@ -60,6 +61,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.beforeVoltage || '-'"
             />
             <el-table-column
                 prop="afterVoltage"
@@ -67,6 +69,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.afterVoltage || '-'"
             />
             <el-table-column
                 prop="electricityLevel"
@@ -74,6 +77,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.electricityLevel || '-'"
             />
             <el-table-column
                 prop="covoltageLevel"
@@ -81,6 +85,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.covoltageLevel || '-'"
             />
             <el-table-column
                 prop="detail"

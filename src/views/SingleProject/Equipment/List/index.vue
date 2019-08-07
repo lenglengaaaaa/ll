@@ -6,6 +6,7 @@
         :getList="getList"
         :skipTo="skipTo"
         :remove="remove"
+        :verify="false"
     >
         <template #select>
             <div class="equipSelect">

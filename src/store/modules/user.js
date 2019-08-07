@@ -349,7 +349,6 @@ const actions= {
             if(res&&res.code ===10000000){
                 return true;
             }else{
-                res&&tip(res.meassage)
                 return false;
             }
         })
