@@ -5,11 +5,11 @@
         :close="handleClose"
         :editFlag="editFlag"
     >
-        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
+        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="projectForm">
             <el-form-item label="项目名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
             </el-form-item>
-            <el-form-item label="项目描述">
+            <el-form-item label="项目描述" prop="detail">
                 <el-input v-model="form.detail" placeholder="请输入应用描述"></el-input>
             </el-form-item>
             <el-form-item label="项目所属位置" prop="area">
@@ -63,7 +63,7 @@
                 form: {
                     name:'',
                     detail: '',
-                    area:["11", "1101", "110101"]
+                    area:[]
                 },
                 rules: {
                     name: [
@@ -72,6 +72,7 @@
                     area: [
                         { required: true, message: '请选择活动区域', trigger: 'change' }
                     ],
+                    // detail: [],
                 }
             }
         },
@@ -96,9 +97,10 @@
             handleClose(res) {
                 this.form = resetForm;
                 this.close(res);
+                // this.$refs.projectForm.resetFields();
             },
             submitForm() {
-                this.$refs.appForm.validate((valid) => {
+                this.$refs.projectForm.validate((valid) => {
                     if (valid) {
                         if(!this.editFlag){
                             this.createProject({

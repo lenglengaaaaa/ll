@@ -81,8 +81,8 @@
                 </div>
         </el-card>
         <!-- 用于资产删除验证操作密码 -->
-        <el-dialog title="提示" :visible.sync="dialogFormVisible" @close="close">
-            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm">
+        <el-dialog title="提示" :visible.sync="dialogFormVisible" @close="close" :close-on-click-modal="false">
+            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm" status-icon>
                 <el-form-item label="操作密码" prop="pass">
                     <el-input v-model="form.pass" autocomplete="off" type="password" :maxlength="6"></el-input>
                 </el-form-item>
