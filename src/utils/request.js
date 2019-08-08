@@ -87,7 +87,7 @@ axios.interceptors.response.use(
         store.dispatch('user/resetToken').then(()=>{
           setTimeout(() => {
               toLogin();
-          }, 1000);
+          }, 2000);
         })
       }else{
         return Promise.resolve(response);

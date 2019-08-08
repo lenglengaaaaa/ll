@@ -8,7 +8,7 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import OverallLayout from '@/Layout/Overall'
 import SideBarLayout from '@/Layout/HasSidebar'
 
-import {Message} from 'element-ui'
+import { message } from 'element-ui'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -457,8 +457,17 @@ router.beforeEach(async(to,from,next)=>{
       next()
       NProgress.done()
     } else {
-      next('/login');
-      NProgress.done()
+      message({
+        type:'error',
+        message:'登录过期，请重新登录',
+      });
+      store.dispatch('user/resetToken').then(()=>{
+        setTimeout(() => {
+          next('/login');
+          NProgress.done()
+        }, 2000);
+      })
+      
       // const hasGetUserInfo = store.state.user.name
       // if (hasGetUserInfo) {
       //   next()

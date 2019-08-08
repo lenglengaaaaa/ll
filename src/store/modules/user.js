@@ -63,6 +63,7 @@ const actions= {
     resetToken({ commit }) {
         return new Promise(resolve => {
             commit('SET_TOKEN', '')
+            sessionStorage.clear();
             removeToken()
             resolve()
         })
