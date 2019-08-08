@@ -18,6 +18,10 @@ module.exports = {
   externals: {
     '$':'jquery',
     'moment': 'moment',
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'vuex': 'Vuex',
+    'echarts': 'echarts',
   },
   output: {
     path: config.build.assetsRoot,

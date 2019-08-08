@@ -2,8 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 // import moment from 'moment'
-import echarts from 'echarts'
-import VueAMap from "vue-amap";
+// import echarts from 'echarts'
+// import VueAMap from "vue-amap";
 import './iconfont'
 
 import router from './router'
