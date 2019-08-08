@@ -56,7 +56,6 @@
             <el-tab-pane label="设备列表" lazy>
                 <EquipList 
                     :data="equipList"
-                    :getData="getEquipData"
                 />
             </el-tab-pane>
         </template>
@@ -98,6 +97,7 @@
             ...mapActions('equip',[
                 'getEquipInAsset',
             ]),
+            //跳转到配电柜中
             skipToDetail(row) {
                 sessionStorage.setItem('obj',JSON.stringify(row))
                 this.$router.push({
@@ -125,10 +125,6 @@
                     this.equipList = res;
                 })
             },
-            //获取设备数据
-            getEquipData(){
-                console.log('获取设备数据')
-            }
         },
     }
 </script>

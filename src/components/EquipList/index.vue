@@ -86,10 +86,8 @@
         </el-table>
         <div v-else>
             <EquipDetail 
-                :hasLine="false"
-                :hasLone="false"
+                :hasClose="true"
                 :close="skipToList"
-                :getData="getData"
             />
         </div>
     </div>
@@ -104,10 +102,6 @@
         },
         props:{
             data:Array,
-            getData:{
-                type:Function,
-                default:()=>{}
-            }
         },
         data() {
             return {
@@ -120,6 +114,7 @@
             },
             skipToDetail(row) {
                 this.detailFlag = true;
+                sessionStorage.setItem('obj',JSON.stringify(row))
             }
         },
     }

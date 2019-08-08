@@ -102,8 +102,11 @@
                 this.skipToEdit({type,row});
             },
             skipToDetail(row){
-                // this.$router.push({name:'CoverDetail'})
-                // sessionStorage.setItem('obj',JSON.stringify(row))
+                this.$router.push({name:'CableDetail'})
+                sessionStorage.setItem('obj',JSON.stringify({
+                    deviceType:38,
+                    ...row
+                }))
             },
         },
     }

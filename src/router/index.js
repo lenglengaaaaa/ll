@@ -192,7 +192,13 @@ const router= new Router({
                   name:'NewCable',
                   component: () => import('@/views/SingleProject/Asset/Cable/CreateEdit'),
                   meta:{title:'添加(编辑)线缆'}
-                }
+                },
+                {
+                  path:'cableDetail',
+                  name:'CableDetail',
+                  component: () => import('@/components/EquipDetail'),
+                  meta:{title:'线缆详情'}
+                },
               ]
             },
             {
@@ -219,7 +225,7 @@ const router= new Router({
                 {
                   path:'detail',
                   name:'EquDetail',
-                  component: () => import('@/views/SingleProject/Equipment/Detail'),
+                  component: () => import('@/components/EquipDetail'),
                   meta:{title:'设备视图'}
                 },
               ]

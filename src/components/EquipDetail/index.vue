@@ -1,22 +1,11 @@
 <template>
     <div class="EQUIP_CONTAINER">
-        <!-- <div class="info">
-            <el-popover
-                placement="right-start"
-                ref="popover4"
-                title="标题"
-                width="200"
-                trigger="click"
-                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
-            >
-            </el-popover>
-            <i class="el-icon-info" v-popover:popover4></i>
-        </div> -->
         <i 
             class="el-icon-back"
             @click="close"
+            v-if="hasClose"
         />
-        <div class="magic" v-if="hasMagic"> 
+        <div class="magic" v-if="magicFlag"> 
             <div class="title">
                 <span>魔节环境数据</span>
                 <el-divider></el-divider>
@@ -31,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="line" v-if="hasLine">
+        <div class="line" v-if="lineFlag">
             <div class="title">
                 <span>线缆温度传感器</span>
                 <el-divider></el-divider>
@@ -42,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="lone" v-if="hasLone">
+        <div class="lone" v-if="loneFlag">
             <div class="title">
                 <span>独立传感器</span>
                 <el-divider></el-divider>
@@ -64,36 +53,42 @@
             Tline
         },
         props: {
-            hasMagic: {
-                type: Boolean,
-                default: true
+            hasClose:{
+                type:Boolean,
+                default:false
             },
-            hasLine: {
-                type: Boolean,
-                default: true
-            },
-            hasLone: {
-                type: Boolean,
-                default: true
-            },
-            close:{
-                type:Function,
-                default:()=>{}
-            },
-            getData:{
-                type:Function,
-                default:()=>{}
-            }
+            close:Function
         },
         created () {
-            const result =JSON.parse(sessionStorage.getItem("obj"));
             //获取设备数据 or 线缆数据
-            this.getData();
+            const {deviceType,name} = JSON.parse(sessionStorage.getItem('obj'));
+            this.$route.meta.title = name;
+            this.classifyType(deviceType);
         },
         data() {
             return {
-                
+                magicFlag:false,
+                lineFlag:false,
+                loneFlag:false
             }
+        },
+        methods: {
+            classifyType(id){
+                switch (+id) {
+                    //集中器
+                    case 33:
+                        return ;
+                    //魔节
+                    case 30:
+                        return this.magicFlag = true;
+                    //线缆温度传感器
+                    case 38:
+                        return this.lineFlag = true;
+                    //独立传感器
+                    default:
+                        return this.loneFlag = true;
+                }
+            },
         },
     }
 </script>
