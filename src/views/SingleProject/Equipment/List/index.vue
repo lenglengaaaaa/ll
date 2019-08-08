@@ -35,6 +35,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
+                width="200"
             >
                 <template slot-scope="scope">
                     <el-link 
@@ -60,6 +61,7 @@
                 label="设备编号"
                 align="center"
                 sortable
+                width="200"
                 show-overflow-tooltip
             />
             <el-table-column
