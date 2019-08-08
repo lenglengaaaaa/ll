@@ -82,8 +82,25 @@
         </el-card>
         <!-- 用于资产删除验证操作密码 -->
         <el-dialog title="提示" :visible.sync="dialogFormVisible" @close="close" :close-on-click-modal="false">
-            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm" status-icon>
-                <el-form-item label="操作密码" prop="pass">
+            <div class="wrap_step">
+                <div class="step">
+                    <el-steps :active="active" finish-status="success">
+                        <el-step></el-step>
+                        <el-step></el-step>
+                    </el-steps>
+                </div>
+            </div>
+            <div v-if="!active">
+                <div class="msgBox">
+                    该资产下有设备<span>{{count}}</span>台 , 是否继续删除 ?
+                </div>
+                <div class="submit" style="margin-bottom:22px">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="active++">下一步</el-button>
+                </div>
+            </div>
+            <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm" status-icon v-else>
+                <el-form-item label="操作密码" prop="pass" class="pass">
                     <el-input v-model="form.pass" autocomplete="off" type="password" :maxlength="6"></el-input>
                 </el-form-item>
                 <el-form-item class="submit">
@@ -149,6 +166,8 @@
                 current:1,
                 size:20,
                 dialogFormVisible: false,
+                active: 0,
+                count:0,
                 row:{},
                 form:{
                     pass:''
@@ -237,7 +256,8 @@
             //关闭弹窗
             close(){
                 this.dialogFormVisible = false;
-                this.$refs.passForm.resetFields();
+                this.active = 0;
+                this.$refs.passForm&&this.$refs.passForm.resetFields();
             },
             //提交表单
             submit(){
@@ -316,6 +336,32 @@
             }
             .el-dialog__body{
                 padding: 4px 20px;
+                .wrap_step{
+                    display: flex;
+                    justify-content: center;
+                    .step{
+                        width: 60%;
+                    }
+                }
+                .msgBox{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 80px;
+                    font-size: 0.8rem;
+                    padding-top:15px;
+                    margin-bottom: 15px;
+                    span{
+                        color: #f00303;
+                        font-weight: bold;
+                        font-size: 0.9rem;
+                        padding: 0 5px;
+                    }
+                }
+                .pass{
+                    padding-top:15px;
+                    margin-bottom: 15px;
+                }
                 .submit{
                     padding-top: 10px;
                     text-align: center;
