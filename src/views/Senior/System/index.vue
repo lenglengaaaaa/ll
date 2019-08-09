@@ -5,8 +5,6 @@
             :data="data"
             :total="total"
             :getList="getList"
-            :skipTo="skipTo"
-            :remove="remove"
             :hasAdd="false"
             :hasOpera="false"
         >   

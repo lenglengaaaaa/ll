@@ -6,8 +6,11 @@
                     <el-form-item label="时间段:">
                         <el-date-picker
                             v-model="time"
-                            type="date"
-                            placeholder="选择日期"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :default-time="['00:00:00', '23:59:59']"
                         >
                         </el-date-picker>
                     </el-form-item>
@@ -31,7 +34,7 @@
         },
         data() {
             return {
-                time: new Date(),
+                time: [new Date(),new Date()],
             }
         },
         
