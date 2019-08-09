@@ -4,7 +4,7 @@
             <div class="avatar">
                 <el-upload
                     class="avatar-uploader"
-                    action="http://47.92.235.125:8888/e_view/file/upload/image"
+                    :action="api"
                     :headers="{'jtoken':token}"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
@@ -15,20 +15,38 @@
                 </el-upload>
             </div>
             <div>
-                <div class="info" v-for="i in options" :key="i.sign">
-                    <el-row :gutter="20">
-                        <el-col :span="8">
-                            <div class="title">
-                                {{i.title}}
-                            </div>
-                        </el-col>
-                        <el-col :span="16">
-                            <div class="value">
-                                {{i.value}}
-                            </div>
-                        </el-col>
-                    </el-row>
-                </div>
+                <el-form 
+                    label-position="left"
+                    label-width="100px" 
+                    :model="form" 
+                    :rules="rules" 
+                    hide-required-asterisk
+                    ref="Form"
+                >
+                    <el-form-item 
+                        v-for="(i,index) in options" 
+                        :key="i.sign"
+                        :label="i.title"
+                        :prop="i.sign"
+                    >   
+                        <div class="value" v-if="index !== value">
+                            {{i.value}}
+                            <i class="el-icon-edit" @click="switchState(index)" v-if="index"></i>
+                        </div>
+                        <el-input v-model="form[i.sign]" v-else>
+                            <i
+                                class="el-icon-close"
+                                slot="suffix"
+                                @click="switchState(null)">
+                            </i>
+                            <i
+                                class="el-icon-check"
+                                slot="suffix"
+                                @click="handleOk">
+                            </i>
+                        </el-input>
+                    </el-form-item>
+                </el-form>
             </div>
         </div>
     </div>
@@ -37,17 +55,39 @@
 <script>
     import { mapActions } from 'vuex'
     import avatar from '@/assets/img/default.jpg'
-    
+
     export default {
         data() {
+            const checkPhone = (rule,value,callback) =>{
+                const myreg=/^[1][34578][0-9]{9}$/;  
+                if (!myreg.test(value)) {  
+                    callback(new Error('请输入正确的手机号码'));
+                }
+                callback();
+            }
+            const checkEmail = (rule,value,callback) =>{
+                const myreg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;  
+                if (!myreg.test(value)) {  
+                    callback(new Error('请输入正确的邮箱'));
+                }
+                callback();
+            }
             return {
                 imageUrl: '',
                 options:[
-                    {title:'用户名',value:'',sign:'userName'},
                     {title:'账号',value:'',sign:'name'},
+                    {title:'用户名',value:'',sign:'userName'},
                     {title:'手机号码',value:'',sign:'phoneNum'},
                     {title:'邮箱',value:'',sign:'email'},
+                    {title:'详情',value:'',sign:'description'},
                 ],
+                value:null,
+                form:{},
+                rules: {
+                    userName: [{ required: true, message: '请输入用户名称', trigger: 'blur' }],
+                    phoneNum: [{  validator: checkPhone, trigger: 'blur' }],
+                    email: [{  validator: checkEmail, trigger: 'blur' }],
+                }
             };
         },
         created () {
@@ -57,6 +97,9 @@
             userDetail() {
                 return JSON.parse(sessionStorage.getItem('userDetail'));
             },
+            api(){
+                return this.$api.uploadAvatar;
+            },
             token(){
                 return this.$store.state.user.token
             }
@@ -64,23 +107,45 @@
         methods: {
             ...mapActions('user',[
                 'updateAvatar',
-                'getAccountDetail'
+                'getAccountDetail',
+                'updateAccount'
             ]),
             //获取用户信息
-            getAccount(){
-                const userDetail = this.userDetail;
+            getAccount(data){
+                const userDetail =data || this.userDetail;
                 this.imageUrl = userDetail.imagePath || avatar;
+                this.form = userDetail;
                 this.options.reduce((pre,current)=>{
                     for(let i in userDetail){
-                        if(current.sign === i){
-                            current.value = userDetail[i];
-                        }
+                        if(current.sign === i){ current.value = userDetail[i]; }
                     }
-                    return {
-                        ...pre,
-                        current
-                    }
+                    return {...pre,current}
                 },{})
+            },
+            //切换状态
+            switchState(index){
+                const defaultValue = JSON.parse(sessionStorage.getItem('userDetail'));
+                this.$refs.Form&&this.$refs.Form.clearValidate();
+                this.value = index;
+                this.form = defaultValue;
+            },
+            //编辑完成
+            handleOk(){
+                const {id} = this.userDetail;
+                this.$refs.Form.validate((valid)=>{
+                    if(valid){
+                        this.value = null;
+                        this.updateAccount(this.form).then(res=>{
+                            if(!res)return;
+                            this.getAccountDetail(id).then(res=>{
+                                if(!res)return;
+                                this.getAccount(res);
+                            })
+                        });
+                    }else{
+                        return false
+                    }
+                })
             },
             //上传成功后回调
             handleAvatarSuccess(res, file) {
@@ -127,10 +192,7 @@
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
             .avatar{
                 text-align: center;
-                padding: 10px 0;
-                .el-upload{
-                    border: 1px solid #22a7f0 !important;
-                }
+                padding: 20px 0;
                 .avatar-uploader .el-upload {
                     border: 1px dashed #d9d9d9;
                     border-radius: 6px;
@@ -157,16 +219,39 @@
                     padding: 0;
                 }
             }
-            .info{
-                font-size: 0.9rem;
-                padding: 15px 0 ;
-                .title{
-                    font-weight: 600;
-                    padding: 5px 10px;
+            .el-form-item{
+                height: 40px;
+                .el-form-item__label{
+                    font-weight: bold;
+                    color: #000000;
+                    font-size: 0.8rem;
+                    padding-left: 5px;
+                }
+                .el-icon-check,.el-icon-close,.el-icon-edit{
+                    font-size: 0.8rem;
+                    color: #000000;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+                .el-icon-close{
+                    padding-right: 5px;
                 }
                 .value{
+                    font-size: 0.8rem;
                     background: #d6dcdf;
-                    padding: 5px 0 5px 20px;
+                    padding-left:20px;
+                    position: relative;
+                    &:hover{
+                        .el-icon-edit{
+                            display: block;
+                        }
+                    }
+                    .el-icon-edit{
+                        display: none;
+                        position: absolute;
+                        right: 5px;
+                        top: 12px;
+                    }
                 }
             }
         }
