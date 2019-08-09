@@ -53,3 +53,46 @@ export const splitString = (value) =>{
     const result = [data.slice(0,2),data.slice(0,4),data];
     return result;
 }
+
+/**
+ * 判断两个对象是否相同
+ */
+export const judgeObject = (x,y) =>{
+    // If both x and y are null or undefined and exactly the same 
+    //判断 x , y 是否 null 或 undefined 和是否全等(地址)
+    if ( x === y ) return true;
+
+    // If they are not strictly equal, they both need to be Objects 
+    //如果两者严格下不相等 , 它们都需要是Object类型
+    if ( ! ( x instanceof Object ) || ! ( y instanceof Object ) ) return false;
+
+    //They must have the exact same prototype chain,the closest we can do is test the constructor. 
+    //两者需要完成相同的原型链(接近的事情就是测试构造函数)
+    if ( x.constructor !== y.constructor ) return false;
+
+    for ( var p in x ) { 
+        //Inherited properties were tested using x.constructor === y.constructor
+        //使用x.构造函数===y.构造函数测试继承原型
+        if ( x.hasOwnProperty( p ) ) { 
+            if ( ! y.hasOwnProperty( p ) ) return false;
+
+        // If they have the same strict value or identity then they are equal 
+        //如它们拥有相同的值或者特性则相同
+            if ( x[ p ] === y[ p ] ) continue;
+
+        // Numbers, Strings, Functions, Booleans must be strictly equal 
+        // 数字 , 字符串 , 函数 , 布尔 必须完成相等
+            if ( typeof( x[ p ] ) !== "object" ) return false;
+
+        // Objects and Arrays must be tested recursively 
+        // 对象 和 数组 需 递归测试
+            if ( ! Object.equals( x[ p ], y[ p ] ) ) return false;
+        } 
+    } 
+    for ( p in y ) { 
+        // allows x[ p ] to be set to undefined 
+        // 允许x[p]设置为undefined
+        if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) ) return false;
+    } 
+    return true; 
+}

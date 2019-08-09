@@ -55,6 +55,7 @@
 <script>
     import { mapActions } from 'vuex'
     import avatar from '@/assets/img/default.jpg'
+    import {judgeObject} from '@/utils/methods'
 
     export default {
         data() {
@@ -131,13 +132,14 @@
             },
             //编辑完成
             handleOk(){
-                const {id} = this.userDetail;
+                const defaultValue = JSON.parse(sessionStorage.getItem('userDetail'));
                 this.$refs.Form.validate((valid)=>{
                     if(valid){
                         this.value = null;
+                        if(judgeObject(defaultValue,this.form))return;
                         this.updateAccount(this.form).then(res=>{
                             if(!res)return;
-                            this.getAccountDetail(id).then(res=>{
+                            this.getAccountDetail(defaultValue.id).then(res=>{
                                 if(!res)return;
                                 this.getAccount(res);
                             })
