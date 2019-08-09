@@ -6,6 +6,8 @@
         :getList="getList"
         :skipTo="skipTo"
         :remove="remove"
+        :verify="true"
+        :assetType="1"
     >
         <template>
             <el-table-column

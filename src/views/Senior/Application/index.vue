@@ -7,6 +7,7 @@
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
+            :verify="false"
         >   
             <template>
                 <el-table-column

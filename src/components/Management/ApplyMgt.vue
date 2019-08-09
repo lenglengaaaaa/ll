@@ -82,7 +82,7 @@
         </el-card>
         <!-- 用于资产删除验证操作密码 -->
         <el-dialog title="提示" :visible.sync="dialogFormVisible" @close="close" :close-on-click-modal="false">
-            <div class="wrap_step">
+            <div class="wrap_step" v-if="hasStep">
                 <div class="step">
                     <el-steps :active="active" finish-status="success">
                         <el-step></el-step>
@@ -90,7 +90,7 @@
                     </el-steps>
                 </div>
             </div>
-            <div v-if="!active">
+            <div v-if="!active&&hasStep">
                 <div class="msgBox">
                     该资产下有设备<span>{{count}}</span>台 , 是否继续删除 ?
                 </div>
@@ -143,8 +143,9 @@
             },
             verify:{
                 type:Boolean,
-                default:true
-            }
+                default:false
+            },
+            assetType:Number
         },
         data() {
             const checkOperaPass = (rule, value, callback) => {
@@ -170,6 +171,7 @@
                 dialogFormVisible: false,
                 active: 0,
                 count:0,
+                hasStep:true,
                 row:{},
                 form:{
                     pass:''
@@ -243,12 +245,21 @@
             },
             open(row) {
                 if(this.verify){
-                    // this.$store.dispatch('asset/getEquipCount',obj).then(res=>{
-                    //     if(!res)return;
-                    //     this.count = res;
-                    // })
-                    this.dialogFormVisible = true;
-                    this.row = row;
+                    this.$store.dispatch('asset/getEquipCount',{
+                        queryId:row.id,
+                        queryType:this.assetType
+                    }).then(res=>{
+                        if(res===false)return;
+                        if(res){
+                            this.count = res;
+                            this.hasStep = true;
+                        }else{
+                            this.hasStep = false;
+                        }
+                        this.dialogFormVisible = true;
+                        this.row = row;
+                    })
+                    
                 }else{
                     this.$confirm(`此操作将永久删除该${this.title}, 是否继续?`, '提示', {
                         confirmButtonText: '确定',

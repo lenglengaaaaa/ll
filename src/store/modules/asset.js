@@ -67,10 +67,10 @@ const actions= {
     getEquipCount({commit},obj){
         return request({
             method:'get',
-            url:`${api.checkNo}`,
+            url:`${api.getEquipCount}`,
             data:{
-                queryId:obj.id,
-                queryType:obj.type,
+                queryId:obj.queryId,
+                queryType:obj.queryType,
             }
         }).then(res=>{
             if(res&&res.code===10000000){
