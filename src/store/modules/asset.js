@@ -60,6 +60,29 @@ const actions= {
     },
 
     /**
+     * 获取资产下设备数量
+     * @param queryId 资产ID
+     * @param queryType 0项目 1配电柜 2配电房 3线缆 4井盖 5台区 6主线缆 7子设备
+     */
+    getEquipCount({commit},obj){
+        return request({
+            method:'get',
+            url:`${api.checkNo}`,
+            data:{
+                queryId:obj.id,
+                queryType:obj.type,
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
      * 页面跳转
      * @param obj 列表数据
      */

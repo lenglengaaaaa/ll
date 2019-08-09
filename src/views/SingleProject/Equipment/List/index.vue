@@ -69,6 +69,7 @@
                 label="所属台区"
                 align="center"
                 show-overflow-tooltip
+                width="100"
                 :formatter="(row)=>row.courtsName || '-'"
             />
             <el-table-column
@@ -76,12 +77,14 @@
                 label="所属配电房"
                 align="center"
                 show-overflow-tooltip
+                width="100"
                 :formatter="(row)=>row.roomName || '-'"
             />
             <el-table-column
                 prop="chestName"
                 label="所属配电柜"
                 align="center"
+                width="100"
                 show-overflow-tooltip
                 :formatter="(row)=>row.chestName || '-'"
             />
@@ -89,6 +92,7 @@
                 prop="trapName"
                 label="所属井盖"
                 align="center"
+                width="100"
                 show-overflow-tooltip
                 :formatter="(row)=>row.trapName || '-'"
             />
@@ -96,18 +100,21 @@
                 prop="lineName"
                 label="所属线缆"
                 align="center"
+                width="100"
                 show-overflow-tooltip
                 :formatter="(row)=>row.lineName || '-'"
             />
             <el-table-column
                 label="所属魔节"
                 align="center"
+                width="100"
                 show-overflow-tooltip
                 :formatter="(row)=>( row.parentType==30&&row.parentName )|| '-'"
             />
             <el-table-column
                 label="所属集中器"
                 align="center"
+                width="100"
                 show-overflow-tooltip
                 :formatter="(row)=>( row.parentType==33&&row.parentName )|| '-'"
             />

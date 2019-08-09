@@ -35,32 +35,41 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+    import avatar from '@/assets/img/default.jpg'
+    
     export default {
         data() {
             return {
-                imageUrl: 'http://47.92.235.125:90/eiot/c9e80d63ebf94c15a3960e1df8219323.jpg',
+                imageUrl: '',
                 options:[
                     {title:'用户名',value:'',sign:'userName'},
                     {title:'账号',value:'',sign:'name'},
                     {title:'手机号码',value:'',sign:'phoneNum'},
                     {title:'邮箱',value:'',sign:'email'},
                 ],
-                token:this.$store.state.user.token,
             };
         },
         created () {
-            this.getAccountDetail()
+            this.getAccount()
         },
         computed: {
             userDetail() {
                 return JSON.parse(sessionStorage.getItem('userDetail'));
+            },
+            token(){
+                return this.$store.state.user.token
             }
         },
         methods: {
+            ...mapActions('user',[
+                'updateAvatar',
+                'getAccountDetail'
+            ]),
             //获取用户信息
-            getAccountDetail(){
+            getAccount(){
                 const userDetail = this.userDetail;
-                this.imageUrl = userDetail.imagePath;
+                this.imageUrl = userDetail.imagePath || avatar;
                 this.options.reduce((pre,current)=>{
                     for(let i in userDetail){
                         if(current.sign === i){
@@ -73,16 +82,22 @@
                     }
                 },{})
             },
+            //上传成功后回调
             handleAvatarSuccess(res, file) {
                 const {id,imageId} = this.userDetail;
                 this.imageUrl = URL.createObjectURL(file.raw);
-                this.$store.dispatch('user/updateAvatar',{
+                this.updateAvatar({
                     id:imageId,
                     accountId:id,
                     name:'xxx',
                     imagePath:res.data
+                }).then(result=>{
+                    if(!result)return;
+                    this.imageUrl = res.data; 
+                    this.getAccountDetail(id)
                 })
             },
+            //上传前回调
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;

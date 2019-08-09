@@ -98,6 +98,7 @@
         .EQUIP_CONTAINER{
             .seletGroup{
                 flex-direction: column;
+                align-items: stretch !important;
                 .el-form{
                     flex-direction: column;
                 }

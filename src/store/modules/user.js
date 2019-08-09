@@ -17,12 +17,17 @@ const tip = (msg,type="error") => {
 
 const state={
     token: getToken(),
+    userDetail:JSON.parse(sessionStorage.getItem('userDetail'))
+    
 }
 
 const mutations={
     SET_TOKEN: (state, token) => {
         state.token = token
     },
+    SET_USERDETAIL: (state, detail) => {
+        state.userDetail = detail;
+    }
 }
 
 const actions= {
@@ -104,6 +109,7 @@ const actions= {
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
                 sessionStorage.setItem('userDetail',JSON.stringify(res.data))
+                commit('SET_USERDETAIL', res.data);
                 return res.data;
             }else{
                 res&&tip(res.meassage)
@@ -275,7 +281,7 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code ===10000000){
-                tip(`${res.meassage},重新登录头像生效`,'success')
+                tip(res.meassage,'success')
                 return true;
             }else{
                 res&&tip(res.meassage)

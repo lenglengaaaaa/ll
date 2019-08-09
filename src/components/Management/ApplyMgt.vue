@@ -113,6 +113,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+    
     export default {
         props: {
             data:Array,
@@ -241,6 +243,10 @@
             },
             open(row) {
                 if(this.verify){
+                    // this.$store.dispatch('asset/getEquipCount',obj).then(res=>{
+                    //     if(!res)return;
+                    //     this.count = res;
+                    // })
                     this.dialogFormVisible = true;
                     this.row = row;
                 }else{

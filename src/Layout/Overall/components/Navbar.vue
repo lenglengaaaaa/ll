@@ -68,9 +68,8 @@
 
 <script>
     import GlobalSearch from '@/components/Search' 
-    import avatar from '@/assets/img/avatar.gif'
+    import avatar from '@/assets/img/default.jpg'
     import {judgeUserDetail} from '@/utils/methods'
-    
     
     export default {
         name:'Header',
@@ -87,7 +86,7 @@
                 phone:false,
                 fold:false,
                 username:'',
-                imagePath:avatar
+                imagePath:''
             }
         },
         components: {
@@ -95,7 +94,6 @@
         },
         created (){
             //这里进行权限配置,改变navbar
-
             //获取区域树
             this.getArea();
             //获取用户详情
@@ -112,6 +110,9 @@
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
             },
+            '$store.state.user.userDetail'(){
+                this.getAccount();
+            }
         },
         methods: {
             //获取用户详情

@@ -101,6 +101,9 @@ export const api={
     //验证资产编号是否存在 get
     checkNo:`${url}/e_view/number/exist`,
 
+    //获取资产下设备数量 get
+    getEquipCount:`${url}/e_view/device/verify/hava`,
+
     //=================台区===================
     //台区创建 post
     createCourts:`${url}/e_view/courts/create`,
@@ -225,6 +228,7 @@ export const api={
     //获取配电房/配电柜下的设备列表 post
     equipInAsset:`${url}/e_view/device/room/list`,
 
+    
 
 
 }
