@@ -20,7 +20,7 @@ $height: 50px;
     .Sidebar_container{
         background: #34495e;
         height: 100%;
-        overflow: scroll;
+        overflow-y: scroll;
         .app_title{
             height: $height;
             display: flex;
@@ -42,14 +42,15 @@ $height: 50px;
         .foldSidebar{
             .side-menu-demo{
                 width: 54px;
-                // animation:fold 0.3s linear;
+                // &:not(.el-menu--collapse){
+                //     width: 210px;
+                // }
             }
         }
         .side-menu-demo{
             width: 210px;
             background:transparent;
             border: none;
-            // animation:unfold 0.3s linear;
             .el-menu-item{
                 height: $height;
                 line-height: $height;
@@ -73,16 +74,6 @@ $height: 50px;
             .is-active{
                 background: #22a7f0;
             }
-        }
-        @keyframes fold
-        {
-            from {width:210px;}
-            to {width:54px;}
-        }
-        @keyframes unfold
-        {
-            from {width:54px;}
-            to {width:210px;}
         }
     }
 }

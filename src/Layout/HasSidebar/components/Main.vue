@@ -83,6 +83,7 @@
             align-items: center;
             .el-icon-s-fold,.el-icon-s-unfold{
                 cursor: pointer;
+                font-size: 20px;
             }
             .el-breadcrumb{
                 padding-left: 10px;

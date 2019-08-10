@@ -311,6 +311,7 @@
                         display: flex;
                         align-items: center;
                         .el-input__inner{
+                            max-width: 180px;
                             height: 40px;
                         }
                         .el-input-group__append{

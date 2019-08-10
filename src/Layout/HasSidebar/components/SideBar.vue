@@ -38,6 +38,10 @@
                 activeIndex: ''
             }
         },
+        mounted () {
+            const path = this.$route.path.split('/')[2]
+            this.activeIndex = path;
+        },
         watch: {
             $route(to,from){
                 const path = to.path.split('/')[2]
@@ -70,10 +74,6 @@
                     return  project&&project.name
                 }
             }
-        },
-        mounted () {
-            const path = this.$route.path.split('/')[2]
-            this.activeIndex = path;
         },
         methods: {
             handleClickOutside() {
