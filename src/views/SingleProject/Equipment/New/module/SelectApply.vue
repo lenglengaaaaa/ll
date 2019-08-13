@@ -21,8 +21,6 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
-
     export default {
         props: {
             next:Function
@@ -41,15 +39,10 @@
             }
         },
         mounted () {
-            this.getEquipTypeMenu().then(res=>{
-                if(!res) return;
-                this.types = res;
-            });
+            const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
+            this.types = equipTypeMenu;
         },
         methods: {
-            ...mapActions('equip',[
-                'getEquipTypeMenu', 
-            ]),
             submit() {
                 this.$refs.appForm.validate((valid) => {
                     if (valid) {

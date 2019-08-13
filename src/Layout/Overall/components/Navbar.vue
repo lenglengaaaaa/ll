@@ -94,10 +94,9 @@
         },
         created (){
             //这里进行权限配置,改变navbar
-            //获取区域树
-            this.getArea();
-            //获取用户详情
-            this.getAccount();
+
+            //初始化数据
+            this.initialize();
             //高亮
             this.hightlight(this.$route.path)
             //适配
@@ -115,6 +114,19 @@
             }
         },
         methods: {
+            //初始化
+            initialize(){
+                //获取区域树
+                if(!sessionStorage.getItem('areaTree')){
+                    this.$store.dispatch('overall/getAreaTree');
+                };
+                //获取用户详情
+                this.getAccount();
+                //获取设备类型下拉列表
+                if(!sessionStorage.getItem('equipTypeMenu')){
+                    this.$store.dispatch('equip/getEquipTypeMenu')
+                }
+            },
             //获取用户详情
             getAccount(){
                 judgeUserDetail().then(res=>{
@@ -122,12 +134,6 @@
                     this.username = userName || 'xxx';
                     this.imagePath = imagePath ? imagePath : avatar ;
                 });
-            },
-            //获取区域树
-            getArea(){
-                if(!sessionStorage.getItem('areaTree')){
-                    this.$store.dispatch('overall/getAreaTree');
-                };
             },
             //判断当前路径,menu高亮
             hightlight(path){

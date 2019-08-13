@@ -337,6 +337,26 @@ const actions= {
             }
         })
     },
+
+    //==================================统计==================================
+    /**
+     * 获取项目下不同设备数量
+     * @param projectId 项目ID
+     */
+    getEquipCount({commit},projectId){
+        return request({
+            method:'get',
+            url:`${api.getEquipCountOnProject}`,
+            data:{projectId}
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    }
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

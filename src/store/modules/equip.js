@@ -14,9 +14,13 @@ const tip = (msg,type="error") => {
 }
 
 const state={
+    equipTypeMenu:sessionStorage.getItem('equipTypeMenu')?JSON.parse(sessionStorage.getItem('equipTypeMenu')) : []
 }
 
 const mutations={
+    SET_MENU: (state, menu) => {
+        state.equipTypeMenu = menu;
+    },
 }
 
 const actions= {
@@ -44,18 +48,21 @@ const actions= {
      * 设备类型下拉
      * @param type 操作表类型默认为0
      */
-    getEquipTypeMenu({commit},number){
+    getEquipTypeMenu({commit},number=0){
         return request({
             method:'get',
             url:`${api.equipTypeMenu}`,
             data:{
-                type:0
+                type:number
             }
         }).then(res=>{
             if(res&&res.code===10000000){
+                sessionStorage.setItem('equipTypeMenu',JSON.stringify(res.data));
+                commit('SET_MENU', res.data)
                 return res.data;
             }else{
                 res&&tip(res.meassage)
+                commit('SET_MENU', [])
                 return false;
             }
         })

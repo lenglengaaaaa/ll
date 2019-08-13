@@ -65,6 +65,14 @@
                 show-overflow-tooltip
             />
             <el-table-column
+                prop="deviceAdress"
+                label="设备ID"
+                align="center"
+                sortable
+                width="200"
+                show-overflow-tooltip
+            />
+            <el-table-column
                 prop="courtsName"
                 label="所属台区"
                 align="center"
@@ -157,7 +165,6 @@
         },
         methods: {
             ...mapActions('equip',[
-                'getEquipTypeMenu',
                 'getEquipList',
                 'deleteEquip'
             ]),
@@ -177,17 +184,15 @@
             },
             //获取设备类型
             getEquipType(){
-                this.getEquipTypeMenu().then(res=>{
-                    if(!res)return;
-                    const result = [
-                        {
-                            "id": null,
-                            "value": "全部设备",
-                        },
-                        ...res
-                    ]
-                    this.types = result;
-                })
+                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
+                const result = [
+                    {
+                        "id": null,
+                        "value": "全部设备",
+                    },
+                    ...equipTypeMenu
+                ]
+                this.types = result;
             },
             //切换设备
             changeEquip(deviceType){

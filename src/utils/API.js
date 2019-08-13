@@ -57,6 +57,7 @@ export const api={
     //获取区域树 get
     getAreaTree:`${url}/e_view/area/tree`,
 
+
     //===========================项目管理====================================
 
     //项目列表 post
@@ -96,6 +97,14 @@ export const api={
 
     //获取网关下拉 get
     getGatewayMenu:`${url}/e_view/gateway/list/all`,
+
+    //===========================统计====================================
+    
+    //获取项目中设备数量 get
+    getEquipCountOnProject:`${url}/e_view/statistics/device/type`,
+
+    //获取项目中资产数量 get
+    getAssetCountOnProject:`${url}/e_view/statistics/asset/project`,
 
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get

@@ -39,7 +39,10 @@
                 <el-input v-model="form.name" placeholder="请输入设备名称"></el-input>
             </el-form-item>
             <el-form-item label="设备资产编号" prop="number">
-                <el-input v-model="form.number" placeholder="设备资产编号"></el-input>
+                <el-input v-model="form.number" placeholder="请输入设备资产编号"></el-input>
+            </el-form-item>
+            <el-form-item label="设备ID" prop="deviceAdress">
+                <el-input v-model="form.deviceAdress" placeholder="请输入设备ID"></el-input>
             </el-form-item>
 
             <!-- 插槽 -->
@@ -152,6 +155,7 @@
                     pattern: [{ required: true, trigger: 'blur' }],
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
                     number: [{ required: true, validator: checkNumber, trigger: 'blur' }],
+                    deviceAdress: [{ required: true, message: '请输入设备ID', trigger: 'blur' }],
                     deviceEui: [{ required: true, validator: checkEui, trigger: 'blur' }],
                     trapId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
                     roomId: [{ required: true, message: '请选择设备所属配电房', trigger: 'change' }],
