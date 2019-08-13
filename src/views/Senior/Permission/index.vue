@@ -13,15 +13,14 @@
                 :parentCheckAll="parentCheckAll"
             />
             <el-row >
-                <el-col :span="6">
+                <!-- <el-col :span="6">
                     <el-checkbox 
                         v-model="parentCheckAll" 
-                        @change="handleCheckAllChange"
                     >
                         全选
                     </el-checkbox>
-                </el-col>
-                <el-col :span="18">
+                </el-col> -->
+                <el-col :span="24">
                     <el-button type="primary" size="small" @click="opera('save')">保存</el-button>
                     <el-button size="small" @click="opera('back')">返回</el-button>
                 </el-col>
@@ -74,22 +73,22 @@
         },
         methods: {
             //获取子组件选中状态
-            getChecked(title,value) {
-                const obj = {title,value};
-                const flag = this._.some(this.result, ['title', obj.title]);
-                if(!flag) {  this.result = [...this.result,obj] };
+            getChecked(obj) {
+                const {title,value} = obj;
+                const flag = this._.some(this.result, ['title', title]);
+                if(!flag) {  
+                    this.result = [...this.result,obj] 
+                }else{
+                    this.result = this.result.reduce((pre,current)=>{
+                        if(current.title === obj.title) return [...pre,{...current,...obj}];
+                        return [...pre,current];
+                    },[])
+                }
                 if(!value.length){
-                    const index = this._.findIndex(this.result, ['title', obj.title]);
+                    const index = this._.findIndex(this.result, ['title', title]);
                     this.result.splice(index,1);
                 }
-                this.result = this.result.reduce((pre,current)=>{
-                    if(current.title === obj.title) return [...pre,{...current,...obj}];
-                    return [...pre,current];
-                },[])
-                this.parentCheckAll = this.currentLength === this.defaultLength ;
-            },
-            handleCheckAllChange(val){
-                console.log(val)
+                // this.parentCheckAll = this.currentLength == this.defaultLength ;
             },
             //操作
             opera(type){

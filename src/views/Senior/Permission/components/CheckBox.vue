@@ -36,6 +36,12 @@
                 isIndeterminate: false
             };
         },
+        // watch: {
+        //     parentCheckAll(flag) {
+        //         this.checkAll = flag;
+        //         this.handleCheckAllChange(flag)
+        //     }
+        // },
         computed: {
             title(){
                 return this.value&&this.value.title  
@@ -47,14 +53,14 @@
         methods: {
             handleCheckAllChange(val) {
                 this.checked = val ? this.authority : [];
-                this.getChecked(this.title,this.checked);
+                this.getChecked({title:this.title,value:this.checked});
                 this.isIndeterminate = false;
             },
             handleCheckedCitiesChange(value) {
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.authority.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.authority.length;
-                this.getChecked(this.title,value)
+                this.getChecked({title:this.title,value});
             }
         }
     }
