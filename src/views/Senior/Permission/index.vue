@@ -1,105 +1,110 @@
 <template>
     <div class="Permission-container">
-        <div class="tree">
-            <el-tree 
-                :data="data" 
-                :props="defaultProps"
-                @node-click="handleNodeClick"
-            >
-            </el-tree>
-        </div>
-        <div class="transfer">
-            <el-transfer 
-                v-model="value" 
-                :data="data1"
-            >
-            </el-transfer>
+        <div class="wrap">
+            <el-row >
+                <el-col :span="6">模块</el-col>
+                <el-col :span="18">方法</el-col>
+            </el-row>
+            <CheckBox 
+                v-for="item in data"
+                :key="item.id"
+                :value="item"
+                :getChecked="getChecked"
+                :parentCheckAll="parentCheckAll"
+            />
+            <el-row >
+                <el-col :span="6">
+                    <el-checkbox 
+                        v-model="parentCheckAll" 
+                        @change="handleCheckAllChange"
+                    >
+                        全选
+                    </el-checkbox>
+                </el-col>
+                <el-col :span="18">
+                    <el-button type="primary" size="small" @click="opera('save')">保存</el-button>
+                    <el-button size="small" @click="opera('back')">返回</el-button>
+                </el-col>
+            </el-row>
         </div>
     </div>
 </template>
 
 <script>
+    import CheckBox from './components/CheckBox'
+
     export default {
+        components: {
+            CheckBox,
+        },
         data() {
-            const generateData = _ => {
-                const data = [];
-                for (let i = 1; i <= 15; i++) {
-                    data.push({
-                        key: i,
-                        label: `备选项 ${ i }`  
-                    });
-                }
-                return data;
-            };
             return {
-                data1: generateData(),
-                value: [],
-                data: [
+                data:[
                     {
-                        label: '一级 1',
-                        children: [{
-                            label: '二级 1-1',
-                            children: [{
-                            label: '三级 1-1-1'
-                            }]
-                        }]
-                    }, 
+                        id:1,
+                        title:'首页',
+                        authority:['首页']
+                    },
                     {
-                        label: '一级 2',
-                        children: [
-                            {
-                                label: '二级 2-1',
-                                children: [{
-                                    label: '三级 2-1-1'
-                                }]
-                            }, 
-                            {
-                                label: '二级 2-2',
-                                children: [{
-                                    label: '三级 2-2-1'
-                                }]
-                            }
-                        ]
-                    }, 
+                        id:2,
+                        title:'台区管理',
+                        authority:['增加','删除','查看','修改']
+                    },
                     {
-                        label: '一级 3',
-                        children: [{
-                            label: '二级 3-1',
-                            children: [{
-                                label: '三级 3-1-1'
-                            }]
-                        }, {
-                            label: '二级 3-2',
-                            children: [{
-                                label: '三级 3-2-1'
-                            }]
-                        }]
+                        id:3,
+                        title:'配电房管理',
+                        authority:['增加','删除','查看','修改']
                     }
                 ],
-                defaultProps: {
-                    children: 'children',
-                    label: 'label'
-                }
+                result:[],
+                parentCheckAll:false
             };
         },
+        computed: {
+            defaultLength() {
+                return this.data.reduce((pre,current)=>{
+                    return [...pre,...current.authority];
+                },[]).length 
+            },
+            currentLength(){
+                return this.result.reduce((pre,current)=>{
+                    return [...pre,...current.value];
+                },[]).length
+            }
+        },
         methods: {
-            handleNodeClick(data) {
-                console.log(data);
+            //获取子组件选中状态
+            getChecked(title,value) {
+                const obj = {title,value};
+                const flag = this._.some(this.result, ['title', obj.title]);
+                if(!flag) {  this.result = [...this.result,obj] };
+                if(!value.length){
+                    const index = this._.findIndex(this.result, ['title', obj.title]);
+                    this.result.splice(index,1);
+                }
+                this.result = this.result.reduce((pre,current)=>{
+                    if(current.title === obj.title) return [...pre,{...current,...obj}];
+                    return [...pre,current];
+                },[])
+                this.parentCheckAll = this.currentLength === this.defaultLength ;
+            },
+            handleCheckAllChange(val){
+                console.log(val)
+            },
+            //操作
+            opera(type){
+                if(type ==='save'){
+                    console.log(this.result,'result')
+                    console.log('保存')
+                }else{
+                    console.log('返回')
+                }
             }
         },
     }
 </script>
 
-<style lang="scss" scoped>
-    @media screen and (max-width: 870px) {
-        .Permission-container{
-            flex-direction: column;
-            .tree{
-                margin-bottom: 20px;
-            }
-        }
-    }
-
+<style lang="scss">
     .Permission-container{
         background: #fff;
         height: calc(100% - 42px);
@@ -107,19 +112,25 @@
         border-radius: 4px;
         border: 1px solid #EBEEF5;
         padding: 20px ;
-        display: flex;
-        overflow-y: scroll;
-        .tree,.transfer{
-            max-width: 100%;
+        .wrap{
             border: 1px solid #ebeef5;
-            padding: 10px;
-        }
-        .tree{
-            width: 25%;
-            margin-right: 2%;
-        }
-        .transfer{
-            width: 73%;
+            height: 100%;
+            overflow-y: scroll;
+            .el-row{
+                .el-col{
+                    padding:10px 20px;
+                    border-right: 1px solid #ebeef5;
+                    border-bottom: 1px solid #ebeef5;
+                    font-weight: 700;
+                    color: #3c4353;
+                    text-align: center;
+                    font-size: 15px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
         }
     }
 </style>
