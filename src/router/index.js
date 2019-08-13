@@ -296,10 +296,24 @@ const router= new Router({
               path:'permission',
               name:'Permission',
               component: () => import('@/views/Senior/Permission'),
+              redirect:'permission/list',
               meta: { 
                 title:'权限管理',
                 icon: '#icon-quanxian'
-              }
+              },
+              children:[
+                {
+                  path:'list',
+                  name:'PermissionList',
+                  component: () => import('@/views/Senior/Permission/List'),
+                },
+                {
+                  path:'authority',
+                  name:'Authority',
+                  component: () => import('@/views/Senior/Permission/Authority'),
+                  meta:{title:'权限维护'}
+                }
+              ]
             },
             {
               path:'mainLine',

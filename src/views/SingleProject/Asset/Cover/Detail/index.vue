@@ -34,7 +34,7 @@
         },
         created () {
             const {name,trapName,id} =JSON.parse(sessionStorage.getItem("obj"));
-            this.$route.meta.title=name|trapName;
+            this.$route.meta.title=name||trapName;
             this.getEquip(id);
             
         },
