@@ -1,7 +1,21 @@
 <template>
     <div>
         <div>
-            <ChartRow />
+            <el-row :gutter="20" type="flex" >
+                <el-col :span="12" :xs="24">
+                    <div class="data-content" >
+                        <SoeChart></SoeChart>
+                    </div>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <div class="data-content" >
+                        <CategoryChart
+                            v-if="flag" 
+                            :equipList="equipList"
+                        />
+                    </div>
+                </el-col>
+            </el-row>
         </div>
         <div>
             <el-card class="box-card">
@@ -20,32 +34,82 @@
 </template>
 
 <script>
-    import {ChartRow} from '@/components/Row'
+    import { SoeChart , CategoryChart} from '@/components/Charts'
     import {Map} from '@/components/Maps'
-
+    import { mapActions } from 'vuex'
+    
     export default {
         components: {
-            ChartRow,
+            SoeChart,
+            CategoryChart,
             Map
         },
         data() {
             return {
+                flag:false,
+                equipList:[]
             }
+        },
+        mounted () {
+            this.getCount();
+        },
+        computed: {
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            },
+        },
+        methods: {
+            ...mapActions('overall',[
+                'getEquipCount', 
+            ]),
+            //获取设备类型
+            getCount(){
+                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
+                this.getEquipCount(this.projectId).then(res=>{
+                    if(!res){return this.flag=true};
+                    const result = res.reduce((pre,current)=>{
+                        for(let item of equipTypeMenu){
+                            if(current.deviceType === item.id){
+                                current.name = item.value;
+                                current.value = current.count;
+                            }
+                        }
+                        return [...pre,current]
+                    },[])
+                    this.flag =true;
+                    this.equipList = result;
+                })
+            },
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    .box-card{
-            background: #fff;
-            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-            .el-card__header{
-                padding: 8px 15px;
-            }
-            .clearfix{
-                font-size: 0.8rem;
-                font-weight: bold;
-                color: #171717;
-            }
+    @media screen and (max-width: 870px) {
+        .el-row{
+                flex-direction: column;
         }
+    }
+    .el-row {
+        margin-bottom: 20px;
+        .data-content {
+                padding: 30px 0px;
+                background: #fff;
+                margin-bottom: 20px;
+                box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                height: 400px;
+            }
+    }
+    .box-card{
+        background: #fff;
+        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+        .el-card__header{
+            padding: 8px 15px;
+        }
+        .clearfix{
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #171717;
+        }
+    }
 </style>

@@ -7,20 +7,38 @@
         </div>
         <div class="body">
             <CountRow :rows="rows" />
-            <ChartRow />
+            <div class="ChartRow">
+                <el-row :gutter="20" type="flex" >
+                    <el-col :span="12" :xs="24">
+                        <div class="data-content" >
+                            <SoeChart></SoeChart>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <div class="data-content" >
+                            <CategoryChart
+                                v-if="flag" 
+                                :equipList="equipList"
+                            />
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
             <MapRow />
         </div>
     </div>
 </template>
 
 <script>
-    import {CountRow,ChartRow} from '@/components/Row'
+    import {CountRow} from '@/components/Row'
+    import { SoeChart , CategoryChart} from '@/components/Charts'
     import MapRow from './components/MapRow'
 
     export default {
         components:{
             CountRow,
-            ChartRow,
+            SoeChart,
+            CategoryChart,
             MapRow
         },
         data() {
@@ -48,6 +66,15 @@
                         has:2
                     }
                 ],
+                flag:true,
+                equipList:[
+                    {value:335, name:'魔戒'},
+                    {value:310, name:'魔节'},
+                    {value:234, name:'红外'},
+                    {value:135, name:'烟感'},
+                    {value:1548, name:'液位'},
+                    {value:222, name:'中继器'}
+                ]
             }
         }
     }
@@ -61,7 +88,11 @@
                 padding: 0 20px;
             }
         }
-        
+        .ChartRow{
+            .el-row{
+                flex-direction: column;
+            }
+        }
     }
     .Overview_container{
         padding:10px 1vw;
@@ -80,5 +111,17 @@
                 color: #4abced;
             }
         }
+        .ChartRow{
+            .el-row {
+                margin-bottom: 20px;
+                .data-content {
+                        padding: 30px 0px;
+                        background: #fff;
+                        margin-bottom: 20px;
+                        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                        height: 400px;
+                    }
+            }
+        }   
     }
 </style>
