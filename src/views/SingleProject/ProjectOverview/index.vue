@@ -10,9 +10,10 @@
                 <el-col :span="12" :xs="24">
                     <div class="data-content" >
                         <CategoryChart
-                            v-if="flag" 
+                            v-if="equipList.length" 
                             :equipList="equipList"
                         />
+                        <Empty v-else/>
                     </div>
                 </el-col>
             </el-row>
@@ -35,6 +36,7 @@
 
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
+    import Empty from '@/components/Empty'
     import {Map} from '@/components/Maps'
     import { mapActions } from 'vuex'
     
@@ -42,11 +44,11 @@
         components: {
             SoeChart,
             CategoryChart,
+            Empty,
             Map
         },
         data() {
             return {
-                flag:false,
                 equipList:[]
             }
         },
@@ -66,7 +68,7 @@
             getCount(){
                 const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
                 this.getEquipCount(this.projectId).then(res=>{
-                    if(!res){return this.flag=true};
+                    if(!res) return;
                     const result = res.reduce((pre,current)=>{
                         for(let item of equipTypeMenu){
                             if(current.deviceType === item.id){
@@ -76,7 +78,6 @@
                         }
                         return [...pre,current]
                     },[])
-                    this.flag =true;
                     this.equipList = result;
                 })
             },

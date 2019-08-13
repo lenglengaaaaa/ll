@@ -17,9 +17,10 @@
                     <el-col :span="12" :xs="24">
                         <div class="data-content" >
                             <CategoryChart
-                                v-if="flag" 
+                                v-if="equipList.length" 
                                 :equipList="equipList"
                             />
+                            <Empty v-else/>
                         </div>
                     </el-col>
                 </el-row>
@@ -32,6 +33,7 @@
 <script>
     import {CountRow} from '@/components/Row'
     import { SoeChart , CategoryChart} from '@/components/Charts'
+    import Empty from '@/components/Empty'
     import MapRow from './components/MapRow'
 
     export default {
@@ -39,6 +41,7 @@
             CountRow,
             SoeChart,
             CategoryChart,
+            Empty,
             MapRow
         },
         data() {
@@ -66,15 +69,7 @@
                         has:2
                     }
                 ],
-                flag:true,
-                equipList:[
-                    {value:335, name:'魔戒'},
-                    {value:310, name:'魔节'},
-                    {value:234, name:'红外'},
-                    {value:135, name:'烟感'},
-                    {value:1548, name:'液位'},
-                    {value:222, name:'中继器'}
-                ]
+                equipList:[]
             }
         }
     }
