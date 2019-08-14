@@ -677,6 +677,27 @@ const actions= {
         })
     },
 
+    /**
+     * 获取井盖下线缆&设备数量
+     * @param id 井盖id
+     */
+    getCountUnderTrap({commit},id){
+        return request({
+            method:'post',
+            url:`${api.getCountUnderTrap}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res&&res.code === 10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
     //==================================线缆==================================
 
     /**
@@ -838,7 +859,28 @@ const actions= {
                 return false
             }
         })
-    }
+    },
+
+    /**
+     * 获取主线缆下线缆&设备数量
+     * @param id 线缆id
+     */
+    getCountUnderMainLine({commit},id){
+        return request({
+            method:'post',
+            url:`${api.getCountUnderMainLine}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res&&res.code === 10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
 
 
 

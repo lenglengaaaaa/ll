@@ -5,7 +5,7 @@
         :close="handleClose"
         :editFlag="editFlag"
     >
-        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="roleForm">
+        <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="applyForm">
             <el-form-item label="角色名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入角色名称"></el-input>
             </el-form-item>
@@ -67,11 +67,10 @@
         methods: {
             handleClose() {
                 this.form = restForm;
-                // this.$refs.roleForm.resetFields();
                 this.close();
             },
             submitForm() {
-                this.$refs.roleForm.validate((valid) => {
+                this.$refs.applyForm.validate((valid) => {
                 if (valid) {
                     console.log(this.form,'form')
                     this.handleClose()

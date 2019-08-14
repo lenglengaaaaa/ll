@@ -92,7 +92,9 @@
             </div>
             <div v-if="!active&&hasStep">
                 <div class="msgBox">
-                    该资产下有设备<span>{{count}}</span>台 , 是否继续删除 ?
+                    该资产下有设备<span class="box">{{count.deviceCount}}</span>台
+                        <span v-if="count.lineCount"> , 线缆<span class="box">{{count.lineCount}}</span>条</span>
+                        , 是否继续删除 ?
                 </div>
                 <div class="submit" style="margin-bottom:22px">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -114,7 +116,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    
+
     export default {
         props: {
             data:Array,
@@ -170,7 +172,10 @@
                 size:20,
                 dialogFormVisible: false,
                 active: 0,
-                count:0,
+                count:{
+                    deviceCount:0,
+                    lineCount:0
+                },
                 hasStep:true,
                 row:{},
                 form:{
@@ -199,6 +204,11 @@
             }
         },
         methods: {
+            ...mapActions('asset',[
+                'getEquipCount', 
+                'getCountUnderTrap',
+                'getCountUnderMainLine'
+            ]),
             resizehandle(value){
                 value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
@@ -243,23 +253,23 @@
                         break;
                 }
             },
-            open(row) {
+            async open(row) {
                 if(this.verify){
-                    this.$store.dispatch('asset/getEquipCount',{
-                        queryId:row.id,
-                        queryType:this.assetType
-                    }).then(res=>{
-                        if(res===false)return;
-                        if(res){
-                            this.count = res;
-                            this.hasStep = true;
-                        }else{
-                            this.hasStep = false;
-                        }
-                        this.dialogFormVisible = true;
-                        this.row = row;
-                    })
-                    
+                    this.row = row;
+                    let result;
+                    //4为井盖,6为主线缆
+                    if(this.assetType===4 || this.assetType===6){
+                        this.assetType ===4?
+                            result = await this.getCountUnderTrap(row.id).then(res=>res) :
+                            result= await this.getCountUnderMainLine(row.id).then(res=>res);
+                        if(!result)return;
+                        const {deviceCount,lineCount} = result;
+                        if(deviceCount||lineCount){ this.count = result };
+                        this.hasStep = deviceCount||lineCount
+                    }else{
+                        await this.getCountUnderAsset(row.id)
+                    }
+                    this.dialogFormVisible = true;
                 }else{
                     this.$confirm(`此操作将永久删除该${this.title}, 是否继续?`, '提示', {
                         confirmButtonText: '确定',
@@ -269,6 +279,18 @@
                         this.remove(row);
                     }).catch(() => {});
                 }
+            },
+            //获取资产下设备数量
+            getCountUnderAsset(id){
+                console.log('aaa')
+                this.getEquipCount({
+                    queryId:id,
+                    queryType:this.assetType
+                }).then(res=>{
+                    if(res===false)return;
+                    this.count = {deviceCount:res};
+                    this.hasStep = res;
+                })
             },
             //关闭弹窗
             close(){
@@ -341,7 +363,7 @@
             }
         }
         .el-dialog{
-            width: 350px;
+            width: 400px;
             max-width: 100%;
             border-radius: 10px;
             .el-dialog__header{
@@ -362,14 +384,13 @@
                     }
                 }
                 .msgBox{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
                     height: 80px;
+                    line-height: 80px;
+                    text-align: center;
                     font-size: 0.8rem;
                     padding-top:15px;
                     margin-bottom: 15px;
-                    span{
+                    .box{
                         color: #f00303;
                         font-weight: bold;
                         font-size: 0.9rem;

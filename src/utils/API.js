@@ -186,6 +186,9 @@ export const api={
     //井盖下所有线缆 post
     lineInTrapMenu:`${url}/e_view/line-trap/line/list`,
 
+    //获取井盖下线缆&设备数量 post
+    getCountUnderTrap:`${url}/e_view/trap/sonList`,
+
     //================线缆&主线缆===================
     //线缆创建 post
     createLine:`${url}/e_view/line/create`,
@@ -207,6 +210,9 @@ export const api={
 
     //线缆下所有井盖
     trapBelowLine:`${url}/e_view/line-trap/list`,
+
+    //获取主线缆下线缆&设备数量 post
+    getCountUnderMainLine:`${url}/e_view/line/sonList`,
 
     //=======================================设备管理=====================================================
     
