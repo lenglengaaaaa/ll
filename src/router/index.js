@@ -298,7 +298,7 @@ const router= new Router({
               component: () => import('@/views/Senior/Permission'),
               redirect:'permission/list',
               meta: { 
-                title:'权限管理',
+                title:'角色管理',
                 icon: '#icon-quanxian'
               },
               children:[
@@ -311,7 +311,7 @@ const router= new Router({
                   path:'authority',
                   name:'Authority',
                   component: () => import('@/views/Senior/Permission/Authority'),
-                  meta:{title:'权限维护'}
+                  meta:{title:'权限分配'}
                 }
               ]
             },

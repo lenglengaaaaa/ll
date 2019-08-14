@@ -35,7 +35,7 @@
                             <el-table-column
                                 label="操作"
                                 align="center"
-                                width="220"
+                                width="250"
                                 v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
@@ -45,7 +45,7 @@
                                             v-if="hasCheck"
                                             @click="linkTo('check',scope.row)"
                                         >
-                                            查看
+                                            {{title==='角色'?'权限分配':'查看'}}
                                         </el-button>
                                         <el-button
                                             size="mini"
