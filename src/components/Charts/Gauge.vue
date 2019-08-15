@@ -20,7 +20,7 @@
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.gaugeChart);
-            setTimeout(()=>{this.initChart()})
+            this.getData();
             window.addEventListener('resize',()=>{
                 this.chart&&this.chart.resize()
             },false);
@@ -30,8 +30,56 @@
             this.chart.dispose();
             this.chart = null;
         },
+        watch: {
+            value(value) {
+                this.getData();
+            }
+        },
         methods: {
-            initChart() {
+            //获取当前数值
+            getData(){
+                const {name,value} = this.value;
+                const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat']
+                let cfg ={value};
+                let max =0;
+                switch (name) {
+                    case "temp":
+                        cfg.name = "环境温度(℃)";
+                        max = 150;
+                        break;
+                    case "hum":
+                        cfg.name = "环境湿度(%)";
+                        max = 100;
+                        break;
+                    case "o2":
+                        cfg.name = "氧气(%)";
+                        max = 100;
+                        break;
+                    case "h2s":
+                        cfg.name = "硫化氢(ppm)";
+                        max = 50;
+                        break;
+                    case "co":
+                        cfg.name = "一氧化碳(ppm)";
+                        max = 5000;
+                        break;
+                    case "ch4":
+                        cfg.name = "烷类(ppm)";
+                        max = 10000;
+                        break;
+                    case "o3":
+                        cfg.name = "臭氧(ppm)";
+                        max = 5000;
+                        break;
+                    case "bat":
+                        cfg.name = "电池(V)";
+                        max = 5;
+                        break;
+                    default:;
+                }
+                this.initChart(max,[cfg]);
+            },
+            initChart(max,data) {
             // 把配置和数据放这里
                 this.chart.setOption({
                     tooltip : {
@@ -41,12 +89,12 @@
                     },
                     series: [
                         {
-                            name: '转速',
+                            name: '环境数据',
                             type: 'gauge',
                             center: ['50%', '50%'],    // 默认全局居中
                             radius: '100%',
                             min:0,
-                            max:100,
+                            max,
                             axisLine: {            // 坐标轴线
                                 lineStyle: {       // 属性lineStyle控制线条样式
                                     width: 10,
@@ -78,11 +126,10 @@
                                 fontWeight: 'bolder',
                                 fontSize:35
                             },
-                            data:[{value: 30,name: '氧气(%)'}]
+                            data
                         },
                     ]
                 })
-                this.chart&&this.chart.resize();
             }
         }
     }

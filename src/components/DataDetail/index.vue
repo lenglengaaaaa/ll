@@ -1,29 +1,38 @@
 <template>
     <div class="EQUIP_CONTAINER">
-        <i 
-            class="el-icon-back"
-            @click="close"
-            v-if="hasClose"
-        />
-        <div class="magic" v-if="magicFlag"> 
+        <div class="magic"> 
             <div class="title">
                 <span>魔节环境数据</span>
+                <el-select v-model="magicId" @change="changeMagic" v-if="magicList.length">
+                    <el-option
+                        v-for="item in magicList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    />
+                </el-select>
                 <el-divider></el-divider>
                 <p>
-                    <span>更新时间:</span>
-                    <strong>2019-07-04 14:42:20</strong>
+                    <span>数据上传时间 :&nbsp;</span>
+                    <strong>{{magicData.createTime || "---"}}</strong>
                 </p>
             </div>
             <div class="content">
                 <div class="wrap">
-                    <Magic></Magic>
+                    <Magic
+                        :magicData="magicData.data"
+                    />
                 </div>
             </div>
         </div>
-        <div class="line" v-if="lineFlag">
+        <div class="line">
             <div class="title">
                 <span>线缆温度传感器</span>
                 <el-divider></el-divider>
+                <p>
+                    <span>数据上传时间: </span>
+                    <strong>2019-07-04 14:42:20</strong>
+                </p>
                 <div class="content">
                     <div class="wrap">
                         <Tline></Tline>
@@ -31,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="lone" v-if="loneFlag">
+        <div class="lone">
             <div class="title">
                 <span>独立传感器</span>
                 <el-divider></el-divider>
@@ -46,6 +55,9 @@
 <script>
     import Magic from './components/Magic'
     import Tline from './components/Tline'
+    import { mapActions } from 'vuex'
+
+    const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat'];
 
     export default {
         components: {
@@ -53,40 +65,93 @@
             Tline
         },
         props: {
-            hasClose:{
-                type:Boolean,
-                default:false
-            },
-            close:Function
-        },
-        created () {
-            //获取设备数据 or 线缆数据
-            const {deviceType,name} = JSON.parse(sessionStorage.getItem('obj'));
-            this.$route.meta.title = name;
-            this.classifyType(deviceType);
+            assetType: Number
         },
         data() {
             return {
-                magicFlag:false,
-                lineFlag:false,
-                loneFlag:false
+                magicList:[],
+                magicId:'',
+                params:{
+                    trapId:null,
+                    roomId:null,
+                    chestId:null,
+                    deviceType:30
+                },
+                magicData:{},
+                lineData:{}
+            }
+        },
+        created () {
+            this.classifyType(this.assetType)
+            this.getMagicList();
+        }, 
+        computed: {
+            assetObj() {
+                return JSON.parse(sessionStorage.getItem('obj'));
             }
         },
         methods: {
-            classifyType(id){
-                switch (+id) {
-                    //集中器
-                    case 33:
-                        return ;
-                    //魔节
-                    case 30:
-                        return this.magicFlag = true;
-                    //线缆温度传感器
-                    case 38:
-                        return this.lineFlag = true;
-                    //独立传感器
+            ...mapActions('equip',[
+                'getEquipMenu',
+                'getCurrentMagicData',
+                'getTrapLineHistory' 
+            ]),
+            //获取资产下魔节列表
+            getMagicList(){
+                const {id} = this.assetObj;
+                this.getEquipMenu(this.params).then(res=>{
+                    if(!res)return;
+                    this.magicList = res;
+                    if(res.length){
+                        this.magicId = res[0].id;
+                        this.getMagicData( res[0].id);
+                    }
+                })
+            },
+            //获取魔节数据
+            getMagicData(queryId){
+                const {id} = this.assetObj;
+                this.getCurrentMagicData({
+                    queryId,
+                    assetId:id,
+                    assetType:this.assetType
+                }).then(res=>{
+                    if(!res){
+                        this.magicData = {};
+                        return
+                    }
+                    this.magicData= {
+                        data:this.filterMagicData(res),
+                        createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
+                    };
+                })
+            },
+            //切换魔节回调
+            changeMagic(val){
+                this.getMagicData(val);
+            },
+            //筛选魔节数据
+            filterMagicData(res){
+                let obj = {};
+                for(let i in res){
+                    if(magicParam.includes(i)){
+                        obj[i] = res[i];
+                    }
+                }
+                return obj;
+            },
+            classifyType(type){
+                const {id} = this.assetObj; 
+                switch (type) {
+                    //配电柜
+                    case 0:
+                        return this.params.chestId = id;
+                    //配电房
+                    case 1:
+                        return this.params.roomId = id;
+                    //井盖 2
                     default:
-                        return this.loneFlag = true;
+                        return this.params.trapId = id;
                 }
             },
         },
@@ -108,24 +173,8 @@
 
     .EQUIP_CONTAINER{
         position: relative;
-        .el-icon-back{
-            border-radius: 5px;
-            position: absolute;
-            right: 0px;
-            top: 15px;
-            font-size: 1.4rem;
-            cursor: pointer;
-            background: #ecefef;
-        }
-        .info{
-            z-index: 1000;
-            position: absolute;
-            right: 10px;
-            top: 25px;
-            i{
-                cursor: pointer;
-            }
-        }
+        // width: 90%;
+        // margin: 0 auto;
         .title{
             padding: 10px 0 10px 0;
             >span{
@@ -145,7 +194,7 @@
                 display: flex;
                 align-items: center;
                 span,strong{
-                    font-size: 0.8rem;
+                    font-size: 15px;
                 }
             }
         }
@@ -156,7 +205,6 @@
                 width: 95%;
                 background: #fff;
                 padding: 20px;
-                box-shadow: 0 1px 1px rgba(189, 195, 199, 0.8);
                 border-radius: 5px;
                 .seletGroup{
                     padding-bottom: 20px;

@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div>
+        <div class="magicList">
             <el-row :gutter="20">
-                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="12">
-                    <Gauge />
+                <el-col :span="6" v-for="(value,name) in magicData" :key="name" :xs="12">
+                    <div >
+                        <Gauge 
+                            :value="{name,value}"
+                        />
+                    </div>
                 </el-col>
             </el-row>
-            <el-row :gutter="20">
-                <el-col v-for="(i,index) in 4" :key="index" :span="6" :xs="12">
-                    <Gauge />
-                </el-col>
-            </el-row>
+            
         </div>
-        <el-divider content-position="left">魔节历史纪录</el-divider>
+        <el-divider content-position="left">魔节历史数据</el-divider>
         <div>
             <div class="seletGroup">
                 <el-form label-position="top">
@@ -54,17 +54,23 @@
             Gauge,
             LineChart
         },
+        props: {
+            magicData: {
+                type: Object,
+                default: ()=>{}
+            },
+        },
         data() {
             return {
                 options: [
-                        {value: '0',label: '环境温度'}, 
-                        {value: '1',label: '环境湿度'}, 
-                        {value: '6',label: '氧气含量'}, 
-                        {value: '2',label: '硫化氢'}, 
-                        {value: '3',label: '一氧化碳'}, 
-                        {value: '4',label: '烷类'}, 
-                        {value: '5',label: '臭氧'}, 
-                        {value: '7',label: '电池电压'}
+                        {value: '0',name: '环境温度'}, 
+                        {value: '1',name: '环境湿度'}, 
+                        {value: '6',name: '氧气含量'}, 
+                        {value: '2',name: '硫化氢'}, 
+                        {value: '3',name: '一氧化碳'}, 
+                        {value: '4',name: '烷类'}, 
+                        {value: '5',name: '臭氧'}, 
+                        {value: '7',name: '电池电压'}
                     ],
                 value: '0',
                 time: [new Date(), new Date()],
@@ -74,5 +80,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>
