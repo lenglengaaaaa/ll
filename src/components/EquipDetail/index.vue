@@ -179,9 +179,10 @@
                     span{
                         flex:2;
                         .el-image{
-                            cursor: pointer;
                             width: 5rem;
                             height: 5rem;
+                            margin-right: 10px;
+                            border-radius: 5px;
                         }
                     }
                     .red{

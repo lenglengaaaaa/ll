@@ -14,9 +14,15 @@
                     :data="equipList"
                 />
             </el-tab-pane>  
+            <el-tab-pane label="数据视图" lazy>
+                <DataDetail
+                    :assetType="0"
+                />
+            </el-tab-pane>
             <el-tab-pane label="数据模拟" lazy>
                 <Simulate />
             </el-tab-pane>
+            
         </template>
     </AssetDetail>
 </template>
@@ -27,6 +33,7 @@
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
     import EquipList from '@/components/EquipList'
+    import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
     export default {
@@ -35,7 +42,8 @@
             RingView,
             RingList,
             Simulate,
-            EquipList
+            EquipList,
+            DataDetail
         },
         data() {
             return {

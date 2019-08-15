@@ -8,6 +8,11 @@
                     :data="equipList"
                 />
             </el-tab-pane>
+            <el-tab-pane label="数据视图" lazy>
+                <DataDetail
+                    :assetType="2"
+                />
+            </el-tab-pane>
         </template>
     </AssetDetail>
 </template>
@@ -15,12 +20,14 @@
 <script>
     import AssetDetail from '@/components/AssetDetail'
     import EquipList from '@/components/EquipList'
+    import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
     
     export default {
         components: {
             AssetDetail,
-            EquipList
+            EquipList,
+            DataDetail
         },
         data() {
             return {
@@ -36,7 +43,6 @@
             const {name,trapName,id} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name||trapName;
             this.getEquip(id);
-            
         },
         methods: {
             ...mapActions('equip',[
