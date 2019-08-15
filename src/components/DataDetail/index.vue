@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="line">
+        <div class="line" v-if="hasLine">
             <div class="title">
                 <span>线缆温度传感器</span>
                 <el-divider></el-divider>
@@ -65,7 +65,11 @@
             Tline
         },
         props: {
-            assetType: Number
+            assetType: Number,
+            hasLine:{
+                type:Boolean,
+                default:false
+            }
         },
         data() {
             return {

@@ -11,6 +11,7 @@
             <el-tab-pane label="数据视图" lazy>
                 <DataDetail
                     :assetType="2"
+                    :hasLine="true"
                 />
             </el-tab-pane>
         </template>
