@@ -212,7 +212,7 @@
             },
             skipToDetail(row){
                 this.$router.push({name:'EquDetail'})
-                sessionStorage.setItem('obj',JSON.stringify(row))
+                sessionStorage.setItem('equipObj',JSON.stringify(row))
             },
             //删除设备
             remove(row){

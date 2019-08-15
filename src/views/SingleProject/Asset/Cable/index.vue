@@ -23,9 +23,9 @@
                 align="center"
                 show-overflow-tooltip
             >
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
-                </template>
+                </template> -->
             </el-table-column>
             <el-table-column
                 prop="parentName"

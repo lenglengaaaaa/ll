@@ -1,112 +1,151 @@
 <template>
-    <div class="EQUIP_CONTAINER">
+    <div class="Equip_Detail">
         <i 
             class="el-icon-back"
             @click="close"
             v-if="hasClose"
         />
-        <div class="magic" v-if="magicFlag"> 
-            <div class="title">
-                <span>魔节环境数据</span>
-                <el-divider></el-divider>
-                <p>
-                    <span>更新时间:</span>
-                    <strong>2019-07-04 14:42:20</strong>
-                </p>
-            </div>
-            <div class="content">
-                <div class="wrap">
-                    <Magic></Magic>
+        <div class="wrap">
+            <div class="top">
+                <el-divider content-position="left">基本信息</el-divider>
+                <div class="intro">
+                    <p>
+                        <strong>设备图片</strong>
+                        <span>
+                            <el-image
+                                v-for="item in imageUrls"
+                                :key="item.id"
+                                :src="item.imagePath"
+                            />
+                        </span>
+                    </p>
+                    
+                    <p v-for="item in firstArray" :key="item.sign">
+                        <strong>{{item.title}}</strong>
+                        <span>{{item.value || 'xxx'}}</span>
+                    </p>
+                    <p>
+                        <strong>设备地址</strong>
+                        <span>{{single.location}}</span>
+                    </p>
+                    <p>
+                        <strong>创建时间</strong>
+                        <span>{{single.createTime}}</span>
+                    </p>
                 </div>
             </div>
-        </div>
-        <div class="line" v-if="lineFlag">
-            <div class="title">
-                <span>线缆温度传感器</span>
-                <el-divider></el-divider>
-                <div class="content">
-                    <div class="wrap">
-                        <Tline></Tline>
-                    </div>
+            <div class="center">
+                <el-divider content-position="left">从属关系</el-divider>
+                <div class="intro">
+                    <p v-for="item in secondArray" :key="item.sign">
+                        <strong>{{item.title}}</strong>
+                        <span>{{item.value || 'xxx'}}</span>
+                    </p>
+                    <p>
+                        <strong>所属魔节</strong>
+                        <span>{{single.magicName || 'xxx'}}</span>
+                    </p>
+                    <p>
+                        <strong>所属集中器</strong>
+                        <span>{{single.concenName || 'xxx'}}</span>
+                    </p>
                 </div>
             </div>
-        </div>
-        <div class="lone" v-if="loneFlag">
-            <div class="title">
-                <span>独立传感器</span>
-                <el-divider></el-divider>
-            </div>
-            <div class="content">
-                <div class="wrap"></div>
+            <div>
+                <MapSingle 
+                    vid="alarmDetail"
+                    :position="single.position"
+                    :hasSearch="false"
+                    :hasClick="false"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Magic from './components/Magic'
-    import Tline from './components/Tline'
+    import {MapSingle} from '@/components/Maps'
 
     export default {
         components: {
-            Magic,
-            Tline
+            MapSingle,
         },
         props: {
             hasClose:{
                 type:Boolean,
                 default:false
             },
-            close:Function
-        },
-        created () {
-            //获取设备数据 or 线缆数据
-            const {deviceType,name} = JSON.parse(sessionStorage.getItem('obj'));
-            this.$route.meta.title = name;
-            this.classifyType(deviceType);
+            close:{
+                type:Function,
+                default:()=>{}
+            }   
         },
         data() {
             return {
-                magicFlag:false,
-                lineFlag:false,
-                loneFlag:false
+                firstArray:[
+                    {title:'设备类型',sign:'typeName',value:''},
+                    {title:'设备名称',sign:'name',value:''},
+                    {title:'设备EUI',sign:'deviceEui',value:''},
+                    {title:'设备编号',sign:'number',value:''},
+                    {title:'设备ID',sign:'deviceAdress',value:''},
+                ],
+                secondArray:[
+                    {title:'所属台区',sign:'courtsName',value:''},
+                    {title:'所属配电房',sign:'roomName',value:''},
+                    {title:'所属配电柜',sign:'chestName',value:''},
+                    {title:'所属井盖',sign:'trapName',value:''},
+                    {title:'所属线缆',sign:'lineName',value:''},
+                ],
+                imageUrls:[],
+                single:{
+                    magicName:'',
+                    concenName:'',
+                    position:[],
+                    location:'',
+                    createTime:''
+                },
+            }
+        },
+        created () {
+            this.getData(this.firstArray);
+            this.getData(this.secondArray);
+            this.getSingleData();
+        },
+        computed: {
+            equipObj() {
+                return JSON.parse(sessionStorage.getItem('equipObj'));
             }
         },
         methods: {
-            classifyType(id){
-                switch (+id) {
-                    //集中器
-                    case 33:
-                        return ;
-                    //魔节
-                    case 30:
-                        return this.magicFlag = true;
-                    //线缆温度传感器
-                    case 38:
-                        return this.lineFlag = true;
-                    //独立传感器
-                    default:
-                        return this.loneFlag = true;
+            //获取数据
+            getData(target) {
+                const obj = this.equipObj;
+                for(let item in obj){
+                    target.forEach(k=>{
+                        if(item === k.sign){
+                            k.value = obj[item];
+                        }
+                    })
                 }
             },
+            //获取个别信息
+            getSingleData(){
+                const {parentType,parentName,longitude,latitude,location,createTime,imageUrls} = this.equipObj;
+                parentType&&parentType ==='30'?this.single.magicName =parentName :this.single.concenName =parentName;
+                this.single.position = [(longitude || 113.991244) ,(latitude || 113.991244)];
+                this.single.location = (location&&location.split(',').join('')) || 'xxx';
+                this.single.createTime = this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss');
+                this.imageUrls = imageUrls || [];
+            }
         },
     }
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 870px) {
-        .EQUIP_CONTAINER{
-            .seletGroup{
-                flex-direction: column;
-                align-items: stretch !important;
-                .el-form{
-                    flex-direction: column;
-                }
-            }
-        }
-    }
-
-    .EQUIP_CONTAINER{
+    .Equip_Detail{
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
         position: relative;
         .el-icon-back{
             border-radius: 5px;
@@ -117,67 +156,36 @@
             cursor: pointer;
             background: #ecefef;
         }
-        .info{
-            z-index: 1000;
-            position: absolute;
-            right: 10px;
-            top: 25px;
-            i{
-                cursor: pointer;
-            }
-        }
-        .title{
-            padding: 10px 0 10px 0;
-            >span{
-                font-size: 1.2rem;
-                font-weight: bold;
-                padding: 0 10px;
-                border: 0 solid #e4e6eb;
-                border-left-width: 5px;
-                border-radius: 5px;
-                border-left-color: #36a9e1;
-            }
+        .wrap{
+            box-sizing: border-box;
+            padding: 20px;
+            width: 1100px;
+            max-width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) ;
+            font-size: 0.75rem;
+            margin: 0 auto;
             .el-divider--horizontal{
-                margin: 10px 0;
+                margin: 28px 0;
             }
-            p{
-                margin:15px 0;
-                display: flex;
-                align-items: center;
-                span,strong{
-                    font-size: 0.8rem;
-                }
-            }
-        }
-        .content{
-            display: flex;
-            justify-content: center;
-            .wrap{
-                width: 95%;
-                background: #fff;
-                padding: 20px;
-                box-shadow: 0 1px 1px rgba(189, 195, 199, 0.8);
-                border-radius: 5px;
-                .seletGroup{
-                    padding-bottom: 20px;
+            .intro{
+                p{
                     display: flex;
-                    // justify-content: space-between;
                     align-items: center;
-                    .el-form{
-                        width: 100%;
-                        display: flex;
-                        .el-form-item{
-                            padding: 0 10px;
+                    margin: 15px 0 ;    
+                    strong{
+                        flex:0.8;
+                    }
+                    span{
+                        flex:2;
+                        .el-image{
+                            cursor: pointer;
+                            width: 5rem;
+                            height: 5rem;
                         }
                     }
-                    .icon{
-                        margin: 20px 0 0 10px;
-                        i{
-                            cursor: pointer;
-                            background: #ecefef;
-                            padding: 5px;
-                            border-radius: 5px;
-                        }
+                    .red{
+                        color: red;
                     }
                 }
             }

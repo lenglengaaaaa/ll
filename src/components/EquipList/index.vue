@@ -114,12 +114,16 @@
             },
             skipToDetail(row) {
                 this.detailFlag = true;
-                sessionStorage.setItem('obj',JSON.stringify(row))
+                sessionStorage.setItem('equipObj',JSON.stringify(row))
             }
         },
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    .Equip_Detail{
+        .wrap{
+            border: 1px solid #e4e7ed;
+        }
+    }
 </style>
