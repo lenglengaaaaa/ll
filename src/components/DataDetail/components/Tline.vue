@@ -136,32 +136,25 @@
                     }   
                     for(let i in lineDateMap){
                         const name = names[i];
-                        let cbtemp = [];
-                        let batteryA = [];
-                        let lineA = [];
-                        let lineTemp = [];
-                        let lineV = [];
-                        let node433 = [];
-                        let shake = [];
-                        let signal = [];
+                        const keys= Object.keys(result);
+                        let obj = {
+                            cbtemp:[],
+                            batteryA:[],
+                            lineA:[],
+                            lineTemp:[],
+                            lineV:[],
+                            node433:[],
+                            shake:[],
+                            signal:[],
+                        }
                         lineDateMap[i].forEach(item=>{
-                            cbtemp.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.cbtemp]);
-                            batteryA.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.batteryA]);
-                            lineA.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineA]);
-                            lineTemp.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineTemp]);
-                            lineV.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineV]);
-                            node433.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.node433]);
-                            shake.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.shake]);
-                            signal.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.signal]);
+                            for(let k of keys){
+                                obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]);
+                            }
                         })
-                        result.cbtemp.push({name,data:cbtemp});
-                        result.batteryA.push({name,data:batteryA});
-                        result.lineA.push({name,data:lineA});
-                        result.lineTemp.push({name,data:lineTemp});
-                        result.lineV.push({name,data:lineV});
-                        result.node433.push({name,data:node433});
-                        result.shake.push({name,data:shake});
-                        result.signal.push({name,data:signal});
+                        for(let k of keys){
+                            result[k].push({name,data:obj[k]});
+                        }
                     }
                     this.allData = result;
                     this.timeArray = timeResult;
