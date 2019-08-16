@@ -21,7 +21,7 @@
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
-                                :label="item.label"
+                                :label="item.name"
                                 :value="item.value"
                             />
                         </el-select>
@@ -41,7 +41,11 @@
                     <i class="el-icon-download"></i>
                 </div>
             </div>
-            <LineChart></LineChart>
+            <LineChart
+                id="MagicLine"
+                :value="currentValue"
+                :timeArray="timeArray"
+            />
         </div>
     </div>
 </template>
@@ -63,17 +67,19 @@
         data() {
             return {
                 options: [
-                        {value: '0',name: '环境温度'}, 
-                        {value: '1',name: '环境湿度'}, 
-                        {value: '6',name: '氧气含量'}, 
-                        {value: '2',name: '硫化氢'}, 
-                        {value: '3',name: '一氧化碳'}, 
-                        {value: '4',name: '烷类'}, 
-                        {value: '5',name: '臭氧'}, 
-                        {value: '7',name: '电池电压'}
+                        {value: 0,name: '环境温度'}, 
+                        {value: 1,name: '环境湿度'}, 
+                        {value: 2,name: '氧气含量'}, 
+                        {value: 3,name: '硫化氢'}, 
+                        {value: 4,name: '一氧化碳'}, 
+                        {value: 5,name: '烷类'}, 
+                        {value: 6,name: '臭氧'}, 
+                        {value: 7,name: '电池电压'}
                     ],
-                value: '0',
+                value: 0,
                 time: [new Date(), new Date()],
+                timeArray:[],
+                currentValue:[]
             }
         },
     }

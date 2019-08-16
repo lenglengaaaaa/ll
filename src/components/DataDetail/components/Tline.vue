@@ -2,27 +2,7 @@
     <div>
         <div>
             <el-row :gutter="20">
-                <el-col :span="12" :xs="24">
-                    <div class="info">
-                        <el-popover
-                            placement="bottom"
-                            width="200"
-                            trigger="click"
-                        >
-                            <div class="pop">
-                                <span v-for="i in 5">
-                                    线缆电压 : <span>0</span>A
-                                </span>
-                            </div>
-                            <el-link type="primary" slot="reference">线缆一</el-link>
-                        </el-popover>
-                        <strong class="msg">
-                            线缆温度:<span>10</span>℃ &nbsp;&nbsp;震动:<span>静止</span>
-                        </strong>
-                        <el-progress :percentage="50" color="#f56c6c" :show-text="false"></el-progress>
-                    </div>
-                </el-col>
-                <el-col :span="12"  :xs="24">
+                <el-col :span="12" :xs="24" v-for="k in 5">
                     <div class="info">
                         <el-popover
                             placement="bottom"
@@ -48,7 +28,7 @@
         <div class="seletGroup">
             <el-form label-position="top">
                 <el-form-item label="环境变量:">
-                    <el-select v-model="value">
+                    <el-select v-model="value" @change="changeParam">
                         <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -64,6 +44,8 @@
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
+                        :clearable="false"
+                        @change="changeDate"
                     >
                     </el-date-picker>
                 </el-form-item>
@@ -72,12 +54,17 @@
                 <i class="el-icon-download"></i>
             </div>
         </div>
-        <LineChart></LineChart>
+        <LineChart
+            id="line"
+            :value="currentValue"
+            :timeArray="timeArray"
+        />
     </div>
 </template>
 
 <script>
     import {LineChart} from '@/components/Charts'
+    import { mapActions } from 'vuex'
 
     export default {
         components: {
@@ -86,20 +73,110 @@
         data() {
             return {
                 options: [
-                        {value: '0',label: '线缆温度'}, 
-                        {value: '1',label: '线缆电流'}, 
-                        {value: '6',label: '线缆电压'}, 
-                        {value: '2',label: '电池低压'}, 
-                        {value: '3',label: '板子自身温度'}, 
-                        {value: '4',label: '震动数据'}, 
-                        {value: '5',label: '433M子节点参数'}, 
-                        {value: '7',label: '信号强度'}
+                        {value: 'lineTemp',label: '线缆温度'}, 
+                        {value: 'lineA',label: '线缆电流'}, 
+                        {value: 'lineV',label: '线缆电压'}, 
+                        {value: 'batteryA',label: '电池低压'}, 
+                        {value: 'cbtemp',label: '板子自身温度'}, 
+                        {value: 'shake',label: '震动数据'}, 
+                        {value: 'node433',label: '433M子节点参数'}, 
+                        {value: 'signal',label: '信号强度'}
                     ],
-                value: '0',
+                value: 'lineTemp',
                 time: [new Date(), new Date()],
+                allData:[],
+                timeArray:[],
+                currentValue:[]
             }
         },
-        
+        computed: {
+            assetObj() {
+                return JSON.parse(sessionStorage.getItem('obj'));
+            }
+        },
+        created () {
+            this.getLineHistory();
+        },
+        methods: {
+            ...mapActions('equip',[
+                'getTrapLineHistory' 
+            ]),
+            getLineHistory(startTime=this.$moment().format("YYYY-MM-DD"),endTime=this.$moment().format("YYYY-MM-DD")){
+                this.getTrapLineHistory({
+                    queryId:this.assetObj.id,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    const {lineInfoList,lineDateMap} = res;
+                    const names = lineInfoList.reduce((pre,current)=>{
+                        pre[current.id] = current.name;
+                        return pre
+                    },{})
+                    
+                    //获取时间集合
+                    let timeArray= [];
+                    for(let i in lineDateMap){
+                        lineDateMap[i].forEach(item=>{
+                            timeArray.push(new Date(item.createTime).getTime());
+                        })
+                    }
+                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+
+                    //获取数据集合
+                    const result = {
+                        "cbtemp":[],
+                        "batteryA":[],
+                        "lineA":[],
+                        "lineTemp":[],
+                        "lineV":[],
+                        "node433":[],
+                        "shake":[],
+                        "signal":[]
+                    }   
+                    for(let i in lineDateMap){
+                        const name = names[i];
+                        let cbtemp = [];
+                        let batteryA = [];
+                        let lineA = [];
+                        let lineTemp = [];
+                        let lineV = [];
+                        let node433 = [];
+                        let shake = [];
+                        let signal = [];
+                        lineDateMap[i].forEach(item=>{
+                            cbtemp.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.cbtemp]);
+                            batteryA.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.batteryA]);
+                            lineA.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineA]);
+                            lineTemp.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineTemp]);
+                            lineV.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.lineV]);
+                            node433.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.node433]);
+                            shake.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.shake]);
+                            signal.push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.signal]);
+                        })
+                        result.cbtemp.push({name,data:cbtemp});
+                        result.batteryA.push({name,data:batteryA});
+                        result.lineA.push({name,data:lineA});
+                        result.lineTemp.push({name,data:lineTemp});
+                        result.lineV.push({name,data:lineV});
+                        result.node433.push({name,data:node433});
+                        result.shake.push({name,data:shake});
+                        result.signal.push({name,data:signal});
+                    }
+                    this.allData = result;
+                    this.timeArray = timeResult;
+                    this.currentValue = result[this.value];
+                })
+            },
+            changeParam(val){
+                this.currentValue = this.allData[val];
+            },
+            changeDate(date){
+                const startTime = this.$moment(date[0]).format("YYYY-MM-DD");
+                const endTime = this.$moment(date[1]).format("YYYY-MM-DD");
+                this.getLineHistory(startTime,endTime);
+            }
+        },
     }
 </script>
 

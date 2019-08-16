@@ -40,15 +40,6 @@
                 </div>
             </div>
         </div>
-        <div class="lone">
-            <div class="title">
-                <span>独立传感器</span>
-                <el-divider></el-divider>
-            </div>
-            <div class="content">
-                <div class="wrap"></div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -98,7 +89,6 @@
             ...mapActions('equip',[
                 'getEquipMenu',
                 'getCurrentMagicData',
-                'getTrapLineHistory' 
             ]),
             //获取资产下魔节列表
             getMagicList(){
