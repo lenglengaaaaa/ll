@@ -47,7 +47,7 @@
             }
         },
         watch: {
-            value(val) {
+            value() {
                 this.drawLine();
             }
         },
@@ -84,7 +84,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #line{
+    #line,#MagicLine{
         height: 400px;
         display: flex;
         justify-content: center;

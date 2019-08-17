@@ -124,7 +124,7 @@
             changeMagic(val){
                 this.getMagicData(val);
             },
-            //筛选魔节数据
+            //过滤魔节数据
             filterMagicData(res){
                 let obj = {};
                 for(let i in res){
@@ -134,6 +134,7 @@
                 }
                 return obj;
             },
+            //匹配资产类型
             classifyType(type){
                 const {id} = this.assetObj; 
                 switch (type) {
@@ -169,6 +170,13 @@
         position: relative;
         // width: 90%;
         // margin: 0 auto;
+        .el-divider--horizontal{
+            margin: 20px 0;
+            .el-divider__text{
+                font-weight: bold;
+                font-size:0.8rem;
+            }
+        }
         .title{
             padding: 10px 0 10px 0;
             >span{
@@ -179,9 +187,6 @@
                 border-left-width: 5px;
                 border-radius: 5px;
                 border-left-color: #36a9e1;
-            }
-            .el-divider--horizontal{
-                margin: 10px 0;
             }
             p{
                 margin:15px 0;

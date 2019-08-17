@@ -2,7 +2,7 @@
     <div>
         <div>
             <el-row :gutter="20">
-                <el-col :span="12" :xs="24" v-for="k in 5">
+                <el-col :span="12" :xs="24" v-for="(k,i) in 5" :key="i">
                     <div class="info">
                         <el-popover
                             placement="bottom"
@@ -10,7 +10,7 @@
                             trigger="click"
                         >
                             <div class="pop">
-                                <span v-for="i in 5">
+                                <span v-for="(i,index) in 5" :key="index">
                                     线缆电压 : <span>0</span>A
                                 </span>
                             </div>
@@ -101,7 +101,10 @@
             ...mapActions('equip',[
                 'getTrapLineHistory' 
             ]),
-            getLineHistory(startTime=this.$moment().format("YYYY-MM-DD"),endTime=this.$moment().format("YYYY-MM-DD")){
+            getLineHistory(){
+                const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
+                const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
+
                 this.getTrapLineHistory({
                     queryId:this.assetObj.id,
                     startTime,
@@ -109,20 +112,11 @@
                 }).then(res=>{
                     if(!res)return;
                     const {lineInfoList,lineDateMap} = res;
+
                     const names = lineInfoList.reduce((pre,current)=>{
                         pre[current.id] = current.name;
                         return pre
                     },{})
-                    
-                    //获取时间集合
-                    let timeArray= [];
-                    for(let i in lineDateMap){
-                        lineDateMap[i].forEach(item=>{
-                            timeArray.push(new Date(item.createTime).getTime());
-                        })
-                    }
-                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
-
                     //获取数据集合
                     const result = {
                         "cbtemp":[],
@@ -134,6 +128,7 @@
                         "shake":[],
                         "signal":[]
                     }   
+                    let timeArray= [];
                     for(let i in lineDateMap){
                         const name = names[i];
                         const keys= Object.keys(result);
@@ -148,26 +143,25 @@
                             signal:[],
                         }
                         lineDateMap[i].forEach(item=>{
-                            for(let k of keys){
-                                obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]);
-                            }
+                            timeArray.push(new Date(item.createTime).getTime());
+                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
                         })
-                        for(let k of keys){
-                            result[k].push({name,data:obj[k]});
-                        }
+                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
                     }
+                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value];
                 })
             },
+            //切换变量
             changeParam(val){
                 this.currentValue = this.allData[val];
             },
+            //切换日期
             changeDate(date){
-                const startTime = this.$moment(date[0]).format("YYYY-MM-DD");
-                const endTime = this.$moment(date[1]).format("YYYY-MM-DD");
-                this.getLineHistory(startTime,endTime);
+                this.time = [new Date(date[0]),new Date(date[1])];
+                this.getLineHistory();
             }
         },
     }
