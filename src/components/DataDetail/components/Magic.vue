@@ -70,6 +70,7 @@
                 type: Object,
                 default: ()=>{}
             },
+            assetType: Number,
         },
         data() {
             return {
@@ -90,23 +91,80 @@
                 currentValue:[]
             }
         },
+        created () {
+            this.getMagicHistory();
+        },
         computed: {
             assetObj() {
                 return JSON.parse(sessionStorage.getItem('obj'));
             }
         },
+        
         methods: {
             ...mapActions('equip',[
-
+                'getMagicHistoryData'
             ]),
+            //获取魔节历史数据
+            getMagicHistory(){
+                const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
+                const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
+                this.getMagicHistoryData({
+                    assetId:this.assetObj.id,
+                    assetType:this.assetType,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    const {deviceInfoList,dataMap} = res;
+                    const names = deviceInfoList.reduce((pre,current)=>{
+                        pre[current.deviceAdress] = current.name;
+                        return pre
+                    },{})
+                    //获取数据集合
+                    const result = {
+                        "temp":[],
+                        "hum":[],
+                        "o2":[],
+                        "co":[],
+                        "h2s":[],
+                        "o3":[],
+                        "ch4":[],
+                        "bat":[]
+                    }   
+                    let timeArray= [];
+                    for(let i in dataMap){
+                        const name = names[i];
+                        const keys= Object.keys(result);
+                        let obj = {
+                            temp:[],
+                            hum:[],
+                            o2:[],
+                            co:[],
+                            h2s:[],
+                            o3:[],
+                            ch4:[],
+                            bat:[],
+                        }
+                        dataMap[i].forEach(item=>{
+                            timeArray.push(new Date(item.createTime).getTime());
+                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
+                        })
+                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
+                    }
+                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+                    this.allData = result;
+                    this.timeArray = timeResult;
+                    this.currentValue = result[this.value];
+                })
+            },
             //切换变量
             changeParam(val){
-                // this.currentValue = this.allData[val];
+                this.currentValue = this.allData[val];
             },
             //切换日期
             changeDate(date){
                 this.time = [new Date(date[0]),new Date(date[1])];
-                // this.getLineHistory();
+                this.getMagicHistory();
             }
         },
     }

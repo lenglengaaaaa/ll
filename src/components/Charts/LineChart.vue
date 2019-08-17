@@ -23,8 +23,15 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:this.legend,
-                        x:'right',
+                        x:'left',
+                        // orient:'vertical',
+                        align:'right',
+                        formatter: function (name) {
+                            return echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…');
+                        },
+                        tooltip: {
+                            show: true
+                        }
                     },
                     xAxis: {
                         type: 'category',
@@ -33,6 +40,7 @@
                     },
                     yAxis: {
                         type: 'value',
+                        boundaryGap: ['20%', '20%']
                     },
                     dataZoom: [
                         {

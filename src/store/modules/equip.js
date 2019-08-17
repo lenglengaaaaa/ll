@@ -270,6 +270,30 @@ const actions= {
     },
 
     /**
+     * 获取井盖下线缆的数据(实时)
+     * @param {
+    *      queryId  井盖ID
+    * }
+    */
+    getLineCurrentData({commit},queryId){
+        return request({
+            method:'post',
+            url:`${api.getLineCurrentData}`,
+            data:{
+                queryId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+
+    /**
      * 获取井盖下线缆的数据(历史)
      * @param {
      *      queryId  井盖ID
@@ -301,19 +325,43 @@ const actions= {
     * }
     */
     getCurrentMagicData({commit},obj){
-    return request({
-        method:'post',
-        url:`${api.getCurrentMagicData}`,
-        data:obj
-    }).then(res=>{
-        if(res&&res.code===10000000&&res.data){
-            return res.data
-        }else{
-            res&&tip(res.meassage)
-            return false
-        }
-    })
-},
+        return request({
+            method:'post',
+            url:`${api.getCurrentMagicData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取魔节的历史数据
+     * @param {
+    *      assetId  资产ID
+    *      assetType  0:配电柜 1:配电房 2:井盖
+    *      startTime 起始时间
+    *      endTime 结束时间
+    * }
+    */
+    getMagicHistoryData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getMagicHistoryData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

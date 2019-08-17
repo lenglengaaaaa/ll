@@ -243,11 +243,17 @@ export const api={
     //获取配电房/配电柜下的设备列表 post
     equipInAsset:`${url}/e_view/device/room/list`,
 
+    //获取井盖下线缆的数据数据(实时) post
+    getLineCurrentData:`${url}/e_view/data/statistics/trap/current`,
+
     //获取井盖下线缆的数据(历史) post
     getTrapLineHistory:`${url}/e_view/data/statistics/trap/history`,
 
     //获取魔节的最新数据(实时) post
-    getCurrentMagicData:`${url}/e_view/data/statistics/current/cmterminal`
+    getCurrentMagicData:`${url}/e_view/data/statistics/current/cmterminal`,
+
+    //获取资产下的环境（多个魔节）历史数据 post
+    getMagicHistoryData:`${url}/e_view/data/statistics/history/cmterminal`
 
 
 }

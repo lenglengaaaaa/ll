@@ -21,6 +21,7 @@
                 <div class="wrap">
                     <Magic
                         :magicData="magicData.data"
+                        :assetType="assetType"
                     />
                 </div>
             </div>
