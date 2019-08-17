@@ -2,7 +2,7 @@
     <div>
         <div>
             <el-row :gutter="20">
-                <el-col :span="12" :xs="24" v-for="(k,i) in 5" :key="i">
+                <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
                     <div class="info">
                         <el-popover
                             placement="bottom"
@@ -10,16 +10,34 @@
                             trigger="click"
                         >
                             <div class="pop">
-                                <span v-for="(i,index) in 5" :key="index">
-                                    线缆电压 : <span>0</span>A
+                                <span v-for="(value,key) in item.data" :key="key">
+                                    <span>{{match(key,true)}} : </span>
+                                    <strong>
+                                        {{key==='shake'?value.value==1?'震动':'静止':value.value}}
+                                        {{match(key)}}
+                                    </strong>
                                 </span>
                             </div>
-                            <el-link type="primary" slot="reference">线缆一</el-link>
+                            <el-link type="primary" slot="reference">{{item.name}}</el-link>
                         </el-popover>
                         <strong class="msg">
-                            线缆温度:<span>10</span>℃ &nbsp;&nbsp;震动:<span>静止</span>
+                            线缆温度:<span>{{item.data.lineTemp.value || '未知'}}</span>℃ &nbsp;&nbsp;
+                            <!-- 1震动 2静止 -->
+                            震动:
+                            <span 
+                                :style="{'color':item.data.shake.value==1&&'#f56c6c'}"
+                            >
+                                {{item.data.shake.value==1?'震动':'静止' || '未知'}}
+                            </span>
                         </strong>
-                        <el-progress :percentage="50" color="#f56c6c" :show-text="false"></el-progress>
+                        <span class="time">
+                            数据上传时间 : <strong>{{item.createTime}}</strong>
+                        </span>
+                        <el-progress 
+                            :percentage="Math.ceil(item.data.lineTemp.value) || 0" 
+                            :color="customColors" 
+                            :show-text="false"
+                        />
                     </div>
                 </el-col>
             </el-row>
@@ -70,6 +88,9 @@
         components: {
             LineChart,
         },
+        props: {
+            lineData: Array
+        },
         data() {
             return {
                 options: [
@@ -86,7 +107,11 @@
                 time: [new Date(), new Date()],
                 allData:[],
                 timeArray:[],
-                currentValue:[]
+                currentValue:[],
+                customColors: [
+                    {color: '#67c23a', percentage: 90},
+                    {color: '#f56c6c', percentage: 100}
+                ]
             }
         },
         computed: {
@@ -101,10 +126,10 @@
             ...mapActions('equip',[
                 'getTrapLineHistory' 
             ]),
+            //获取线缆历史数据
             getLineHistory(){
                 const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
                 const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
-
                 this.getTrapLineHistory({
                     queryId:this.assetObj.id,
                     startTime,
@@ -162,6 +187,51 @@
             changeDate(date){
                 this.time = [new Date(date[0]),new Date(date[1])];
                 this.getLineHistory();
+            },
+            //匹配名称&单位
+            match(name,flag){
+                let design;
+                let unit;
+                switch (name) {
+                    case 'lineTemp':
+                        design = "线缆温度";
+                        unit = "℃"
+                        break;
+                    case 'lineA':
+                        design = "线缆电流";
+                        unit = "A"
+                        break;
+                    case 'lineV':
+                        design = "线缆电压";
+                        unit = "V"
+                        break;
+                    case 'batteryA':
+                        design = "电池电压";
+                        unit = "V"
+                        break;
+                    case 'cbtemp':
+                        design = "板子自身温度";
+                        unit = "℃"
+                        break;
+                    case 'shake':
+                        design = "震动数据";
+                        unit = ""
+                        break;
+                    case 'node433':
+                        design = "433M子节点参数";
+                        unit = "Mhz"
+                        break;
+                    case 'signal':
+                        design = "信号强度";
+                        unit = "dbm"
+                        break;
+                    default:
+                        break;
+                }
+                if(flag){
+                    return design;
+                }
+                return unit
             }
         },
     }
@@ -169,16 +239,30 @@
 
 <style lang="scss" scoped>
     .info{
-        padding-bottom: 20px;
+        padding-bottom: 50px;
         position: relative;
         .msg{
             position: absolute;
             right: 0;
-            top: 5px;
             font-size: 14px;
+            top: 5px;
             span{
-                color: #f56c6c;
+                color: #22a7f0;
             }
+        }
+        .time{
+            position: absolute;
+            right: 0;
+            top: 38px;
+            font-size: 13px;
+        }
+    }
+    .pop{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        & > span{
+            padding: 5px 0;
         }
     }
 </style>

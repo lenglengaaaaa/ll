@@ -10,15 +10,19 @@
         props: {
             id:String,
             timeArray:Array,
-            value:Array
+            value:Array,
+            text:{
+                type:String,
+                default:''
+            }
         },
         data() {
             return {
                 chart: null,
                 option:{
-                    // title: {
-                    //     text: this.text
-                    // },
+                    title: {
+                        text: this.text
+                    },
                     tooltip: {
                         trigger: 'axis'
                     },
@@ -92,7 +96,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #line,#MagicLine{
+    #line,#MagicLine,#keyA,#keyT{
         height: 400px;
         display: flex;
         justify-content: center;

@@ -19,8 +19,16 @@
                     <i class="el-icon-download"></i>
                 </div>
             </div>
-            <LineChart text="1.1#杆受点侧(电流曲线图)"></LineChart>
-            <LineChart text="1.1#杆受点侧(温度曲线图)"></LineChart>
+            <LineChart text="1.1#杆受点侧(电流曲线图)" 
+                id="keyA"
+                :value="currentValue"
+                :timeArray="timeArray"
+            />
+            <LineChart text="1.1#杆受点侧(温度曲线图)" 
+                id="keyT"
+                :value="currentValue"
+                :timeArray="timeArray"
+            />
         </div>
     </div>
 </template>
@@ -35,6 +43,9 @@
         data() {
             return {
                 time: [new Date(),new Date()],
+                allData:[],
+                timeArray:[],
+                currentValue:[]
             }
         },
         

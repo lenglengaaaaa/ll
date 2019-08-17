@@ -30,13 +30,11 @@
             <div class="title">
                 <span>线缆温度传感器</span>
                 <el-divider></el-divider>
-                <p>
-                    <span>数据上传时间: </span>
-                    <strong>2019-07-04 14:42:20</strong>
-                </p>
                 <div class="content">
                     <div class="wrap">
-                        <Tline></Tline>
+                        <Tline
+                            :lineData="lineData"
+                        />
                     </div>
                 </div>
             </div>
@@ -50,6 +48,7 @@
     import { mapActions } from 'vuex'
 
     const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat'];
+    const lineParam = ['batteryA','cbtemp','lineA','lineTemp','lineV','node433','shake','signal'];
 
     export default {
         components: {
@@ -74,12 +73,13 @@
                     deviceType:30
                 },
                 magicData:{},
-                lineData:{}
+                lineData:[]
             }
         },
         created () {
             this.classifyType(this.assetType)
             this.getMagicList();
+            this.getLineData();
         }, 
         computed: {
             assetObj() {
@@ -90,6 +90,7 @@
             ...mapActions('equip',[
                 'getEquipMenu',
                 'getCurrentMagicData',
+                'getLineCurrentData'
             ]),
             //获取资产下魔节列表
             getMagicList(){
@@ -116,9 +117,31 @@
                         return
                     }
                     this.magicData= {
-                        data:this.filterMagicData(res),
+                        data:this.filterData(res,true),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
                     };
+                })
+            },
+            //获取线缆实时数据
+            getLineData(){
+                const {id} = this.assetObj;
+                this.getLineCurrentData(id).then(res=>{
+                    if(!res)return;
+                    const {lineInfoList,lineDateMap} = res;
+                    const names = lineInfoList.reduce((pre,current)=>{
+                        pre[current.id] = current.name;
+                        return pre
+                    },{})
+                    let result = [];
+                    for(let i in lineDateMap){
+                        const name = names[i];
+                        result.push({
+                            name,
+                            createTime:lineDateMap[i].createTime&&this.$moment(lineDateMap[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
+                            data:this.filterData(lineDateMap[i])
+                        })
+                    }
+                    this.lineData = result;
                 })
             },
             //切换魔节回调
@@ -126,11 +149,15 @@
                 this.getMagicData(val);
             },
             //过滤魔节数据
-            filterMagicData(res){
+            filterData(res,flag=false){
+                const arr = flag?magicParam:lineParam;
                 let obj = {};
                 for(let i in res){
-                    if(magicParam.includes(i)){
-                        obj[i] = res[i];
+                    if(arr.includes(i)){
+                        obj[i] = {
+                            value:res[i].value,
+                            createTime:res[i].createTime&&this.$moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
+                        };
                     }
                 }
                 return obj;
