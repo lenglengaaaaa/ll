@@ -5,7 +5,11 @@
                 <el-col :span="6" v-for="(value,name) in magicData" :key="name" :xs="12">
                     <div >
                         <Gauge 
-                            :value="{name,value}"
+                            :value="{
+                                name,
+                                value:value.value,
+                                createTime:value.createTime
+                            }"
                         />
                     </div>
                 </el-col>

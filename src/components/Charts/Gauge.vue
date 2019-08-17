@@ -38,8 +38,8 @@
         methods: {
             //获取当前数值
             getData(){
-                const {name,value} = this.value;
-                const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat']
+                const {name,value,createTime} = this.value;
+                const time = createTime&&this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss') || "未知";
                 let cfg ={value};
                 let max =0;
                 switch (name) {
@@ -77,13 +77,18 @@
                         break;
                     default:;
                 }
-                this.initChart(max,[cfg]);
+                this.initChart(max,time,[cfg]);
             },
-            initChart(max,data) {
+            initChart(max,createTime,data) {
             // 把配置和数据放这里
                 this.chart.setOption({
                     tooltip : {
-                        formatter: "{a} <br/>{b} : {c}%"
+                        position: ['50%', '50%'],
+                        formatter:`
+                            {a} <br/>
+                            {b} : {c}% <br/>
+                            上传时间 : ${createTime}
+                        `
                     },
                     toolbox: {
                     },
