@@ -39,22 +39,35 @@
                 </div>
             </div>
         </div>
+        <div class="s800">
+            <div class="title">
+                <span>S800传感器平台</span>
+                <el-divider></el-divider>
+                <div class="content">
+                    <div class="wrap">
+                        <S800
+                            :sEightData="sEightData"
+                            :assetType="assetType"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import Magic from './components/Magic'
     import Tline from './components/Tline'
-    import {magicDefault,lineDefault} from './components/defaultVal'
+    import S800 from './components/S800'
+    import {magicDefault,lineDefault,s800Default} from './components/defaultVal'
     import { mapActions } from 'vuex'
-
-    const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat'];
-    const lineParam = ['batteryA','cbtemp','lineA','lineTemp','lineV','node433','shake','signal'];
 
     export default {
         components: {
             Magic,
-            Tline
+            Tline,
+            S800
         },
         props: {
             assetType: Number,
@@ -74,13 +87,15 @@
                     deviceType:30
                 },
                 magicData:magicDefault,
-                lineData:[]
+                lineData:[],
+                sEightData:[]
             }
         },
         created () {
             this.classifyType(this.assetType)
             this.getMagicList();
             this.getLineData();
+            this.getS800Data();
         }, 
         computed: {
             assetObj() {
@@ -91,7 +106,8 @@
             ...mapActions('equip',[
                 'getEquipMenu',
                 'getCurrentMagicData',
-                'getLineCurrentData'
+                'getLineCurrentData',
+                'gets800CurrentData'
             ]),
             //获取资产下魔节列表
             getMagicList(){
@@ -118,7 +134,7 @@
                         return
                     }
                     this.magicData= {
-                        data:this.filterData(res,true),
+                        data:this.filterData(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
                     };
                 })
@@ -133,32 +149,40 @@
                         this.lineData = lineDefault();
                         return;
                     }
-                    const names = lineInfoList.reduce((pre,current)=>{
-                        pre[current.id] = current.name;
-                        return pre
-                    },{})
-                    let result = [];
-                    for(let i in lineDateMap){
-                        const name = names[i];
-                        result.push({
-                            name,
-                            createTime:lineDateMap[i].createTime&&this.$moment(lineDateMap[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
-                            data:this.filterData(lineDateMap[i])
-                        })
+                    this.lineData = this.dataProcessing(lineInfoList,lineDateMap,'line');
+                })
+            },
+            //获取S800实时数据
+            getS800Data(){
+                const {id} = this.assetObj;
+                this.gets800CurrentData({
+                    assetId:id,
+                    assetType:this.assetType
+                }).then(res=>{
+                    if(!res) return;
+                    const {deviceInfoList,dataMap} = res;
+                    if(!deviceInfoList.length){
+                        this.sEightData = s800Default();
+                        return;
                     }
-                    this.lineData = result;
+                    this.sEightData = this.dataProcessing(deviceInfoList,dataMap,'s800');
                 })
             },
             //切换魔节回调
             changeMagic(val){
                 this.getMagicData(val);
             },
-            //过滤魔节数据
-            filterData(res,flag=false){
-                const arr = flag?magicParam:lineParam;
+            //数据筛选
+            filterData(res,type){
+                const arr = {
+                    'magic':['temp','hum','o2','h2s','co','ch4','o3','bat'],
+                    'line':['batteryA','cbtemp','lineA','lineTemp','lineV','node433','shake','signal'],
+                    's800':['co','infrared','liquid','batteryA','shake','node433','signal','cbtemp']
+                }
                 let obj = {};
                 for(let i in res){
-                    if(arr.includes(i)){
+                    if(i==='creatTime')break;
+                    if(arr[type].includes(i)){
                         obj[i] = {
                             value:res[i].value,
                             createTime:res[i].createTime&&this.$moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
@@ -166,6 +190,24 @@
                     }
                 }
                 return obj;
+            },
+            //数据处理
+            dataProcessing(list,dataMap,type){
+                const names = list.reduce((pre,current)=>{
+                    const params = type==='line'?current.id:current.deviceAdress;
+                    pre[params] = current.name;
+                    return pre
+                },{})
+                let result = [];
+                for(let i in dataMap){
+                    const name = names[i];
+                    result.push({
+                        name,
+                        createTime:dataMap[i].createTime&&this.$moment(dataMap[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
+                        data:this.filterData(dataMap[i],type)
+                    })
+                }
+                return result;
             },
             //匹配资产类型
             classifyType(type){

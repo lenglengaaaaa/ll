@@ -85,7 +85,7 @@
                         {value: "bat",name: '电池电压'}
                     ],
                 value: "temp",
-                time: [new Date(), new Date()],
+                time: [this.$moment().subtract(6, 'days'), new Date()],
                 allData:[],
                 timeArray:[],
                 currentValue:[]

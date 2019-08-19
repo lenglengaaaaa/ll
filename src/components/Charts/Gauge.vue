@@ -164,7 +164,8 @@
 
 <style lang="scss" scoped>
     #gauge{
-        height: 260px;
+        height: 250px;
+        padding-bottom: 30px;
         display: flex;
         justify-content: center;
         align-items: center;

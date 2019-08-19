@@ -253,8 +253,13 @@ export const api={
     getCurrentMagicData:`${url}/e_view/data/statistics/current/cmterminal`,
 
     //获取资产下的环境（多个魔节）历史数据 post
-    getMagicHistoryData:`${url}/e_view/data/statistics/history/cmterminal`
+    getMagicHistoryData:`${url}/e_view/data/statistics/history/cmterminal`,
 
+    //获取资产下s800的实时数据 post
+    gets800CurrentData:`${url}/e_view/data/statistics/s800/current`,
+
+    //获取资产下s800的历史数据 post
+    gets800HistoryData:`${url}/e_view/data/statistics/s800/history`,
 
 }
 

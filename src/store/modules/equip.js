@@ -362,6 +362,52 @@ const actions= {
             }
         })
     },
+
+    /**
+     * 获取资产下s800的实时数据
+     * @param {
+     *      assetId  资产ID
+     *      assetType  0:配电柜 1:配电房 2:井盖
+     * }
+     */
+    gets800CurrentData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.gets800CurrentData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取资产下s800的实时数据
+     * @param {
+        *      assetId  资产ID
+        *      assetType  0:配电柜 1:配电房 2:井盖
+        *      startTime 起始时间 (2019-01-01)
+        *      endTime 结束时间 (2019-01-1)
+        * }
+        */
+        gets800HistoryData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.gets800HistoryData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    }
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

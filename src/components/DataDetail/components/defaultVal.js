@@ -79,3 +79,47 @@ export const lineDefault = ()=>{
     })
     return result;
 }
+
+export const s800Default = ()=>{
+    const result = ['一','二','三','四'].map(item=>{
+        return {
+            name:`S800${item}`,
+            createTime:null,
+            data:{
+                "co": {
+                    "value": null,
+                    "createTime": null
+                },
+                "infrared": {
+                    "value": null,
+                    "createTime": null
+                },
+                "liquid": {
+                    "value": null,
+                    "createTime": null
+                },
+                "batteryA": {
+                    "value": null,
+                    "createTime": null
+                },
+                "shake": {
+                    "value": null,
+                    "createTime": null
+                },
+                "node433": {
+                    "value": null,
+                    "createTime": null
+                },
+                "signal": {
+                    "value": null,
+                    "createTime": null
+                },
+                "cbtemp": {
+                    "value": null,
+                    "createTime": null
+                }
+            }
+        }
+    })
+    return result;
+}

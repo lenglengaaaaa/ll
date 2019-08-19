@@ -102,7 +102,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #line,#MagicLine,#keyA,#keyT{
+    #line,#MagicLine,#S800,#keyA,#keyT{
         height: 400px;
         display: flex;
         justify-content: center;
