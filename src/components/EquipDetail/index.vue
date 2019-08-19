@@ -130,11 +130,16 @@
             },
             //获取个别信息
             getSingleData(){
-                const {parentType,parentName,longitude,latitude,location,createTime,imageUrls} = this.equipObj;
+                const { parentType , parentName , longitude , latitude , location , createTime , imageUrls } = this.equipObj;
+                //匹配魔节or集中器
                 parentType&&parentType ==='30'?this.single.magicName =parentName :this.single.concenName =parentName;
+                //设备经纬度
                 this.single.position = [(longitude || 113.991244) ,(latitude || 113.991244)];
+                //设备地址,原格式[xx,xx,xx]
                 this.single.location = (location&&location.split(',').join('')) || 'xxx';
+                //设备创建时间
                 this.single.createTime = this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss');
+                //设备视图
                 this.imageUrls = imageUrls || [];
             }
         },

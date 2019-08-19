@@ -40,57 +40,76 @@
             getData(){
                 const {name,value,createTime} = this.value;
                 const time = createTime&&this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss') || "未知";
+                let obj = {
+                    max:0,
+                    title:'',//名称,
+                    time
+                }
                 let cfg ={value};
-                let max =0;
                 switch (name) {
                     case "temp":
-                        cfg.name = "环境温度(℃)";
-                        max = 150;
+                        obj.name = "环境温度";
+                        cfg.name = "℃";
+                        obj.max = 150;
                         break;
                     case "hum":
-                        cfg.name = "环境湿度(%)";
-                        max = 100;
+                        obj.name = "环境湿度";
+                        cfg.name = "%";
+                        obj.max = 100;
                         break;
                     case "o2":
-                        cfg.name = "氧气(%)";
-                        max = 100;
+                        obj.name = "氧气";
+                        cfg.name = "%";
+                        obj.max = 100;
                         break;
                     case "h2s":
-                        cfg.name = "硫化氢(ppm)";
-                        max = 50;
+                        obj.name = "硫化氢";
+                        cfg.name = "ppm";
+                        obj.max = 50;
                         break;
                     case "co":
-                        cfg.name = "一氧化碳(ppm)";
-                        max = 5000;
+                        obj.name = "一氧化碳";
+                        cfg.name = "ppm";
+                        obj.max = 5000;
                         break;
                     case "ch4":
-                        cfg.name = "烷类(ppm)";
-                        max = 10000;
+                        obj.name = "烷类";
+                        cfg.name = "ppm";
+                        obj.max = 10000;
                         break;
                     case "o3":
-                        cfg.name = "臭氧(ppm)";
-                        max = 5000;
+                        obj.name = "臭氧";
+                        cfg.name = "ppm";
+                        obj.max = 5000;
                         break;
                     case "bat":
-                        cfg.name = "电池(V)";
-                        max = 5;
+                        obj.name = "电池电压";
+                        cfg.name = "V";
+                        obj.max = 5;
                         break;
                     default:;
                 }
-                this.initChart(max,time,[cfg]);
+                this.initChart(obj,cfg);
             },
-            initChart(max,createTime,data) {
+            initChart(value,cfg) {
             // 把配置和数据放这里
                 this.chart.setOption({
                     tooltip : {
                         position: ['50%', '50%'],
                         formatter:`
                             {a} <br/>
-                            {b} : {c}% <br/>
-                            上传时间 : ${createTime}
+                            ${value.name} : {c} ${cfg.name} <br/>
+                            上传时间 : ${value.time}
                         `
                     },
-                    toolbox: {
+                    title: {
+                        text: value.name,
+                        textAlign:'center',
+                        left:'50%',
+                        bottom:'-5',
+                        textStyle:{
+                            fontSize:20
+                        }
                     },
                     series: [
                         {
@@ -99,7 +118,7 @@
                             center: ['50%', '50%'],    // 默认全局居中
                             radius: '100%',
                             min:0,
-                            max,
+                            max:value.max,
                             axisLine: {            // 坐标轴线
                                 lineStyle: {       // 属性lineStyle控制线条样式
                                     width: 10,
@@ -112,26 +131,29 @@
                                     color: '#fff',
                                 }
                             },
+                            axisLabel:{
+                                fontWeight:'bolder',
+                            },
                             splitLine: {           // 分隔线
-                                length:20,         // 属性length控制线长
+                                length:15,         // 属性length控制线长
                                 lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
                                     color: 'auto'
                                 }
                             },
                             pointer: {
-                                width:5
+                                width:6
                             },
                             title: {
                                 offsetCenter: [0, '-30%'],       // x, y，单位px
                                 fontWeight:'bolder',
-                                fontSize: 20,
+                                fontSize: 24,
                             },
                             detail: {
                                 // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontWeight: 'bolder',
-                                fontSize:35
+                                fontSize:30
                             },
-                            data
+                            data:[cfg]
                         },
                     ]
                 },true)
@@ -142,7 +164,7 @@
 
 <style lang="scss" scoped>
     #gauge{
-        height: 250px;
+        height: 260px;
         display: flex;
         justify-content: center;
         align-items: center;
