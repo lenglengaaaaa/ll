@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <el-row :gutter="20">
+            <el-row :gutter="40">
                 <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
                     <div class="info">
                         <el-popover
@@ -13,7 +13,7 @@
                                 <span v-for="(value,key) in item.data" :key="key">
                                     <span>{{match(key,true)}} : </span>
                                     <strong>
-                                        {{key==='shake'?value.value==1?'震动':'静止':value.value}}
+                                        {{value.value?key==='shake'?value.value==1?'震动':'静止':value.value:'xx'}}
                                         {{match(key)}}
                                     </strong>
                                 </span>
@@ -27,11 +27,11 @@
                             <span 
                                 :style="{'color':item.data.shake.value==1&&'#f56c6c'}"
                             >
-                                {{item.data.shake.value==1?'震动':'静止' || '未知'}}
+                                {{item.data.shake.value?item.data.shake.value==1?'震动':'静止':'未知'}}
                             </span>
                         </strong>
                         <span class="time">
-                            数据上传时间 : <strong>{{item.createTime}}</strong>
+                            数据上传时间 : <strong>{{item.createTime || '未知'}}</strong>
                         </span>
                         <el-progress 
                             :percentage="Math.ceil(item.data.lineTemp.value) || 0" 

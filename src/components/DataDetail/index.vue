@@ -45,6 +45,7 @@
 <script>
     import Magic from './components/Magic'
     import Tline from './components/Tline'
+    import {magicDefault,lineDefault} from './components/defaultVal'
     import { mapActions } from 'vuex'
 
     const magicParam = ['temp','hum','o2','h2s','co','ch4','o3','bat'];
@@ -72,7 +73,7 @@
                     chestId:null,
                     deviceType:30
                 },
-                magicData:{},
+                magicData:magicDefault,
                 lineData:[]
             }
         },
@@ -128,6 +129,10 @@
                 this.getLineCurrentData(id).then(res=>{
                     if(!res)return;
                     const {lineInfoList,lineDateMap} = res;
+                    if(!lineInfoList.length){
+                        this.lineData = lineDefault();
+                        return;
+                    }
                     const names = lineInfoList.reduce((pre,current)=>{
                         pre[current.id] = current.name;
                         return pre
