@@ -1,5 +1,6 @@
 <template>
     <div class="s800">
+        <el-divider content-position="left">S800传感器平台实时数据</el-divider>
         <div>
             <el-row :gutter="20">
                 <el-col :span="8" :xs="24" v-for="(item,d) in sEightData" :key="d">
@@ -14,8 +15,10 @@
                         <div v-for="(value,key) in item.data" :key="key" class="text">
                             <span>
                                 <span>{{match(key,true)}} : </span>
-                                <strong>
-                                    {{value.value?key==='shake'?value.value==1?'震动':'静止':value.value:'xx'}}
+                                <strong
+                                    :style="{'color':renderColor(key,value)}"
+                                >
+                                    {{getStatus(key,value) || 'xx'}}
                                     {{match(key)}}
                                 </strong>
                             </span>
@@ -100,9 +103,6 @@
         },
         created () {
             this.getS800History();
-        },
-        mounted () {
-            console.log(this.sEightData,'data');
         },
         methods: {
             ...mapActions('equip',[
@@ -195,8 +195,8 @@
                         unit = ""
                         break;
                     case 'node433':
-                        design = "433M子节点参数";
-                        unit = "Mhz"
+                        design = "433M子节点参数更新状态";
+                        unit = ""
                         break;
                     case 'signal':
                         design = "信号强度";
@@ -209,10 +209,43 @@
                     default:
                         break;
                 }
-                if(flag){
-                    return design;
-                }
+                if(flag) return design;
                 return unit
+            },
+            //获取数据状态
+            getStatus(name,value){
+                let status;
+                switch (name) {
+                    case 'infrared':
+                        value.value==0?status='正常':status='有人'
+                        break;
+                    case 'liquid':
+                        value.value==0?status='正常':status='进水'
+                        break;
+                    case 'shake':
+                        value.value==1?status='震动':status='静止'
+                        break;
+                    case 'node433':
+                        value.value==1?status='成功':status='失败'
+                        break;
+                    default:
+                        status = value.value
+                        break;
+                }
+                return status;
+            },
+            //infrared & liquid :0正常 ,1异常
+            //shake : 1异常 2正常
+            //node433 :1正常 ,2异常
+            renderColor(name,value){
+                const arr = ['infrared','liquid','shake','node433'];
+                if(!arr.includes(name))return'';
+                if(name==='infrared'||name==='liquid'||name==='shake'){
+                    if(value.value==1) return '#f56c6c';
+                }
+                if(name==='node433'){
+                    if(value.value==2) return '#f56c6c';
+                }
             }
         },
     }
@@ -224,12 +257,12 @@
             margin-bottom: 20px;
             .header{
                 div{
-                    font-size: 0.9rem;
+                    font-size: 1rem;
                     padding: 5px 0;
                     font-weight: bolder;
                 }
                 span{
-                    font-size: 0.6rem;
+                    font-size: 0.65rem;
                 }
             }
             .el-card__body{

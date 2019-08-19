@@ -88,7 +88,7 @@
                 },
                 magicData:magicDefault,
                 lineData:[],
-                sEightData:[]
+                sEightData:s800Default()
             }
         },
         created () {

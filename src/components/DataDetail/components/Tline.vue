@@ -1,5 +1,6 @@
 <template>
     <div>
+        <el-divider content-position="left">线缆实时数据</el-divider>
         <div>
             <el-row :gutter="40">
                 <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
