@@ -261,6 +261,17 @@ export const api={
     //获取资产下s800的历史数据 post
     gets800HistoryData:`${url}/e_view/data/statistics/s800/history`,
 
+    //=======================================告警管理=====================================================
+
+    //获取告警列表 post
+    getAlarmList:`${url}/e_view/warning/list`,
+
+    //获取告警详情 get
+    getAlarmDetail:`${url}/e_view/warning/info`,
+
+    //告警处理
+    alarmHandle:`${url}/e_view/warning/dispose`
+
 }
 
 export default function(Vue){

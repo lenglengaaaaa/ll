@@ -356,6 +356,78 @@ const actions= {
                 return false
             }
         })
+    },
+
+    //==================================告警管理==================================
+    /**
+     * 获取告警列表
+     * @param {
+     *      "projectId":1,  项目id
+     *      "status":0,     告警状态 0 未处理 1 已处理 2 不处理 3 延期
+     *      "size":20,
+     *      "current":1,
+     *      "startTime":"2019-01-02",   开始时间，默认为结束时间前7天
+     *      "endTime":"2019-8-14"      结束时间,默认为当前时间
+     * }
+     */
+    getAlarmList({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getAlarmList}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取告警详情
+     * @param id 告警ID
+     * @param type 0独立告警 1附属告警
+     */
+    getAlarmDetail({commit},obj){
+        return request({
+            method:'get',
+            url:`${api.getAlarmDetail}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 告警处理
+     * @param {
+     *      warning 告警ID
+     *      details 告警处理详情
+     *      type 0独立告警 1附属告警
+     *      status 告警状态 0未处理 1已处理 2不处理 3延期
+     * }
+     */
+    handleAlarm({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.alarmHandle}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                res&&tip(res.meassage,'success')
+                return true;
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
     }
 }   
 

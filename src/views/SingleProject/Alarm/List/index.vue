@@ -4,50 +4,69 @@
         :data="data"
         :total="total"
         :getList="getList"
-        :remove="remove"
     >   
         <template #header>
-            <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-            </el-date-picker>
+            <div class="alarmTool">
+                <el-select v-model="value" placeholder="请选择" @change="changeStaus">
+                    <el-option
+                        v-for="item in status"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
+                <el-date-picker
+                    v-model="time"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    value-format="yyyy-MM-dd"
+                    :clearable='false'
+                    @change="changeTime"
+                />
+            </div>
         </template>
         <template>
             <el-table-column
-                prop="name"
+                prop="deviceName"
                 label="设备名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="number"
-                label="资产编号"
+                prop="deviceEui"
+                label="设备EUI"
                 align="center"
                 sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="details"
                 label="告警详情"
                 align="center"
-                sortable
             >
                 <template slot-scope="scope" >
                     <span class="red">
-                        {{scope.row.details}}
+                        {{scope.row.decodeHex}}
                     </span>
                 </template>
             </el-table-column>
             <el-table-column
-                prop="time"
+                label="处理状态"
+                align="center"
+            >
+                <template slot-scope="scope" >
+                    <el-tag :type="!scope.row.status?'danger':'success'">
+                        {{diffStatus(scope.row.status)}}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="createTime"
                 label="告警时间"
                 align="center"
-                sortable
-                :formatter="(row)=>this.$moment(row.time).format('YYYY-MM-DD HH:mm:ss')"
+                :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
             />
         </template>
         <template #operation>
@@ -72,46 +91,98 @@
 
 <script>
     import {ApplyMgt} from '@/components/Management'
-
+    import { mapActions } from 'vuex'
+    
     export default {
         components: {
             ApplyMgt,
         },
         data() {
             return {
-                date:'',
-                data: [
-                    {
-                        name:'侨城东电缆沟',
-                        number:'381800000066',
-                        details:'震动值：静止',
-                        time:'2019-06-19 13:05:11'
-                    }
+                time:[],
+                value:null,
+                status:[
+                    {value:null,label:'全部'},
+                    {value:0,label:'未处理'},
+                    {value:1,label:'已处理'},
+                    {value:2,label:'不予处理'},
+                    {value:3,label:'延期处理'},
                 ],
-                total:100
+                data: [],
+                total:0,
+                params:{
+                    projectId:JSON.parse(sessionStorage.getItem('project')).id,
+                    size:20,    
+                    current:1,   
+                    status:null
+                }
             }
         },
-        watch: {
-            date(newValue, oldValue) {
-                console.log(newValue,'value')
-            }
+        mounted () {
+            this.getList();
         },
         methods: {
-            getList(){
-                console.log('获取数据')
+            ...mapActions('overall',[
+                'getAlarmList', 
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                this.getAlarmList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
             },
             linkTo(row) {
+                sessionStorage.setItem('obj',JSON.stringify(row));
                 this.$router.push({name:'Detail'})
             },
-            remove(){
-                console.log('删除')
+            //切换状态回调
+            changeStaus(val){
+                this.getList({
+                    status:val
+                })
+            },
+            //切换时间回调
+            changeTime(time){
+                const [startTime,endTime] =time;
+                this.time = [startTime,endTime];
+                this.getList({
+                    startTime,
+                    endTime
+                })
+            },
+            diffStatus(status){
+                const obj = {
+                    0:'未处理',
+                    1:'已处理',
+                    2:'不予处理',
+                    3:'延期处理'
+                }
+                return obj[status];
             }
         },
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .red{
         color: red;
+    }
+    .alarmTool{
+        .el-select{
+            padding-right: 20px;
+            .el-input__inner{
+                max-width: 150px !important;
+            }
+        }
+        .el-input__inner{
+            max-width: 300px !important;
+        }
     }
 </style>

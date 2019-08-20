@@ -101,8 +101,8 @@
             display: flex;
             align-items: center;
             span{
-                font-size: 1.06rem;
-                font-weight: 300;
+                font-size: 1rem;
+                font-weight: 500;
                 color: #4abced;
             }
         }
