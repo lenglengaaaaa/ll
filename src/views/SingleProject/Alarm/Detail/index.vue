@@ -100,6 +100,10 @@
                 single:{}
             }
         },
+        created () {
+            const {longitude,latitude} = this.alarmObj;
+            this.single.position = [ longitude|| 113.991244 , latitude||22.5959 ];
+        },
         mounted () {
             this.getDetail();
         },
@@ -125,7 +129,6 @@
                         createTime:this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss'),
                         location:res.location || 'xxx',
                         alarmMsg:res.decodeHex,
-                        position:[res.longitude || 114.991244 ,res.latitude || 22.5959 ],
                         status:res.status,
                         details:res.details || ''
                     }
