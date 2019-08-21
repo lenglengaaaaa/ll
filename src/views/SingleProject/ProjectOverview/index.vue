@@ -29,8 +29,9 @@
                 </div>
                 <div>
                     <Map 
+                        :marker="marker"
                         vid="apply"
-                        :zoom="14"
+                        :zoom="18"
                     />
                 </div>
             </el-card>
@@ -54,12 +55,14 @@
         data() {
             return {
                 equipList:[],
-                soeCount:[]
+                soeCount:[],
+                marker:[]
             }
         },
         mounted () {
             this.getCount();
-            this.getSoe()
+            this.getSoe();
+            this.getLocation();
         },
         computed: {
             projectId(){
@@ -69,7 +72,8 @@
         methods: {
             ...mapActions('overall',[
                 'getEquipCount',
-                'getSoeCount'
+                'getSoeCount',
+                'getDeviceAddress'
             ]),
             //获取设备数量
             getCount(){
@@ -90,8 +94,8 @@
             },
             //获取SOE数量
             getSoe(){
-                let startTime = moment().startOf('year').format('YYYY-MM-DD');
-                let endTime = moment().endOf('year').endOf('year').format('YYYY-MM-DD');
+                let startTime = this.$moment().startOf('year').format('YYYY-MM-DD');
+                let endTime = this.$moment().endOf('year').format('YYYY-MM-DD');
                 this.getSoeCount({
                     query:this.projectId,
                     queryType:0,
@@ -101,6 +105,13 @@
                 }).then(res=>{
                     if(!res)return;
                     this.soeCount = Object.values(res);
+                })
+            },
+            //获取设备的经纬度、位置信息
+            getLocation(){
+                this.getDeviceAddress(this.projectId).then(res=>{
+                    if(!res)return;
+                    this.marker = res;
                 })
             }
         },

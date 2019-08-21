@@ -45,6 +45,26 @@ const actions= {
     },
 
     /**
+     * 验证目标地址域是否已经存在
+     * @param deviceAddress 地址域
+     */
+    checkAddress({commit},deviceAddress){
+        return request({
+            method:'get',
+            url:`${api.checkAddress}`,
+            data:{
+                deviceAddress
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return true;
+            }else{
+                return false;
+            }
+        })
+    },
+
+    /**
      * 设备类型下拉
      * @param type 操作表类型默认为0
      */

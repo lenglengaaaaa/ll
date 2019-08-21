@@ -383,6 +383,28 @@ const actions= {
         })
     },
 
+    /**
+     * 获取设备的经纬度、位置信息
+     * @param projectId 项目ID
+     */
+    getDeviceAddress({commit},projectId){
+        return request({
+            method:'get',
+            url:`${api.getDeviceAddress}`,
+            data:{
+                projectId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+
     //==================================告警管理==================================
     /**
      * 获取告警列表

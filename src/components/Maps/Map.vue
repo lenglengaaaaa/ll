@@ -21,7 +21,8 @@
                 <el-amap-info-window 
                     v-if="window" 
                     :position="window.position" 
-                    :visible="window.visible" 
+                    :visible="window.visible"
+                    :content="marker.content"
                 >
                     <div class="prompt">
                         {{window.content}}
@@ -48,7 +49,6 @@
         data(){
             let self = this;
             return {
-                title:'aaa',
                 center:[113.991244,22.595988],
                 markers: [],
                 markerRefs: [],
@@ -61,51 +61,75 @@
                     init(o) {
                         setTimeout(() => {
                             let cluster = new window.AMap.MarkerClusterer(o, self.markerRefs,{
-                                gridSize: 150,
+                                gridSize: 40,
+                                // minClusterSize:4,
                                 renderCluserMarker: self._renderCluserMarker
                             });
                         }, 500);
                     },
                     click(e){
                         self.window&&(self.window.visible = false);
-                        //用于设备故障时告警 , 点坐标报警
-                        self.markers[0].alarm = true;
+                        // //用于设备故障时告警 , 点坐标报警
+                        // self.markers[0].alarm = true;
                     }
                 },
             }
         },
-        created(){
-            let self = this;
-            let markers = [];//点坐标
-            let windows = [];//信息窗体
-            this.marker.map((item,index)=>{
-                markers.push({
-                    position: item.position,
-                    events: {
-                        init(o) {
-                            self.markerRefs.push(o);
-                        },
-                        click() {
-                            self.windows.forEach(window => {
-                                window.visible = false;
-                            });
-                            self.window = self.windows[index];
-                            self.$nextTick(() => {
-                                self.window.visible = true;
-                            });
-                        }
-                    }
-                });
-                windows.push({
-                    position:item.position,
-                    content: `${ item.content }`,
-                    visible: false
-                });
-            })
-            this.markers = markers;
-            this.windows = windows;
+        watch: {
+            marker(val) {
+                this.initMarker()
+            }
+        },
+        created () {
+            this.initMarker();
         },
         methods: {
+            initMarker(){
+                let self = this;
+                let markers = [];//点坐标
+                let windows = [];//信息窗体
+                this.center  = this.marker.length?[this.marker[0].longitude,this.marker[1].latitude]:[113.991244,22.595988];
+                this.marker.map((item,index)=>{
+                    if(!item.longitude||!item.latitude)return;
+                    markers.push({
+                        position: [item.longitude,item.latitude],
+                        events: {
+                            init(o) {
+                                self.markerRefs.push(o);
+                            },
+                            click() {
+                                self.window = self.windows[index];
+                                self.windows.forEach(window => {
+                                    window.visible = false;
+                                });
+                                self.$nextTick(() => {
+                                    self.window.visible = true;
+                                });
+                            }
+                        }
+                    });
+                    const BtnComponent = {
+                        props: ['text'],
+                        template: `
+                            <div>
+                                <strong>设备名称 : </strong><span>${item.name}</span>
+                            </div>
+                        `
+                    };
+                    windows.push({
+                        position:[item.longitude,item.latitude],
+                        content:`设备名称 : ${item.name}`,
+                        // template:`
+                        //     <div>
+                        //         <strong>设备名称 : </strong><span>${item.name}</span>
+                        //     </div>
+                        // `,
+                        visible: false,
+                    });
+                })
+                this.markers = markers;
+                this.windows = windows;
+            },
             _renderCluserMarker(context) {
                 const count = this.markers.length;
                 let factor = Math.pow(context.count/count, 1/18)
@@ -147,8 +171,8 @@
                 box-shadow: hsl(180, 100%, 50%) 0px 0px 1px
             }
             .prompt{
-                font-size: 0.8rem;
-                color: red;
+                font-size: 14px;
+                font-weight: bold;
             }
         }
     }

@@ -109,6 +109,9 @@ export const api={
     //获取项目下soe数量 post
     getSoeCount:`${url}/e_view/warning/count`,
 
+    //获取设备的经纬度、位置信息 get
+    getDeviceAddress:`${url}/e_view/device/location`,
+
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get
     checkNo:`${url}/e_view/number/exist`,
@@ -221,6 +224,9 @@ export const api={
     
     //验证dev_EUI是否存在 get
     checkEUI:`${url}/e_view/device/exist`,
+
+    //验证目标地址域是否已经存在 get
+    checkAddress:`${url}/e_view/device/address/isExist`,
 
     //设备类型下拉 get
     equipTypeMenu:`${url}/e_view/init/list`,
