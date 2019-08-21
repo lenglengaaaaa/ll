@@ -4,7 +4,11 @@
             <el-row :gutter="20" type="flex" >
                 <el-col :span="12" :xs="24">
                     <div class="data-content" >
-                        <SoeChart></SoeChart>
+                        <SoeChart
+                            v-if="soeCount.length"
+                            :soeCount="soeCount"
+                        />
+                        <Empty v-else/>
                     </div>
                 </el-col>
                 <el-col :span="12" :xs="24">
@@ -49,11 +53,13 @@
         },
         data() {
             return {
-                equipList:[]
+                equipList:[],
+                soeCount:[]
             }
         },
         mounted () {
             this.getCount();
+            this.getSoe()
         },
         computed: {
             projectId(){
@@ -62,9 +68,10 @@
         },
         methods: {
             ...mapActions('overall',[
-                'getEquipCount', 
+                'getEquipCount',
+                'getSoeCount'
             ]),
-            //获取设备类型
+            //获取设备数量
             getCount(){
                 const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
                 this.getEquipCount(this.projectId).then(res=>{
@@ -81,6 +88,21 @@
                     this.equipList = result;
                 })
             },
+            //获取SOE数量
+            getSoe(){
+                let startTime = moment().startOf('year').format('YYYY-MM-DD');
+                let endTime = moment().endOf('year').endOf('year').format('YYYY-MM-DD');
+                this.getSoeCount({
+                    query:this.projectId,
+                    queryType:0,
+                    startTime,
+                    endTime,
+                    timeType:0
+                }).then(res=>{
+                    if(!res)return;
+                    this.soeCount = Object.values(res);
+                })
+            }
         },
     }
 </script>

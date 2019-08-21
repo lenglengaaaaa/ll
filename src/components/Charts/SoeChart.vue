@@ -7,6 +7,12 @@
 
 <script>
     export default {
+        props: {
+            soeCount: {
+                type: Array,
+                default: ()=>[]
+            },
+        },
         data() {
             return {
                 chart: null,
@@ -34,7 +40,7 @@
             // 把配置和数据放这里
                 this.chart.setOption({
                     title:{
-                        text:'当年soe总数',
+                        text:'当前年份SOE总数',
                         x:'center'
                     },
                     color: ['#3398DB'],
@@ -55,14 +61,26 @@
                     yAxis: [{
                         type: 'value'
                     }],
-                    series: [{
-                        name: '当月soe总数 :',
-                        type: 'bar',
-                        barWidth: '60%',
-                        data: [10, 52, 200, 334, 390, 330, 220]
-                    }]
+                    series: [
+                        {
+                            name: '当月soe总数 :',
+                            type: 'bar',
+                            barWidth: '50%',
+                            data:this.soeCount,
+                            markPoint : {
+                                data : [
+                                    {type : 'max', name: '最大值'},
+                                    {type : 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
                 })
-                this.chart&&this.chart.resize();
             }
         }
     }

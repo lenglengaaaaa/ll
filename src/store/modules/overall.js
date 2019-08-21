@@ -319,10 +319,10 @@ const actions= {
     /**
      * 获取网关下拉列表
      * @param {
-        *      size 显示数量
-        *      current 当前页码
-        * }
-        */
+     *      size 显示数量
+     *      current 当前页码
+     * }
+     */
     getGatewayMenu({commit},obj){
         return request({
             method:'post',
@@ -348,6 +348,31 @@ const actions= {
             method:'get',
             url:`${api.getEquipCountOnProject}`,
             data:{projectId}
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取项目下soe数量
+     * @param {
+     *      query 查询ID
+     *      queryType 0项目 1配电柜 2配电房 3线缆 4井盖 5相序
+     *      startTime 起始时间
+     *      endTime 结束时间
+     *      timeType 查询时间类型 0月 1年
+     * }
+     */
+    getSoeCount({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getSoeCount}`,
+            data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
                 return res.data

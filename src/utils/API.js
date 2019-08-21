@@ -106,6 +106,9 @@ export const api={
     //获取项目中资产数量 get
     getAssetCountOnProject:`${url}/e_view/statistics/asset/project`,
 
+    //获取项目下soe数量 post
+    getSoeCount:`${url}/e_view/warning/count`,
+
     //=======================================资产管理=====================================================
     //验证资产编号是否存在 get
     checkNo:`${url}/e_view/number/exist`,

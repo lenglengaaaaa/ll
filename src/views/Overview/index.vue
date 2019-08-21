@@ -11,7 +11,11 @@
                 <el-row :gutter="20" type="flex" >
                     <el-col :span="12" :xs="24">
                         <div class="data-content" >
-                            <SoeChart></SoeChart>
+                            <SoeChart
+                                v-if="soeCount.length"
+                                :soeCount="soeCount"
+                            />
+                            <Empty v-else/>
                         </div>
                     </el-col>
                     <el-col :span="12" :xs="24">
@@ -69,7 +73,8 @@
                         has:2
                     }
                 ],
-                equipList:[]
+                equipList:[],
+                soeCount:[]
             }
         }
     }

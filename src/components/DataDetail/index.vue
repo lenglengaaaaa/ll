@@ -3,7 +3,7 @@
         <div class="magic"> 
             <div class="title">
                 <span>魔节环境数据</span>
-                <el-select v-model="magicId" @change="changeMagic" v-if="magicList.length">
+                <el-select v-model="magicId" @change="changeMagic" v-if="magicList.length>1">
                     <el-option
                         v-for="item in magicList"
                         :key="item.id"
