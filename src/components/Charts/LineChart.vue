@@ -1,6 +1,7 @@
 <template>
     <div
         :id="id"
+        class="lineChart"
         ref="lineChart" 
     />
 </template>
@@ -102,7 +103,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #line,#MagicLine,#S800,#keyA,#keyT{
+    .lineChart{
         height: 400px;
         display: flex;
         justify-content: center;

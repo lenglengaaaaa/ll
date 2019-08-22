@@ -159,6 +159,7 @@
                     }
                 });
             },
+            //获取经纬度
             getPostion(lng,lat){
                 this.position =[lng,lat];
             }

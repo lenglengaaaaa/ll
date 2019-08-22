@@ -1,179 +1,123 @@
 <template>
-    <div class="amap-page-container">
-        <div class="amap_container">
-            <el-amap 
-                :vid="vid" 
-                class="amap-demo" 
-                :center="center"
-                :zoom="zoom"
-                :events="events"
-            >
-                <el-amap-marker 
-                    v-for="(marker,index) in markers" 
-                    :key="index"
-                    :position="marker.position"
-                    :events="marker.events"
-                >   
-                    <!-- 当设备出现故障时 , 坐标标红 -->
-                    <div class="markStyle" :style="{background:marker.alarm?'red':''}">
-                    </div>
-                </el-amap-marker>
-                <el-amap-info-window 
-                    v-if="window" 
-                    :position="window.position" 
-                    :visible="window.visible"
-                    :content="marker.content"
-                >
-                    <div class="prompt">
-                        {{window.content}}
-                    </div>
-                </el-amap-info-window>
-            </el-amap>
-        </div>
-    </div>
+    <div 
+        :id="vid" 
+        class="map"
+    />
 </template>
 
 <script>
+    import AMap from "@/utils/AMap"
+
+    const center = window.$cfg.mapCenter;
+
     export default {
         props: {
-            vid: {
-                type: String,
-                default: 'amap'
-            },
+            vid:String,
             zoom:Number,
             marker:{
                 type:Array,
                 default:()=>[]
             }
         },
-        data(){
-            let self = this;
+        data() {
             return {
-                center:[113.991244,22.595988],
-                markers: [],
-                markerRefs: [],
-                windows: [],
-                window: '',
-                lng:'',
-                lat:'',
-                address:'',
-                events: {
-                    init(o) {
-                        setTimeout(() => {
-                            let cluster = new window.AMap.MarkerClusterer(o, self.markerRefs,{
-                                gridSize: 40,
-                                // minClusterSize:4,
-                                renderCluserMarker: self._renderCluserMarker
-                            });
-                        }, 500);
-                    },
-                    click(e){
-                        self.window&&(self.window.visible = false);
-                        // //用于设备故障时告警 , 点坐标报警
-                        // self.markers[0].alarm = true;
-                    }
-                },
-            }
+                map: null,
+                resMap: null,
+                center,
+                markers:[],
+                infoWindow:null
+            };
         },
-        watch: {
-            marker(val) {
-                this.initMarker()
-            }
-        },
-        created () {
-            this.initMarker();
+        mounted() {
+            this.initAMap();
         },
         methods: {
-            initMarker(){
-                let self = this;
-                let markers = [];//点坐标
-                let windows = [];//信息窗体
-                this.center  = this.marker.length?[this.marker[0].longitude,this.marker[1].latitude]:[113.991244,22.595988];
-                this.marker.map((item,index)=>{
-                    if(!item.longitude||!item.latitude)return;
-                    markers.push({
-                        position: [item.longitude,item.latitude],
-                        events: {
-                            init(o) {
-                                self.markerRefs.push(o);
-                            },
-                            click() {
-                                self.window = self.windows[index];
-                                self.windows.forEach(window => {
-                                    window.visible = false;
-                                });
-                                self.$nextTick(() => {
-                                    self.window.visible = true;
-                                });
-                            }
-                        }
+            async initAMap() {
+                try {
+                    this.resMap = await AMap();
+                    await this.marker;
+                    this.infoWindow = new this.resMap.InfoWindow({
+                        closeWhenClickMap:true,
+                        offset: new this.resMap.Pixel(-4, -30)}
+                    );
+                    this.map = new this.resMap.Map(this.vid, {
+                        resizeEnable: true, //是否监控地图容器尺寸变化
+                        zooms: [3, 19], //设置地图级别范围
+                        zoom: this.zoom, //初始化地图层级
+                        zoomEnable: true, // 是否缩放
+                        scrollWheel: true, // 是否支持滚轮缩放
+                        dragEnable: true, // 是否支持鼠标拖拽平移
+                        jogEnable: true, // 是否支持缓动效果
+                        buildingAnimation: true, // 模块消失是否有动画效果
+                        center: this.center //初始化地图中心点
                     });
-                    const BtnComponent = {
-                        props: ['text'],
-                        template: `
-                            <div>
-                                <strong>设备名称 : </strong><span>${item.name}</span>
-                            </div>
-                        `
-                    };
-                    windows.push({
-                        position:[item.longitude,item.latitude],
-                        content:`设备名称 : ${item.name}`,
-                        // template:`
-                        //     <div>
-                        //         <strong>设备名称 : </strong><span>${item.name}</span>
-                        //     </div>
-                        // `,
-                        visible: false,
+                    this.map.on("complete",()=>{
+                        this.addMarker();
+                        new this.resMap.MarkerClusterer(this.map, this.markers, {
+                            gridSize: 40,
+                            renderClusterMarker: this._renderClusterMarker
+                        });
                     });
-                })
-                this.markers = markers;
-                this.windows = windows;
+                } catch (err) {}
             },
-            _renderCluserMarker(context) {
+            addMarker() {
+                if(!this.marker.length)return;
+                this.marker.map(item=>{
+                    let point = new this.resMap.Marker({
+                        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                        position:  [item.longitude,item.latitude],
+                        offset: new this.resMap.Pixel(-13, -30),
+                    });
+                    this.markers.push(point);
+                    point.content = item.name;
+                    point.on('click', this.markerClick);
+                    this.map.add(point);
+                })
+                this.map.setFitView();
+            },
+            markerClick(e) {
+                this.infoWindow.setContent(`
+                    <div class="info">
+                        <strong>
+                            设备名称 :
+                        </strong>
+                        <span>${e.target.content}</span>
+                    </div>
+                `);
+                this.infoWindow.open(this.map, e.target.getPosition());
+            },
+            _renderClusterMarker(context){
                 const count = this.markers.length;
-                let factor = Math.pow(context.count/count, 1/18)
-                let div = document.createElement('div');
-                let Hue = 180 - factor* 180;
-                let bgColor = 'hsla('+Hue+',100%,50%,0.7)';
-                let fontColor = 'hsla('+Hue+',100%,20%,1)';
-                let borderColor = 'hsla('+Hue+',100%,40%,1)';
-                let shadowColor = 'hsla('+Hue+',100%,50%,1)';
-                div.style.backgroundColor = bgColor
-                let size = Math.round(30 + Math.pow(context.count/count,1/5) * 20);
-                div.style.width = div.style.height = size+'px';
-                div.style.border = 'solid 1px '+ borderColor;
-                div.style.borderRadius = size/2 + 'px';
-                div.style.boxShadow = '0 0 1px '+ shadowColor;
+                var factor = Math.pow(context.count / count, 1 / 18);
+                var div = document.createElement('div');
+                var Hue = 180 - factor * 180;
+                var bgColor = 'hsla(' + Hue + ',100%,50%,0.7)';
+                var fontColor = 'hsla(' + Hue + ',100%,20%,1)';
+                var borderColor = 'hsla(' + Hue + ',100%,40%,1)';
+                var shadowColor = 'hsla(' + Hue + ',100%,50%,1)';
+                div.style.backgroundColor = bgColor;
+                var size = Math.round(30 + Math.pow(context.count / count, 1 / 5) * 20);
+                div.style.width = div.style.height = size + 'px';
+                div.style.border = 'solid 1px ' + borderColor;
+                div.style.borderRadius = size / 2 + 'px';
+                div.style.boxShadow = '0 0 1px ' + shadowColor;
                 div.innerHTML = context.count;
-                div.style.lineHeight = size+'px';
+                div.style.lineHeight = size + 'px';
                 div.style.color = fontColor;
                 div.style.fontSize = '14px';
                 div.style.textAlign = 'center';
-                context.marker.setOffset(new AMap.Pixel(-size/2,-size/2));
+                context.marker.setOffset(new this.resMap.Pixel(-size / 2, -size / 2));
                 context.marker.setContent(div)
             }
-        },
+        }
     }
 </script>
 
 <style lang="scss">
-    .amap_container{
-        .amap-demo {
-            height: 500px;
-            .markStyle{
-                text-align:center; 
-                background-color: hsla(180, 100%, 50%, 1); 
-                height: 24px; 
-                width: 24px; 
-                border: 1px solid hsl(180, 100%, 40%); 
-                border-radius: 12px; 
-                box-shadow: hsl(180, 100%, 50%) 0px 0px 1px
-            }
-            .prompt{
-                font-size: 14px;
-                font-weight: bold;
-            }
-        }
+    .map{
+        height: 500px;
+    }
+    .info{
+        font-size: 14px;
     }
 </style>

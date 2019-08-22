@@ -14,7 +14,7 @@
                 </div>
             </el-card>
         </el-col>
-        <el-col :span="span" :xs="24">
+        <el-col :span="12" :xs="24">
             <el-card class="box-card">
                 <div slot="header" class="clearfix"  >
                     <span>网关地图</span>
@@ -24,6 +24,7 @@
                         vid="gateway"
                         :marker="marker"
                         :zoom="3"
+                        v-if="flag"
                     />
                 </div>
             </el-card>
@@ -38,27 +39,27 @@
         components: {
             Map
         },
-        props: {
-            width: {
-                type: Number,
-                default:0 
-            }
-        },
         data() {
             return {
-                span: 12,
-                marker:[]
+                marker:[],
+                flag:false,
             }
         },
         created () {
             let marker = [];
             for (let i = 0 ; i < 10 ; i ++) {
                 marker.push({
-                    position: [121.59996, 31.197646 + i * 0.001],
-                    content:`设备${i}`
+                    longitude:121.59996,
+                    latitude:31.197646 + i * 0.001,
+                    name:i
                 });
             }
             this.marker=marker;
+        },
+        mounted () {
+            setTimeout(()=>{
+                this.flag =true;
+            },300)
         },
     }
 </script>
@@ -70,6 +71,7 @@
         }
     }
     .box-card{
+            height: 600px;
             margin-bottom: 20px;
             background: #fff;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);

@@ -13,10 +13,8 @@ const cfg = {
         username:"loraserver",
         password:"jbl21513118"
     },
-    //顶部导航栏
-    navMenU:[],
-    //侧边栏列表
-    siderMenu:[]
+    //地图中心
+    mapCenter:[113.991244,22.595988]
 }
 
 window.$cfg = cfg
