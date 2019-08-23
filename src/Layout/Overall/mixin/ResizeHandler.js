@@ -26,8 +26,8 @@ export default {
   },
   methods: {
     $_isMobile() {
-      const rect = body.getBoundingClientRect()
-      return rect.width - 1 < WIDTH
+      const rectWidht = document.body.getBoundingClientRect().width
+      return rectWidht - 1 < WIDTH
     },
     $_resizeHandler() {
       if (!document.hidden) {

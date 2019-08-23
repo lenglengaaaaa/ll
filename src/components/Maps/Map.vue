@@ -32,6 +32,7 @@
             this.initAMap();
         },
         methods: {
+            //初始化地图
             async initAMap() {
                 try {
                     this.resMap = await AMap();
@@ -51,15 +52,21 @@
                         buildingAnimation: true, // 模块消失是否有动画效果
                         center: this.center //初始化地图中心点
                     });
+                    this.map.on("zoomchange",()=>{
+                        this.map.clearInfoWindow( );
+                    })
                     this.map.on("complete",()=>{
                         this.addMarker();
-                        new this.resMap.MarkerClusterer(this.map, this.markers, {
+                        let cluster = new this.resMap.MarkerClusterer(this.map, this.markers, {
                             gridSize: 40,
+                            zoomOnClick:false,
                             renderClusterMarker: this._renderClusterMarker
                         });
+                        cluster.on('click',this.clusterClick)
                     });
                 } catch (err) {}
             },
+            //新增点坐标回调
             addMarker() {
                 if(!this.marker.length)return;
                 this.marker.map(item=>{
@@ -75,6 +82,7 @@
                 })
                 this.map.setFitView();
             },
+            //点坐标点击事件
             markerClick(e) {
                 this.infoWindow.setContent(`
                     <div class="info">
@@ -86,6 +94,24 @@
                 `);
                 this.infoWindow.open(this.map, e.target.getPosition());
             },
+            //点聚合点击事件
+            clusterClick(e){
+                const {markers} = e;
+                let html ='';
+                markers.forEach(item=>{
+                    html += `
+                        <div class="info">
+                            <strong>
+                                设备名称 :
+                            </strong>
+                            <span>${item.content}</span>
+                        </div>
+                    `
+                })
+                this.infoWindow.setContent(html);
+                this.infoWindow.open(this.map, e.lnglat);
+            },
+            //点聚合样式
             _renderClusterMarker(context){
                 const count = this.markers.length;
                 var factor = Math.pow(context.count / count, 1 / 18);
