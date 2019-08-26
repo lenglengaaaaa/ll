@@ -36,7 +36,9 @@
             async initAMap() {
                 try {
                     this.resMap = await AMap();
-                    await this.marker;
+                    await setTimeout(()=>{
+                        this.marker;
+                    })
                     this.infoWindow = new this.resMap.InfoWindow({
                         closeWhenClickMap:true,
                         offset: new this.resMap.Pixel(-4, -30)}
