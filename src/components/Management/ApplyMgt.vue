@@ -26,8 +26,8 @@
                         :data="data"
                         border
                         stripe
-                        height="68vh"
-                        max-height="68vh"
+                        height="calc(100vh - 300px)"
+                        max-height="calc(100vh - 300px)"
                         header-cell-class-name="table_header"
                     >   
                         <slot></slot>
@@ -210,7 +210,7 @@
                 'getCountUnderMainLine'
             ]),
             resizehandle(value){
-                value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
+                // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
             //搜索
             search(){

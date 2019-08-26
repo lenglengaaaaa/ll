@@ -22,8 +22,8 @@
                     :data="data"
                     border
                     stripe
-                    height="68.5vh"
-                    max-height="68.5vh"
+                    height="calc(100vh - 289px)"
+                        max-height="calc(100vh - 289px)"
                     header-cell-class-name="table_header"
                 >   
                     <slot></slot>
@@ -123,7 +123,7 @@
         },
         methods: {
             resizehandle(value){
-                value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
+                // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
             },
             //切换显示个数
             handleSizeChange(val) {
