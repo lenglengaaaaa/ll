@@ -229,11 +229,9 @@
 </script>
 
 <style lang="scss">
-    @media screen and (max-width: 870px) {
+    @media screen and (max-width: 650px) {
         .EQUIP_CONTAINER{
             .seletGroup{
-                flex-direction: column;
-                align-items: stretch !important;
                 .el-form{
                     flex-direction: column;
                 }
@@ -292,14 +290,11 @@
                             padding: 0 10px;
                         }
                     }
-                    .icon{
-                        margin: 20px 0 0 10px;
-                        i{
-                            cursor: pointer;
-                            background: #ecefef;
-                            padding: 5px;
-                            border-radius: 5px;
-                        }
+                    .el-icon-download{
+                        cursor: pointer;
+                        background: #ecefef;
+                        padding: 10px;
+                        border-radius: 5px;
                     }
                 }
             }

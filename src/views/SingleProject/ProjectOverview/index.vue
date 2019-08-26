@@ -31,7 +31,7 @@
                     <Map 
                         :marker="marker"
                         vid="apply"
-                        :zoom="18"
+                        :zoom="19"
                     />
                 </div>
             </el-card>

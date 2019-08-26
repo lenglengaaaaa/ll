@@ -22,9 +22,13 @@
                                                 <use xlink:href="#icon-ring" :title="k.deviceId"></use>
                                             </svg>
                                         </el-tooltip>
-                                        <span>{{(k.data&&k.data.CBTemp)||'---'}} ℃</span>
-                                        <span>{{(k.data&&k.data.a)||'---'}} A</span>
-                                        <span>有压</span>
+                                        <span>{{(k.data&&k.data.dataJSON.temp)||'----'}} ℃</span>
+                                        <span>{{(k.data&&k.data.dataJSON.lineA)||'----'}} A</span>
+                                        <span 
+                                            :style="{color:k.data&&k.data.dataJSON.soe==='0010'?'red':''}"
+                                        >
+                                            {{k.data&&k.data.dataJSON.soe==='0010'?'失压':'有压'}}
+                                        </span>
                                     </div>
                                 </li>
                             </ul>
@@ -190,7 +194,12 @@
                                             cursor: pointer;
                                         }
                                         span{
-                                            padding: 0 5px;
+                                            // padding: 0 5px;
+                                            width:52px;
+                                            text-align: center;
+                                            &:last-child{
+                                                font-weight: bold;
+                                            }
                                         }
                                     }
                                 }

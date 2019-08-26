@@ -42,10 +42,10 @@
                         >
                         </el-date-picker>
                     </el-form-item>
+                    <el-form-item label="下载:">
+                        <i class="el-icon-download"></i>
+                    </el-form-item>
                 </el-form>
-                <div class="icon">
-                    <i class="el-icon-download"></i>
-                </div>
             </div>
             <LineChart
                 id="MagicLine"

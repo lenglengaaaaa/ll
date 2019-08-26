@@ -59,7 +59,7 @@
                         this.addMarker();
                         let cluster = new this.resMap.MarkerClusterer(this.map, this.markers, {
                             gridSize: 40,
-                            zoomOnClick:false,
+                            // zoomOnClick:false,
                             renderClusterMarker: this._renderClusterMarker
                         });
                         cluster.on('click',this.clusterClick)
