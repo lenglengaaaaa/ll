@@ -20,6 +20,7 @@
                 </div>
                 
                 <div class="right_menu">
+                    <i class="el-icon-full-screen" @click="full"/>
                     <i class="el-icon-search" @click="flag = true"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
@@ -153,6 +154,19 @@
             closeSearch(){
                 this.flag = false;
                 this.closeList()
+            },
+            //全屏
+            full(){
+                const launchFullScreen = (elem = document.documentElement) => {
+                    if(elem.requestFullScreen) {
+                        elem.requestFullScreen();
+                    } else if(elem.mozRequestFullScreen) {
+                        elem.mozRequestFullScreen();
+                    } else if(elem.webkitRequestFullScreen) {
+                        elem.webkitRequestFullScreen();
+                    }
+                }
+                launchFullScreen();
             },
             //退出登录
             async logout() {
