@@ -169,8 +169,8 @@
 
 <style lang="scss" scoped>
     .Alarm_Detail{
-        width: 100%;
-        height: 100%;
+        // width: 100%;
+        // height: 100%;
         display: flex;
         justify-content: center;
         .wrap{
@@ -178,7 +178,6 @@
             padding-top: 0px;
             width: 1200px;
             max-width: 100%;
-            max-height: calc(100vh - 150px);
             overflow: scroll;
             background: #fff;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) ;

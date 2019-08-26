@@ -31,14 +31,17 @@
         mounted() {
             this.initAMap();
         },
+        watch: {
+            marker(newValue, oldValue) {
+                this.initAMap();
+            }
+        },
         methods: {
             //初始化地图
             async initAMap() {
                 try {
                     this.resMap = await AMap();
-                    await setTimeout(()=>{
-                        this.marker;
-                    })
+                    await this.marker;
                     this.infoWindow = new this.resMap.InfoWindow({
                         closeWhenClickMap:true,
                         offset: new this.resMap.Pixel(-4, -30)}

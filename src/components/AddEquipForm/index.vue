@@ -246,6 +246,10 @@
                             })
                         }
                     } else {
+                        this.$message({
+                            message: '请正确填写表单信息!',
+                            type: 'warning'
+                        });
                         return false;
                     }
                 });

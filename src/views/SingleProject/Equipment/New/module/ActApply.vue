@@ -62,7 +62,11 @@
                     if (valid) {
                         this.next()
                     } else {
-                        console.log('error submit!!');
+                        this.$message({
+                            message: '请正确填写表单信息!',
+                            type: 'warning'
+                        });
+                        return false;
                         return false;
                     }
                 });

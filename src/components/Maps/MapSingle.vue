@@ -108,7 +108,7 @@
     .container{
         position: relative;
         .map{
-            height: 400px;
+            height: 480px;
         }
         #myPageTop{
             position: absolute;
