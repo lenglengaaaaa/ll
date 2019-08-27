@@ -249,6 +249,9 @@ export const api={
     //配电柜下魔戒数据(详情) get
     ringDetail:`${url}/e_view/chest/view`,
 
+    //获取配电房下魔戒历史数据 post
+    ringHistoryData:`${url}/e_view/data/statistics/switch/history`,
+
     //获取配电房/配电柜下的设备列表 post
     equipInAsset:`${url}/e_view/device/room/list`,
 

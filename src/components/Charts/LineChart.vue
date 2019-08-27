@@ -28,7 +28,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        x:'left',
+                        x:'right',
                         // orient:'vertical',
                         align:'right',
                         formatter: function (name) {
@@ -62,6 +62,9 @@
         watch: {
             value() {
                 this.drawLine();
+            },
+            text(value){
+                this.option.title.text = value;
             }
         },
         mounted() {

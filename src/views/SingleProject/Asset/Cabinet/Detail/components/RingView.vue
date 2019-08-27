@@ -1,6 +1,7 @@
 <template>
     <div class="RING_VIEW">
         <el-row :gutter="20" >
+            <!-- 魔戒视图 -->
             <el-col :span="10" :xs="24">
                 <div class="view">
                     <ul class="wrap">
@@ -8,7 +9,7 @@
                         <li v-for="(item,index) in switchList" :key="item.switchId">
                             <div class="title">
                                 <span 
-                                    @click="selectRing(index)" 
+                                    @click="selectOutLine(index,item)" 
                                     :class="highlight===index&&'active'"
                                 >
                                     {{item.switchName}}
@@ -36,9 +37,43 @@
                     </ul>
                 </div>
             </el-col>
+            <!-- 历史数据 -->
             <el-col :span="14" :xs="24">
-                <div class="chart">
-                    <Tline></Tline>
+                <div class="DATA_DETAIL">
+                    <div class="wrap">
+                        <div class="seletGroup">
+                            <el-form label-position="left" :inline="true">
+                                <el-form-item label="时间段 :">
+                                    <el-date-picker
+                                        v-model="time"
+                                        type="daterange"
+                                        range-separator="至"
+                                        value-format="yyyy-MM-dd"
+                                        start-placeholder="开始日期"
+                                        end-placeholder="结束日期"
+                                        :clearable="false"
+                                        @change="changeDate"
+                                    >
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item label="下载 :">
+                                    <i class="el-icon-download"></i>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                        <LineChart 
+                            :text="`${ringName} (电流曲线图)`" 
+                            id="keyA"
+                            :value="lineAData"
+                            :timeArray="timeArray"
+                        />
+                        <LineChart 
+                            :text="`${ringName} (温度曲线图)`" 
+                            id="keyT"
+                            :value="tempData"
+                            :timeArray="timeArray"
+                        />
+                    </div>
                 </div>
             </el-col>
         </el-row>
@@ -47,7 +82,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    import Tline from './Tline'
+    import {LineChart} from '@/components/Charts'
     
     const defaultValue  = [
             {
@@ -80,135 +115,95 @@
 
     export default {
         components: {
-            Tline,
+            LineChart
         },
         data() {
             return {
                 title:'',
+                ringName:'',
                 highlight: 0,
-                switchList:[]
+                switchList:[],
+                currentRing:{},
+                time: [
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
+                    this.$moment().format('YYYY-MM-DD')
+                ],
+                timeArray:[],
+                lineAData:[],
+                tempData:[]
             }
         },
-        mounted () {
+        async mounted () {
             const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
             this.title = name ;
-            this.getRingDetail(id).then(res=>{
+            const switchId = await this.getRingDetail(id).then(res=>{
                 if(!res)return;
-                this.switchList =res.switchList.length? res.switchList : defaultValue;
+                this.switchList = res.switchList.length ? res.switchList : defaultValue;
+                this.currentRing = res.switchList.length && res.switchList[0];
+                this.ringName = res.switchList.length && res.switchList[0].switchName;
+                return this.currentRing.switchId
             })
+            await this.getRingHistory(switchId);
         },
         methods: {
             ...mapActions('equip',[
                 'getRingDetail',
+                'getRingHistoryData'
             ]),
-            selectRing(index) {
+            //选中出线
+            selectOutLine(index,item) {
                 this.highlight = index;
+                this.ringName = item.switchName;
+                this.currentRing = item;
+                this.getRingHistory(item.switchId);
+            },
+            //切换日期
+            changeDate(date){
+                this.time = [date[0],date[1]];
+                this.getRingHistory(this.currentRing.switchId);
+            },
+            //获取历史数据
+            getRingHistory(id){
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                this.getRingHistoryData({
+                    queryId:id,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    const {history} = res;
+                    const names = this.currentRing.outLineList.reduce((pre,current)=>{
+                        pre[current.outLineId] = current.outLineName;
+                        return pre
+                    },{})
+                   //获取数据集合
+                    const result = {
+                        "temp":[],
+                        "lineA":[],
+                    }   
+                    let timeArray= [];
+                    for(let i in history){
+                        const name = `相序${names[i]}`;
+                        const keys= Object.keys(result);
+                        let obj = { temp:[], lineA:[] };
+                        history[i].forEach(item=>{
+                            timeArray.push(new Date(item.createTime).getTime());
+                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.dataJSON[k]]) };
+                        })
+                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
+                    }
+                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+                    this.timeArray = timeResult;
+                    this.lineAData = result['lineA'];
+                    this.tempData = result['temp'];
+                })
             }
+
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    .RING_VIEW{
-        height: 100%;
-        .el-row{
-            height: 100%;
-            .el-col{
-                height: 100%;
-                .view{
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    overflow: scroll;
-                    .wrap{
-                        padding: 0;
-                        margin: 0;
-                        position: relative;
-                        max-width: 100%;
-                        strong{
-                            position: absolute;
-                            width: 220px;
-                            top: -99px;
-                            left: 120px;
-                            padding: 5px;
-                            font-size: 0.8rem;
-                            border-radius: 5px;
-                            border: 4px solid black;
-                        }
-                        > li{
-                            display: flex;
-                            width: 400px;
-                            height: 120px;
-                            .title{
-                                    width: 30%;
-                                    padding: 15px;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    span{
-                                        font-size: 0.8rem;
-                                        font-weight: bold;
-                                        cursor: pointer;
-                                        width: 100%;
-                                        padding: 5px;
-                                        display: inline-block;
-                                        overflow: hidden;
-                                        text-overflow:ellipsis;
-                                        white-space: nowrap;
-                                        border-radius: 5px;
-                                        text-align: center;
-                                    }
-                                    .active{
-                                        color: #fff;
-                                        background-color: rgb(54, 169, 225);
-                                    }
-                            }
-                            .list{
-                                width: 70%;
-                                background:url('../../../../../../assets/img/linemap.png') no-repeat ;
-                                position: relative;
-                                &::before{
-                                        content: ' ';
-                                        position: absolute;
-                                        top: -60px;
-                                        left: 0px;
-                                        height: 100%;
-                                        border-left: 4px solid #000;
-                                }
-                                li{
-                                    font-size: 0.75rem;
-                                    position: relative;
-                                    height: 26.5px;
-                                    .info{
-                                        width: 100%;
-                                        position: absolute;
-                                        top: 5px;
-                                        left: 90px;
-                                        display: flex;
-                                        align-items: center;
-                                        .icon{
-                                            width: 20px;
-                                            height: 19px;
-                                            cursor: pointer;
-                                        }
-                                        span{
-                                            // padding: 0 5px;
-                                            width:52px;
-                                            text-align: center;
-                                            &:last-child{
-                                                font-weight: bold;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-    }
+    @import '@/styles/ringView.scss';
 </style>
