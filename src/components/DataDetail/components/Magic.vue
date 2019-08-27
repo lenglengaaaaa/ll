@@ -35,6 +35,7 @@
                             v-model="time"
                             type="daterange"
                             range-separator="至"
+                            value-format="yyyy-MM-dd"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             :clearable="false"
@@ -58,6 +59,7 @@
 
 <script>
     import {Gauge,LineChart} from '@/components/Charts'
+    import { filterData } from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
@@ -85,7 +87,10 @@
                         {value: "bat",name: '电池电压'}
                     ],
                 value: "temp",
-                time: [this.$moment().subtract(6, 'days'), new Date()],
+                time: [
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
+                    this.$moment().format('YYYY-MM-DD')
+                ],
                 allData:[],
                 timeArray:[],
                 currentValue:[]
@@ -105,10 +110,10 @@
                 'getMagicHistoryData'
             ]),
             //获取魔节历史数据
-            getMagicHistory(){
-                const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
-                const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
-                this.getMagicHistoryData({
+            async getMagicHistory(){
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                await this.getMagicHistoryData({
                     assetId:this.assetObj.id,
                     assetType:this.assetType,
                     startTime,
@@ -121,7 +126,7 @@
                         return pre
                     },{})
                     //获取数据集合
-                    const result = {
+                    const object = {
                         "temp":[],
                         "hum":[],
                         "o2":[],
@@ -131,27 +136,7 @@
                         "ch4":[],
                         "bat":[]
                     }   
-                    let timeArray= [];
-                    for(let i in dataMap){
-                        const name = names[i];
-                        const keys= Object.keys(result);
-                        let obj = {
-                            temp:[],
-                            hum:[],
-                            o2:[],
-                            co:[],
-                            h2s:[],
-                            o3:[],
-                            ch4:[],
-                            bat:[],
-                        }
-                        dataMap[i].forEach(item=>{
-                            timeArray.push(new Date(item.createTime).getTime());
-                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
-                        })
-                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
-                    }
-                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+                    const {result,timeResult} = filterData({object,names,data:dataMap});
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value];
@@ -163,7 +148,7 @@
             },
             //切换日期
             changeDate(date){
-                this.time = [new Date(date[0]),new Date(date[1])];
+                this.time = [date[0],date[1]];
                 this.getMagicHistory();
             }
         },

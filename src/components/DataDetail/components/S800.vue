@@ -45,6 +45,7 @@
                         v-model="time"
                         type="daterange"
                         range-separator="至"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         :clearable="false"
@@ -67,6 +68,7 @@
 
 <script>
     import {LineChart} from '@/components/Charts'
+    import { filterData } from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
@@ -90,7 +92,10 @@
                         {value: 'cbtemp',label: '板子自身温度'}
                     ],
                 value: 'co',
-                time: [this.$moment().subtract(6, 'days'), new Date()],
+                time: [
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
+                    this.$moment().format('YYYY-MM-DD')
+                ],
                 allData:[],
                 timeArray:[],
                 currentValue:[],
@@ -110,8 +115,8 @@
             ]),
             //获取线缆历史数据
             getS800History(){
-                const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
-                const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
+                const startTime = this.time[0];
+                const endTime = this.time[1];
                 this.gets800HistoryData({
                     assetId:this.assetObj.id,
                     assetType:this.assetType,
@@ -125,7 +130,7 @@
                         return pre
                     },{})
                     //获取数据集合
-                    const result = {
+                    const object = {
                         "co":[],
                         "infrared":[],
                         "liquid":[],
@@ -135,27 +140,8 @@
                         "signal":[],
                         "cbtemp":[]
                     }   
-                    let timeArray= [];
-                    for(let i in dataMap){
-                        const name = names[i];
-                        const keys= Object.keys(result);
-                        let obj = {
-                            "co":[],
-                            "infrared":[],
-                            "liquid":[],
-                            "batteryA":[],
-                            "shake":[],
-                            "node433":[],
-                            "signal":[],
-                            "cbtemp":[]
-                        }
-                        dataMap[i].forEach(item=>{
-                            timeArray.push(new Date(item.createTime).getTime());
-                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
-                        })
-                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
-                    }
-                    this.timeArray = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));;
+                    const {result,timeResult} = filterData({object,names,data:dataMap});
+                    this.timeArray = timeResult;
                     this.allData = result;
                     this.currentValue = result[this.value];
                 })
@@ -166,7 +152,7 @@
             },
             //切换日期
             changeDate(date){
-                this.time = [new Date(date[0]),new Date(date[1])];
+                this.time = [date[0],date[1]];
                 this.getS800History();
             },
             //匹配名称&单位

@@ -61,6 +61,7 @@
                         v-model="time"
                         type="daterange"
                         range-separator="至"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         :clearable="false"
@@ -105,7 +106,10 @@
                         {value: 'signal',label: '信号强度'}
                     ],
                 value: 'lineTemp',
-                time: [this.$moment().subtract(6, 'days'), new Date()],
+                time: [
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
+                    this.$moment().format('YYYY-MM-DD')
+                ],
                 allData:[],
                 timeArray:[],
                 currentValue:[],
@@ -129,8 +133,8 @@
             ]),
             //获取线缆历史数据
             getLineHistory(){
-                const startTime = this.$moment(this.time[0]).format("YYYY-MM-DD");
-                const endTime = this.$moment(this.time[1]).format("YYYY-MM-DD");
+                const startTime = this.time[0];
+                const endTime = this.time[1];
                 this.getTrapLineHistory({
                     queryId:this.assetObj.id,
                     startTime,
@@ -138,7 +142,6 @@
                 }).then(res=>{
                     if(!res)return;
                     const {lineInfoList,lineDateMap} = res;
-
                     const names = lineInfoList.reduce((pre,current)=>{
                         pre[current.id] = current.name;
                         return pre
@@ -167,7 +170,7 @@
                             node433:[],
                             shake:[],
                             signal:[],
-                        }
+                        };
                         lineDateMap[i].forEach(item=>{
                             timeArray.push(new Date(item.createTime).getTime());
                             for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
@@ -186,7 +189,7 @@
             },
             //切换日期
             changeDate(date){
-                this.time = [new Date(date[0]),new Date(date[1])];
+                this.time = [date[0],date[1]];
                 this.getLineHistory();
             },
             //匹配名称&单位
