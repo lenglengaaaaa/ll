@@ -84,6 +84,7 @@
 
 <script>
     import {LineChart} from '@/components/Charts'
+    import {filterData} from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
@@ -147,7 +148,7 @@
                         return pre
                     },{})
                     //获取数据集合
-                    const result = {
+                    const object = {
                         "cbtemp":[],
                         "batteryA":[],
                         "lineA":[],
@@ -156,28 +157,8 @@
                         "node433":[],
                         "shake":[],
                         "signal":[]
-                    }   
-                    let timeArray= [];
-                    for(let i in lineDateMap){
-                        const name = names[i];
-                        const keys= Object.keys(result);
-                        let obj = {
-                            cbtemp:[],
-                            batteryA:[],
-                            lineA:[],
-                            lineTemp:[],
-                            lineV:[],
-                            node433:[],
-                            shake:[],
-                            signal:[],
-                        };
-                        lineDateMap[i].forEach(item=>{
-                            timeArray.push(new Date(item.createTime).getTime());
-                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item[k]]) };
-                        })
-                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
                     }
-                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+                    const {result,timeResult} = filterData({object,names,data:lineDateMap});
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value];

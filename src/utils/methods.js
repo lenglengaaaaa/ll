@@ -105,16 +105,15 @@ export const judgeObject = (x,y) =>{
  */
 export const filterData = (obj) =>{
     const {object,names,data} = obj; 
+    const result = _.cloneDeep(object)
     let timeArray= [];
-    const result = object;
-
-    //因为result & temporaryObj 是相同的对象,需进行clone,否则超过最大调用堆栈大小.
-    const cloneObj = _.cloneDeep(object);
 
     for(let i in data){
         const name = names[i];
         const keys= Object.keys(object);
-        let temporaryObj = cloneObj;
+
+        //因为result & temporaryObj 是相同的对象,需进行clone,否则超过最大调用堆栈大小.
+        let temporaryObj =  _.cloneDeep(object);
         data[i].forEach((item,index)=>{
             timeArray.push(new Date(item.createTime).getTime());
             for(let k of keys){ temporaryObj[k].push([moment(item.createTime).format("MM-DD HH:mm"),item[k]])};
@@ -122,6 +121,7 @@ export const filterData = (obj) =>{
         for(let k of keys){ result[k].push({name,data:temporaryObj[k]}) };
     }
     const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm"));
+
     return {
         result,
         timeResult
