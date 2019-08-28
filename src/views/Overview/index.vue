@@ -35,9 +35,9 @@
 </template>
 
 <script>
-    import {CountRow} from '@/components/Row'
     import { SoeChart , CategoryChart} from '@/components/Charts'
     import Empty from '@/components/Empty'
+    import CountRow from './components/CountRow'
     import MapRow from './components/MapRow'
 
     export default {

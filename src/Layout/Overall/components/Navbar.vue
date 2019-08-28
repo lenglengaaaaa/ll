@@ -68,7 +68,7 @@
 </template>
 
 <script>
-    import GlobalSearch from '@/components/Search' 
+    import GlobalSearch from './GlobalSearch' 
     import avatar from '@/assets/img/default.jpg'
     import {judgeUserDetail} from '@/utils/methods'
     
