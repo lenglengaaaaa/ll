@@ -105,7 +105,7 @@ export const judgeObject = (x,y) =>{
  */
 export const filterData = (obj) =>{
     const {object,names,data} = obj; 
-    const result = _.cloneDeep(object)
+    let result = _.cloneDeep(object)
     let timeArray= [];
 
     for(let i in data){
@@ -116,11 +116,11 @@ export const filterData = (obj) =>{
         let temporaryObj =  _.cloneDeep(object);
         data[i].forEach((item,index)=>{
             timeArray.push(new Date(item.createTime).getTime());
-            for(let k of keys){ temporaryObj[k].push([moment(item.createTime).format("MM-DD HH:mm"),item[k]])};
+            for(let k of keys){ temporaryObj[k].push([moment(item.createTime).format("MM-DD HH:mm:ss"),item[k]])};
         })
         for(let k of keys){ result[k].push({name,data:temporaryObj[k]}) };
     }
-    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm"));
+    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
 
     return {
         result,

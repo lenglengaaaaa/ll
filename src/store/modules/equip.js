@@ -427,7 +427,7 @@ const actions= {
     },
 
     /**
-     * 获取资产下s800的实时数据
+     * 获取资产下s800的历史数据
      * @param {
         *      assetId  资产ID
         *      assetType  0:配电柜 1:配电房 2:井盖
@@ -435,10 +435,56 @@ const actions= {
         *      endTime 结束时间 (2019-01-1)
         * }
         */
-        gets800HistoryData({commit},obj){
+    gets800HistoryData({commit},obj){
         return request({
             method:'post',
             url:`${api.gets800HistoryData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取资产下的s801、s802、s803 实时数据
+     * @param {
+     *      assetId  资产ID
+     *      assetType  0:配电柜 1:配电房 2:井盖
+     * }
+     */
+    getSensorCurrentData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getSensorCurrentData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取资产下的s801、s802、s803 历史数据
+     * @param {
+     *      assetId  资产ID
+     *      assetType  0:配电柜 1:配电房 2:井盖
+     *      createTime 起始时间 (2019-01-01)
+     *      endTime 结束时间 (2019-01-1)
+     * }
+     */
+    getSensorHistoryData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getSensorHistoryData}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){

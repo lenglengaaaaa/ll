@@ -1,9 +1,9 @@
 <template>
-    <div class="s800">
-        <el-divider content-position="left">S800传感器平台实时数据</el-divider>
+    <div>
+        <el-divider content-position="left">s801、s802、s803实时数据</el-divider>
         <div>
             <el-row :gutter="20">
-                <el-col :span="8" :xs="24" v-for="(item,d) in sEightData" :key="d">
+                <el-col :span="8" :xs="24" v-for="(item,d) in sensorData" :key="d">
                     <el-card class="box-card">
                         <div slot="header" class="header">
                             <div>{{item.name}}</div>
@@ -27,7 +27,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-divider content-position="left">S800传感器平台历史数据</el-divider>
+        <el-divider content-position="left">s801、s802、s803历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">
                 <el-form-item label="环境变量:">
@@ -59,7 +59,7 @@
             </el-form>
         </div>
         <LineChart
-            id="S800"
+            id="sensor"
             :value="currentValue"
             :timeArray="timeArray"
         />
@@ -67,27 +67,27 @@
 </template>
 
 <script>
-    import { filterData } from '@/utils/methods'
+    import {filterData} from '@/utils/methods'
     import { mapActions } from 'vuex'
     import SensorMixin from './mixin/Sensor'
 
     export default {
         props: {
-            sEightData: Array,
+            sensorData: Array,
         },
         mixins:[SensorMixin],
         created () {
-            this.getS800History();
+            this.getSensorHistory();
         },
         methods: {
             ...mapActions('equip',[
-                'gets800HistoryData' 
+                'getSensorHistoryData' 
             ]),
             //获取线缆历史数据
-            getS800History(){
+            getSensorHistory(){
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.gets800HistoryData({
+                this.getSensorHistoryData({
                     assetId:this.assetObj.id,
                     assetType:this.assetType,
                     startTime,
@@ -96,11 +96,12 @@
                     if(!res)return;
                     const {deviceInfoList,dataMap} = res;
                     const names = deviceInfoList.reduce((pre,current)=>{
-                        pre[current.deviceAdress] = current.name;
+                        pre[current.deviceType] = {};
+                        pre[current.deviceType][current.deviceAdress] = current.name;
                         return pre
                     },{})
                     //获取数据集合
-                    const object = {
+                    let result = {
                         "co":[],
                         "infrared":[],
                         "liquid":[],
@@ -109,49 +110,49 @@
                         "node433":[],
                         "signal":[],
                         "cbtemp":[]
-                    }   
-                    const {result,timeResult} = filterData({object,names,data:dataMap});
-                    this.timeArray = timeResult;
+                    }  
+                    let timeArray= [];
+                    
+                    for(let i in dataMap){
+                        const item = dataMap[i];
+                        for(let k in item){
+                            const current = item[k];
+                            const name = names[i][k];
+                            const keys= Object.keys(result);
+                            let temporaryObj = {
+                                "co":[],
+                                "infrared":[],
+                                "liquid":[],
+                                "batteryA":[],
+                                "shake":[],
+                                "node433":[],
+                                "signal":[],
+                                "cbtemp":[]
+                            };
+                            current.forEach(val=>{
+                                timeArray.push(new Date(val.createTime).getTime());
+                                for(let key of keys){ 
+                                    temporaryObj[key].push([moment(val.createTime).format("MM-DD HH:mm:ss"),val[key]])
+                                };
+                            })
+                            for(let key of keys){ result[key].push({name,data:temporaryObj[key]}) };
+                        }
+                    }
+                    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
                     this.allData = result;
+                    this.timeArray = timeResult;
                     this.currentValue = result[this.value];
                 })
             },
             //切换日期
             changeDate(date){
                 this.time = [date[0],date[1]];
-                this.getS800History();
+                this.getSensorHistory();
             },
         },
     }
 </script>
 
-<style lang="scss">
-    .s800{
-        .box-card{
-            margin-bottom: 20px;
-            .header{
-                div{
-                    font-size: 1rem;
-                    padding: 5px 0;
-                    font-weight: bolder;
-                }
-                span{
-                    font-size: 0.65rem;
-                }
-            }
-            .el-card__body{
-                padding: 10px 20px;
-            }
-            .text{
-                font-size: 15px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                & > span{
-                    padding: 5px 0;
-                }
-            }
-        }
-    }
-    
+<style lang="scss" scoped>
+
 </style>

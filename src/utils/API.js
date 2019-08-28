@@ -273,6 +273,12 @@ export const api={
     //获取资产下s800的历史数据 post
     gets800HistoryData:`${url}/e_view/data/statistics/s800/history`,
 
+    //获取资产下的s801、s802、s803 实时数据 post
+    getSensorCurrentData:`${url}/e_view/data/statistics/other/current`,
+
+    //获取资产下的s801、s802、s803 历史数据 post
+    getSensorHistoryData:`${url}/e_view/data/statistics/other/history`,
+
     //=======================================告警管理=====================================================
 
     //获取告警列表 post
