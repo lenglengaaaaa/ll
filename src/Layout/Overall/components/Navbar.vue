@@ -12,6 +12,7 @@
                         mode="horizontal" 
                         text-color="#fff"
                         router
+                        @select="selectMenu"
                     >   
                         <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path">
                             {{ item.name }}
@@ -141,6 +142,10 @@
                 const index = path.replace('/','a').indexOf('/');
                 const result = index ==-1?path:path.slice(0,index);
                 this.activeIndex = result
+            },
+            //菜单激活回调
+            selectMenu(){
+                sessionStorage.removeItem('project');
             },
             //skipHome
             skipHome(){

@@ -102,7 +102,8 @@
                 magicData:magicDefault,
                 lineData:[],
                 sEightData:s800Default(),
-                sensorData:[]
+                sensorData:[],
+                client:null
             }
         },
         async created () {
@@ -112,6 +113,15 @@
             await this.getS800Data();
             await this.getSensorData();
         }, 
+        mounted () {
+            this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
+            this.$mqtt.listen(this.client,res=>{
+                console.log(res,'正常res')
+            });
+        },
+        destroyed () {
+            this.client&&this.client.end();
+        },
         computed: {
             assetObj() {
                 return JSON.parse(sessionStorage.getItem('obj'));

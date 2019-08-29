@@ -23,12 +23,47 @@
             return {
                 bread: [],
                 flag:false,
-                
+                client:null
             }
+        },
+        created () {
+            if(!sessionStorage.getItem('project'))return;
+            this.client = this.$mqtt.connect(`topic_warning_${this.projectId}`);
+            this.$mqtt.listen(this.client,res=>{
+                const {address,alertMsg,devName,time} = res;
+                this.$notify({ 
+                    duration: 300000,
+                    title: '告警信息',
+                    type: 'warning',
+                    dangerouslyUseHTMLString: true,
+                    message: `
+                        <div class="noti">
+                            <div>
+                                设备名称 : 
+                                <strong>${devName}</strong>
+                            </div>
+                            <div>
+                                设备地址域 : 
+                                <strong>${address}</strong>
+                            </div>
+                            <div>
+                                告警信息 : 
+                                <strong class="red">${alertMsg}</strong>
+                            </div>
+                            <div class="tip">注 :点击查看详情</div>
+                        </div>
+                    `,
+                    onClick:this.checkDetail.bind(this,res)
+                });
+            })
+            
         },
         mounted () {
             const screen = this.$store.state.app.device;
             this.fitScreen(screen)
+        },
+        destroyed () {
+            this.client&&this.client.end();
         },
         watch: {
             '$store.state.app.device'(screen){
@@ -38,14 +73,31 @@
                 const type = this.$store.state.app.device;
                 if(type ==='mobile')return;
                 $('.apply_main').css({width:!flag?'calc(100% - 54px)':'calc(100% - 210px)'})
-            }
+            },
+            //暂时用于无权限监听关闭mqtt
+            $route(to,from){
+                if(to.redirectedFrom==='/senior'){
+                    this.client&&this.client.end();
+                }
+            },
         },
         computed: {
             isCollapse() {
                 return !this.$store.state.app.sidebar.opened
-            }
+            },
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            },
         },
         methods: {
+            checkDetail(item){
+                const result = {
+                    ...item,
+                    id:item.warnInfoId
+                }
+                sessionStorage.setItem('obj',JSON.stringify(result));
+                this.$router.push({name:'Detail'})
+            },
             toggleSideBar() {
                 this.$store.dispatch('app/toggleSideBar')
             },
@@ -62,7 +114,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @media screen and (max-width: 870px) {
         .apply_main{
             .bar{
@@ -95,4 +147,25 @@
             overflow: scroll;
         }
     }
+
+    .el-notification__group{
+        cursor: pointer;
+        .el-notification__title{
+            font-size: 20px;
+        }
+        .noti{
+            & > div{
+                padding: 5px 0;
+                font-size: 15px;
+            }
+            .red{
+                color:red
+            }
+            .tip{
+                font-size: 14px;
+                font-weight: bolder;
+            }
+        }
+    }
+    
 </style>
