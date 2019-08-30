@@ -55,7 +55,7 @@
         </div>
         <div class="s800">
             <div class="title">
-                <span>s801、s802、s803传感器</span>
+                <span>红外、烟雾、液位等传感器</span>
                 <el-divider></el-divider>
                 <div class="content">
                     <div class="wrap">
@@ -72,15 +72,17 @@
 
 <script>
     import {Magic,Tline,S800,Sensor} from './components'
-    import {magicDefault,lineDefault,s800Default} from './components/defaultVal'
+    import {magicDefault,lineDefault,s800Default,sensorDefault} from './components/defaultVal'
     import { mapActions } from 'vuex'
+    import Empty from '@/components/Empty'
 
     export default {
         components: {
             Magic,
             Tline,
             S800,
-            Sensor
+            Sensor,
+            Empty
         },
         props: {
             assetType: Number,
@@ -92,6 +94,7 @@
         data() {
             return {
                 magicList:[],
+                currentMagic:{},
                 magicId:'',
                 params:{
                     trapId:null,
@@ -102,7 +105,7 @@
                 magicData:magicDefault,
                 lineData:[],
                 sEightData:s800Default(),
-                sensorData:[],
+                sensorData:sensorDefault,
                 client:null
             }
         },
@@ -116,7 +119,72 @@
         mounted () {
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
-                console.log(res,'正常res')
+                console.log(res,'设备数据')
+                const {address,data,dataType,fc,time,lineId} = res;
+                const type = this.classifyDevice(fc);
+                if(!type)return;
+                //1:魔节,2:线缆,3:s800,4:独立传感
+                if(type===1){
+                    if(this.currentMagic.address===address){
+                        const magic = this.magicData;
+                        magic.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                        let obj = {};
+                        for(let i in data){
+                            if(data[i]!=='--'){
+                                obj[i] = {
+                                    value:data[i],
+                                    createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                                }
+                            }
+                        }
+                        magic.data = {...magic.data,...obj};
+                    }
+                }
+                if(type===2){
+                    const line = this.lineData.filter(item=>item.id==lineId)[0];
+                    if(!line)return;
+                    line.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                    let obj = {};
+                    for(let i in data){
+                        if(data[i]!=='--'){
+                            obj[i] = {
+                                value:data[i],
+                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                            }
+                        }
+                    }
+                    line.data = {...line.data,...obj}
+                }
+                if(type===3){
+                    const sEight = this.sEightData.filter(item=>item.id==address)[0];
+                    if(!sEight)return;
+                    sEight.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                    let obj = {};
+                    for(let i in data){
+                        if(data[i]!=='--'){
+                            obj[i] = {
+                                value:data[i],
+                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                            }
+                        }
+                    }
+                    sEight.data = {...sEight.data,...obj}
+                }
+                if(type===4){
+                    const sensor = this.sensorData.filter(item=>item.address==address)[0];
+                    if(!sensor)return;
+                    sensor.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                    let obj = {};
+                    for(let i in data){
+                        if(data[i]!=='--'){
+                            obj[i] = {
+                                value:data[i],
+                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                            }
+                        }
+                    }
+                    sensor.data = {...sensor.data,...obj}
+                }
             });
         },
         destroyed () {
@@ -125,7 +193,10 @@
         computed: {
             assetObj() {
                 return JSON.parse(sessionStorage.getItem('obj'));
-            }
+            },
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            },
         },
         methods: {
             ...mapActions('equip',[
@@ -142,6 +213,7 @@
                     if(!res)return;
                     this.magicList = res;
                     if(res.length){
+                        this.currentMagic = res[0];
                         this.magicId = res[0].id;
                         this.getMagicData( res[0].id);
                     }
@@ -203,6 +275,7 @@
                 }).then(res=>{
                     if(!res)return;
                     const {deviceInfoList,dataMap} = res;
+                    if(!deviceInfoList.length)return;
                     const names = deviceInfoList.reduce((pre,current)=>{
                         pre[current.deviceType] = {};
                         pre[current.deviceType][current.deviceAdress] = current.name;
@@ -214,6 +287,7 @@
                         for(let k in item){
                             const name = names[i][k];
                             result.push({
+                                address:k,
                                 name,
                                 createTime:item[k].createTime&&this.$moment(item[k].createTime).format('YYYY-MM-DD HH:mm:ss'),
                                 data:this.filterData(item[k],'s800')
@@ -225,6 +299,7 @@
             },
             //切换魔节回调
             changeMagic(val){
+                this.currentMagic = this.magicList.filter(item=>item.id ===val)[0];
                 this.getMagicData(val);
             },
             //数据处理
@@ -238,6 +313,7 @@
                 for(let i in dataMap){
                     const name = names[i];
                     result.push({
+                        id:i,
                         name,
                         createTime:dataMap[i].createTime&&this.$moment(dataMap[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
                         data:this.filterData(dataMap[i],type)
@@ -249,8 +325,8 @@
             filterData(res,type){
                 const arr = {
                     'magic':['temp','hum','o2','h2s','co','ch4','o3','bat'],
-                    'line':['batteryA','cbtemp','lineA','lineTemp','lineV','node433','shake','signal'],
-                    's800':['co','infrared','liquid','batteryA','shake','node433','signal','cbtemp'],
+                    'line':['batteryA','CBTemp','lineA','lineTemp','lineV','node433','shake','signal'],
+                    's800':['co','infrared','liquid','batteryA','shake','node433','signal','CBTemp'],
                 }
                 let obj = {};
                 for(let i in res){
@@ -277,6 +353,29 @@
                     //井盖 2
                     default:
                         return this.params.trapId = id;
+                }
+            },
+            //设备分类
+            classifyDevice(id){
+                switch (+id) {
+                    //集中器(剔除)
+                    case 33:
+                        return false;
+                    //魔戒('剔除')
+                    case 36:
+                        return false;
+                    //魔节
+                    case 30:
+                        return 1;
+                    //线缆温度传感器
+                    case 38:
+                        return 2;
+                    //S800
+                    case 28:
+                        return 3;
+                    //独立传感器
+                    default:
+                        return 4;
                 }
             },
         },

@@ -108,7 +108,7 @@
                         "shake":[],
                         "node433":[],
                         "signal":[],
-                        "cbtemp":[]
+                        "CBTemp":[]
                     }   
                     const {result,timeResult} = filterData({object,names,data:dataMap});
                     this.timeArray = timeResult;

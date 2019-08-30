@@ -101,7 +101,7 @@
                         {value: 'lineA',label: '线缆电流'}, 
                         {value: 'lineV',label: '线缆电压'}, 
                         {value: 'batteryA',label: '电池电压'}, 
-                        {value: 'cbtemp',label: '板子自身温度'}, 
+                        {value: 'CBTemp',label: '板子自身温度'}, 
                         {value: 'shake',label: '震动数据'}, 
                         {value: 'node433',label: '433M子节点参数'}, 
                         {value: 'signal',label: '信号强度'}
@@ -149,7 +149,7 @@
                     },{})
                     //获取数据集合
                     const object = {
-                        "cbtemp":[],
+                        "CBTemp":[],
                         "batteryA":[],
                         "lineA":[],
                         "lineTemp":[],
@@ -194,7 +194,7 @@
                         design = "电池电压";
                         unit = "V"
                         break;
-                    case 'cbtemp':
+                    case 'CBTemp':
                         design = "板子自身温度";
                         unit = "℃"
                         break;

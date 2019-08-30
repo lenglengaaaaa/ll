@@ -18,9 +18,9 @@
                             <ul class="list">
                                 <li v-for="k in item.outLineList" :key="k.deviceId">
                                     <div class="info">
-                                        <el-tooltip class="item" effect="dark" :content="`${k.deviceId}` || 'null'" placement="right">
+                                        <el-tooltip class="item" effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
                                             <svg class="icon" aria-hidden="true" >
-                                                <use xlink:href="#icon-ring" :title="k.deviceId"></use>
+                                                <use xlink:href="#icon-ring" ></use>
                                             </svg>
                                         </el-tooltip>
                                         <span>{{(k.data&&k.data.dataJSON.temp)||'----'}} ℃</span>
@@ -130,8 +130,33 @@
                 ],
                 timeArray:[],
                 lineAData:[],
-                tempData:[]
+                tempData:[],
+                client:null
             }
+        },
+        created () {
+            this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
+            this.$mqtt.listen(this.client,res=>{
+                console.log(res,'魔戒数据')
+                const {data,fc,outLineId,time} = res;
+                if(fc!=36)return;
+                let outLine;
+                for(let item of this.switchList){
+                    outLine = item.outLineList.filter(k=>k.outLineId===+outLineId)[0];
+                    if(outLine)break;
+                }
+                if(!outLine)return;
+                outLine.data ={
+                    createTime:moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                    dataJSON:{
+                        ...outLine.data.dataJSON,
+                        ...data
+                    }
+                }
+            })
+        },
+        destroyed () {
+            this.client&&this.client.end();
         },
         async mounted () {
             const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
@@ -144,6 +169,11 @@
                 return this.currentRing.switchId
             })
             await this.getRingHistory(switchId);
+        },
+        computed: {
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            }
         },
         methods: {
             ...mapActions('equip',[
@@ -189,11 +219,11 @@
                         let obj = { temp:[], lineA:[] };
                         history[i].forEach(item=>{
                             timeArray.push(new Date(item.createTime).getTime());
-                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm"),item.dataJSON[k]]) };
+                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm:ss"),item.dataJSON[k]]) };
                         })
                         for(let k of keys){ result[k].push({name,data:obj[k]}) };
                     }
-                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm"));
+                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm:ss"));
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'];
                     this.tempData = result['temp'];

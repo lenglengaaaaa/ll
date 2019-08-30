@@ -30,9 +30,10 @@
             if(!sessionStorage.getItem('project'))return;
             this.client = this.$mqtt.connect(`topic_warning_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
+                console.log(res,'告警信息')
                 const {address,alertMsg,devName,time} = res;
                 this.$notify({ 
-                    duration: 300000,
+                    duration: 60000,
                     title: '告警信息',
                     type: 'warning',
                     dangerouslyUseHTMLString: true,
@@ -56,7 +57,6 @@
                     onClick:this.checkDetail.bind(this,res)
                 });
             })
-            
         },
         mounted () {
             const screen = this.$store.state.app.device;

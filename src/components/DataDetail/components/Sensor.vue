@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-divider content-position="left">s801、s802、s803实时数据</el-divider>
+        <el-divider content-position="left">红外、烟雾、液位等实时数据</el-divider>
         <div>
             <el-row :gutter="20">
                 <el-col :span="8" :xs="24" v-for="(item,d) in sensorData" :key="d">
@@ -27,7 +27,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-divider content-position="left">s801、s802、s803历史数据</el-divider>
+        <el-divider content-position="left">红外、烟雾、液位等历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">
                 <el-form-item label="环境变量:">
@@ -109,7 +109,7 @@
                         "shake":[],
                         "node433":[],
                         "signal":[],
-                        "cbtemp":[]
+                        "CBTemp":[]
                     }  
                     let timeArray= [];
                     
@@ -127,7 +127,7 @@
                                 "shake":[],
                                 "node433":[],
                                 "signal":[],
-                                "cbtemp":[]
+                                "CBTemp":[]
                             };
                             current.forEach(val=>{
                                 timeArray.push(new Date(val.createTime).getTime());

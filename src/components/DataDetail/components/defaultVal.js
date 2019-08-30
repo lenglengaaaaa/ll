@@ -70,7 +70,7 @@ export const lineDefault = ()=>{
                     "value": null,
                     "createTime": null
                 },
-                "cbtemp": {
+                "CBTemp": {
                     "value": null,
                     "createTime": null
                 }
@@ -114,7 +114,7 @@ export const s800Default = ()=>{
                     "value": null,
                     "createTime": null
                 },
-                "cbtemp": {
+                "CBTemp": {
                     "value": null,
                     "createTime": null
                 }
@@ -123,3 +123,45 @@ export const s800Default = ()=>{
     })
     return result;
 }
+
+export const sensorDefault = [
+        {
+            address: "",
+            createTime: null,
+            data:{
+                CBTemp:{
+                    createTime: null,
+                    value: null
+                },
+                batteryA:{
+                    createTime: null,
+                    value: null
+                },
+                co:{
+                    createTime: null,
+                    value: null
+                },
+                lifrared:{
+                    createTime: null,
+                    value: null
+                },
+                liquid:{
+                    createTime: null,
+                    value: null
+                },
+                node433:{
+                    createTime: null,
+                    value: null
+                },
+                shake:{
+                    createTime: null,
+                    value: null
+                },
+                signal:{
+                    createTime: null,
+                    value: null
+                },
+            },
+            name:'占位数据'
+        }
+    ]

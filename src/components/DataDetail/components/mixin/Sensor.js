@@ -17,7 +17,7 @@ export default {
                     {value: 'shake',label: '震动数据'}, 
                     {value: 'node433',label: '433M节点参数'}, 
                     {value: 'signal',label: '信号强度'}, 
-                    {value: 'cbtemp',label: '板子自身温度'}
+                    {value: 'CBTemp',label: '板子自身温度'}
                 ],
             value: 'co',
             time: [
@@ -77,7 +77,7 @@ export default {
                     design = "信号强度";
                     unit = "dbm"
                     break;
-                case 'cbtemp':
+                case 'CBTemp':
                     design = "板子自身温度";
                     unit = "℃"
                     break;
