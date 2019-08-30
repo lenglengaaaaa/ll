@@ -120,71 +120,7 @@
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'设备数据')
-                const {address,data,dataType,fc,time,lineId} = res;
-                const type = this.classifyDevice(fc);
-                if(!type)return;
-                //1:魔节,2:线缆,3:s800,4:独立传感
-                if(type===1){
-                    if(this.currentMagic.address===address){
-                        const magic = this.magicData;
-                        magic.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-                        let obj = {};
-                        for(let i in data){
-                            if(data[i]!=='--'){
-                                obj[i] = {
-                                    value:data[i],
-                                    createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
-                                }
-                            }
-                        }
-                        magic.data = {...magic.data,...obj};
-                    }
-                }
-                if(type===2){
-                    const line = this.lineData.filter(item=>item.id==lineId)[0];
-                    if(!line)return;
-                    line.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-                    let obj = {};
-                    for(let i in data){
-                        if(data[i]!=='--'){
-                            obj[i] = {
-                                value:data[i],
-                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                        }
-                    }
-                    line.data = {...line.data,...obj}
-                }
-                if(type===3){
-                    const sEight = this.sEightData.filter(item=>item.id==address)[0];
-                    if(!sEight)return;
-                    sEight.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-                    let obj = {};
-                    for(let i in data){
-                        if(data[i]!=='--'){
-                            obj[i] = {
-                                value:data[i],
-                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                        }
-                    }
-                    sEight.data = {...sEight.data,...obj}
-                }
-                if(type===4){
-                    const sensor = this.sensorData.filter(item=>item.address==address)[0];
-                    if(!sensor)return;
-                    sensor.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-                    let obj = {};
-                    for(let i in data){
-                        if(data[i]!=='--'){
-                            obj[i] = {
-                                value:data[i],
-                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                        }
-                    }
-                    sensor.data = {...sensor.data,...obj}
-                }
+                this.mqttDataHandle(res)
             });
         },
         destroyed () {
@@ -376,6 +312,52 @@
                     //独立传感器
                     default:
                         return 4;
+                }
+            },
+            //MQTT数据处理
+            mqttDataHandle(res){
+                const {address,lineId,fc,data,time} = res;
+                const type = this.classifyDevice(fc);
+                if(!type)return;
+                //筛选数据
+                const filterData = (currentVal)=>{
+                    if(!currentVal)return;
+                    currentVal.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                    let obj = {};
+                    for(let i in data){
+                        if(data[i]!=='--'){
+                            obj[i] = {
+                                value:data[i],
+                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                            }
+                        }
+                    }
+                    for(let k in currentVal.data){ 
+                        if(obj[k]){
+                            currentVal.data[k] = obj[k];
+                        }
+                    }
+                }
+                //1:魔节,2:线缆,3:s800,4:独立传感
+                switch (type) {
+                    case 1:
+                        if(this.currentMagic.address===address){
+                            const magic = this.magicData;
+                            filterData(magic);
+                        }
+                        break;
+                    case 2:
+                        const line = this.lineData.filter(item=>item.id==lineId)[0];
+                        filterData(line);
+                        break;
+                    case 3:
+                        const sEight = this.sEightData.filter(item=>item.id==address)[0];
+                        filterData(sEight);
+                        break;
+                    default:
+                        const sensor = this.sensorData.filter(item=>item.address==address)[0];
+                        filterData(sensor);
+                        break;
                 }
             },
         },
