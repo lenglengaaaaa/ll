@@ -1,8 +1,8 @@
 <template>
     <div class="SIMULATE_CONTAINER">
         <el-form label-position="left" label-width="150px" :model="form" ref="form" :rules="rules">
-            <el-form-item label="设备编码(4位数字)" prop="number">
-                <el-input v-model="form.number"></el-input>
+            <el-form-item label="设备ID" prop="deviceAddress">
+                <el-input v-model="form.deviceAddress"></el-input>
             </el-form-item>
             <el-form-item label="温度(0 ~ 127℃)" prop="temp">
                 <el-input v-model="form.temp"></el-input>
@@ -26,24 +26,51 @@
         data() {
             return {
                 form: {
-                    number: '',
-                    temp:'',
-                    a: '',
-                    v: ''
+                    deviceAddress: '',
+                    temp:'0',
+                    a: '0',
+                    v: '0'
                 },
                 rules: {
-                    number: [ { required: true, message: '请输入设备编码', trigger: 'blur' }, ],
+                    deviceAddress: [ { required: true, message: '请输入设备编码', trigger: 'blur' }, ],
                     temp: [ { trigger: 'blur' } ],
                     a: [ { trigger: 'blur' } ],
                     v: [ { trigger: 'blur' } ]
-                }
+                },
+                client:null
             }
+        },
+        computed: {
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            }
+        },
+        created () {
+            this.client = this.$mqtt.connect(`topic_data_1`);
+        },
+        destroyed () {
+            this.client&&this.client.end();
         },
         methods: {
             submitForm() {
                 this.$refs.form.validate((valid) => {
                 if (valid) {
-                    console.log('submit')
+                    const {deviceAddress,temp,a,v} = this.form;
+                    this.client.publish(`topic_data_${this.projectId}`,JSON.stringify({
+                        address: deviceAddress,
+                        data:{
+                            lineA:a,
+                            lineV: v,
+                            temp,
+                        },
+                        fc: "36",
+                        outLineId: "1",
+                        time: new Date()
+                    }))
+                    this.$message({
+                        message: '设置成功!',
+                        type: 'success'
+                    });
                 } else {
                     return false;
                 }

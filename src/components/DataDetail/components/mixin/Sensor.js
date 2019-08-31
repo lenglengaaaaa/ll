@@ -13,7 +13,7 @@ export default {
                     {value: 'co',label: '一氧化碳'}, 
                     {value: 'infrared',label: '红外数据'}, 
                     {value: 'liquid',label: '液位数据'}, 
-                    {value: 'batteryA',label: '电池电流'}, 
+                    {value: 'batteryA',label: '电池电压'}, 
                     {value: 'shake',label: '震动数据'}, 
                     {value: 'node433',label: '433M节点参数'}, 
                     {value: 'signal',label: '信号强度'}, 
@@ -62,7 +62,7 @@ export default {
                     unit = ""
                     break;
                 case 'batteryA':
-                    design = "电池电流";
+                    design = "电池电压";
                     unit = "V"
                     break;
                 case 'shake':
