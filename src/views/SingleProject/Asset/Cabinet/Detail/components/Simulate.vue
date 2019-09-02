@@ -37,19 +37,18 @@
                     a: [ { trigger: 'blur' } ],
                     v: [ { trigger: 'blur' } ]
                 },
-                client:null
+            }
+        },
+        props: {
+            client: {
+                type: Object,
+                default: null
             }
         },
         computed: {
             projectId(){
                 return JSON.parse(sessionStorage.getItem('project')).id;
             }
-        },
-        created () {
-            this.client = this.$mqtt.connect(`topic_data_1`);
-        },
-        destroyed () {
-            this.client&&this.client.end();
         },
         methods: {
             submitForm() {

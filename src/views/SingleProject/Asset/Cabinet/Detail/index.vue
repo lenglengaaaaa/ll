@@ -24,7 +24,9 @@
                 />
             </el-tab-pane>
             <el-tab-pane label="数据模拟" lazy>
-                <Simulate />
+                <Simulate 
+                    :client ="client"
+                />
             </el-tab-pane>
             
         </template>
@@ -57,18 +59,19 @@
                     current:1,
                     type:1
                 },
-                switchList:[]
+                switchList:[],
+                client:null
             }
         },
         created () {
             const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name;
-            this.getEquipList(id);
             this.getRingDetail(id).then(res=>{
-                if(!res)return;
+                if(!res || !res.switchList.length)return;
                 this.switchList = res.switchList.length && res.switchList;
             })
-
+            this.getEquipList(id);
+            
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'魔戒数据')

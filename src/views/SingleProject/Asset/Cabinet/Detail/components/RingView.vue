@@ -136,7 +136,6 @@
                 timeArray:[],
                 lineAData:[],
                 tempData:[],
-                client:null
             }
         },
         async mounted () {
