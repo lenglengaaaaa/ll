@@ -66,7 +66,7 @@
             />
             <el-table-column
                 prop="deviceAdress"
-                label="设备ID"
+                label="设备地址域"
                 align="center"
                 sortable
                 width="200"

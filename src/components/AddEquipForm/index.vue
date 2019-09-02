@@ -41,10 +41,10 @@
             <el-form-item label="设备资产编号" prop="number">
                 <el-input v-model="form.number" placeholder="请输入设备资产编号"></el-input>
             </el-form-item>
-            <el-form-item label="设备ID" prop="deviceAdress">
+            <el-form-item label="设备地址域" prop="deviceAdress">
                 <el-input
                     v-model="form.deviceAdress" 
-                    placeholder="请输入设备ID"
+                    placeholder="请输入设备地址域"
                     :disabled="editFlag"
                 ></el-input>
             </el-form-item>
@@ -148,11 +148,11 @@
             //验证资产编号
             const checkAddress = (rule, value, callback) => {
                 if (!value) {
-                    return callback(new Error('请输入设备ID'));
+                    return callback(new Error('请输入设备地址域'));
                 }
                 this.checkAddress(value).then(res=>{
                     if(!res){
-                        return callback(new Error('设备ID已存在'));
+                        return callback(new Error('设备地址域已存在'));
                     }else{
                         callback()
                     }

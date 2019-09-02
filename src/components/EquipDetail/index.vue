@@ -87,7 +87,7 @@
                     {title:'设备名称',sign:'name',value:''},
                     {title:'设备EUI',sign:'deviceEui',value:''},
                     {title:'设备编号',sign:'number',value:''},
-                    {title:'设备ID',sign:'deviceAdress',value:''},
+                    {title:'设备地址域',sign:'deviceAdress',value:''},
                 ],
                 secondArray:[
                     {title:'所属台区',sign:'courtsName',value:''},

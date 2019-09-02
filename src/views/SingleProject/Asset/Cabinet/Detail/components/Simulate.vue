@@ -1,7 +1,7 @@
 <template>
     <div class="SIMULATE_CONTAINER">
         <el-form label-position="left" label-width="150px" :model="form" ref="form" :rules="rules">
-            <el-form-item label="设备ID" prop="deviceAddress">
+            <el-form-item label="设备地址域" prop="deviceAddress">
                 <el-input v-model="form.deviceAddress"></el-input>
             </el-form-item>
             <el-form-item label="温度(0 ~ 127℃)" prop="temp">

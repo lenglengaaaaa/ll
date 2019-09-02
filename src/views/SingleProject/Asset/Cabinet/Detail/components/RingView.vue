@@ -117,12 +117,17 @@
         components: {
             LineChart
         },
+        props: {
+            switchList: {
+                type: Array,
+                default: defaultValue
+            }
+        },
         data() {
             return {
                 title:'',
                 ringName:'',
                 highlight: 0,
-                switchList:[],
                 currentRing:{},
                 time: [
                     this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
@@ -134,50 +139,20 @@
                 client:null
             }
         },
-        created () {
-            this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
-            this.$mqtt.listen(this.client,res=>{
-                console.log(res,'魔戒数据')
-                const {data,fc,outLineId,time} = res;
-                if(fc!=36)return;
-                let outLine;
-                for(let item of this.switchList){
-                    outLine = item.outLineList.filter(k=>k.outLineId===+outLineId)[0];
-                    if(outLine)break;
-                }
-                if(!outLine)return;
-                outLine.data ={
-                    createTime:moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                    dataJSON:{
-                        ...outLine.data.dataJSON,
-                        ...data
-                    }
-                }
-            })
-        },
-        destroyed () {
-            this.client&&this.client.end();
-        },
         async mounted () {
             const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
             this.title = name ;
-            const switchId = await this.getRingDetail(id).then(res=>{
-                if(!res)return;
-                this.switchList = res.switchList.length ? res.switchList : defaultValue;
-                this.currentRing = res.switchList.length && res.switchList[0];
-                this.ringName = res.switchList.length && res.switchList[0].switchName;
-                return this.currentRing.switchId
-            })
-            await this.getRingHistory(switchId);
         },
-        computed: {
-            projectId(){
-                return JSON.parse(sessionStorage.getItem('project')).id;
+        watch: {
+            switchList(arr) {
+                this.currentRing = arr.length && arr[0];
+                this.ringName = arr.length && arr[0].switchName;
+                const switchId = this.currentRing.switchId ;
+                this.getRingHistory(switchId);
             }
         },
         methods: {
             ...mapActions('equip',[
-                'getRingDetail',
                 'getRingHistoryData'
             ]),
             //选中出线
@@ -203,7 +178,7 @@
                 }).then(res=>{
                     if(!res)return;
                     const {history} = res;
-                    const names = this.currentRing.outLineList.reduce((pre,current)=>{
+                    const names = this.currentRing.outLineList&&this.currentRing.outLineList.reduce((pre,current)=>{
                         pre[current.outLineId] = current.outLineName;
                         return pre
                     },{})
