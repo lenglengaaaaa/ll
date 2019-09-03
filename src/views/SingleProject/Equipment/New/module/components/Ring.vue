@@ -29,7 +29,7 @@
                     />
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属网关" v-show="form.commWay&&!form.isSingle" prop="gatewayId">
+            <el-form-item label="所属网关" v-if="form.commWay&&!form.isSingle" prop="gatewayId">
                 <el-select v-model="form.gatewayId">
                         <el-option 
                             v-for="item in gateWayMenu"

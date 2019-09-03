@@ -19,7 +19,7 @@
                     <el-option label="台区" :value="1"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属网关" v-show="form.commWay" prop="gatewayId">
+            <el-form-item label="所属网关" v-if="form.commWay" prop="gatewayId">
                 <el-select v-model="form.gatewayId">
                         <el-option 
                             v-for="item in gateWayMenu"
