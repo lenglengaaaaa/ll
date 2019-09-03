@@ -27,13 +27,13 @@
                 :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.temp ) || '-'"
             />
             <el-table-column
-                label="电压(V)"
+                label="线缆电压(V)"
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.lineV ) || '-'"
             />
             <el-table-column
-                label="电流(A)"
+                label="线缆电流(A)"
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.lineA ) || '-'"
@@ -45,7 +45,7 @@
                 :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.batteryA ) || '-'"
             />
             <el-table-column
-                label="信号"
+                label="信号强度"
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.signal ) || '-'"
@@ -63,8 +63,6 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
-
     export default {
         data() {
             return {
@@ -81,13 +79,12 @@
             const {id} = JSON.parse(sessionStorage.getItem('obj'));
             const result = this.switchList.reduce((pre,current)=>{
                 return [...pre,...current.outLineList]
+            },[]).reduce((pre,current)=>{
+                if(!current.deviceId)return pre;
+                return [...pre,current]
             },[])
+            console.log(result,'aa')
             this.data = result;
-        },
-        methods: {
-            ...mapActions('equip',[
-                'getRingDetail'
-            ]),
         },
     }
 </script>
