@@ -35,7 +35,7 @@
                             <el-table-column
                                 label="操作"
                                 align="center"
-                                width="250"
+                                width="280"
                                 v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
@@ -46,6 +46,14 @@
                                             @click="linkTo('check',scope.row)"
                                         >
                                             {{title==='角色'?'权限分配':'查看'}}
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="primary"
+                                            v-if="scope.row.deviceType ===30 || scope.row.deviceType ===36"
+                                            @click="linkTo('set',scope.row)"
+                                        >
+                                            阈值设置
                                         </el-button>
                                         <el-button
                                             size="mini"
@@ -240,10 +248,9 @@
             linkTo(type,row={}){
                 switch (type) {
                     case 'check':
-                        this.skipTo(type,row);
-                        break;
                     case 'add':
                     case 'edit':
+                    case 'set':
                         this.skipTo(type,row);
                         break;
                     case 'delete' :
@@ -282,7 +289,6 @@
             },
             //获取资产下设备数量
             getCountUnderAsset(id){
-                console.log('aaa')
                 this.getEquipCount({
                     queryId:id,
                     queryType:this.assetType

@@ -301,13 +301,13 @@
             },
             //上传文件之前的钩子
             beforeUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                // const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 10240 < 10;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
                 if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 10MB!');
+                    this.$message.error('上传设备图片大小不能超过 10MB!');
                 }
                 return isJPG && isLt2M;
             },

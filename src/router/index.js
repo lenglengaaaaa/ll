@@ -228,6 +228,12 @@ const router= new Router({
                   component: () => import('@/components/EquipDetail'),
                   meta:{title:'设备详情'}
                 },
+                {
+                  path:'deviceThSet',
+                  name:'DeviceThSet',
+                  component: () => import('@/views/SingleProject/Equipment/ThresholdSet'),
+                  meta:{title:'阈值设置'}
+                },
               ]
             },
             {

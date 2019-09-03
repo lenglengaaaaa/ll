@@ -41,11 +41,9 @@
                     <el-link 
                         type="primary" 
                         @click="skipToDetail(scope.row)" 
-                        v-if="scope.row.deviceType!==36"
                     >
                         {{scope.row.name}}
                     </el-link>
-                    <span v-else>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -53,7 +51,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-                width="200"
+                width="160"
                 :formatter="(row)=>row.deviceEui || '-'"
             />
             <el-table-column
@@ -61,7 +59,7 @@
                 label="设备编号"
                 align="center"
                 sortable
-                width="200"
+                width="150"
                 show-overflow-tooltip
             />
             <el-table-column
@@ -69,7 +67,7 @@
                 label="设备地址域"
                 align="center"
                 sortable
-                width="200"
+                width="150"
                 show-overflow-tooltip
             />
             <el-table-column
@@ -206,9 +204,17 @@
                 this.getList(data)
             },
             skipTo(type,row) {
+                this.$store.dispatch('asset/skipToEdit',{
+                    type,
+                    row,
+                    storage:'equipObj',
+                    deviceType:row.deviceType
+                })
+                if(type==='set'){
+                    this.$router.push({name:'DeviceThSet'});
+                    return;
+                }
                 this.$router.push({name:'NewEqu'});
-                sessionStorage.setItem('appType',row.deviceType);
-                this.$store.dispatch('asset/skipToEdit',{type,row,storage:'equipObj'})
             },
             skipToDetail(row){
                 this.$router.push({name:'EquDetail'})
