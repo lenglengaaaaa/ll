@@ -24,6 +24,16 @@
                     :disabled="editFlag"
                 />
             </el-form-item>
+            <el-form-item label="所属网关" v-show="form.commWay&&!form.isSingle" prop="gatewayId">
+                <el-select v-model="form.gatewayId">
+                        <el-option 
+                            v-for="item in gateWayMenu"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
+                </el-select>
+            </el-form-item>
             <el-form-item label="所属资产类型">
                 <el-select v-model="form.assetType" @change="assetTypeChange">
                     <el-option label="井盖" :value="0"></el-option>
@@ -167,6 +177,7 @@
                 singleFlag:false,
                 form: {
                     commWay:0,
+                    gatewayId:null,
                     isSingle:1,
                     isSon:0,
                     assetType:0,
@@ -178,6 +189,7 @@
                     lineId:null,
                     parentId:null
                 },
+                gateWayMenu:[],
                 trapMenus:[],
                 lineMenus:[],
                 courtsMenus:[],
@@ -198,6 +210,11 @@
                 assetType:(!data.trapName&&!data.courtsName)?0:data.trapName?0:1,
                 sensorType:!data.parentType?0:data.parentType==33?1:0
             };
+            //网关
+            this.getGatewayMenu({current:1,size:50}).then(res=>{
+                if(!res)return;
+                this.gateWayMenu = res;
+            })
             //井盖
             this.getTrapMenu(id).then(res=>{
                 if(!res)return;
@@ -216,6 +233,9 @@
             }
         },
         methods: {
+            ...mapActions('overall',[
+                'getGatewayMenu'
+            ]),
             ...mapActions('asset',[
                 'getTrapMenu',
                 'getLineInTrapMenu',

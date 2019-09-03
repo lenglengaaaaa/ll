@@ -19,6 +19,16 @@
                     <el-option label="台区" :value="1"></el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="所属网关" v-show="form.commWay" prop="gatewayId">
+                <el-select v-model="form.gatewayId">
+                        <el-option 
+                            v-for="item in gateWayMenu"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
+                </el-select>
+            </el-form-item>
             <template v-if="form.assetType===0">
                 <el-form-item label="所属井盖" prop="trapId">
                     <el-select v-model="form.trapId">
@@ -75,6 +85,7 @@
                 projectId:0,
                 editFlag:false,
                 form: {
+                    gatewayId:null,
                     isSon:1,
                     isSingle:0,
                     commWay:0,
@@ -83,6 +94,7 @@
                     courtsId:null,
                     roomId:null,
                 },
+                gateWayMenu:[],
                 trapMenus:[],
                 courtsMenus:[],
                 roomMenus:[]
@@ -98,6 +110,10 @@
                 ...data,
                 assetType:(!data.trapName&&!data.courtsName)?0:data.trapName?0:1
             };
+            this.getGatewayMenu({current:1,size:50}).then(res=>{
+                if(!res)return;
+                this.gateWayMenu = res;
+            })
             this.getTrapMenu(id).then(res=>{
                 if(!res)return;
                 this.trapMenus = res ;
@@ -127,6 +143,9 @@
             },
         },
         methods: {
+            ...mapActions('overall',[
+                'getGatewayMenu'
+            ]),
             ...mapActions('asset',[
                 'getTrapMenu',
                 'getCourtsMenu',

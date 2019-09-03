@@ -29,6 +29,16 @@
                     />
                 </el-select>
             </el-form-item>
+            <el-form-item label="所属网关" v-show="form.commWay&&!form.isSingle" prop="gatewayId">
+                <el-select v-model="form.gatewayId">
+                        <el-option 
+                            v-for="item in gateWayMenu"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
+                </el-select>
+            </el-form-item>
             <el-form-item label="所属台区" prop="courtsId">
                 <el-select v-model="form.courtsId" @change="courtsChange">
                     <el-option 
@@ -101,6 +111,7 @@
                 euiFlag:false,
                 singleFlag:false,
                 form: {
+                    gatewayId:null,
                     deviceEui:'',
                     commWay:0,
                     isSingle:1,
@@ -111,6 +122,7 @@
                     outLineId:null,
                     parentId:null
                 },
+                gateWayMenu:[],
                 courtsMenus:[],
                 roomMenus:[],
                 chestMenus:[],
@@ -128,6 +140,10 @@
                 ...this.form,
                 ...data,
             };
+            this.getGatewayMenu({current:1,size:50}).then(res=>{
+                if(!res)return;
+                this.gateWayMenu = res;
+            })
             this.getCourtsMenu(id).then(res=>{
                 if(!res)return;
                 this.courtsMenus = res ;
@@ -158,6 +174,9 @@
             }
         },
         methods: {
+            ...mapActions('overall',[
+                'getGatewayMenu'
+            ]),
             ...mapActions('asset',[
                 'getCourtsMenu',
                 'getRoomMenu',

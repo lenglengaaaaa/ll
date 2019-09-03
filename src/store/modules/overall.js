@@ -325,12 +325,12 @@ const actions= {
      */
     getGatewayMenu({commit},obj){
         return request({
-            method:'post',
+            method:'get',
             url:`${api.getGatewayMenu}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
-                return res
+                return res.data
             }else{
                 res&&tip(res.meassage)
                 return false

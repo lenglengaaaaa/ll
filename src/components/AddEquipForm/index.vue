@@ -174,6 +174,7 @@
                     number: [{ required: true, validator: checkNumber, trigger: 'blur' }],
                     deviceAdress: [{ required: true, validator: checkAddress, trigger: 'blur' }],
                     deviceEui: [{ required: true, validator: checkEui, trigger: 'blur' }],
+                    gatewayId:[{ required: true, message: '请选择设备所属网关', trigger: 'change' }],
                     trapId: [{ required: true, message: '请选择设备所属井盖', trigger: 'change' }],
                     roomId: [{ required: true, message: '请选择设备所属配电房', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择设备所属线缆', trigger: 'change' }],
