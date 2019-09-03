@@ -81,7 +81,7 @@
                     上一步
                 </el-button>
                 <el-button type="primary" @click="submit" >
-                    {{editFlag?'编辑完成':'创建完成'}}
+                    {{btnMsg}}
                 </el-button>
             </el-form-item>
         </el-form>
@@ -208,6 +208,34 @@
             },
             token(){
                 return this.$store.state.user.token;
+            },
+            btnMsg(){
+                const deviceType = sessionStorage.getItem('appType');
+                if(this.editFlag)return '编辑完成';
+                //创建类型为魔戒(36)
+                if(deviceType==36){
+                    //独立&LoRa
+                    if(!this.form.isSingle && this.form.commWay){
+                        return '下一步';
+                    }
+                }else{
+                    if(this.form.commWay) return '下一步'
+                }
+                return '创建完成'
+            },
+            isActivate(){
+                const deviceType = sessionStorage.getItem('appType');
+                if(this.editFlag)return false;
+                //创建类型为魔戒(36)
+                if(deviceType==36){
+                    //独立&LoRa
+                    if(!this.form.isSingle && this.form.commWay){
+                        return true;
+                    }
+                }else{
+                    if(this.form.commWay) return true
+                }
+                return false
             }
         },
         methods: {
@@ -237,6 +265,10 @@
                         if(!this.editFlag){
                             this.createEquip(data).then(res=>{
                                 if(!res)return;
+                                if(this.isActivate){
+                                    this.next();
+                                    return;
+                                }
                                 this.$router.push({name:'EquList'});
                             })
                         }else{

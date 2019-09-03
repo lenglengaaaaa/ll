@@ -50,7 +50,7 @@
                         this.next()
                     } else {
                         this.$message({
-                            message: '请正确填写表单信息!',
+                            message: '请选择设备类型!',
                             type: 'warning'
                         });
                         return false;

@@ -9,7 +9,7 @@
             <el-input 
                 v-model="form.deviceEui" 
                 :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
-                :maxlength="form.commWay==0?16:15"
+                :maxlength="form.commWay===0?15:16"
                 :disabled="editFlag"
             />
         </el-form-item>
