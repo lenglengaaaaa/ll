@@ -4,7 +4,7 @@
             :id="vid" 
             class="map"
         />
-        <div id="myPageTop" v-if="hasSearch">
+        <div id="myPageTop" v-show="hasSearch">
             <el-input 
                 id="tipinput" 
                 placeholder="请输入搜索地址" 
@@ -26,7 +26,10 @@
                 type:Array,
                 default:()=>[113.991244,22.595988]
             },
-            get:Function,
+            get:{
+                type:Function,
+                default:()=>{}
+            },
             hasSearch:{
                 type:Boolean,
                 default:true

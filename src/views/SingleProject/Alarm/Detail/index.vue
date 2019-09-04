@@ -60,7 +60,7 @@
             </div>
             <div>
                 <MapSingle 
-                    vid="alarmDetail"
+                    vid="alarm"
                     :position="single.position"
                     :hasSearch="false"
                     :hasClick="false"
