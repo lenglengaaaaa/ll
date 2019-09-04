@@ -14,7 +14,6 @@
                     </div>
                 </el-col>
             </el-row>
-            
         </div>
         <el-divider content-position="left">魔节历史数据</el-divider>
         <div>

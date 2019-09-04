@@ -32,9 +32,7 @@
                 <el-divider></el-divider>
                 <div class="content">
                     <div class="wrap">
-                        <Tline
-                            :lineData="lineData"
-                        />
+                        <Tline :lineData="lineData"/>
                     </div>
                 </div>
             </div>
@@ -60,8 +58,8 @@
                 <div class="content">
                     <div class="wrap">
                         <Sensor
-                            :assetType="assetType"
                             :sensorData="sensorData"
+                            :assetType="assetType"
                         />
                     </div>
                 </div>

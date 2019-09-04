@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="s800">
         <el-divider content-position="left">红外、烟雾、液位等实时数据</el-divider>
         <div>
             <el-row :gutter="20">
@@ -153,6 +153,6 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss" scope>
+    @import '@/styles/s800.scss';
 </style>

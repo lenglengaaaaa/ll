@@ -125,33 +125,6 @@
     }
 </script>
 
-<style lang="scss">
-    .s800{
-        .box-card{
-            margin-bottom: 20px;
-            .header{
-                div{
-                    font-size: 1rem;
-                    padding: 5px 0;
-                    font-weight: bolder;
-                }
-                span{
-                    font-size: 0.65rem;
-                }
-            }
-            .el-card__body{
-                padding: 10px 20px;
-            }
-            .text{
-                font-size: 15px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                & > span{
-                    padding: 5px 0;
-                }
-            }
-        }
-    }
-    
+<style lang="scss" scope>
+    @import '@/styles/s800.scss';
 </style>
