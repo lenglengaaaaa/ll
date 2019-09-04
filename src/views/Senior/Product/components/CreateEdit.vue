@@ -114,10 +114,8 @@
             submitForm() {
                 this.$refs.applyForm.validate((valid) => {
                 if (valid) {
-                    console.log(this.form,'form')
                     this.handleClose()
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
                 });

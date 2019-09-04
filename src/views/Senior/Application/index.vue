@@ -118,7 +118,7 @@
         },
         methods: {
             getList(){
-                console.log('获取数据')
+
             },
             skipTo(type,row) {
                 this.dialogVisible = true;
@@ -133,7 +133,7 @@
                 this.value  ={};
             },
             remove(){
-                console.log('删除')
+                
             }
         },
     }

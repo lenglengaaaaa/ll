@@ -55,7 +55,7 @@
         },
         methods: {
             random(){
-                console.log('随机获取')
+                
             },
             submit() {
                 this.$refs.actForm.validate((valid) => {

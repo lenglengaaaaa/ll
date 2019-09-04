@@ -238,7 +238,7 @@
         .time{
             position: absolute;
             right: 0;
-            top: 40px;
+            top: 30px;
             font-size: 13px;
         }
     }

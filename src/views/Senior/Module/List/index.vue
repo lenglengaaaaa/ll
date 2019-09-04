@@ -138,7 +138,7 @@
         },
         methods: {
             getList(){
-                console.log('获取数据')
+
             },
             skipTo(type,row) {
                 if(type==="edit"){
@@ -159,7 +159,7 @@
                 this.value  ={};
             },
             remove(){
-                console.log('删除')
+                
             }
         },
     }

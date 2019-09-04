@@ -77,14 +77,12 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('obj'));
-            const result = this.switchList.reduce((pre,current)=>{
+            this.data = this.switchList.reduce((pre,current)=>{
                 return [...pre,...current.outLineList]
             },[]).reduce((pre,current)=>{
                 if(!current.deviceId)return pre;
                 return [...pre,current]
             },[])
-            console.log(result,'aa')
-            this.data = result;
         },
     }
 </script>
