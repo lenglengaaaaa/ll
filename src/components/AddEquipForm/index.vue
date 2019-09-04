@@ -150,6 +150,7 @@
                 if (!value) {
                     return callback(new Error('请输入设备地址域'));
                 }
+                if(this.editFlag)return callback();
                 this.checkAddress(value).then(res=>{
                     if(!res){
                         return callback(new Error('设备地址域已存在'));

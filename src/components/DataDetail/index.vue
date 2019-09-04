@@ -72,9 +72,8 @@
 
 <script>
     import {Magic,Tline,S800,Sensor} from './components'
-    import {magicDefault,lineDefault,s800Default,sensorDefault} from './components/defaultVal'
+    import {defaultValue} from './components/defaultVal'
     import { mapActions } from 'vuex'
-    import Empty from '@/components/Empty'
 
     export default {
         components: {
@@ -82,7 +81,6 @@
             Tline,
             S800,
             Sensor,
-            Empty
         },
         props: {
             assetType: Number,
@@ -102,10 +100,10 @@
                     chestId:null,
                     deviceType:30
                 },
-                magicData:magicDefault,
+                magicData:{},
                 lineData:[],
-                sEightData:s800Default(),
-                sensorData:sensorDefault,
+                sEightData:[],
+                sensorData:[],
                 client:null
             }
         },
@@ -163,10 +161,7 @@
                     assetId:id,
                     assetType:this.assetType
                 }).then(res=>{
-                    if(!res){
-                        this.magicData = {};
-                        return
-                    }
+                    if(!res) return;
                     this.magicData= {
                         data:this.filterData(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
@@ -177,12 +172,8 @@
             getLineData(){
                 const {id} = this.assetObj;
                 this.getLineCurrentData(id).then(res=>{
-                    if(!res)return;
                     const {lineInfoList,lineDateMap} = res;
-                    if(!lineInfoList.length){
-                        this.lineData = lineDefault();
-                        return;
-                    }
+                    if( !res || !lineInfoList.length )return;
                     this.lineData = this.dataProcessing(lineInfoList,lineDateMap,'line');
                 })
             },
@@ -193,12 +184,8 @@
                     assetId:id,
                     assetType:this.assetType
                 }).then(res=>{
-                    if(!res) return;
                     const {deviceInfoList,dataMap} = res;
-                    if(!deviceInfoList.length){
-                        this.sEightData = s800Default();
-                        return;
-                    }
+                    if( !res || !deviceInfoList.length ) return;
                     this.sEightData = this.dataProcessing(deviceInfoList,dataMap,'s800');
                 })
             },
@@ -209,52 +196,40 @@
                     assetId:id,
                     assetType:this.assetType
                 }).then(res=>{
-                    if(!res)return;
                     const {deviceInfoList,dataMap} = res;
-                    if(!deviceInfoList.length)return;
-                    const names = deviceInfoList.reduce((pre,current)=>{
-                        pre[current.deviceType] = {};
-                        pre[current.deviceType][current.deviceAdress] = current.name;
-                        return pre
-                    },{})
-                    let result = [];
-                    for(let i in dataMap){
-                        const item = dataMap[i];
-                        for(let k in item){
-                            const name = names[i][k];
-                            result.push({
-                                address:k,
+                    if( !res || !deviceInfoList.length )return;
+                    this.sensorData = deviceInfoList.reduce((pre,current)=>{
+                        const { deviceType,deviceAdress,name } = current;
+                        return [
+                            ...pre,
+                            {
+                                id:deviceAdress,
                                 name,
-                                createTime:item[k].createTime&&this.$moment(item[k].createTime).format('YYYY-MM-DD HH:mm:ss'),
-                                data:this.filterData(item[k],'s800')
-                            })
-                        }
-                    }
-                    this.sensorData = result;
+                                createTime:dataMap[deviceType]&&dataMap[deviceType][deviceAdress]?
+                                    this.$moment(dataMap[deviceType][deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
+                                data:dataMap[deviceType]&&dataMap[deviceType][deviceAdress]?
+                                    this.filterData(dataMap[deviceType][deviceAdress],'s800'):defaultValue['s800']
+                            }
+                        ]
+                    },[])
                 })
-            },
-            //切换魔节回调
-            changeMagic(val){
-                this.currentMagic = this.magicList.filter(item=>item.id ===val)[0];
-                this.getMagicData(val);
             },
             //数据处理
             dataProcessing(list,dataMap,type){
-                const names = list.reduce((pre,current)=>{
-                    const params = type==='line'?current.id:current.deviceAdress;
-                    pre[params] = current.name;
-                    return pre
-                },{})
-                let result = [];
-                for(let i in dataMap){
-                    const name = names[i];
-                    result.push({
-                        id:i,
-                        name,
-                        createTime:dataMap[i].createTime&&this.$moment(dataMap[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
-                        data:this.filterData(dataMap[i],type)
-                    })
-                }
+                const result = list.reduce((pre,current)=>{
+                    const id = type==='line'?current.id:current.deviceAdress;
+                    return [
+                        ...pre,
+                        {
+                            id,
+                            name:current.name,
+                            createTime:dataMap[id]?
+                                this.$moment(dataMap[id].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
+                            data:dataMap[id]?
+                                this.filterData(dataMap[id],type):defaultValue[type]
+                        }
+                    ]
+                },[])
                 return result;
             },
             //数据筛选
@@ -276,49 +251,10 @@
                 }
                 return obj;
             },
-            //匹配资产类型
-            classifyType(type){
-                const {id} = this.assetObj; 
-                switch (type) {
-                    //配电柜
-                    case 0:
-                        return this.params.chestId = id;
-                    //配电房
-                    case 1:
-                        return this.params.roomId = id;
-                    //井盖 2
-                    default:
-                        return this.params.trapId = id;
-                }
-            },
-            //设备分类
-            classifyDevice(id){
-                switch (+id) {
-                    //集中器(剔除)
-                    case 33:
-                        return false;
-                    //魔戒('剔除')
-                    case 36:
-                        return false;
-                    //魔节
-                    case 30:
-                        return 1;
-                    //线缆温度传感器
-                    case 38:
-                        return 2;
-                    //S800
-                    case 28:
-                        return 3;
-                    //独立传感器
-                    default:
-                        return 4;
-                }
-            },
             //MQTT数据处理
             mqttDataHandle(res){
                 const {address,lineId,fc,data,time} = res;
-                const type = this.classifyDevice(fc);
-                if(!type)return;
+                if(fc==33||fc==36)return;
                 //筛选数据
                 const filterData = (currentVal)=>{
                     if(!currentVal)return;
@@ -338,26 +274,46 @@
                         }
                     }
                 }
-                //1:魔节,2:线缆,3:s800,4:独立传感
-                switch (type) {
-                    case 1:
+                //30:魔节,38:线缆,28:s800,default:独立传感
+                switch (+fc) {
+                    case 30:
                         if(this.currentMagic.address===address){
                             const magic = this.magicData;
                             filterData(magic);
                         }
                         break;
-                    case 2:
+                    case 38:
                         const line = this.lineData.filter(item=>item.id==lineId)[0];
                         filterData(line);
                         break;
-                    case 3:
+                    case 28:
                         const sEight = this.sEightData.filter(item=>item.id==address)[0];
                         filterData(sEight);
                         break;
                     default:
-                        const sensor = this.sensorData.filter(item=>item.address==address)[0];
+                        const sensor = this.sensorData.filter(item=>item.id==address)[0];
                         filterData(sensor);
                         break;
+                }
+            },
+            //切换魔节回调
+            changeMagic(val){
+                this.currentMagic = this.magicList.filter(item=>item.id ===val)[0];
+                this.getMagicData(val);
+            },
+            //匹配资产类型
+            classifyType(type){
+                const { id } = this.assetObj;
+                switch (type) {
+                    //配电柜
+                    case 0:
+                        return this.params.chestId = id;
+                    //配电房
+                    case 1:
+                        return this.params.roomId = id;
+                    //井盖 2
+                    default:
+                        return this.params.trapId = id;
                 }
             },
         },
