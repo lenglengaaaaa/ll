@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-divider content-position="left">线缆实时数据</el-divider>
-        <div>
+        <div v-if="lineData&&lineData.length">
             <el-row :gutter="40">
                 <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
                     <div class="info">
@@ -43,6 +43,7 @@
                 </el-col>
             </el-row>
         </div>
+        <Empty text="无设备" v-else />
         <el-divider content-position="left">线缆历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">
@@ -85,11 +86,13 @@
 <script>
     import {LineChart} from '@/components/Charts'
     import {filterData} from '@/utils/methods'
+    import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
     export default {
         components: {
             LineChart,
+            Empty
         },
         props: {
             lineData: Array

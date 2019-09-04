@@ -1,7 +1,7 @@
 <template>
     <div class="s800">
         <el-divider content-position="left">S800传感器平台实时数据</el-divider>
-        <div>
+        <div v-if="sEightData&&sEightData.length">
             <el-row :gutter="20">
                 <el-col :span="8" :xs="24" v-for="(item,d) in sEightData" :key="d">
                     <el-card class="box-card">
@@ -27,6 +27,7 @@
                 </el-col>
             </el-row>
         </div>
+        <Empty text="无设备" v-else />
         <el-divider content-position="left">S800传感器平台历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">

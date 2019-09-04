@@ -4,14 +4,19 @@
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-zanwushuju"></use>
             </svg>
-            <span>暂无数据</span>
+            <span>{{text}}</span>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        
+        props: {
+            text: {
+                type: String,
+                default: '暂无数据'
+            },
+        },
     }
 </script>
 

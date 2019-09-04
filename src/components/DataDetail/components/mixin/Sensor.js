@@ -1,8 +1,10 @@
 import {LineChart} from '@/components/Charts'
+import Empty from '@/components/Empty'
 
 export default {
     components: {
         LineChart,
+        Empty
     },
     props: {
         assetType: Number,

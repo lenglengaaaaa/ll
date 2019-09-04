@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="magicList">
+        <div class="magicList" v-if="magicData&&magicData.bat">
             <el-row :gutter="20">
                 <el-col :span="6" v-for="(value,name) in magicData" :key="name" :xs="12">
                     <div >
@@ -15,6 +15,7 @@
                 </el-col>
             </el-row>
         </div>
+        <Empty text="无设备" v-else/>
         <el-divider content-position="left">魔节历史数据</el-divider>
         <div>
             <div class="seletGroup">
@@ -59,12 +60,14 @@
 <script>
     import {Gauge,LineChart} from '@/components/Charts'
     import { filterData } from '@/utils/methods'
+    import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
     export default {
         components: {
             Gauge,
-            LineChart
+            LineChart,
+            Empty
         },
         props: {
             magicData: {

@@ -389,5 +389,8 @@
                 }
             }
         }
+        .empty{
+            height: 350px !important;
+        }
     }
 </style>
