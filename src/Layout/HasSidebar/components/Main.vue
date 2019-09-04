@@ -124,7 +124,7 @@
     }
     .apply_main{
         width: 100%;
-        height: 100%;
+        // height: 100%;
         .bar{
             background: #fff;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);

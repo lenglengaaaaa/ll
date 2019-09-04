@@ -41,7 +41,7 @@
                 <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
 
-            <template v-if="hasMap">
+            <template v-show="hasMap">
                 <el-form-item label="资产经纬度" class="map">
                     <MapSingle 
                         vid="newApply"

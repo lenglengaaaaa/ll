@@ -71,7 +71,7 @@
 </template>
 
 <script>
-    import {MapSingle} from '@/components/Maps'
+    import { MapSingle } from '@/components/Maps'
     import { mapActions } from 'vuex'
     
     export default {
@@ -169,13 +169,11 @@
 
 <style lang="scss" scoped>
     .Alarm_Detail{
-        // width: 100%;
-        // height: 100%;
         display: flex;
         justify-content: center;
         .wrap{
-            padding: 20px;
-            padding-top: 0px;
+            border-radius: 5px;
+            padding: 0 20px 20px 20px;
             width: 1200px;
             max-width: 100%;
             overflow: scroll;

@@ -13,7 +13,10 @@
     export default {
         props: {
             vid:String,
-            zoom:Number,
+            zoom:{
+                type:Number,
+                default:3
+            },
             marker:{
                 type:Array,
                 default:()=>[]
