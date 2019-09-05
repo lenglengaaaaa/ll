@@ -18,7 +18,7 @@ export default {
         });
 
         client.on("offline", function () {
-            console.log("mqtt连接出错");
+            console.error("mqtt连接出错");
             client.unsubscribe(topic);
         });
 

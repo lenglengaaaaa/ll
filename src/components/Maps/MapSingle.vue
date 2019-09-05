@@ -1,13 +1,13 @@
 <template>
-    <div class="container">
+    <div class="single_container">
         <div 
             :id="vid" 
             class="map"
         />
-        <div id="myPageTop" v-show="hasSearch">
+        <div class="info" v-show="hasSearch">
             <el-input 
-                id="tipinput" 
-                placeholder="请输入搜索地址" 
+                id="searchInput" 
+                placeholder="请输入关键字" 
                 v-model="location" 
             />
         </div>
@@ -16,7 +16,6 @@
 
 <script>
     import AMap from "@/utils/AMap"
-
     const center = window.$cfg.mapCenter;
 
     export default {
@@ -68,17 +67,15 @@
                         buildingAnimation: true, // 模块消失是否有动画效果
                         center: this.center //初始化地图中心点
                     });
-                    this.resMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],()=>{//异步同时加载多个插件
-                        const auto = new this.resMap.Autocomplete({
-                            input: "tipinput"
+                    //加载搜索服务
+                    if(this.hasSearch){
+                        const auto = new this.resMap.Autocomplete({ 
+                            input: "searchInput",
                         });
-                        const placeSearch =new this.resMap.PlaceSearch({
-                            map:this.map
-                        })
+                        new this.resMap.PlaceSearch({ map:this.map});
                         const select = (e)=>{ this.map.setCenter(e.poi.location) };
-                        this.resMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
-                        
-                    });  
+                        this.resMap.event.addListener(auto, "select", select);
+                    }
                     this.map.on('complete',(e)=>{
                         const [lng,lat] = this.position;
                         this.addMarker(lng,lat);
@@ -107,17 +104,34 @@
     }
 </script>
 
-<style lang="scss" scoped>
-    .container{
+<style lang="scss">
+    .single_container{
         position: relative;
         .map{
             height: 480px;
         }
-        #myPageTop{
+        .info{
             position: absolute;
             top: 10px;
             left: 10px;
+            padding: .5rem .75rem;
+            margin-bottom: 1rem;
+            border-radius: .25rem;
+            background-color: white;
+            width: auto;
+            min-width: 2rem;
+            box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+            .input-item{
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                width: 100%;
+                height: 3rem;
+            }
         }
     }
-    
+    .amap-sug-result{
+        display: none;
+    }
 </style>

@@ -6,7 +6,7 @@
                 <div class="intro">
                     <p v-for="item in firstArray" :key="item.sign">
                         <strong>{{item.title}}</strong>
-                        <span>{{item.value || 'xxx'}}</span>
+                        <span>{{item.value || '---'}}</span>
                     </p>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="intro">
                     <p v-for="item in secondArray" :key="item.sign">
                         <strong>{{item.title}}</strong>
-                        <span>{{item.value || 'xxx'}}</span>
+                        <span>{{item.value || '---'}}</span>
                     </p>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                     this.getData(res,this.secondArray);
                     this.single ={
                         createTime:this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss'),
-                        location:res.location || 'xxx',
+                        location:res.location || '---',
                         alarmMsg:res.decodeHex,
                         status:res.status,
                         details:res.details || ''
