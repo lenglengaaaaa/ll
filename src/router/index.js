@@ -237,6 +237,15 @@ const router= new Router({
               ]
             },
             {
+              path:'threshold',
+              name:'Threshold',
+              component: () => import('@/views/SingleProject/Threshold'),
+              meta: { 
+                title:'阈值设置',
+                icon: '#icon-yueyuzhishezhi'
+              }
+            },
+            {
               path:'alarm',
               name:'Alarm',
               component: () => import('@/views/SingleProject/Alarm'),
