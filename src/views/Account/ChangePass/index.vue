@@ -3,7 +3,8 @@
         <el-form 
             label-position="top" 
             :model="ruleForm" 
-            status-icon :rules="rules" 
+            status-icon 
+            :rules="rules" 
             ref="ruleForm" 
         >
             <h4>修改用户密码</h4>

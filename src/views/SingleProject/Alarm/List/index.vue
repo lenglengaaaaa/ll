@@ -34,6 +34,7 @@
                 label="设备名称"
                 align="center"
                 show-overflow-tooltip
+                :formatter="(row)=>row.deviceName||'---'"
             />
             <el-table-column
                 prop="deviceEui"

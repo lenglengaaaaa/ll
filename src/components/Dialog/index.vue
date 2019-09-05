@@ -5,6 +5,7 @@
             :visible.sync="dialogVisible"
             @close="close"
             v-if="dialogVisible"
+            :close-on-click-modal="false"
         >
             <slot></slot>
         </el-dialog>

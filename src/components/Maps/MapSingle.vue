@@ -23,7 +23,7 @@
             vid:String,
             position:{
                 type:Array,
-                default:()=>[113.991244,22.595988]
+                default:()=>center
             },
             get:{
                 type:Function,
@@ -69,12 +69,19 @@
                     });
                     //加载搜索服务
                     if(this.hasSearch){
-                        const auto = new this.resMap.Autocomplete({ 
-                            input: "searchInput",
-                        });
-                        new this.resMap.PlaceSearch({ map:this.map});
+                        const auto = new this.resMap.Autocomplete({ input: "searchInput" });
+                        const placeSearch = new this.resMap.PlaceSearch({ map:this.map,});
                         const select = (e)=>{ this.map.setCenter(e.poi.location) };
                         this.resMap.event.addListener(auto, "select", select);
+                        //关键字查询
+                        // placeSearch.search('罗湖区',(status,result)=>{
+                        //     if(status!=='complete')return;
+                        //     const {pois} = result.poiList;
+                        //     if(pois.length){
+                        //         const center = pois[0].location;
+                        //         this.map.setCenter(center)
+                        //     }
+                        // })
                     }
                     this.map.on('complete',(e)=>{
                         const [lng,lat] = this.position;

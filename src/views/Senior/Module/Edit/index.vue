@@ -1,5 +1,5 @@
 <template>
-    <div class="CREATE_EDIT">
+    <div class="MODULE_EDIT">
         <el-form label-position="top" label-width="100px" :model="form" ref="moduleForm">
             <el-form-item label="模组名称">
                 <el-input v-model="form.name" placeholder="请输入模组名称"></el-input>
@@ -96,4 +96,21 @@
 </script>
 
 <style lang="scss">
+    .MODULE_EDIT{
+        display: flex;
+        justify-content: center;
+        .el-form{
+            width:1100px;
+            max-width: 100%;
+            overflow: scroll;
+            padding: 15px;
+            margin-bottom: 5px;
+            background:#fff;
+            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+            .submit{
+                padding-top: 10px;
+                text-align: center;
+            }
+        }
+    }
 </style>
