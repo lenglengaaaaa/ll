@@ -19,7 +19,7 @@ $height: 50px;
     }
     .Sidebar_container{
         background: #34495e;
-        height: 100%;
+        height: calc(100vh - 50px);
         overflow-y: scroll;
         .app_title{
             height: $height;

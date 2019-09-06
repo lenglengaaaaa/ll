@@ -53,7 +53,7 @@
                     <p v-else>
                         <strong>处理详情</strong>
                         <span>
-                            {{single.details}}
+                            {{single.details || "---"}}
                         </span>
                     </p>
                 </div>

@@ -30,18 +30,17 @@
         </template>
         <template>
             <el-table-column
-                prop="deviceName"
                 label="设备名称"
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>row.deviceName||'---'"
             />
             <el-table-column
-                prop="deviceEui"
                 label="设备EUI"
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.deviceEui||'---'"
             />
             <el-table-column
                 label="告警详情"

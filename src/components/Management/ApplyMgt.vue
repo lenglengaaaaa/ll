@@ -50,7 +50,7 @@
                                         <el-button
                                             size="mini"
                                             type="primary"
-                                            v-if="scope.row.deviceType ===30 || scope.row.deviceType ===36"
+                                            v-if="scope.row.deviceType"
                                             @click="linkTo('set',scope.row)"
                                         >
                                             阈值设置
