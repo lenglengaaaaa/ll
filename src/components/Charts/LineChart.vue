@@ -27,6 +27,11 @@
                     tooltip: {
                         trigger: 'axis'
                     },
+                    grid: {
+                        left: '3%',
+                        right: '3%',
+                        containLabel: true
+                    },
                     legend: {
                         x:'right',
                         // orient:'vertical',

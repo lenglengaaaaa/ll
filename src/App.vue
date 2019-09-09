@@ -22,9 +22,22 @@
   ul li{
     list-style:none;
   }
-
+  
   ::-webkit-scrollbar{
     display: none;
+  }
+
+  .app-main{
+      -ms-scroll-chaining: chained;
+      -ms-overflow-style: none;
+      -ms-content-zooming: zoom;
+      -ms-scroll-rails: none;
+      -ms-content-zoom-limit-min: 100%;
+      -ms-content-zoom-limit-max: 500%;
+      -ms-scroll-snap-type: proximity;
+      -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+      -ms-overflow-style: none;
+      overflow: auto;
   }
 
   .amap-logo,.amap-copyright{
