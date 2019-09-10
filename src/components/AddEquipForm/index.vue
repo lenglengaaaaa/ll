@@ -147,9 +147,9 @@
             };
             //验证资产编号
             const checkAddress = (rule, value, callback) => {
-                if (!value) {
-                    return callback(new Error('请输入设备地址域'));
-                }
+                if (!value) { return callback(new Error('请输入设备地址域')) };
+                const r =  /[\u4E00-\u9FA5]/;
+                if(r.test(value)){ return callback(new Error('请输入数字或字母')) };
                 if(this.editFlag)return callback();
                 this.checkAddress(value).then(res=>{
                     if(!res){

@@ -23,8 +23,9 @@
                     border
                     stripe
                     height="calc(100vh - 289px)"
-                        max-height="calc(100vh - 289px)"
+                    max-height="calc(100vh - 289px)"
                     header-cell-class-name="table_header"
+                    ref="manTable"
                 >   
                     <slot></slot>
                     <el-table-column
@@ -79,7 +80,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="current"
-                    :page-sizes="[10, 20, 30, 50]"
+                    :page-sizes="[20, 30, 50]"
                     :page-size="size"
                     :layout="layout"
                     :total="total"
@@ -129,16 +130,14 @@
             handleSizeChange(val) {
                 this.size = val;
                 this.current =1;
-                this.getList({
-                    size:val
-                })
+                this.getList({ size:val });
+                this.$nextTick(()=>{this.$refs.manTable.bodyWrapper.scrollTop = 0 });
             },
             //切页
             handleCurrentChange(val) {
                 this.current = val;
-                this.getList({
-                    current:val
-                })
+                this.getList({ current:val });
+                this.$nextTick(()=>{this.$refs.manTable.bodyWrapper.scrollTop = 0 });
             },
             //应用跳转
             linkTo(type,row={}){

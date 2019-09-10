@@ -29,6 +29,7 @@
                         height="calc(100vh - 300px)"
                         max-height="calc(100vh - 300px)"
                         header-cell-class-name="table_header"
+                        ref="tabledns"
                     >   
                         <slot></slot>
                         <slot name="operation">
@@ -233,16 +234,14 @@
             handleSizeChange(val) {
                 this.size = val;
                 this.current =1;
-                this.getList({
-                    size:val
-                })
+                this.getList({ size:val });
+                this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
             },
             //切页
             handleCurrentChange(val) {
                 this.current = val;
-                this.getList({
-                    current:val
-                })
+                this.getList({ current:val });
+                this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
             },
             //应用跳转
             linkTo(type,row={}){
