@@ -61,6 +61,7 @@
 <script>
     import CreateEdit from '@/components/CreateEdit'
     import {mapActions} from 'vuex'
+    import {resetSingle} from '@/utils/methods'
 
     export default {
         components: {
@@ -72,6 +73,7 @@
                     roomId:'',
                     parentId:null,
                     inChest:0,
+                    count:1,
                     listName:[]
                 },
                 courtsMenu:[],
@@ -100,7 +102,7 @@
             this.form={
                 ...this.form,
                 inChest:data.parentId>0?1:0,
-                count:data.switchList&&data.switchList.length || 0,
+                count:data.switchList&&data.switchList.length || 1,
                 listName:arr,
                 ...data
             };
@@ -153,18 +155,17 @@
             },
             //根据台区ID获取台区下的配电房列表
             changeCourts(id){
-                this.form.roomId = '';
-                this.form.parentId = 0;
+                resetSingle(this,['roomId','parentId'],'assetForm');
                 this.getRoomList(id);
             },
             //根据配电房ID获取台区下的配电柜
             changeRoom(id){
-                this.form.parentId = 0;
+                resetSingle(this,['parentId'],'assetForm');
                 this.getChestList(id)
             },
             changeInChest(val){
-                if(val===0){
-                    this.form.parentId=0;
+                if(!val){ 
+                    resetSingle(this,['parentId'],'assetForm');
                 }
             },
             //获取配电房列表
