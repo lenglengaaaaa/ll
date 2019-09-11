@@ -288,7 +288,12 @@ export const api={
     getAlarmDetail:`${url}/e_view/warning/info`,
 
     //告警处理
-    alarmHandle:`${url}/e_view/warning/dispose`
+    alarmHandle:`${url}/e_view/warning/dispose`,
+
+    //=======================================系统操作管理=====================================================
+
+    //获取系统操作管理列表 post
+    operationList:`${url}/e_view/operation/find/list`
 
 }
 

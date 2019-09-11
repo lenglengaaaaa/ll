@@ -217,13 +217,15 @@
             //数据处理
             dataProcessing(list,dataMap,type){
                 const result = list.reduce((pre,current)=>{
+                    const { name,number,isDelete } = current;
                     const id = type==='line'?current.id:current.deviceAdress;
+                    if(isDelete) return pre;
                     return [
                         ...pre,
                         {
                             id,
-                            number:current.number ||null,
-                            name:current.name,
+                            number,
+                            name,
                             createTime:dataMap[id]?
                                 this.$moment(dataMap[id].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
                             data:dataMap[id]?
