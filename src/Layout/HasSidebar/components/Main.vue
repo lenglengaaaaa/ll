@@ -51,6 +51,10 @@
                                 告警信息 : 
                                 <strong class="red">${alertMsg}</strong>
                             </div>
+                            <div>
+                                告警时间 : 
+                                <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                            </div>
                             <div class="tip">注 :点击查看详情</div>
                         </div>
                     `,

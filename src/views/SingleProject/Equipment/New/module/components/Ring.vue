@@ -205,7 +205,7 @@
                 })]).then(res=>{
                     const [res1,res2] = res;
                     if(!res1 || !res2)return;
-                    resetSingle(this,['chestId','switchId','outLineId']);
+                    resetSingle(this,['chestId','switchId','outLineId','parentId']);
                     this.chestMenus = res1;
                     this.concenMenus = res2 ;
                 })

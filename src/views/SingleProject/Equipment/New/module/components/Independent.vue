@@ -232,6 +232,11 @@
                 });
             }
         },
+        watch: {
+            "form.isSon"(value) {
+                resetSingle(this,['parentId']);
+            },
+        },
         methods: {
             ...mapActions('overall',[
                 'getGatewayMenu'
@@ -246,12 +251,29 @@
             ...mapActions('equip',[
                 'getEquipMenu'
             ]),
+            //资产类型切换回调
+            assetTypeChange(value){
+                this.deviceMenus=[];
+                if(!value){
+                    resetSingle(this,['courtsId','roomId','chestId','parentId'])
+                    this.getTrapMenu(this.projectId).then(res=>{
+                        if(!res)return;
+                        this.trapMenus = res ;
+                    });
+                    return;
+                }
+                resetSingle(this,['trapId','lineId','parentId'])
+                this.getCourtsMenu(this.projectId).then(res=>{
+                    if(!res)return;
+                    this.courtsMenus = res ;
+                });
+            },
             //井盖切换回调
             trapChange(id){
                 Promise.all([this.getLineInTrapMenu(id),this.getDeviceMenu(30)]).then(res=>{
                     const [res1] = res;
                     if(!res1)return;
-                    resetSingle(this,['lineId']);
+                    resetSingle(this,['lineId','parentId']);
                     this.lineMenus = res1;
                 })
             },
@@ -259,7 +281,7 @@
             courtsChange(id){
                 this.getRoomMenu(id).then(res=>{
                     if(!res)return;
-                    resetSingle(this,['roomId','chestId']);
+                    resetSingle(this,['roomId','chestId','parentId']);
                     this.roomMenus = res;
                 })
             },
@@ -269,30 +291,14 @@
                 Promise.all([this.getChestMenu({id,type:2}),this.getDeviceMenu(type)]).then(res=>{
                     const [res1] = res;
                     if(!res1)return;
-                    resetSingle(this,['chestId','switchId','outLineId']);
+                    resetSingle(this,['chestId']);
                     this.chestMenus = res1;
                 })
-            },
-            //设备类型切换回调
-            assetTypeChange(value){
-                this.form.parentId = null;
-                if(!value){
-                    resetSingle(this,['courtsId','roomId','chestId'])
-                    this.getTrapMenu(this.projectId).then(res=>{
-                        if(!res)return;
-                        this.trapMenus = res ;
-                    });
-                    return;
-                }
-                resetSingle(this,['trapId','lineId'])
-                this.getCourtsMenu(this.projectId).then(res=>{
-                    if(!res)return;
-                    this.courtsMenus = res ;
-                });
             },
             //传感设备切换回调
             sensorChange(value){
                 this.form.parentId = null;
+                if(!this.form.roomId&&!this.form.trapId)return;
                 const type = !value?30:33;
                 this.getDeviceMenu(type);
             },

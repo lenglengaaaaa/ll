@@ -18,8 +18,8 @@
                                         {{match(key)}}
                                     </strong>
                                 </span>
-                            </div>
-                            <el-link type="primary" slot="reference">{{item.name}}</el-link>
+                            </div>  
+                            <el-button type="text" slot="reference" class="link">{{item.name}}</el-button>
                         </el-popover>
                         <strong class="msg">
                             线缆温度:<span>{{item.data.lineTemp.value || '未知'}}</span>℃ &nbsp;&nbsp;
@@ -241,8 +241,12 @@
         .time{
             position: absolute;
             right: 0;
-            top: 35px;
+            top:35px;
             font-size: 13px;
+        }
+        .link{
+            padding: 0;
+            padding-bottom: 5px;
         }
     }
     .pop{

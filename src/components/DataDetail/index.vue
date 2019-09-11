@@ -3,7 +3,7 @@
         <div class="magic"> 
             <div class="title">
                 <span>魔节环境数据</span>
-                <el-select v-model="magicId" @change="changeMagic" v-if="magicList.length>1">
+                <el-select v-model="magicId" @change="changeMagic">
                     <el-option
                         v-for="item in magicList"
                         :key="item.id"
@@ -187,7 +187,7 @@
                     this.sEightData = this.dataProcessing(deviceInfoList,dataMap,'s800');
                 })
             },
-            //获取资产下的s801、s802、s803实时数据
+            //获取资产下的红外、烟感等设备实时数据
             getSensorData(){
                 const {id} = this.assetObj;
                 this.getSensorCurrentData({
@@ -197,7 +197,8 @@
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
                     this.sensorData = deviceInfoList.reduce((pre,current)=>{
-                        const { deviceType,deviceAdress,name } = current;
+                        const { deviceType,deviceAdress,name,isDelete } = current;
+                        if(isDelete) return pre;
                         return [
                             ...pre,
                             {
