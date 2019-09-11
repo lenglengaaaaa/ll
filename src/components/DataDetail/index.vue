@@ -197,12 +197,13 @@
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
                     this.sensorData = deviceInfoList.reduce((pre,current)=>{
-                        const { deviceType,deviceAdress,name,isDelete } = current;
+                        const { deviceType,deviceAdress,name,number,isDelete } = current;
                         if(isDelete) return pre;
                         return [
                             ...pre,
                             {
                                 id:deviceAdress,
+                                number,
                                 name,
                                 createTime:dataMap[deviceType]&&dataMap[deviceType][deviceAdress]?
                                     this.$moment(dataMap[deviceType][deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
@@ -221,6 +222,7 @@
                         ...pre,
                         {
                             id,
+                            number:current.number ||null,
                             name:current.name,
                             createTime:dataMap[id]?
                                 this.$moment(dataMap[id].createTime).format('YYYY-MM-DD HH:mm:ss'):null,

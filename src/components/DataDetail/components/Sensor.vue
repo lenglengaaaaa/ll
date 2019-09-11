@@ -7,10 +7,8 @@
                     <el-card class="box-card">
                         <div slot="header" class="header">
                             <div>{{item.name}}</div>
-                            <span>
-                                数据上传时间 : 
-                                <strong>{{item.createTime || '未知'}}</strong>
-                            </span>
+                            <span>设备编号 : <strong>{{item.number || '未知'}}</strong></span>
+                            <span>数据上传时间 : <strong>{{item.createTime || '未知'}}</strong></span>
                         </div>
                         <div v-for="(value,key) in item.data" :key="key" class="text">
                             <span>
@@ -84,7 +82,7 @@
             ...mapActions('equip',[
                 'getSensorHistoryData' 
             ]),
-            //获取线缆历史数据
+            //获取独立传感器历史数据
             getSensorHistory(){
                 const startTime = this.time[0];
                 const endTime = this.time[1];
@@ -94,52 +92,34 @@
                     startTime,
                     endTime
                 }).then(res=>{
-                    if(!res)return;
                     const {deviceInfoList,dataMap} = res;
-                    const names = deviceInfoList.reduce((pre,current)=>{
-                        pre[current.deviceType] = {};
-                        pre[current.deviceType][current.deviceAdress] = current.name;
-                        return pre
-                    },{})
-                    //获取数据集合
-                    let result = {
-                        "co":[],
-                        "infrared":[],
-                        "liquid":[],
-                        "batteryA":[],
-                        "shake":[],
-                        "node433":[],
-                        "signal":[],
-                        "CBTemp":[]
-                    }  
+                    if( !res || !deviceInfoList.length )return;
+
                     let timeArray= [];
-                    
-                    for(let i in dataMap){
-                        const item = dataMap[i];
-                        for(let k in item){
-                            const current = item[k];
-                            const name = names[i][k];
-                            const keys= Object.keys(result);
-                            let temporaryObj = {
-                                "co":[],
-                                "infrared":[],
-                                "liquid":[],
-                                "batteryA":[],
-                                "shake":[],
-                                "node433":[],
-                                "signal":[],
-                                "CBTemp":[]
-                            };
-                            current.forEach(val=>{
-                                timeArray.push(new Date(val.createTime).getTime());
-                                for(let key of keys){ 
-                                    temporaryObj[key].push([moment(val.createTime).format("MM-DD HH:mm:ss"),val[key]])
-                                };
-                            })
-                            for(let key of keys){ result[key].push({name,data:temporaryObj[key]}) };
+                    const result = deviceInfoList.reduce((pre,current)=>{
+                        const { deviceType,deviceAdress,name,number,isDelete } = current ;
+                        const currentData = dataMap[deviceType][deviceAdress] ;
+                        if( isDelete || !currentData )return pre;
+                        let obj = {};
+                        currentData.forEach(single=>{
+                            for(let item in single){
+                                if(item==='cbtemp') continue;
+                                if(item==='createTime'){
+                                    timeArray.push(new Date(single.createTime).getTime());
+                                    continue;
+                                }
+                                if(!obj[item]) obj[item] = [];
+                                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),single[item]]);
+                            }
+                        })
+                        for(let k in obj){
+                            if(!pre[k]) pre[k] = [];
+                            pre[k].push({ name,data:obj[k] });
                         }
-                    }
+                        return pre;
+                    },{})
                     const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
+
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value];
