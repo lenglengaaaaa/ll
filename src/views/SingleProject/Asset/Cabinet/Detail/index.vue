@@ -42,6 +42,35 @@
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
+    const defaultValue  = [
+        {
+            "switchId": null,
+            "switchName": "出线一",
+            "outLineList": [
+                {
+                    "outLineName": "A",
+                    "deviceId": "魔戒1",
+                    "data": null
+                },
+                {
+                    "outLineName": "B",
+                    "deviceId": "魔戒2",
+                    "data": null
+                },
+                {
+                    "outLineName": "C",
+                    "deviceId": "魔戒3",
+                    "data": null
+                },
+                {
+                    "outLineName": "N",
+                    "deviceId": "魔戒4",
+                    "data": null
+                }
+            ]
+        }
+    ]
+
     export default {
         components: {
             AssetDetail,
@@ -67,8 +96,9 @@
             const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name;
             this.getRingDetail(id).then(res=>{
-                if(!res || !res.switchList.length)return;
-                this.switchList = res.switchList.length && res.switchList;
+                const { switchList } = res;
+                if(!res )return;
+                this.switchList = switchList.length ? res.switchList : defaultValue;
             })
             this.getEquipList(id);
             

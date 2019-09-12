@@ -33,7 +33,7 @@
                 console.log(res,'告警信息')
                 const {address,alertMsg,devName,time} = res;
                 this.$notify({ 
-                    duration: 60000,
+                    duration: 30000,
                     title: '告警信息',
                     type: 'warning',
                     dangerouslyUseHTMLString: true,

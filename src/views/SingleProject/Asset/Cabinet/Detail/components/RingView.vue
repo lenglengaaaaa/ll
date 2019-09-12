@@ -83,45 +83,13 @@
 <script>
     import { mapActions } from 'vuex'
     import {LineChart} from '@/components/Charts'
-    
-    const defaultValue  = [
-            {
-                "switchId": "出线一",
-                "switchName": "出线一",
-                "outLineList": [
-                    {
-                        "outLineName": "A",
-                        "deviceId": "魔戒1",
-                        "data": null
-                    },
-                    {
-                        "outLineName": "B",
-                        "deviceId": "魔戒2",
-                        "data": null
-                    },
-                    {
-                        "outLineName": "C",
-                        "deviceId": "魔戒3",
-                        "data": null
-                    },
-                    {
-                        "outLineName": "N",
-                        "deviceId": "魔戒4",
-                        "data": null
-                    }
-                ]
-            }
-        ]
 
     export default {
         components: {
             LineChart
         },
         props: {
-            switchList: {
-                type: Array,
-                default: defaultValue
-            }
+            switchList: Array
         },
         data() {
             return {

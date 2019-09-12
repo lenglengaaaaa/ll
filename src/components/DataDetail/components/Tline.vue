@@ -233,7 +233,7 @@
             position: absolute;
             right: 0;
             font-size: 14px;
-            top: 0px;
+            top: 5px;
             span{
                 color: #22a7f0;
             }
@@ -241,7 +241,7 @@
         .time{
             position: absolute;
             right: 0;
-            top:35px;
+            top:40px;
             font-size: 13px;
         }
         .link{
