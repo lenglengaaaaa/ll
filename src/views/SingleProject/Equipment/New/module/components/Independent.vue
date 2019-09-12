@@ -96,16 +96,22 @@
             </template>
 
             <el-form-item label="是否为附属传感器">
-                <el-select v-model="form.isSon">
+                <el-select v-model="form.isSon" :disabled="form.isSingle?true:false">
                     <el-option label="是" :value="0"></el-option>
                     <el-option label="否" :value="1"></el-option>
                 </el-select>
             </el-form-item>
             <template v-if="!form.isSon">
+                <el-form-item label="所属传感设备" >
+                    <el-select v-model="form.sensorType" @change="sensorChange" :disabled="form.assetType?false:true">
+                        <el-option label="魔节" :value="0"></el-option>
+                        <el-option label="集中器" :value="1"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item 
                     label="所属魔节" 
                     :prop="form.isSingle?'parentId':''"
-                    v-if="!form.assetType"
+                    v-if="!form.sensorType"
                 >
                     <el-select v-model="form.parentId" clearable>
                         <el-option 
@@ -116,42 +122,20 @@
                         />
                     </el-select>
                 </el-form-item>
-                <template v-else>
-                    <el-form-item label="所属传感设备" >
-                        <el-select v-model="form.sensorType" @change="sensorChange">
-                            <el-option label="魔节" :value="0"></el-option>
-                            <el-option label="集中器" :value="1"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item 
-                        label="所属魔节" 
-                        :prop="form.isSingle?'parentId':''"
-                        v-if="!form.sensorType"
-                    >
-                        <el-select v-model="form.parentId" clearable>
-                            <el-option 
-                                v-for="item in deviceMenus"
-                                :key="item.id"
-                                :label="item.name" 
-                                :value="item.id"
-                            />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item 
-                        label="所属集中器" 
-                        :prop="form.isSingle?'parentId':''" 
-                        v-else
-                    >
-                        <el-select v-model="form.parentId" clearable>
-                            <el-option 
-                                v-for="item in deviceMenus"
-                                :key="item.id"
-                                :label="item.name" 
-                                :value="item.id"
-                            />
-                        </el-select>
-                    </el-form-item>
-                </template>
+                <el-form-item 
+                    label="所属集中器" 
+                    :prop="form.isSingle?'parentId':''" 
+                    v-else
+                >
+                    <el-select v-model="form.parentId" clearable>
+                        <el-option 
+                            v-for="item in deviceMenus"
+                            :key="item.id"
+                            :label="item.name" 
+                            :value="item.id"
+                        />
+                    </el-select>
+                </el-form-item>
             </template>
         </template>
     </AddEquipForm>
@@ -233,9 +217,12 @@
             }
         },
         watch: {
-            "form.isSon"(value) {
-                resetSingle(this,['parentId']);
+            "form.assetType"(value){
+                this.form.sensorType = 0;
             },
+            "form.isSingle"(value){
+                if(value) this.form.isSon = 0;
+            }
         },
         methods: {
             ...mapActions('overall',[
@@ -254,17 +241,25 @@
             //资产类型切换回调
             assetTypeChange(value){
                 this.deviceMenus=[];
+                this.lineMenus = [];
+                this.roomMenus = [];
+                this.chestMenus = [];
+                this.gateWayMenu = [];
                 if(!value){
-                    resetSingle(this,['courtsId','roomId','chestId','parentId'])
+                    this.form.chestId = null;
+                    resetSingle(this,['courtsId','roomId','chestId'])
                     this.getTrapMenu(this.projectId).then(res=>{
                         if(!res)return;
+                        resetSingle(this,['parentId'])
                         this.trapMenus = res ;
                     });
                     return;
                 }
-                resetSingle(this,['trapId','lineId','parentId'])
+                resetSingle(this,['trapId','lineId'])
                 this.getCourtsMenu(this.projectId).then(res=>{
                     if(!res)return;
+                    //切换延迟原因
+                    resetSingle(this,['parentId'])
                     this.courtsMenus = res ;
                 });
             },
@@ -297,7 +292,7 @@
             },
             //传感设备切换回调
             sensorChange(value){
-                this.form.parentId = null;
+                resetSingle(this,['parentId'])
                 if(!this.form.roomId&&!this.form.trapId)return;
                 const type = !value?30:33;
                 this.getDeviceMenu(type);
@@ -312,6 +307,7 @@
                 }
                 this.getEquipMenu(data).then(res=>{
                     if(!res)return;
+                    //切换延迟原因
                     this.deviceMenus=res;
                 })
             },

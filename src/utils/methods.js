@@ -9,7 +9,8 @@ export const resetSingle =(_this,arr=[],form="equipForm")=>{
     const _fields = _this.$children[0].$refs[form].fields;
     _fields.map(item=>{
         if(arr.includes(item.prop)){
-            _this.form[item.prop]&&item.resetField();
+            // _this.form[item.prop]&&item.resetField();
+            item.resetField();
         }
     })
 }
