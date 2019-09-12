@@ -39,7 +39,7 @@ export default {
     methods: {
         //切换变量
         changeParam(val){
-            this.currentValue = this.allData[val];
+            this.currentValue = this.allData[val] || [];
         },
         //切换日期
         changeDate(date){

@@ -128,3 +128,35 @@ export const filterData = (obj) =>{
         timeResult
     }
 }
+
+export const newFilterData = (obj) =>{
+    const {list,data,type='magic'} = obj;
+    let timeArray= [];
+    const result = list.reduce((pre,current)=>{
+        const { id,deviceType,deviceAdress,name,isDelete } = current ;
+        const currentData = type==='magic' ? data[deviceAdress] :type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] : data[id];
+        if( isDelete || !currentData ) return pre;
+        let obj = {};
+        currentData.forEach(single=>{
+            for(let item in single){
+                if(item==='cbtemp'||item==='lat'||item==='lng'||item==='mode'||item==='status'||item==='shake') continue;
+                if(item==='createTime'){
+                    timeArray.push(new Date(single.createTime).getTime());
+                    continue;
+                }
+                if(!obj[item]) obj[item] = [];
+                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),single[item]]);
+            }
+        })
+        for(let k in obj){
+            if(!pre[k]) pre[k] = [];
+            pre[k].push({ name,data:obj[k] });
+        }
+        return pre;
+    },{})
+    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss")) || [];
+    return {
+        result,
+        timeResult
+    }
+}

@@ -60,7 +60,7 @@
 
 <script>
     import {Gauge,LineChart} from '@/components/Charts'
-    import { filterData } from '@/utils/methods'
+    import { filterData , newFilterData} from '@/utils/methods'
     import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
@@ -122,32 +122,17 @@
                     startTime,
                     endTime
                 }).then(res=>{
-                    if(!res)return;
                     const {deviceInfoList,dataMap} = res;
-                    const names = deviceInfoList.reduce((pre,current)=>{
-                        pre[current.deviceAdress] = current.name;
-                        return pre
-                    },{})
-                    //获取数据集合
-                    const object = {
-                        "temp":[],
-                        "hum":[],
-                        "o2":[],
-                        "co":[],
-                        "h2s":[],
-                        "o3":[],
-                        "ch4":[],
-                        "bat":[]
-                    }   
-                    const {result,timeResult} = filterData({object,names,data:dataMap});
+                    if( !res|| !deviceInfoList.length )return;
+                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap});
                     this.allData = result;
                     this.timeArray = timeResult;
-                    this.currentValue = result[this.value];
+                    this.currentValue = result[this.value] || [];
                 })
             },
             //切换变量
             changeParam(val){
-                this.currentValue = this.allData[val];
+                this.currentValue = this.allData[val] || [];
             },
             //切换日期
             changeDate(date){

@@ -86,7 +86,7 @@
 
 <script>
     import {LineChart} from '@/components/Charts'
-    import {filterData} from '@/utils/methods'
+    import {filterData,newFilterData} from '@/utils/methods'
     import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
@@ -145,32 +145,17 @@
                     startTime,
                     endTime
                 }).then(res=>{
-                    if(!res)return;
                     const {lineInfoList,lineDateMap} = res;
-                    const names = lineInfoList.reduce((pre,current)=>{
-                        pre[current.id] = current.name;
-                        return pre
-                    },{})
-                    //获取数据集合
-                    const object = {
-                        "CBTemp":[],
-                        "batteryA":[],
-                        "lineA":[],
-                        "lineTemp":[],
-                        "lineV":[],
-                        "node433":[],
-                        "shake":[],
-                        "signal":[]
-                    }
-                    const {result,timeResult} = filterData({object,names,data:lineDateMap});
+                    if(!res || !lineInfoList.length)return;
+                    const {result,timeResult} = newFilterData({list:lineInfoList,data:lineDateMap,type:'line'});
                     this.allData = result;
                     this.timeArray = timeResult;
-                    this.currentValue = result[this.value];
+                    this.currentValue = result[this.value] || [];
                 })
             },
             //切换变量
             changeParam(val){
-                this.currentValue = this.allData[val];
+                this.currentValue = this.allData[val] || [];
             },
             //切换日期
             changeDate(date){

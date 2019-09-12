@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import { filterData } from '@/utils/methods'
+    import { filterData ,newFilterData} from '@/utils/methods'
     import { mapActions } from 'vuex'
     import SensorMixin from './mixin/Sensor'
 
@@ -93,27 +93,12 @@
                     startTime,
                     endTime
                 }).then(res=>{
-                    if(!res)return;
                     const {deviceInfoList,dataMap} = res;
-                    const names = deviceInfoList.reduce((pre,current)=>{
-                        pre[current.deviceAdress] = current.name;
-                        return pre
-                    },{})
-                    //获取数据集合
-                    const object = {
-                        "co":[],
-                        "infrared":[],
-                        "liquid":[],
-                        "batteryA":[],
-                        "shake":[],
-                        "node433":[],
-                        "signal":[],
-                        "CBTemp":[]
-                    }   
-                    const {result,timeResult} = filterData({object,names,data:dataMap});
+                    if(!res || !deviceInfoList.length)return;
+                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap})
                     this.timeArray = timeResult;
                     this.allData = result;
-                    this.currentValue = result[this.value];
+                    this.currentValue = result[this.value] || [];
                 })
             },
             //切换日期

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import {filterData} from '@/utils/methods'
+    import { newFilterData } from '@/utils/methods'
     import { mapActions } from 'vuex'
     import SensorMixin from './mixin/Sensor'
 
@@ -95,35 +95,10 @@
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
-
-                    let timeArray= [];
-                    const result = deviceInfoList.reduce((pre,current)=>{
-                        const { deviceType,deviceAdress,name,number,isDelete } = current ;
-                        const currentData = dataMap[deviceType][deviceAdress] ;
-                        if( isDelete || !currentData )return pre;
-                        let obj = {};
-                        currentData.forEach(single=>{
-                            for(let item in single){
-                                if(item==='cbtemp') continue;
-                                if(item==='createTime'){
-                                    timeArray.push(new Date(single.createTime).getTime());
-                                    continue;
-                                }
-                                if(!obj[item]) obj[item] = [];
-                                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),single[item]]);
-                            }
-                        })
-                        for(let k in obj){
-                            if(!pre[k]) pre[k] = [];
-                            pre[k].push({ name,data:obj[k] });
-                        }
-                        return pre;
-                    },{})
-                    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
-
+                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,type:'sensor'})
                     this.allData = result;
                     this.timeArray = timeResult;
-                    this.currentValue = result[this.value];
+                    this.currentValue = result[this.value]||[];
                 })
             },
             //切换日期
