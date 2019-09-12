@@ -42,9 +42,9 @@
                 <el-form-item label="时间段:">
                     <el-date-picker
                         v-model="time"
-                        type="daterange"
+                        type="datetimerange"
                         range-separator="至"
-                        value-format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         :clearable="false"

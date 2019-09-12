@@ -23,8 +23,8 @@ export default {
                 ],
             value: 'co',
             time: [
-                this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
-                this.$moment().format('YYYY-MM-DD')
+                this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
+                this.$moment().format('YYYY-MM-DD 23:59:59')
             ],
             allData:[],
             timeArray:[],

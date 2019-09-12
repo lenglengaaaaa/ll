@@ -60,9 +60,9 @@
                 <el-form-item label="时间段:">
                     <el-date-picker
                         v-model="time"
-                        type="daterange"
+                        type="datetimerange"
                         range-separator="至"
-                        value-format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         :clearable="false"
@@ -111,8 +111,8 @@
                     ],
                 value: 'lineTemp',
                 time: [
-                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
-                    this.$moment().format('YYYY-MM-DD')
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
+                    this.$moment().format('YYYY-MM-DD 23:59:59')
                 ],
                 allData:[],
                 timeArray:[],
