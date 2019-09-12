@@ -60,7 +60,6 @@
                         },
                     ],
                     series:[],
-                    // animation: false 
                 }
             }
         },
@@ -91,6 +90,7 @@
                         data:item.data,
                         name:item.name,
                         type:'line',
+                        smooth: true,
                         markPoint: {
                             data: [
                                 {type: 'max', name: '最大值'},

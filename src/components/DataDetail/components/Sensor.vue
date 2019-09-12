@@ -43,6 +43,7 @@
                     <el-date-picker
                         v-model="time"
                         type="datetimerange"
+                        :default-time="['00:00:00', '23:59:59']"
                         range-separator="至"
                         value-format="yyyy-MM-dd HH:mm:ss"
                         start-placeholder="开始日期"

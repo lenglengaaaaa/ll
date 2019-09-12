@@ -39,22 +39,10 @@
                     dangerouslyUseHTMLString: true,
                     message: `
                         <div class="noti">
-                            <div>
-                                设备名称 : 
-                                <strong>${devName}</strong>
-                            </div>
-                            <div>
-                                设备地址域 : 
-                                <strong>${address}</strong>
-                            </div>
-                            <div>
-                                告警信息 : 
-                                <strong class="red">${alertMsg}</strong>
-                            </div>
-                            <div>
-                                告警时间 : 
-                                <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong>
-                            </div>
+                            <div>设备名称 : <strong>${devName}</strong></div>
+                            <div>设备地址域 : <strong>${address}</strong></div>
+                            <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
+                            <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
                             <div class="tip">注 :点击查看详情</div>
                         </div>
                     `,
