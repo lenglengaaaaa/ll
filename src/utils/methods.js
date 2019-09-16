@@ -141,7 +141,7 @@ export const newFilterData = (obj) =>{
             for(let item in single){
                 if(item==='cbtemp'||item==='lat'||item==='lng'||item==='mode'||item==='status'||item==='shake') continue;
                 if(item==='createTime'){
-                    timeArray.push(new Date(single.createTime).getTime());
+                    timeArray.push(moment(single.createTime).valueOf());
                     continue;
                 }
                 if(!obj[item]) obj[item] = [];
@@ -154,7 +154,7 @@ export const newFilterData = (obj) =>{
         }
         return pre;
     },{})
-    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss")) || [];
+    const timeResult = _.sortBy(timeArray).map(item => moment(item).format("MM-DD HH:mm:ss")) || [];
     return {
         result,
         timeResult
