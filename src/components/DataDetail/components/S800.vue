@@ -54,7 +54,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="下载:">
-                    <i class="el-icon-download"></i>
+                    <i class="el-icon-download" @click="download"></i>
                 </el-form-item>
             </el-form>
         </div>
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import { filterData ,newFilterData} from '@/utils/methods'
+    import { newFilterData , downFile} from '@/utils/methods'
     import { mapActions } from 'vuex'
     import SensorMixin from './mixin/Sensor'
 
@@ -81,7 +81,8 @@
         },
         methods: {
             ...mapActions('equip',[
-                'gets800HistoryData' 
+                'gets800HistoryData',
+                'getS800HistoryExecl'
             ]),
             //获取线缆历史数据
             getS800History(){
@@ -99,6 +100,21 @@
                     this.timeArray = timeResult;
                     this.allData = result;
                     this.currentValue = result[this.value] || [];
+                })
+            },
+            //下载
+            download(){
+                if(!this.sEightData.length || !this.timeArray.length) return;
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                this.getS800HistoryExecl({
+                    assetId:this.assetObj.id,
+                    assetType:this.assetType,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    downFile(res);
                 })
             },
             //切换日期

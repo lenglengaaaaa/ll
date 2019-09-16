@@ -494,7 +494,64 @@ const actions= {
                 return false
             }
         })
-    }
+    },
+
+    /**
+     * 导出资产下的魔节历史数据
+     * @param 同历史数据
+     */
+    getMagicHistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getMagicHistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 导出井盖下线缆的历史数据
+     * @param 同历史数据
+     */
+    getTrapHistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getTrapHistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 导出资产下s800的历史数据
+     * @param 同历史数据
+     */
+    getS800HistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS800HistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

@@ -45,7 +45,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="下载:">
-                        <i class="el-icon-download"></i>
+                        <i class="el-icon-download" @click="download"></i>
                     </el-form-item>
                 </el-form>
             </div>
@@ -60,7 +60,7 @@
 
 <script>
     import {Gauge,LineChart} from '@/components/Charts'
-    import { filterData , newFilterData} from '@/utils/methods'
+    import { newFilterData , downFile} from '@/utils/methods'
     import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
@@ -107,10 +107,10 @@
                 return JSON.parse(sessionStorage.getItem('obj'));
             }
         },
-        
         methods: {
             ...mapActions('equip',[
-                'getMagicHistoryData'
+                'getMagicHistoryData',
+                'getMagicHistoryExecl'
             ]),
             //获取魔节历史数据
             async getMagicHistory(){
@@ -128,6 +128,21 @@
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
+                })
+            },
+            //下载
+            download(){
+                if(!this.magicData.bat || !this.timeArray.length) return;
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                this.getMagicHistoryExecl({
+                    assetId:this.assetObj.id,
+                    assetType:this.assetType,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    downFile(res);
                 })
             },
             //切换变量

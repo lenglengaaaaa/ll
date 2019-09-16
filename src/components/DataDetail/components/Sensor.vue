@@ -54,7 +54,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="下载:">
-                    <i class="el-icon-download"></i>
+                    <i class="el-icon-download" @click="download"></i>
                 </el-form-item>
             </el-form>
         </div>
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import { newFilterData } from '@/utils/methods'
+    import { newFilterData ,downFile } from '@/utils/methods'
     import { mapActions } from 'vuex'
     import SensorMixin from './mixin/Sensor'
 
@@ -100,6 +100,12 @@
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value]||[];
                 })
+            },
+            //下载
+            download(){
+                if(!this.sensorData.length || !this.timeArray.length) return;
+                const startTime = this.time[0];
+                const endTime = this.time[1];
             },
             //切换日期
             changeDate(date){

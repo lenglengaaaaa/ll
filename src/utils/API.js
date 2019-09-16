@@ -279,6 +279,15 @@ export const api={
     //获取资产下的s801、s802、s803 历史数据 post
     getSensorHistoryData:`${url}/e_view/data/statistics/other/history`,
 
+    //导出资产下的环境（多个魔节）历史数据 post
+    getMagicHistoryExecl:`${url}/e_view/data/statistics/history/cmterminal/execl`,
+
+    //导出井盖下线缆的历史数据 post
+    getTrapHistoryExecl:`${url}/e_view/data/statistics/trap/history/execl`,
+
+    //导出资产下s800的历史数据 post
+    getS800HistoryExecl:`${url}/e_view/data/statistics/s800/history/execl`,
+
     //=======================================告警管理=====================================================
 
     //获取告警列表 post
