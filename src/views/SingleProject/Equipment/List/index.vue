@@ -1,6 +1,7 @@
 <template>
     <ApplyMgt
         title="设备"
+        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -146,6 +147,7 @@
         },
         data() {
             return {
+                loading:true,
                 value:null,
                 types:[],
                 data: [],
@@ -168,12 +170,14 @@
             ]),
             //获取设备列表
             getList(obj={}){
+                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
                 this.getEquipList(data).then(res=>{
+                    this.loading = false;
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

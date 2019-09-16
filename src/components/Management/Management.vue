@@ -19,6 +19,7 @@
             </div>
             <div class="table">
                 <el-table
+                    v-loading="loading"
                     :data="data"
                     border
                     stripe
@@ -97,6 +98,7 @@
         props: {
             type:String,
             title:String,
+            loading:Boolean,
             data:Array,
             total:Number,
             skipTo:Function,

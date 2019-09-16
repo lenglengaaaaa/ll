@@ -1,6 +1,7 @@
 <template>
     <ApplyMgt
         title="告警"
+        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -99,6 +100,7 @@
         },
         data() {
             return {
+                loading:true,
                 time:[],
                 value:null,
                 status:[
@@ -126,12 +128,14 @@
                 'getAlarmList', 
             ]),
             getList(obj={}){
+                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
                 this.getAlarmList(data).then(res=>{
+                    this.loading = false;
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

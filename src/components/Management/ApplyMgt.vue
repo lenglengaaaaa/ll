@@ -23,6 +23,7 @@
                 </div>
                 <div class="body">
                     <el-table
+                        v-loading="loading"
                         :data="data"
                         border
                         stripe
@@ -128,6 +129,10 @@
 
     export default {
         props: {
+            loading:{
+                type:Boolean,
+                default:false
+            },
             data:Array,
             total:Number,
             title:String,

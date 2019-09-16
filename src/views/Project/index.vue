@@ -3,6 +3,7 @@
         <Management
             type="project"
             title='项目'
+            :loading="loading"
             :data="data"
             :total="total"
             :skipTo="skipTo"
@@ -67,6 +68,7 @@
         },
         data() {
             return {
+                loading:true,
                 data:[],
                 total:0,
                 dialogVisible:false,
@@ -88,12 +90,14 @@
                 'recoveProject'
             ]),
             getList(obj={}){
+                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
                 this.getProjectList(data).then(res=>{
+                    this.loading = false;
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

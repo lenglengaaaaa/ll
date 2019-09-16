@@ -4,6 +4,7 @@
         title='网关'
         :data="data"
         :total="total"
+        :loading="loading"
         :columns="columns"
         :getList="getList"
         :skipTo="skipTo"
@@ -48,6 +49,7 @@
         },
         data() {
             return {
+                loading:true,
                 columns:[
                     { prop: "name" , label: "网关名称" },
                     { prop: "number" , label: "网关编号" },
@@ -72,12 +74,14 @@
                 'deleteGateway', 
             ]),
             getList(obj={}){
+                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
                 this.getGatewayList(data).then(res=>{
+                    this.loading = false;
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

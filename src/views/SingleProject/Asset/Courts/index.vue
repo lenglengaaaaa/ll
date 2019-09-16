@@ -1,6 +1,7 @@
 <template>
     <ApplyMgt
         title="台区"
+        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -112,6 +113,7 @@
         },
         data() {
             return {
+                loading:true,
                 data: [],
                 total:0,
                 params:{
@@ -131,12 +133,14 @@
                 'deleteCourts'
             ]),
             getList(obj={}){
+                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
                 this.getCourtsList(data).then(res=>{
+                    this.loading = false;
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;
