@@ -69,8 +69,8 @@
 </template>
 
 <script>
-    import {Magic,Tline,S800,Sensor} from './components'
-    import {defaultValue} from './components/defaultVal'
+    import { Magic ,Tline ,S800 ,Sensor } from './components'
+    import { dataProcessing , currentDataFilter} from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
@@ -161,7 +161,7 @@
                 }).then(res=>{
                     if(!res) return;
                     this.magicData= {
-                        data:this.filterData(res,'magic'),
+                        data:currentDataFilter(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
                     };
                 })
@@ -172,7 +172,7 @@
                 this.getLineCurrentData(id).then(res=>{
                     const {lineInfoList,lineDateMap} = res;
                     if( !res || !lineInfoList.length )return;
-                    this.lineData = this.dataProcessing(lineInfoList,lineDateMap,'line');
+                    this.lineData = dataProcessing(lineInfoList,lineDateMap);
                 })
             },
             //获取S800实时数据
@@ -184,7 +184,7 @@
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length ) return;
-                    this.sEightData = this.dataProcessing(deviceInfoList,dataMap,'s800');
+                    this.sEightData = dataProcessing(deviceInfoList,dataMap,'s800');
                 })
             },
             //获取资产下的红外、烟感等设备实时数据
@@ -196,63 +196,8 @@
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
-                    this.sensorData = deviceInfoList.reduce((pre,current)=>{
-                        const { deviceType,deviceAdress,name,number,isDelete } = current;
-                        if(isDelete) return pre;
-                        return [
-                            ...pre,
-                            {
-                                id:deviceAdress,
-                                number,
-                                name,
-                                createTime:dataMap[deviceType]&&dataMap[deviceType][deviceAdress]?
-                                    this.$moment(dataMap[deviceType][deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
-                                data:dataMap[deviceType]&&dataMap[deviceType][deviceAdress]?
-                                    this.filterData(dataMap[deviceType][deviceAdress],'s800'):defaultValue['s800']
-                            }
-                        ]
-                    },[])
+                    this.sensorData = dataProcessing(deviceInfoList,dataMap,'sensor');
                 })
-            },
-            //数据处理
-            dataProcessing(list,dataMap,type){
-                const result = list.reduce((pre,current)=>{
-                    const { name,number,isDelete } = current;
-                    const id = type==='line'?current.id:current.deviceAdress;
-                    if(isDelete) return pre;
-                    return [
-                        ...pre,
-                        {
-                            id,
-                            number,
-                            name,
-                            createTime:dataMap[id]?
-                                this.$moment(dataMap[id].createTime).format('YYYY-MM-DD HH:mm:ss'):null,
-                            data:dataMap[id]?
-                                this.filterData(dataMap[id],type):defaultValue[type]
-                        }
-                    ]
-                },[])
-                return result;
-            },
-            //数据筛选
-            filterData(res,type){
-                const arr = {
-                    'magic':['temp','hum','o2','h2s','co','ch4','o3','bat'],
-                    'line':['batteryA','CBTemp','lineA','lineTemp','lineV','node433','shake','signal'],
-                    's800':['co','infrared','liquid','batteryA','shake','node433','signal','CBTemp'],
-                }
-                let obj = {};
-                for(let i in res){
-                    if(i==='creatTime')break;
-                    if(arr[type].includes(i)){
-                        obj[i] = {
-                            value:res[i].value,
-                            createTime:res[i].createTime&&this.$moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
-                        };
-                    }
-                }
-                return obj;
             },
             //MQTT数据处理
             mqttDataHandle(res){

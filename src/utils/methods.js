@@ -1,5 +1,4 @@
 import store from '../store'
-import { resolve } from 'url';
 
 /**
  * 资产管理页面,对单个表单项进行重置
@@ -104,37 +103,45 @@ export const judgeObject = (x,y) =>{
  * @param names 名称对象
  * @param data 数据
  */
-export const filterData = (obj) =>{
-    const {object,names,data} = obj; 
-    let result = _.cloneDeep(object)
-    let timeArray= [];
+// export const filterData = (obj) =>{
+//     const {object,names,data} = obj; 
+//     let result = _.cloneDeep(object)
+//     let timeArray= [];
 
-    for(let i in data){
-        const name = names[i];
-        const keys= Object.keys(object);
+//     for(let i in data){
+//         const name = names[i];
+//         const keys= Object.keys(object);
 
-        //因为result & temporaryObj 是相同的对象,需进行clone,否则超过最大调用堆栈大小.
-        let temporaryObj =  _.cloneDeep(object);
-        data[i].forEach((item,index)=>{
-            timeArray.push(new Date(item.createTime).getTime());
-            for(let k of keys){ temporaryObj[k].push([moment(item.createTime).format("MM-DD HH:mm:ss"),item[k]])};
-        })
-        for(let k of keys){ result[k].push({name,data:temporaryObj[k]}) };
-    }
-    const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
+//         //因为result & temporaryObj 是相同的对象,需进行clone,否则超过最大调用堆栈大小.
+//         let temporaryObj =  _.cloneDeep(object);
+//         data[i].forEach((item,index)=>{
+//             timeArray.push(new Date(item.createTime).getTime());
+//             for(let k of keys){ temporaryObj[k].push([moment(item.createTime).format("MM-DD HH:mm:ss"),item[k]])};
+//         })
+//         for(let k of keys){ result[k].push({name,data:temporaryObj[k]}) };
+//     }
+//     const timeResult = timeArray.sort().map(item => moment(item).format("MM-DD HH:mm:ss"));
 
-    return {
-        result,
-        timeResult
-    }
-}
+//     return {
+//         result,
+//         timeResult
+//     }
+// }
 
+/**
+ * 设备历史数据筛选(NEW)
+ * @param list 设备列表
+ * @param data 数据
+ * @param type 类型
+ */
 export const newFilterData = (obj) =>{
     const {list,data,type='magic'} = obj;
     let timeArray= [];
     const result = list.reduce((pre,current)=>{
         const { id,deviceType,deviceAdress,name,isDelete } = current ;
-        const currentData = type==='magic' ? data[deviceAdress] :type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] : data[id];
+        const currentData = type==='magic' ? data[deviceAdress] :
+                                type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
+                                    : data[id];
         if( isDelete || !currentData ) return pre;
         let obj = {};
         currentData.forEach(single=>{
@@ -175,4 +182,96 @@ export const downFile = (content, filename='')=>{
     eleLink.click();
     // 然后移除
     document.body.removeChild(eleLink);
+}
+
+/**
+ * 设备视图,无数据有设备时默认值
+ */
+const defaultValue = (type)=>{
+    switch (type) {
+        case 'line':
+            return {
+                batteryA:{value:null,createTime:null},
+                CBTemp:{value:null,createTime:null},
+                lineA:{value:null,createTime:null},
+                lineTemp:{value:null,createTime:null},
+                lineV:{value:null,createTime:null},
+                node433:{value:null,createTime:null},
+                shake:{value:null,createTime:null},
+                signal:{value:null,createTime:null}
+            }
+        case 's800':
+        case 'sensor':
+            return {
+                co:{value:null,createTime:null},
+                infrared:{value:null,createTime:null},
+                liquid:{value:null,createTime:null},
+                batteryA:{value:null,createTime:null},
+                shake:{value:null,createTime:null},
+                node433:{value:null,createTime:null},
+                signal:{value:null,createTime:null},
+                CBTemp:{value:null,createTime:null}
+            }
+        default:
+            
+    }
+}
+
+/**
+ * 数据视图实时数据过滤
+ * @param list 设备列表
+ * @param dataMap 数据
+ * @param type 设备类型
+ */
+export const dataProcessing=(list,dataMap,type='line')=>{
+    const result = list.reduce((pre,current)=>{
+        const { id, name, number, isDelete, deviceType, deviceAdress } = current;
+        const currentData = type==='line'? dataMap[id] :
+                                type==='s800'?dataMap[deviceAdress]:
+                                    dataMap[deviceType]&&dataMap[deviceType][deviceAdress];
+        if(isDelete) return pre;
+        return [
+            ...pre,
+            {
+                id,
+                number,
+                name,
+                createTime:currentData?
+                    moment(currentData.createTime).format('YYYY-MM-DD HH:mm:ss'):null,
+                data:currentData?
+                    currentDataFilter(currentData,type):defaultValue(type)
+            }
+        ]
+    },[])
+    return result;
+}
+
+//实时数据过滤 --配合上方处理函数使用
+export const currentDataFilter = (res,type)=>{
+    let arr ;
+    switch (type) {
+        case 'magic':
+            arr = ['temp','hum','o2','h2s','co','ch4','o3','bat']
+            break;
+        case 'line':
+            arr = ['batteryA','CBTemp','lineA','lineTemp','lineV','node433','shake','signal']
+            break;
+        case 's800':
+        case 'sensor':
+            arr = ['co','infrared','liquid','batteryA','shake','node433','signal','CBTemp']
+            break;
+        default:
+            
+    }
+    let obj = {};
+    for(let i in res){
+        if(i==='creatTime')break;
+        if(arr.includes(i)){
+            obj[i] = {
+                value:res[i].value,
+                createTime:res[i].createTime&&moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
+            };
+        }
+    }
+    return obj;
 }
