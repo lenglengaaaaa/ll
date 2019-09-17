@@ -132,7 +132,7 @@
             },
             //下载
             download: _.throttle(function(){
-                if(!this.magicData.bat || !this.timeArray.length ) return;
+                if((this.magicData&&!this.magicData.bat) || !this.timeArray.length ) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getMagicHistoryExecl({
