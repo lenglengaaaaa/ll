@@ -97,7 +97,6 @@
                 allData:[],
                 timeArray:[],
                 currentValue:[],
-                flag:true
             }
         },
         created () {
@@ -132,11 +131,10 @@
                 })
             },
             //下载
-            download(){
-                if(!this.magicData.bat || !this.timeArray.length ||!this.flag) return;
+            download: _.throttle(function(){
+                if(!this.magicData.bat || !this.timeArray.length ) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.flag = false;
                 this.getMagicHistoryExecl({
                     assetId:this.assetObj.id,
                     assetType:this.assetType,
@@ -145,9 +143,8 @@
                 }).then(res=>{
                     if(!res)return;
                     downFile(res);
-                    setTimeout(()=>{ this.flag = true;},2000)
                 })
-            },
+            },5000),
             //切换变量
             changeParam(val){
                 this.currentValue = this.allData[val] || [];

@@ -1,5 +1,6 @@
 import {LineChart} from '@/components/Charts'
 import Empty from '@/components/Empty'
+import { mapActions } from 'vuex'
 
 export default {
     components: {
@@ -29,7 +30,6 @@ export default {
             allData:[],
             timeArray:[],
             currentValue:[],
-            flag:true
         }
     },
     computed: {
@@ -38,6 +38,12 @@ export default {
         }
     },
     methods: {
+        ...mapActions('equip',[
+            'getSensorHistoryData',
+            'getSensorHistoryExecl',
+            'gets800HistoryData',
+            'getS800HistoryExecl'
+        ]),
         //切换变量
         changeParam(val){
             this.currentValue = this.allData[val] || [];

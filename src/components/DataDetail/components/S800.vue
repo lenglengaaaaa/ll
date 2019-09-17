@@ -80,10 +80,6 @@
             this.getS800History();
         },
         methods: {
-            ...mapActions('equip',[
-                'gets800HistoryData',
-                'getS800HistoryExecl'
-            ]),
             //获取线缆历史数据
             getS800History(){
                 const startTime = this.time[0];
@@ -103,11 +99,10 @@
                 })
             },
             //下载
-            download(){
-                if(!this.sEightData.length || !this.timeArray.length || !this.flag) return;
+            download: _.throttle(function(){
+                if(!this.sEightData.length || !this.timeArray.length ) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.flag = false;
                 this.getS800HistoryExecl({
                     assetId:this.assetObj.id,
                     assetType:this.assetType,
@@ -116,9 +111,8 @@
                 }).then(res=>{
                     if(!res)return;
                     downFile(res);
-                    setTimeout(()=>{ this.flag = true;},2000)
                 })
-            },
+            },5000),
             //切换日期
             changeDate(date){
                 if(!date)return;

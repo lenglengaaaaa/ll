@@ -107,7 +107,6 @@
                 timeArray:[],
                 lineAData:[],
                 tempData:[],
-                flag:true
             }
         },
         mounted () {
@@ -124,7 +123,8 @@
         },
         methods: {
             ...mapActions('equip',[
-                'getRingHistoryData'
+                'getRingHistoryData',
+                'getRingHistoryExecl'
             ]),
             //选中出线
             selectOutLine(index,item) {
@@ -178,13 +178,19 @@
                 })
             },
             //下载
-            download(){
-                if(!this.sensorData.length || !this.timeArray.length || !this.flag) return;
+            download: _.throttle(function(){
+                if(!this.switchList.length || !this.timeArray.length ) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.flag = false;
-                setTimeout(()=>{ this.flag = true;},2000)
-            },
+                this.getRingHistoryExecl({
+                    queryId:this.switchId,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    downFile(res);
+                })
+            },5000)
         },
     }
 </script>

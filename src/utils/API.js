@@ -288,6 +288,12 @@ export const api={
     //导出资产下s800的历史数据 post
     getS800HistoryExecl:`${url}/e_view/data/statistics/s800/history/execl`,
 
+    //导出资产下s801、s802、s803的历史数据 post
+    getSensorHistoryExecl:`${url}/e_view/data/statistics/other/history/execl`,
+
+    //导出配电柜下单个出线的历史视图 post
+    getRingHistoryExecl:`${url}/e_view/data/statistics/switch/history/execl`,
+
     //=======================================告警管理=====================================================
 
     //获取告警列表 post

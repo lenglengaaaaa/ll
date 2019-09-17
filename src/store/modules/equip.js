@@ -552,6 +552,44 @@ const actions= {
             }
         })
     },
+
+    /**
+     * 导出资产下s801、s802、s803的历史数据
+     * @param 同历史数据
+     */
+    getSensorHistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getSensorHistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 导出配电柜下单个出线的历史视图
+     * @param 同历史数据
+     */
+    getRingHistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getRingHistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

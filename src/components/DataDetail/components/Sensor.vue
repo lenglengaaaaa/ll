@@ -80,9 +80,6 @@
             this.getSensorHistory();
         },
         methods: {
-            ...mapActions('equip',[
-                'getSensorHistoryData' 
-            ]),
             //获取独立传感器历史数据
             getSensorHistory(){
                 const startTime = this.time[0];
@@ -102,13 +99,20 @@
                 })
             },
             //下载
-            download(){
-                if(!this.sensorData.length || !this.timeArray.length || !this.flag) return;
+            download: _.throttle(function(){
+                if(!this.sensorData.length || !this.timeArray.length) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.flag = false;
-                setTimeout(()=>{ this.flag = true;},2000)
-            },
+                this.getSensorHistoryExecl({
+                    assetId:this.assetObj.id,
+                    assetType:this.assetType,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    downFile(res);
+                })
+            },5000),
             //切换日期
             changeDate(date){
                 if(!date)return;
