@@ -58,7 +58,7 @@
                                     </el-date-picker>
                                 </el-form-item>
                                 <el-form-item label="下载 :">
-                                    <i class="el-icon-download"></i>
+                                    <i class="el-icon-download" @click="download"></i>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -83,6 +83,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import { newFilterData ,downFile } from '@/utils/methods'
     import {LineChart} from '@/components/Charts'
 
     export default {
@@ -96,6 +97,7 @@
             return {
                 title:'',
                 ringName:'',
+                switchId:'',
                 highlight: 0,
                 currentRing:{},
                 time: [
@@ -105,9 +107,10 @@
                 timeArray:[],
                 lineAData:[],
                 tempData:[],
+                flag:true
             }
         },
-        async mounted () {
+        mounted () {
             const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
             this.title = name ;
         },
@@ -115,8 +118,8 @@
             switchList(arr) {
                 this.currentRing = arr.length && arr[0];
                 this.ringName = arr.length && arr[0].switchName;
-                const switchId = this.currentRing.switchId ;
-                this.getRingHistory(switchId);
+                this.switchId = this.currentRing.switchId;
+                this.getRingHistory();
             }
         },
         methods: {
@@ -127,52 +130,61 @@
             selectOutLine(index,item) {
                 this.highlight = index;
                 this.ringName = item.switchName;
+                this.switchId = item.switchId;
                 this.currentRing = item;
-                this.getRingHistory(item.switchId);
+                this.getRingHistory();
             },
             //切换日期
             changeDate(date){
+                if(!date)return;
                 this.time = [date[0],date[1]];
-                this.getRingHistory(this.currentRing.switchId);
+                this.getRingHistory();
             },
             //获取历史数据
-            getRingHistory(id){
+            getRingHistory(){
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getRingHistoryData({
-                    queryId:id,
+                    queryId:this.switchId,
                     startTime,
                     endTime
                 }).then(res=>{
-                    if(!res)return;
                     const {history} = res;
-                    const names = this.currentRing.outLineList&&this.currentRing.outLineList.reduce((pre,current)=>{
-                        pre[current.outLineId] = current.outLineName;
-                        return pre
-                    },{})
-                   //获取数据集合
-                    const result = {
-                        "temp":[],
-                        "lineA":[],
-                    }   
-                    let timeArray= [];
-                    for(let i in history){
-                        const name = `相序${names[i]}`;
-                        const keys= Object.keys(result);
-                        let obj = { temp:[], lineA:[] };
-                        history[i].forEach(item=>{
-                            timeArray.push(new Date(item.createTime).getTime());
-                            for(let k of keys){ obj[k].push([this.$moment(item.createTime).format("MM-DD HH:mm:ss"),item.dataJSON[k]]) };
+                    if( !res )return;
+                    let timeArray = [];
+                    const result = this.currentRing.outLineList&&this.currentRing.outLineList.reduce((pre,current)=>{
+                        const {outLineId,outLineName} = current;
+                        const currentData = history[outLineId];
+                        if(!currentData) return pre;
+                        let obj = {};
+                        currentData.forEach(single=>{
+                            timeArray.push(moment(single.createTime).valueOf());
+                            const {dataJSON} = single;
+                            for(let item in dataJSON){
+                                if(!obj[item]) obj[item] = [];
+                                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),dataJSON[item]]);
+                            }
                         })
-                        for(let k of keys){ result[k].push({name,data:obj[k]}) };
-                    }
-                    const timeResult = timeArray.sort().map(item=>this.$moment(item).format("MM-DD HH:mm:ss"));
+                        for(let k in obj){
+                            if(!pre[k]) pre[k] = [];
+                            pre[k].push({ name:`相序${outLineName}`,data:obj[k] });
+                        }
+                        return pre;
+                    },{})
+                    const timeResult = _.sortBy(timeArray).map(item=>moment(item).format("MM-DD HH:mm:ss"));
                     this.timeArray = timeResult;
-                    this.lineAData = result['lineA'];
-                    this.tempData = result['temp'];
+                    this.lineAData = result['lineA'] || [];
+                    this.tempData = result['temp'] || [];
                 })
-            }
-
+            },
+            //下载
+            download(){
+                if(!this.sensorData.length || !this.timeArray.length || !this.flag) return;
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                this.flag = false;
+                setTimeout(()=>{ this.flag = true;},2000)
+            },
         },
     }
 </script>

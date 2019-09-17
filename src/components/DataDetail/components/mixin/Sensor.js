@@ -29,6 +29,7 @@ export default {
             allData:[],
             timeArray:[],
             currentValue:[],
+            flag:true
         }
     },
     computed: {
@@ -40,11 +41,6 @@ export default {
         //切换变量
         changeParam(val){
             this.currentValue = this.allData[val] || [];
-        },
-        //切换日期
-        changeDate(date){
-            this.time = [date[0],date[1]];
-            this.getS800History();
         },
         //匹配名称&单位
         match(name,flag){

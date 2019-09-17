@@ -98,7 +98,7 @@
             this.getRingDetail(id).then(res=>{
                 const { switchList } = res;
                 if(!res )return;
-                this.switchList = switchList.length ? res.switchList : defaultValue;
+                this.switchList = switchList.length ? switchList : defaultValue;
             })
             this.getEquipList(id);
             

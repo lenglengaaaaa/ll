@@ -103,12 +103,15 @@
             },
             //下载
             download(){
-                if(!this.sensorData.length || !this.timeArray.length) return;
+                if(!this.sensorData.length || !this.timeArray.length || !this.flag) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
+                this.flag = false;
+                setTimeout(()=>{ this.flag = true;},2000)
             },
             //切换日期
             changeDate(date){
+                if(!date)return;
                 this.time = [date[0],date[1]];
                 this.getSensorHistory();
             },

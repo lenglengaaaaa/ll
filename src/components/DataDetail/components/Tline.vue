@@ -121,7 +121,8 @@
                 customColors: [
                     {color: '#67c23a', percentage: 90},
                     {color: '#f56c6c', percentage: 100}
-                ]
+                ],
+                flag:true
             }
         },
         computed: {
@@ -156,9 +157,10 @@
             },
             //下载
             download(){
-                if(!this.lineData.length || !this.timeArray.length) return;
+                if(!this.lineData.length || !this.timeArray.length || !this.flag) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
+                this.flag = false;
                 this.getTrapHistoryExecl({
                     queryId:this.assetObj.id,
                     startTime,
@@ -166,6 +168,7 @@
                 }).then(res=>{
                     if(!res)return;
                     downFile(res)
+                    setTimeout(()=>{ this.flag = true;},2000)
                 })
             },
             //切换变量
@@ -174,6 +177,7 @@
             },
             //切换日期
             changeDate(date){
+                if(!date)return;
                 this.time = [date[0],date[1]];
                 this.getLineHistory();
             },
