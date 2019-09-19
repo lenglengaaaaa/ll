@@ -30,8 +30,8 @@
         },
         methods: {
             //设备分类
-            classifyType(id){
-                switch (+id) {
+            classifyType(type){
+                switch (+type) {
                     //魔戒
                     // case 36:
                     //     return Ring;
@@ -52,43 +52,5 @@
 </script>
 
 <style lang="scss" >
-    .deviceThreshold{
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
-        .box-card{
-            .el-card__header{
-                padding: 10px 20px;
-                .clearfix{
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    .info{
-                        strong{
-                            font-size: 1.2rem;
-                        }
-                        div{
-                            padding-top: 5px;
-                            font-size: .7rem;
-                            color: #708090;
-                        }
-                    }   
-                }
-            }
-            .el-card__body{
-                padding: 10px 20px;
-                .el-form{
-                    width:1000px;
-                    max-width: 100%;
-                    .submit{
-                        padding-top: 20px;
-                        text-align: center;
-                    }
-                    .el-select{
-                        width:100%;
-                    }
-                }
-            }
-        }
-    }
+    @import '@/styles/deviceThreshold.scss';
 </style>
