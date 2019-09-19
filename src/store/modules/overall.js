@@ -477,6 +477,111 @@ const actions= {
         })
     },
 
+    //==================================阈值设置==================================
+    /**
+     * 查看告警阈值设置详情
+     * @param {
+     *       setId,         设备ID
+     *       setType,       设备类型(0:设备 1:应用)
+     *       deviceType    设备类型
+     * }
+     */
+    getDeviceThreshold({commit},obj){
+        return request({
+            method:'get',
+            url:`${api.getDeviceThreshold}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 新增告警阈值设置(第一次设置)
+     * @param {
+     *       setId,         设备ID
+     *       setType,       设备类型(0:设备 1:应用)
+     *       deviceType     设备类型
+     *       deviceAddress  *设置应用时不需要
+     *       deviceEui      *设置应用时不需要
+     *       commWay        *使用的通讯技术（0.NB-IoT 1.LoRa）  设置应用时不需要
+     *       payload        设置值域 json {"line":100}
+     *       description    描述
+     * }
+     */
+    addThresholdSet({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.addThresholdSet}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                res&&tip(res.meassage);
+                return false
+            }
+        })
+    },
+
+    /**
+     * 修改告警阈值设置
+     * @param {
+     *       id             阈值ID      
+     *       setId,         设备ID
+     *       setType,       设备类型(0:设备 1:应用)
+     *       deviceType     设备类型
+     *       deviceAddress  *设置应用时不需要
+     *       deviceEui      *设置应用时不需要
+     *       commWay        *使用的通讯技术（0.NB-IoT 1.LoRa）  设置应用时不需要
+     *       payload        设置值域 json {"line":100}
+     *       description    描述
+     * }
+     */
+    updateThresholdSet({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.updateThresholdSet}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                res&&tip(res.meassage);
+                return false
+            }
+        })
+    },
+
+    /**
+     * 删除告警阈值设置
+     * @param {
+     *       id             阈值ID      
+     * }
+     */
+    deleteThresholdSet({commit},obj){
+        return request({
+            method:'get',
+            url:`${api.deleteThresholdSet}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return true;
+            }else{
+                return false
+            }
+        })
+    },
+
+
+
     //==================================系统操作管理==================================
     /**
      * 获取系统操作管理列表

@@ -142,7 +142,8 @@ export const newFilterData = (obj) =>{
         const currentData = type==='magic' ? data[deviceAdress] :
                                 type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
                                     : data[id];
-        if( isDelete || !currentData ) return pre;
+        // if( isDelete || !currentData ) return pre;
+        if( !currentData ) return pre;
         let obj = {};
         currentData.forEach(single=>{
             for(let item in single){

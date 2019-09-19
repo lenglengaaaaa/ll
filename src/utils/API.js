@@ -294,6 +294,20 @@ export const api={
     //导出配电柜下单个出线的历史视图 post
     getRingHistoryExecl:`${url}/e_view/data/statistics/switch/history/execl`,
 
+    //=======================================阈值设置=====================================================
+
+    //查看告警阈值设置详情 get
+    getDeviceThreshold:`${url}/e_view/deviceThreshold/info`,
+
+    //新增告警阈值设置 post 
+    addThresholdSet:`${url}/e_view/deviceThreshold/create`,
+
+    //修改告警阈值设置 post
+    updateThresholdSet:`${url}/e_view/deviceThreshold/update`,
+
+    //删除告警阈值设置 post
+    deleteThresholdSet:`${url}/e_view/deviceThreshold/delete`,
+
     //=======================================告警管理=====================================================
 
     //获取告警列表 post
