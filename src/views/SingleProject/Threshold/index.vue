@@ -1,6 +1,6 @@
 <template>
-    <div> 
-        <el-tabs >
+    <div class="THRESHOLD_SET">
+        <el-tabs type="border-card">
             <el-tab-pane label="魔节" lazy>
                 <Magic :deviceType="30" />
             </el-tab-pane>
@@ -47,4 +47,19 @@
 
 <style lang="scss" >
     @import '@/styles/deviceThreshold.scss';
+
+    .THRESHOLD_SET{
+        .el-tabs {
+            .el-tabs__content{
+                    height: calc(100vh - 215px);
+                    max-height: calc(100vh - 215px);
+                    overflow: scroll;
+            }
+            .is-always-shadow{
+                box-shadow: none;
+                border: 1px solid #dcdfe6;
+            }
+        }
+    }
+
 </style>

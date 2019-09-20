@@ -1,5 +1,13 @@
 import { mapActions } from 'vuex'
 
+const names = {
+    30:'电缆监测终端（魔节）',
+    38:'线缆温度传感器',
+    32:'红外传感器',
+    35:'烟雾传感器',
+    37:'水浸传感器',
+}
+
 export default {
     props: {
         deviceType: Number
@@ -37,6 +45,7 @@ export default {
             let params;
             if(this.path==='/project/threshold'){
                 const {id} = this.project;
+                this.deviceName = names[+this.deviceType];
                 params = { setId:id, setType:1, deviceType:this.deviceType };
             }else{
                 const {id,deviceType,name} = this.device;
