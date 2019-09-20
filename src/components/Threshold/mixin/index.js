@@ -1,34 +1,29 @@
 import { mapActions } from 'vuex'
 
 export default {
+    props: {
+        deviceType: Number
+    },
     data() {
         return {
             id:null,
             deviceName:'',
-            deviceType:0,
             rules:{}
         }
     },
     computed: {
         device() {
             return JSON.parse(sessionStorage.getItem('equipObj')).data
+        },
+        project() {
+            return JSON.parse(sessionStorage.getItem('project'))
+        },
+        path(){
+            return this.$route.path
         }
     },
     created () {
-        //30:魔节 , 36:魔戒
-        const {id,deviceType,name} = this.device;
-        this.deviceName = name;
-        this.deviceType = deviceType;
-        this.getDeviceThreshold({setId:id,setType:0,deviceType}).then(res=>{
-            if(res){
-                const {id,payload} = res;
-                this.thForm={
-                    ...this.thForm,
-                    ...JSON.parse(payload)
-                };
-                this.id = id;
-            }
-        })
+        this.getSetting();
     },
     methods: {
         ...mapActions('overall',[
@@ -37,50 +32,77 @@ export default {
             'updateThresholdSet',
             'deleteThresholdSet'
         ]),
-        // //重置为默认值
-        // resetDeafault(){
-        // },
+        //获取阈值设置
+        getSetting(){
+            let params;
+            if(this.path==='/project/threshold'){
+                const {id} = this.project;
+                params = { setId:id, setType:1, deviceType:this.deviceType };
+            }else{
+                const {id,deviceType,name} = this.device;
+                this.deviceName = name;
+                params = { setId:id, setType:0, deviceType };
+            }
+            this.getDeviceThreshold(params).then(res=>{
+                if(res){
+                    const {id,payload} = res;
+                    this.thForm={
+                        ...this.thForm,
+                        ...JSON.parse(payload)
+                    };
+                    this.id = id;
+                }
+            })
+        },
+        //提交
         submitForm() {
             this.$refs.thForm.validate((valid) => {
                 if (valid) {
-                    const {id,deviceType,deviceAddress,deviceEui,commWay} = this.device
-                    //新增
-                    if(!this.id){
-                        this.addThresholdSet({
+                    let params ={
+                        payload:JSON.stringify(this.thForm),        
+                        description:'' 
+                    };
+                    if(this.path==='/project/threshold'){
+                        //全局阈值设置
+                        const {id} = this.project
+                        params = {
+                            ...params,
+                            setId:id,         
+                            setType:1,
+                            deviceType:this.deviceType,
+                        }
+                    }else{
+                        //单个设备阈值设置
+                        const {id,deviceType,deviceAdress,deviceEui,commWay} = this.device
+                        params = {
+                            ...params,
                             setId:id,         
                             setType:0,       
                             deviceType,    
-                            deviceAddress,  
+                            deviceAddress:deviceAdress,  
                             deviceEui,      
                             commWay,       
-                            payload:JSON.stringify(this.thForm),        
-                            description:''   
-                        }).then(res=>{
-                            if(!res)return;
-                            this.$router.push({name:'EquList'});
+                        }
+                    }
+                    //新增
+                    if(!this.id){
+                        this.addThresholdSet(params).then(res=>{
+                            if(res) this.id = res.id;
+                            // this.$router.push({name:'EquList'});
                         })
                         return;
                     }
                     //修改
                     this.updateThresholdSet({
+                        ...params,
                         id:this.id,
-                        setId:id,         
-                        setType:0,       
-                        deviceType,    
-                        deviceAddress,  
-                        deviceEui,      
-                        commWay,       
-                        payload:JSON.stringify(this.thForm),        
-                        description:''   
-                    }).then(res=>{
-                        if(!res)return;
-                        this.$router.push({name:'EquList'});
                     })
                 } else {
                     return false;
                 }
             });
         },
+        //重置
         resetForm() {
             if(!this.id){
                 this.$message({

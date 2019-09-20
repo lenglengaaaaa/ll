@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import { Magic, Sensor ,CableTemp } from './components'
+    import { Magic , Sensor , CableTemp } from '@/components/Threshold'
 
     export default {
         components: {
@@ -32,8 +32,6 @@
         },
         data() {
             return {
-                // currentForm: Magic,
-                // value:30,
                 // types:[
                 //     {id:30,value:'电缆监测终端（魔节）'},
                 //     {id:38,value:'线缆温度传感器'},
@@ -42,32 +40,7 @@
                 //     {id:37,value:'水浸传感器'},
                 // ]
             }
-        },
-        created () {
-
-        },
-        methods: {
-            // changeSelect(val){
-            //     this.classifyType(val);
-            // },
-            // //设备分类
-            // classifyType(type){
-            //     switch (+type) {
-            //         //魔戒
-            //         // case 36:
-            //         //     return Ring;
-            //         //魔节
-            //         case 30:
-            //             return Magic;
-            //         //线缆温度传感器
-            //         case 38:
-            //             return CableTemp;
-            //         //独立传感器
-            //         default:
-            //             return Sensor;
-            //     }
-            // },
-        },
+        }
     }
 
 </script>
