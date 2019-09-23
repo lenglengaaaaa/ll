@@ -12,9 +12,11 @@
                     <el-input
                         size="small"
                         :placeholder="`搜索${title}`"
-                        suffix-icon="el-icon-search"
                         v-model="input"
-                    />
+                        @blur="search"
+                    >
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    </el-input>
                 </div>
             </div>
             <div class="table">
@@ -140,6 +142,15 @@
                 this.current = val;
                 this.getList({ current:val });
                 this.$nextTick(()=>{this.$refs.manTable.bodyWrapper.scrollTop = 0 });
+            },
+            //搜索
+            search(){
+                this.current = 1;
+                const val = this.input.replace(/ /g,'');
+                this.getList({
+                    filterStr:val,
+                    current:1
+                })
             },
             //应用跳转
             linkTo(type,row={}){

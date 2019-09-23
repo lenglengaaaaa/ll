@@ -5,7 +5,7 @@
                 <Magic :deviceType="30" />
             </el-tab-pane>
             <el-tab-pane label="线缆温度传感器" lazy>
-                <Sensor :deviceType="38" />
+                <CableTemp :deviceType="38" />
             </el-tab-pane>
             <el-tab-pane label="红外传感器" lazy>
                 <Sensor :deviceType="32" />
@@ -32,13 +32,7 @@
         },
         data() {
             return {
-                // types:[
-                //     {id:30,value:'电缆监测终端（魔节）'},
-                //     {id:38,value:'线缆温度传感器'},
-                //     {id:32,value:'红外传感器'},
-                //     {id:35,value:'烟雾传感器'},
-                //     {id:37,value:'水浸传感器'},
-                // ]
+
             }
         }
     }
