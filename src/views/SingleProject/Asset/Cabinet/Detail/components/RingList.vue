@@ -76,7 +76,6 @@
             },
         },
         mounted () {
-            const {id} = JSON.parse(sessionStorage.getItem('obj'));
             this.data = this.switchList.reduce((pre,current)=>{
                 return [...pre,...current.outLineList]
             },[]).reduce((pre,current)=>{

@@ -82,10 +82,11 @@
         methods: {
             //获取线缆历史数据
             getS800History(){
+                const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.gets800HistoryData({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime
@@ -101,10 +102,11 @@
             //下载
             download: _.throttle(function(){
                 if(!this.sEightData.length || !this.timeArray.length ) return;
+                const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getS800HistoryExecl({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime

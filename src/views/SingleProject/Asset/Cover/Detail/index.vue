@@ -34,16 +34,16 @@
             return {
                 equipList: [],
                 params:{
-                    projectId:JSON.parse(sessionStorage.getItem('project')).id,
+                    projectId:(sessionStorage.getItem('project')&&JSON.parse(sessionStorage.getItem('project')).id) || null,
                     current:1,
                     size:50
                 }
             }
         },
         created () {
-            const {name,trapName,id} =JSON.parse(sessionStorage.getItem("obj"));
+            const {name,trapName,id,trapId} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name||trapName;
-            this.getEquip(id);
+            this.getEquip(trapId || id);
         },
         methods: {
             ...mapActions('equip',[

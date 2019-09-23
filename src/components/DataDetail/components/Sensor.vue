@@ -82,10 +82,11 @@
         methods: {
             //获取独立传感器历史数据
             getSensorHistory(){
+                const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getSensorHistoryData({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime
@@ -101,10 +102,11 @@
             //下载
             download: _.throttle(function(){
                 if(!this.sensorData.length || !this.timeArray.length) return;
+                const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getSensorHistoryExecl({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime

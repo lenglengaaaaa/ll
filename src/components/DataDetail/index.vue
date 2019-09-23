@@ -113,6 +113,7 @@
             await this.getSensorData();
         }, 
         mounted () {
+            if(!this.projectId)return;
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'设备数据')
@@ -127,7 +128,7 @@
                 return JSON.parse(sessionStorage.getItem('obj'));
             },
             projectId(){
-                return JSON.parse(sessionStorage.getItem('project')).id;
+                return sessionStorage.getItem('project')&&JSON.parse(sessionStorage.getItem('project')).id;
             },
         },
         methods: {
@@ -140,7 +141,6 @@
             ]),
             //获取资产下魔节列表
             getMagicList(){
-                const {id} = this.assetObj;
                 this.getEquipMenu(this.params).then(res=>{
                     if(!res)return;
                     this.magicList = res;
@@ -153,10 +153,10 @@
             },
             //获取实时魔节数据
             getMagicData(queryId){
-                const {id} = this.assetObj;
+                const {id,trapId} = this.assetObj;
                 this.getCurrentMagicData({
                     queryId,
-                    assetId:id,
+                    assetId:trapId||id,
                     assetType:this.assetType
                 }).then(res=>{
                     if(!res) return;
@@ -168,8 +168,8 @@
             },
             //获取线缆实时数据
             getLineData(){
-                const {id} = this.assetObj;
-                this.getLineCurrentData(id).then(res=>{
+                const {id,trapId} = this.assetObj;
+                this.getLineCurrentData(trapId||id).then(res=>{
                     const {lineInfoList,lineDateMap} = res;
                     if( !res || !lineInfoList.length )return;
                     this.lineData = dataProcessing(lineInfoList,lineDateMap);
@@ -177,9 +177,9 @@
             },
             //获取S800实时数据
             getS800Data(){
-                const {id} = this.assetObj;
+                const {id,trapId} = this.assetObj;
                 this.gets800CurrentData({
-                    assetId:id,
+                    assetId:trapId||id,
                     assetType:this.assetType
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
@@ -189,9 +189,9 @@
             },
             //获取资产下的红外、烟感等设备实时数据
             getSensorData(){
-                const {id} = this.assetObj;
+                const {id,trapId} = this.assetObj;
                 this.getSensorCurrentData({
-                    assetId:id,
+                    assetId:trapId||id,
                     assetType:this.assetType
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
@@ -251,7 +251,7 @@
             },
             //匹配资产类型
             classifyType(type){
-                const { id } = this.assetObj;
+                const { trapId,id } = this.assetObj;
                 switch (type) {
                     //配电柜
                     case 0:
@@ -261,7 +261,7 @@
                         return this.params.roomId = id;
                     //井盖 2
                     default:
-                        return this.params.trapId = id;
+                        return this.params.trapId = trapId || id;
                 }
             },
         },

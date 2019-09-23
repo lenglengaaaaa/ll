@@ -139,10 +139,11 @@
             ]),
             //获取线缆历史数据
             getLineHistory(){
+                const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getTrapLineHistory({
-                    queryId:this.assetObj.id,
+                    queryId:trapId||id,
                     startTime,
                     endTime
                 }).then(res=>{
@@ -157,10 +158,11 @@
             //下载
             download: _.throttle(function(){
                 if(!this.lineData.length || !this.timeArray.length ) return;
+                const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getTrapHistoryExecl({
-                    queryId:this.assetObj.id,
+                    queryId:trapId||id,
                     startTime,
                     endTime
                 }).then(res=>{

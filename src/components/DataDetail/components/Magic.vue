@@ -114,10 +114,11 @@
             ]),
             //获取魔节历史数据
             async getMagicHistory(){
+                const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 await this.getMagicHistoryData({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime
@@ -133,10 +134,11 @@
             //下载
             download: _.throttle(function(){
                 if((this.magicData&&!this.magicData.bat) || !this.timeArray.length ) return;
+                const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getMagicHistoryExecl({
-                    assetId:this.assetObj.id,
+                    assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
                     endTime
