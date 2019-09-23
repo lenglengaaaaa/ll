@@ -45,27 +45,31 @@
     const defaultValue  = [
         {
             "switchId": null,
-            "switchName": "出线一",
+            "switchName": "占位出线一",
             "outLineList": [
                 {
                     "outLineName": "A",
-                    "deviceId": "魔戒1",
-                    "data": null
+                    "deviceId": null,
+                    "data": null,
+                    "deviceName":"占位魔戒一"
                 },
                 {
                     "outLineName": "B",
-                    "deviceId": "魔戒2",
-                    "data": null
+                    "deviceId": null,
+                    "data": null,
+                    "deviceName":"占位魔戒二"
                 },
                 {
                     "outLineName": "C",
-                    "deviceId": "魔戒3",
-                    "data": null
+                    "deviceId": null,
+                    "data": null,
+                    "deviceName":"占位魔戒三"
                 },
                 {
                     "outLineName": "N",
-                    "deviceId": "魔戒4",
-                    "data": null
+                    "deviceId": null,
+                    "data": null,
+                    "deviceName":"占位魔戒四"
                 }
             ]
         }

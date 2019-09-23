@@ -117,6 +117,7 @@
                 'getAlarmDetail',
                 'handleAlarm'
             ]),
+            //获取告警详情
             getDetail(){
                 const {id,type} = this.alarmObj;
                 this.getAlarmDetail({
@@ -127,12 +128,22 @@
                     this.getData(res,this.secondArray);
                     this.single ={
                         createTime:this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss'),
-                        location:res.location || '---',
+                        location:(res.location&&res.location.split(',').join('')) || '---',
                         alarmMsg:res.decodeHex,
                         status:res.status,
                         details:res.details || ''
                     }
                 })  
+            },
+            //获取数据
+            getData(res,target) {
+                for(let item in res){
+                    target.forEach(k=>{
+                        if(item === k.sign){
+                            k.value = res[item];
+                        }
+                    })
+                }
             },
             //处理回调
             handle(val,label){
@@ -152,16 +163,6 @@
                         this.$router.push({name:'AlarmList'})
                     })
                 }).catch(() => {});
-            },
-            //获取数据
-            getData(res,target) {
-                for(let item in res){
-                    target.forEach(k=>{
-                        if(item === k.sign){
-                            k.value = res[item];
-                        }
-                    })
-                }
             },
         },
     }
