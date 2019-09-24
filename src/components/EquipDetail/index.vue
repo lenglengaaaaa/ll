@@ -110,7 +110,6 @@
             this.getData(this.firstArray);
             this.getData(this.secondArray);
             this.getSingleData();
-            this.$route.meta.title=this.equipObj.name;
         },
         computed: {
             equipObj() {
