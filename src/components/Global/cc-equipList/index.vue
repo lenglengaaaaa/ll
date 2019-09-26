@@ -97,6 +97,7 @@
     import EquipDetail from '@/components/EquipDetail'
 
     export default {
+        name:'cc-equipList',
         components: {
             EquipDetail,
         },

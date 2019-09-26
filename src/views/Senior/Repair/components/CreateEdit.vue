@@ -1,5 +1,5 @@
 <template>
-    <Dialog
+    <cc-dialog
         title="应用"
         :visible="visible"
         :close="handleClose"
@@ -19,21 +19,16 @@
                 </el-button>
             </el-form-item>
         </el-form>
-    </Dialog>
+    </cc-dialog>
 </template>
 
 <script> 
-    import Dialog from '@/components/Dialog'
-
     const restForm ={
         deviceAdress:'',
         remark:''
     }
     
     export default {
-        components: {
-            Dialog
-        },
         props: {
             visible:Boolean,
             editFlag:Boolean,

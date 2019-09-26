@@ -14,7 +14,7 @@
                 />
             </el-tab-pane>
             <el-tab-pane label="设备列表" lazy>
-                <EquipList 
+                <cc-equipList 
                     :data="equipList"
                 />
             </el-tab-pane>  
@@ -37,7 +37,6 @@
     import RingView from './components/RingView'
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
-    import EquipList from '@/components/EquipList'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
@@ -79,7 +78,6 @@
             RingView,
             RingList,
             Simulate,
-            EquipList,
             DataDetail
         },
         data() {

@@ -4,7 +4,7 @@
     >
         <template>
             <el-tab-pane label="设备列表" lazy>
-                <EquipList 
+                <cc-equipList 
                     :data="equipList"
                 />
             </el-tab-pane>
@@ -19,13 +19,11 @@
 </template>
 
 <script>
-    import EquipList from '@/components/EquipList'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
     
     export default {
         components: {
-            EquipList,
             DataDetail
         },
         data() {

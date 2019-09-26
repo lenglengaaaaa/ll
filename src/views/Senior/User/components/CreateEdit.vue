@@ -1,5 +1,5 @@
 <template>
-    <Dialog
+    <cc-dialog
         title="用户"
         :visible="visible"
         :close="handleClose"
@@ -62,12 +62,11 @@
                 </el-button>
             </el-form-item>
         </el-form>
-    </Dialog>
+    </cc-dialog>
 </template>
 
 <script>
     import { mapActions } from 'vuex';
-    import Dialog from '@/components/Dialog'
 
     const restForm ={
         userName:'',
@@ -81,9 +80,6 @@
     }
 
     export default {
-        components: {
-            Dialog,
-        },
         props: {
             visible:Boolean,
             editFlag:Boolean,

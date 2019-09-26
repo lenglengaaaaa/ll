@@ -14,6 +14,7 @@
 
 <script>
     export default {
+        name:'cc-dialog',
         props: {
             title:String,
             visible:Boolean,
