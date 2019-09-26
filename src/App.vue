@@ -22,6 +22,10 @@
   ul li{
     list-style:none;
   }
+
+  a{
+    text-decoration: none;
+  }
   
   ::-webkit-scrollbar{
     display: none;

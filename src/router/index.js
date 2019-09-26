@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
+import { message } from 'element-ui'
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie
 import OverallLayout from '@/Layout/Overall'
 import SideBarLayout from '@/Layout/HasSidebar'
 
-import { message } from 'element-ui'
+import projectRouter from './modules/project'
+import seniorRouter from './modules/senior'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -23,6 +25,10 @@ const router= new Router({
       component: ()=>import('@/views/Login/index') //按需加载
     },
     {
+      path: '/404',
+      component: () => import('@/views/error-page/404'),
+    },
+    {
       path: '/',
       name: 'Overall',
       component:OverallLayout,
@@ -32,245 +38,6 @@ const router= new Router({
         name:'Overview',
         component:()=>import('@/views/Overview/index'),
       }]
-    },
-    {
-      path: '/project',
-      component: OverallLayout,
-      children: [
-        {
-          path: '/',
-          name: 'Project',
-          component: () => import('@/views/Project'),
-        },
-        {
-          path:'',
-          component:SideBarLayout,
-          redirect: '/projectOverview',
-          children:[
-            {
-              path:'projectOverview',
-              name:'ProjectOverview',
-              component: () => import('@/views/SingleProject/ProjectOverview'),
-              meta: { 
-                title:'项目总览',
-                icon: '#icon-zonglan'
-              }
-            },
-            {
-              path:'courts',
-              name:'Courts',
-              component: () => import('@/views/SingleProject/Asset'),
-              redirect:'courts/list',
-              meta: { 
-                title:'台区管理',
-                icon: '#icon-transformer-area'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'CourtsList',
-                  component: () => import('@/views/SingleProject/Asset/Courts'),
-                },
-                {
-                  path:'newCourts',
-                  name:'NewCourts',
-                  component: () => import('@/views/SingleProject/Asset/Courts/CreateEdit'),
-                  meta:{title:'添加(编辑)台区'}
-                },
-                {
-                  path:'courtsDetail',
-                  name:'CourtsDetail',
-                  component: () => import('@/views/SingleProject/Asset/Courts/Detail'),
-                  meta:{title:'台区详情'}
-                },
-              ]
-            },
-            {
-              path:'room',
-              name:'Room',
-              component: () => import('@/views/SingleProject/Asset'),
-              redirect:'room/list',
-              meta: { 
-                title:'配电房管理',
-                icon: '#icon-peidianfang'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'RoomList',
-                  component: () => import('@/views/SingleProject/Asset/Room'),
-                },
-                {
-                  path:'newRoom',
-                  name:'NewRoom',
-                  component: () => import('@/views/SingleProject/Asset/Room/CreateEdit'),
-                  meta:{title:'添加(编辑)配电房'}
-                },
-                {
-                  path:'roomDetail',
-                  name:'RoomDetail',
-                  component: () => import('@/views/SingleProject/Asset/Room/Detail'),
-                  meta:{title:'配单房详情'}
-                },
-              ]
-            },
-            {
-              path:'cabinet',
-              name:'Cabinet',
-              component: () => import('@/views/SingleProject/Asset'),
-              redirect:'cabinet/list',
-              meta: { 
-                title:'配电柜管理',
-                icon: '#icon-peidiangui'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'CabinetList',
-                  component: () => import('@/views/SingleProject/Asset/Cabinet'),
-                },
-                {
-                  path:'newCabinet',
-                  name:'NewCabinet',
-                  component: () => import('@/views/SingleProject/Asset/Cabinet/CreateEdit'),
-                  meta:{title:'添加(编辑)配电柜'}
-                },
-                {
-                  path:'cabinetDetail',
-                  name:'CabinetDetail',
-                  component: () => import('@/views/SingleProject/Asset/Cabinet/Detail'),
-                  meta:{title:'配电柜详情'}
-                },
-              ]
-            },
-            {
-              path:'cover',
-              name:'Cover',
-              component: () => import('@/views/SingleProject/Asset'),
-              redirect:'cover/list',
-              meta: { 
-                title:'井盖管理',
-                icon: '#icon-jinggai'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'CoverList',
-                  component: () => import('@/views/SingleProject/Asset/Cover'),
-                },
-                {
-                  path:'newCover',
-                  name:'NewCover',
-                  component: () => import('@/views/SingleProject/Asset/Cover/CreateEdit'),
-                  meta:{title:'添加(编辑)井盖'}
-                },
-                {
-                  path:'coverDetail',
-                  name:'CoverDetail',
-                  component: () => import('@/views/SingleProject/Asset/Cover/Detail'),
-                  meta:{title:'井盖详情'}
-                },
-              ]
-            },
-            {
-              path:'cable',
-              name:'Cable',
-              component: () => import('@/views/SingleProject/Asset'),
-              redirect:'cable/list',
-              meta: { 
-                title:'线缆管理',
-                icon: '#icon-sjt-'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'CableList',
-                  component: () => import('@/views/SingleProject/Asset/Cable'),
-                },
-                {
-                  path:'newCable',
-                  name:'NewCable',
-                  component: () => import('@/views/SingleProject/Asset/Cable/CreateEdit'),
-                  meta:{title:'添加(编辑)线缆'}
-                },
-                // {
-                //   path:'cableDetail',
-                //   name:'CableDetail',
-                //   component: () => import('@/components/EquipDetail'),
-                //   meta:{title:'线缆详情'}
-                // },
-              ]
-            },
-            {
-              path:'equipment',
-              name:'Equipment',
-              component: () => import('@/views/SingleProject/Equipment'),
-              redirect:'equipment/list',
-              meta: { 
-                title:'设备管理',
-                icon: '#icon-shebei'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'EquList',
-                  component: () => import('@/views/SingleProject/Equipment/List'),
-                },
-                {
-                  path:'newEqu',
-                  name:'NewEqu',
-                  component: () => import('@/views/SingleProject/Equipment/New'),
-                  meta:{title:'添加(编辑)设备'}
-                },
-                {
-                  path:'detail',
-                  name:'EquDetail',
-                  component: () => import('@/components/EquipDetail'),
-                  meta:{title:'设备详情'}
-                },
-                {
-                  path:'deviceThSet',
-                  name:'DeviceThSet',
-                  component: () => import('@/views/SingleProject/Equipment/ThresholdSet'),
-                  meta:{title:'阈值设置'}
-                },
-              ]
-            },
-            {
-              path:'threshold',
-              name:'Threshold',
-              component: () => import('@/views/SingleProject/Threshold'),
-              meta: { 
-                title:'阈值设置',
-                icon: '#icon-yueyuzhishezhi'
-              }
-            },
-            {
-              path:'alarm',
-              name:'Alarm',
-              component: () => import('@/views/SingleProject/Alarm'),
-              redirect:'alarm/list',
-              meta: { 
-                title:'告警管理',
-                icon: '#icon-gaojing'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'AlarmList',
-                  component: () => import('@/views/SingleProject/Alarm/List'),
-                },
-                {
-                  path:'detail',
-                  name:'Detail',
-                  component: () => import('@/views/SingleProject/Alarm/Detail'),
-                  meta:{title:'告警详情'}
-                }
-              ]
-            },
-          ]
-        }
-      ]
     },
     {
       path: '/gateway',
@@ -288,155 +55,8 @@ const router= new Router({
         },
       ]
     },
-    {
-      path: '/senior',
-      component: OverallLayout,
-      children: [
-        {
-          path: '',
-          name: 'Senior',
-          component:SideBarLayout,
-          redirect: '/senior/userControl',
-          children:[
-            {
-              path:'userControl',
-              name:'UserControl',
-              component: () => import('@/views/Senior/User'),
-              meta: { 
-                title:'用户管理',
-                icon: '#icon-touxiang'
-              }
-            },
-            {
-              path:'permission',
-              name:'Permission',
-              component: () => import('@/views/Senior/Permission'),
-              redirect:'permission/list',
-              meta: { 
-                title:'角色管理',
-                icon: '#icon-quanxian'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'PermissionList',
-                  component: () => import('@/views/Senior/Permission/List'),
-                },
-                {
-                  path:'authority',
-                  name:'Authority',
-                  component: () => import('@/views/Senior/Permission/Authority'),
-                  meta:{title:'权限分配'}
-                }
-              ]
-            },
-            {
-              path:'mainLine',
-              name:'MainLine',
-              component: () => import('@/views/Senior/MainLine'),
-              redirect:'mainLine/list',
-              meta: { 
-                title:'主线缆管理',
-                icon: '#icon-sjt-'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'MainLineList',
-                  component: () => import('@/views/Senior/MainLine/List'),
-                },
-                {
-                  path:'newMainLine',
-                  name:'NewMainLine',
-                  component: () => import('@/views/Senior/MainLine/CreateEdit'),
-                  meta:{title:'添加(编辑)主线缆'}
-                },
-                {
-                  path:'mainLineDetail',
-                  name:'MainLineDetail',
-                  redirect:'mainLineDetail/list',
-                  component: () => import('@/views/Senior/MainLine/Detail'),
-                  meta:{title:'主线缆详情'},
-                  children:[
-                    {
-                      path:'list',
-                      name:'List',
-                      component: () => import('@/views/Senior/MainLine/Detail/TrapList'),
-                    },
-                    {
-                      path:'mainTrap',
-                      name:'MainTrap',
-                      component: () => import('@/views/SingleProject/Asset/Cover/Detail'),
-                      meta:{title:'井盖详情'}
-                    },
-                  ]
-                },
-                
-              ]
-            },
-            {
-              path:'application',
-              name:'Application',
-              component: () => import('@/views/Senior/Application'),
-              meta: { 
-                title:'应用管理',
-                icon: '#icon-yingyong1'
-              }
-            },
-            {
-              path:'module',
-              name:'Module',
-              component: () => import('@/views/Senior/Module'),
-              redirect:'module/list',
-              meta: { 
-                title:'模组管理',
-                icon: '#icon-mozu'
-              },
-              children:[
-                {
-                  path:'list',
-                  name:'ModuleList',
-                  component: () => import('@/views/Senior/Module/List'),
-                },
-                {
-                  path:'edit',
-                  name:'ModuleEdit',
-                  component: () => import('@/views/Senior/Module/Edit'),
-                  meta:{title:'编辑模组'}
-                }
-              ]
-            },
-            {
-              path:'product',
-              name:'Product',
-              component: () => import('@/views/Senior/Product'),
-              meta: { 
-                title:'产品管理',
-                icon: '#icon-chanpin'
-              }
-            },
-            {
-              path:'system',
-              name:'System',
-              component: () => import('@/views/Senior/System'),
-              meta: { 
-                title:'系统操作管理',
-                icon: '#icon-xitongcaozuo'
-              }
-            },
-            {
-              path:'repair',
-              name:'Repair',
-              component: () => import('@/views/Senior/Repair'),
-              meta: { 
-                title:'设备修复管理',
-                icon: '#icon-xiufu'
-              }
-            },
-          ]
-        }
-      ]
-    },
+    projectRouter,
+    seniorRouter,
     {
       path: '/account',
       component: OverallLayout,
@@ -470,10 +90,7 @@ const router= new Router({
       ]
     },
     //404页面
-    // {
-    //   path:'*',
-    //   component:PageNotFound
-    // }
+    { path: '*', redirect: '/404', hidden: true }
   ]
 })
 
