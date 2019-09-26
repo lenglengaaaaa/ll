@@ -1,21 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import app from './modules/app'
-import overall from './modules/overall'
-import user from './modules/user'
-import asset from './modules/asset'
-import equip from './modules/equip'
 
 Vue.use(Vuex)
 
+const modulesFiles = require.context('./modules', true, /\.js$/);
+
+const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+    // set './app.js' => 'app'
+    const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1');
+    modules[moduleName] = modulesFiles(modulePath).default;
+    return modules
+}, {})
+
 const store = new Vuex.Store({
-    modules: {
-        app,
-        overall,
-        user,
-        asset,
-        equip
-    },
+    modules
 })
 
 export default store
