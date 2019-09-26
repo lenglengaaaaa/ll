@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ApplyMgt
+        <cc-table
             title="产品"
             :data="data"
             :total="total"
@@ -39,7 +39,7 @@
                     show-overflow-tooltip
                 />
             </template>
-        </ApplyMgt>
+        </cc-table>
         <CreateEdit
             :visible="dialogVisible"
             :close="close"
@@ -50,13 +50,11 @@
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import { judgeLastData } from '@/utils/methods'
     import CreateEdit from './components/CreateEdit'
 
     export default {
         components: {
-            ApplyMgt,
             CreateEdit
         },
         data() {

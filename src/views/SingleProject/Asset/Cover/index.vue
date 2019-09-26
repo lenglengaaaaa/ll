@@ -1,5 +1,5 @@
 <template>
-    <ApplyMgt
+    <cc-table
         title="井盖"
         :loading="loading"
         :data="data"
@@ -46,18 +46,14 @@
                 :formatter="(row)=>row.detail || '-'"
             />
         </template>
-    </ApplyMgt>
+    </cc-table>
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
-        components: {
-            ApplyMgt,
-        },
         data() {
             return {
                 loading:true,

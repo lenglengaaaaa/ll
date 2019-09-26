@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ApplyMgt
+        <cc-table
             title="模组"
             :data="data"
             :total="total"
@@ -85,7 +85,7 @@
                     :formatter="(row)=>row.detail || '-' " 
                 />
             </template>
-        </ApplyMgt>
+        </cc-table>
         <Detail
             :visible="dialogVisible"
             :close="close"
@@ -95,13 +95,11 @@
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import { judgeLastData } from '@/utils/methods'
     import Detail from '../components/Detail'
 
     export default {
         components: {
-            ApplyMgt,
             Detail
         },
         data() {

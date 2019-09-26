@@ -1,5 +1,5 @@
 <template>
-    <ApplyMgt
+    <cc-table
         title="告警"
         :loading="loading"
         :data="data"
@@ -87,17 +87,13 @@
                 </template>
             </el-table-column>
         </template>
-    </ApplyMgt>
+    </cc-table>
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import { mapActions } from 'vuex'
     
     export default {
-        components: {
-            ApplyMgt,
-        },
         data() {
             return {
                 loading:true,

@@ -1,5 +1,5 @@
 <template>
-    <ApplyMgt
+    <cc-table
         title="系统操作"
         :data="data"
         :total="total"
@@ -107,17 +107,13 @@
                 :formatter="(row)=>this.$moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss')"
             />
         </template>
-    </ApplyMgt>
+    </cc-table>
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import { mapActions } from 'vuex'
 
     export default {
-        components: {
-            ApplyMgt,
-        },
         data() {
             return {
                 time:[],

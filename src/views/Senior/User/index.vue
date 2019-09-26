@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ApplyMgt
+        <cc-table
             title="用户"
             :data="data"
             :total="total"
@@ -54,7 +54,7 @@
                     :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
                 />
             </template>
-        </ApplyMgt>
+        </cc-table>
         <CreateEdit
             :visible="dialogVisible"
             :close="close"
@@ -65,14 +65,12 @@
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import CreateEdit from './components/CreateEdit'
     import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
         components: {
-            ApplyMgt,
             CreateEdit
         },
         data() {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ApplyMgt
+        <cc-table
             title="角色"
             :data="data"
             :total="total"
@@ -30,7 +30,7 @@
                     :formatter="(row)=>row.list || '-'"
                 />
             </template>
-        </ApplyMgt>
+        </cc-table>
         <CreateEdit
             :visible="dialogVisible"
             :close="close"
@@ -41,13 +41,11 @@
 </template>
 
 <script>
-    import {ApplyMgt} from '@/components/Management'
     import CreateEdit from '../components/CreateEdit'
     import { mapActions } from 'vuex';
     
     export default {
         components: {
-            ApplyMgt,
             CreateEdit
         },
         data() {

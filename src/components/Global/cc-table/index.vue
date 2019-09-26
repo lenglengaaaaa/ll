@@ -128,6 +128,7 @@
     import { mapActions } from 'vuex'
 
     export default {
+        name:'cc-table',
         props: {
             loading:{
                 type:Boolean,
