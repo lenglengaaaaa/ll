@@ -188,5 +188,5 @@
 </script>
 
 <style lang="scss" >
-    @import '@/styles/management.scss';
+    @import '@styles/management.scss';
 </style>

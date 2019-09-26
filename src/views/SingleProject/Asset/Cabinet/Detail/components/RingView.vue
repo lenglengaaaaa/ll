@@ -196,5 +196,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/styles/ringView.scss';
+    @import '@styles/ringView.scss';
 </style>

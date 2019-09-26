@@ -85,5 +85,5 @@
 </script>
 
 <style lang="scss">
-    @import '@/styles/sidebar.scss';
+    @import '@styles/sidebar.scss';
 </style>

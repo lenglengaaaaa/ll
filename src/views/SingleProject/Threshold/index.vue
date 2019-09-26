@@ -40,7 +40,7 @@
 </script>
 
 <style lang="scss" >
-    @import '@/styles/deviceThreshold.scss';
+    @import '@styles/deviceThreshold.scss';
 
     .THRESHOLD_SET{
         .el-tabs {

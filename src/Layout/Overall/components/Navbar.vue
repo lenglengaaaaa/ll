@@ -2,7 +2,7 @@
     <div class="Navbar" ref="Navbar">
         <div class="container">
             <div class='title' >
-                <img src="../../../assets/images/logo.png" alt="logo" @click="skipHome">
+                <img src="@images/logo.png" alt="logo" @click="skipHome">
             </div>
             <div class="menu" v-if='!phone'>
                 <div class="left_menu">
@@ -56,7 +56,7 @@
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
                 <el-submenu index="1">
                     <template slot="title">
-                        <img src="../../../assets/images/avatar.png" />
+                        <img src="@images/avatar.png" />
                         <span>{{username}}</span>
                     </template>
                     <el-menu-item @click="skipAccount" index="1-1">账号管理</el-menu-item>
@@ -70,7 +70,7 @@
 
 <script>
     import GlobalSearch from './GlobalSearch' 
-    import avatar from '@/assets/images/default.jpg'
+    import avatar from '@images/default.jpg'
     import {judgeUserDetail} from '@/utils/methods'
     
     export default {
@@ -202,5 +202,5 @@
 </script>
 
 <style lang="scss">
-    @import '@/styles/navbar.scss';
+    @import '@styles/navbar.scss';
 </style>

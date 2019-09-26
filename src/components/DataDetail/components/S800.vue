@@ -126,5 +126,5 @@
 </script>
 
 <style lang="scss" scope>
-    @import '@/styles/s800.scss';
+    @import '@styles/s800.scss';
 </style>

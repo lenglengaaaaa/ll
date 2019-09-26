@@ -52,5 +52,5 @@
 </script>
 
 <style lang="scss" >
-    @import '@/styles/deviceThreshold.scss';
+    @import '@styles/deviceThreshold.scss';
 </style>
