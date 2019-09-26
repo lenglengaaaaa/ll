@@ -54,7 +54,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    import avatar from '@/assets/img/default.jpg'
+    import avatar from '@/assets/images/default.jpg'
     import {judgeObject} from '@/utils/methods'
 
     export default {

@@ -2,7 +2,7 @@
     <div class="Login_container">
         <div class="header">
             <div class="icon">
-                <img src="../../assets/img/logo.png" alt="logo">
+                <img src="../../assets/images/logo.png" alt="logo">
             </div>
             <div class="title">
                 智慧配电运维
@@ -10,7 +10,7 @@
         </div>
         <div class="body">
             <div class="bg">
-                <img src="../../assets/img/login_bg.jpg" alt="loginbg">
+                <img src="../../assets/images/login_bg.jpg" alt="loginbg">
             </div>
             <div class="login">
                 <div class="login_title">

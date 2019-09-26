@@ -43,6 +43,7 @@
                     align="center"
                     sortable
                     show-overflow-tooltip
+                    :formatter="(row)=>row.detail || '-'"
                 />
             </template>
         </Management>
