@@ -64,6 +64,7 @@
     import {MapSingle} from '@/components/Maps'
 
     export default {
+        name:'cc-equipEdit',
         components: {
             MapSingle
         },

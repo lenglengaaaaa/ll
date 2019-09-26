@@ -25,7 +25,7 @@
                 </el-col>
             </el-row>
         </div>
-        <Empty text="无设备" v-else />
+        <cc-empty text="无设备" v-else />
         <el-divider content-position="left">S800传感器平台历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">

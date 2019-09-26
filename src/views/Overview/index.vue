@@ -15,7 +15,7 @@
                                 v-if="soeCount.length"
                                 :soeCount="soeCount"
                             />
-                            <Empty v-else/>
+                            <cc-empty v-else/>
                         </div>
                     </el-col>
                     <el-col :span="12" :xs="24">
@@ -24,7 +24,7 @@
                                 v-if="equipList.length" 
                                 :equipList="equipList"
                             />
-                            <Empty v-else/>
+                            <cc-empty v-else/>
                         </div>
                     </el-col>
                 </el-row>
@@ -36,7 +36,6 @@
 
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
-    import Empty from '@/components/Empty'
     import CountRow from './components/CountRow'
     import MapRow from './components/MapRow'
 
@@ -45,7 +44,6 @@
             CountRow,
             SoeChart,
             CategoryChart,
-            Empty,
             MapRow
         },
         data() {

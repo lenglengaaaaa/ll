@@ -1,5 +1,5 @@
 <template>
-    <CreateEdit
+    <cc-equipEdit
         :form="form"
         :create="create"
         :edit="edit"
@@ -17,17 +17,13 @@
                 </el-select>
             </el-form-item>
         </template>
-    </CreateEdit>
+    </cc-equipEdit>
 </template>
 
 <script>
-    import CreateEdit from '@/components/CreateEdit'
     import {mapActions} from 'vuex'
 
     export default {
-        components: {
-            CreateEdit,
-        },
         data() {
             return {
                 form: {},

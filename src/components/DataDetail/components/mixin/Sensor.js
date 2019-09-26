@@ -1,11 +1,9 @@
 import {LineChart} from '@/components/Charts'
-import Empty from '@/components/Empty'
 import { mapActions } from 'vuex'
 
 export default {
     components: {
         LineChart,
-        Empty
     },
     props: {
         assetType: Number,

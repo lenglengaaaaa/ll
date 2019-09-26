@@ -8,7 +8,7 @@
                             v-if="soeCount.length"
                             :soeCount="soeCount"
                         />
-                        <Empty v-else/>
+                        <cc-empty v-else/>
                     </div>
                 </el-col>
                 <el-col :span="12" :xs="24">
@@ -17,7 +17,7 @@
                             v-if="equipList.length" 
                             :equipList="equipList"
                         />
-                        <Empty v-else/>
+                        <cc-empty v-else/>
                     </div>
                 </el-col>
             </el-row>
@@ -41,7 +41,6 @@
 
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
-    import Empty from '@/components/Empty'
     import {Map} from '@/components/Maps'
     import { mapActions } from 'vuex'
     
@@ -49,7 +48,6 @@
         components: {
             SoeChart,
             CategoryChart,
-            Empty,
             Map
         },
         data() {

@@ -11,6 +11,7 @@
 
 <script>
     export default {
+        name:'cc-empty',
         props: {
             text: {
                 type: String,

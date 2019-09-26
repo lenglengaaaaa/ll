@@ -15,7 +15,7 @@
                 </el-col>
             </el-row>
         </div>
-        <Empty text="无设备" v-else/>
+        <cc-empty text="无设备" v-else/>
         <el-divider content-position="left">魔节历史数据</el-divider>
         <div>
             <div class="seletGroup">
@@ -61,14 +61,12 @@
 <script>
     import {Gauge,LineChart} from '@/components/Charts'
     import { newFilterData , downFile} from '@/utils/methods'
-    import Empty from '@/components/Empty'
     import { mapActions } from 'vuex'
 
     export default {
         components: {
             Gauge,
             LineChart,
-            Empty
         },
         props: {
             magicData: {
