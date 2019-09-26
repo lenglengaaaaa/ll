@@ -93,6 +93,7 @@
     import { mapActions } from 'vuex'
 
     export default {
+        name:'cc-equipForm',
         components: {
             MapSingle,
         },

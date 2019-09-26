@@ -1,5 +1,5 @@
 <template>
-    <AssetDetail
+    <cc-assetDetail
         label="附属配电柜"
         :data="data"
     >
@@ -64,18 +64,16 @@
                 />
             </el-tab-pane>
         </template>
-    </AssetDetail>
+    </cc-assetDetail>
 </template>
 
 <script>
-    import AssetDetail from '@/components/AssetDetail'
     import EquipList from '@/components/EquipList'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
     export default {
         components: {
-            AssetDetail,
             EquipList,
             DataDetail
         },

@@ -1,5 +1,5 @@
 <template>
-    <AddEquipForm
+    <cc-equipForm
         :form="form"
         :next="next" 
         :pre="pre"
@@ -53,18 +53,14 @@
                 />
             </el-select>
         </el-form-item>
-    </AddEquipForm>
+    </cc-equipForm>
 </template>
 
 <script>
-    import AddEquipForm from '@/components/AddEquipForm'
     import {resetSingle} from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
-        components: {
-            AddEquipForm,
-        },
         props: {
             next:Function,
             pre:Function

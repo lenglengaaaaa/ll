@@ -5,6 +5,8 @@ import Vue from 'vue'
 // import echarts from 'echarts'
 import './iconfont'
 
+import '@/components'
+
 import router from './router'
 import store from './store'
 

@@ -20,6 +20,7 @@
 
 <script>
     export default {
+        name:'cc-assetDetail',
         props: {
             table:{
                 type:Boolean,

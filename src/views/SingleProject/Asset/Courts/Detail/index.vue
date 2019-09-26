@@ -1,5 +1,5 @@
 <template>
-    <AssetDetail
+    <cc-assetDetail
         label="附属配电房"
         :data="data"
     >
@@ -52,16 +52,12 @@
                 :formatter="(row)=>row.detail || '-'"
             />
         </template>
-    </AssetDetail>
+    </cc-assetDetail>
 </template>
 
 <script>
-    import AssetDetail from '@/components/AssetDetail'
 
     export default {
-        components: {
-            AssetDetail
-        },
         data() {
             return {
                 data: [],

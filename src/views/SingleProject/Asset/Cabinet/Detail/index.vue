@@ -1,5 +1,5 @@
 <template>
-    <AssetDetail
+    <cc-assetDetail
         :table="false"
     >
         <template>
@@ -30,11 +30,10 @@
             </el-tab-pane>
             
         </template>
-    </AssetDetail>
+    </cc-assetDetail>
 </template>
 
 <script>
-    import AssetDetail from '@/components/AssetDetail'
     import RingView from './components/RingView'
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
@@ -77,7 +76,6 @@
 
     export default {
         components: {
-            AssetDetail,
             RingView,
             RingList,
             Simulate,

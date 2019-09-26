@@ -1,5 +1,5 @@
 <template>
-    <AssetDetail
+    <cc-assetDetail
         label="附属井盖"
         :data="data"
     >
@@ -23,16 +23,11 @@
                 </template>
             </el-table-column>
         </template>
-    </AssetDetail>
+    </cc-assetDetail>
 </template>
 
 <script>
-    import AssetDetail from '@/components/AssetDetail'
-
     export default {
-        components: {
-            AssetDetail
-        },
         data() {
             return {
                 data: [],
