@@ -11,6 +11,7 @@
     const center = window.$cfg.mapCenter;
 
     export default {
+        name:'cc-map',
         props: {
             vid:String,
             zoom:{

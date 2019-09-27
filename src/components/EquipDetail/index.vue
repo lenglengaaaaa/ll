@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div>
-                <MapSingle 
+                <cc-mapSingle 
                     vid="alarmDetail"
                     :position="single.position"
                     :hasSearch="false"
@@ -64,12 +64,7 @@
 </template>
 
 <script>
-    import {MapSingle} from '@/components/Maps'
-
     export default {
-        components: {
-            MapSingle,
-        },
         props: {
             hasClose:{
                 type:Boolean,

@@ -69,7 +69,7 @@
 
             <!--通过地图上点击,获取经纬度位置(必备) √-->
             <el-form-item label="设备经纬度" class="map">
-                <MapSingle 
+                <cc-mapSingle 
                         vid="newEquip"
                         :position="position"
                         :get="getPostion"
@@ -89,14 +89,10 @@
 </template>
 
 <script>
-    import {MapSingle} from '@/components/Maps'
     import { mapActions } from 'vuex'
 
     export default {
         name:'cc-equipForm',
-        components: {
-            MapSingle,
-        },
         props: {
             form: {
                 type: Object,

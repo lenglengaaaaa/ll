@@ -37,7 +37,7 @@
                     <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
                 </el-form-item>
                 <el-form-item label="网关经纬度" class="map">
-                    <MapSingle 
+                    <cc-mapSingle 
                         vid="newGateway"
                         :position="position"
                         :get="getPostion"
@@ -59,13 +59,9 @@
 </template>
 
 <script>
-    import {MapSingle} from '@/components/Maps'
     import { mapActions } from 'vuex';
 
     export default {
-        components: {
-            MapSingle
-        },
         data() {
             const checkMac = (rule, value, callback) => {
                 if(this.editFlag) return callback();

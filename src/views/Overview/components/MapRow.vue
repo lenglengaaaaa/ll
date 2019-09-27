@@ -19,7 +19,7 @@
                     <span>网关地图</span>
                 </div>
                 <div>
-                    <Map 
+                    <cc-map 
                         vid="gateway"
                         :marker="marker"
                         v-if="flag"
@@ -31,12 +31,7 @@
 </template>
 
 <script>
-    import {Map} from '@/components/Maps'
-
     export default {
-        components: {
-            Map
-        },
         data() {
             return {
                 marker:[],

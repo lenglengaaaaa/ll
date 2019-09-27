@@ -19,6 +19,7 @@
     const center = window.$cfg.mapCenter;
 
     export default {
+        name:'cc-mapSingle',
         props: {
             vid:String,
             position:{

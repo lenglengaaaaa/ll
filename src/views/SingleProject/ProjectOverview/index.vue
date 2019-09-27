@@ -28,7 +28,7 @@
                     <span>设备地图</span>
                 </div>
                 <div>
-                    <Map 
+                    <cc-map 
                         :marker="marker"
                         vid="apply"
                         :zoom="19"
@@ -41,14 +41,12 @@
 
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
-    import {Map} from '@/components/Maps'
     import { mapActions } from 'vuex'
     
     export default {
         components: {
             SoeChart,
             CategoryChart,
-            Map
         },
         data() {
             return {

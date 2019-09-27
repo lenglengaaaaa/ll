@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div>
-                <MapSingle 
+                <cc-mapSingle 
                     vid="alarm"
                     :position="single.position"
                     :hasSearch="false"
@@ -71,13 +71,9 @@
 </template>
 
 <script>
-    import { MapSingle } from '@/components/Maps'
     import { mapActions } from 'vuex'
     
     export default {
-        components: {
-            MapSingle,
-        },
         data() {
             return {
                 firstArray:[

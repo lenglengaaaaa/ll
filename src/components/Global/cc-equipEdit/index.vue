@@ -43,7 +43,7 @@
 
             <template v-if="hasMap">
                 <el-form-item label="资产经纬度" class="map">
-                    <MapSingle 
+                    <cc-mapSingle 
                         vid="newApply"
                         :position="position"
                         :get="getPostion"
@@ -61,13 +61,8 @@
 </template>
 
 <script>
-    import {MapSingle} from '@/components/Maps'
-
     export default {
         name:'cc-equipEdit',
-        components: {
-            MapSingle
-        },
         props: {
             form: {
                 type: Object,
