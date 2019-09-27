@@ -26,6 +26,7 @@ export default {
   },
   created() {
     this.getBreadcrumb()
+    console.log('test')
   },
   methods: {
     getBreadcrumb() {
