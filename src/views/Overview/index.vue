@@ -51,22 +51,25 @@
                 rows: [
                     {
                         name:'网关',
-                        icon:'#icon-natNATwangguan',
+                        icon:'gateway',
                         path:'/gateway',
+                        className:'icon-gateway',
                         total:5,
                         has:4
                     },
                     {
                         name:"项目",
-                        icon:'#icon-yingyong',
+                        icon:'project',
                         path:'/project',
+                        className:'icon-project',
                         total:1,
                         has:1,
                     },
                     {
                         name:'设备',
-                        icon:'#icon-huabanfuben',
+                        icon:'equip',
                         path:'/project',
+                        className:'icon-equip',
                         total:4,
                         has:2
                     }

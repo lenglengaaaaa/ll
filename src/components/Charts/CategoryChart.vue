@@ -60,9 +60,10 @@
                             radius : [30, 110],
                             center : ['50%', '45%'],
                             roseType : 'radius',
-                            data:this.equipList
-                        },
-                        
+                            data:this.equipList,
+                            animationEasing: 'cubicInOut',
+                            animationDuration: 2600
+                        }
                     ],
                 })
                 this.chart&&this.chart.resize();

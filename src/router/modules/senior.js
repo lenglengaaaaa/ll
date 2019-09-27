@@ -17,7 +17,7 @@ const seniorRouter = {
                     component: () => import('@/views/Senior/User'),
                     meta: { 
                         title:'用户管理',
-                        icon: '#icon-touxiang'
+                        icon: 'user'
                     }
                 },
                 {
@@ -27,7 +27,7 @@ const seniorRouter = {
                     redirect:'permission/list',
                     meta: { 
                         title:'角色管理',
-                        icon: '#icon-quanxian'
+                        icon: 'jurisdiction'
                     },
                     children:[
                         {
@@ -50,7 +50,7 @@ const seniorRouter = {
                     redirect:'mainLine/list',
                     meta: { 
                         title:'主线缆管理',
-                        icon: '#icon-sjt-'
+                        icon: 'line'
                     },
                     children:[
                         {
@@ -93,7 +93,7 @@ const seniorRouter = {
                     component: () => import('@/views/Senior/Application'),
                     meta: { 
                         title:'应用管理',
-                        icon: '#icon-yingyong1'
+                        icon: 'application'
                     }
                 },
                 {
@@ -103,7 +103,7 @@ const seniorRouter = {
                     redirect:'module/list',
                     meta: { 
                         title:'模组管理',
-                        icon: '#icon-mozu'
+                        icon: 'module'
                     },
                     children:[
                         {
@@ -125,7 +125,7 @@ const seniorRouter = {
                     component: () => import('@/views/Senior/Product'),
                     meta: { 
                         title:'产品管理',
-                        icon: '#icon-chanpin'
+                        icon: 'product'
                     }
                 },
                 {
@@ -134,7 +134,7 @@ const seniorRouter = {
                     component: () => import('@/views/Senior/System'),
                     meta: { 
                         title:'系统操作管理',
-                        icon: '#icon-xitongcaozuo'
+                        icon: 'system'
                     }
                 },
                 {
@@ -143,7 +143,7 @@ const seniorRouter = {
                     component: () => import('@/views/Senior/Repair'),
                     meta: { 
                         title:'设备修复管理',
-                        icon: '#icon-xiufu'
+                        icon: 'repair'
                     }
                 },
             ]

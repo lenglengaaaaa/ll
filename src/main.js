@@ -3,8 +3,8 @@
 import Vue from 'vue'
 // import moment from 'moment'
 // import echarts from 'echarts'
-import './iconfont'
 
+import '@/assets/icons' // icon
 import '@/components'
 
 import router from './router'

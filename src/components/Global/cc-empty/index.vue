@@ -1,9 +1,10 @@
 <template>
     <div class="empty" >
         <div>
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-zanwushuju"></use>
-            </svg>
+            <svg-icon 
+                iconClass="empty" 
+                className="icon"
+            />
             <span>{{text}}</span>
         </div>
     </div>
@@ -33,7 +34,8 @@
             justify-content: center;
             align-items: center;
             .icon{
-                width: 10rem;
+                width: 8rem;
+                height:8rem;
                 margin-bottom: -30px;
             }
             span{

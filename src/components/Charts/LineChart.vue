@@ -25,11 +25,16 @@
                         text: this.text
                     },
                     tooltip: {
-                        trigger: 'axis'
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        },
+                        padding: [5, 10]
                     },
                     grid: {
-                        left: '3%',
-                        right: '3%',
+                        left: 10,
+                        right: 10,
+                        top: 30,
                         containLabel: true
                     },
                     legend: {
@@ -47,10 +52,14 @@
                         type: 'category',
                         data:[],
                         axisLine: {onZero: false},
+                        
                     },
                     yAxis: {
                         type: 'value',
-                        boundaryGap: ['20%', '20%']
+                        boundaryGap: ['20%', '20%'],
+                        axisTick: {
+                            show: false
+                        }
                     },
                     dataZoom: [
                         {
@@ -85,7 +94,7 @@
         },
         methods: {
             drawLine(){
-                const result = this.value.map(item=>{
+                const result = this.value.map((item,index)=>{
                     return {
                         data:item.data,
                         name:item.name,
@@ -97,6 +106,8 @@
                                 {type: 'min', name: '最小值'}
                             ]
                         },
+                        animationDuration: 2800,
+                        animationEasing: 'quadraticOut'
                     }
                 })
                 this.option.series = result;

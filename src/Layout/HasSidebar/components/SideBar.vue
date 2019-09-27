@@ -19,9 +19,10 @@
                     @select='handleClickOutside'
                 >   
                     <el-menu-item v-for="item in routes" :key="item.path" :index="item.path" :route="{name:item.name}">
-                        <svg class="icon" aria-hidden="true">
-                            <use :xlink:href="item.meta.icon"></use>
-                        </svg>
+                        <svg-icon 
+                            :iconClass="item.meta.icon" 
+                            className="icon"
+                        />
                         <span slot="title">{{ item.meta.title }}</span>
                     </el-menu-item>
                 </el-menu>

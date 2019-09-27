@@ -73,7 +73,7 @@ const router= new Router({
               component: () => import('@/views/Account/Detail'),
               meta: { 
                 title:'账户详情',
-                icon: '#icon-zhanghaoxiangqing'
+                icon: 'detail'
               }
             },
             {
@@ -82,7 +82,7 @@ const router= new Router({
               component: () => import('@/views/Account/ChangePass'),
               meta: { 
                 title:'修改密码',
-                icon: '#icon-xiugai'
+                icon: 'modify'
               }
             }
           ]

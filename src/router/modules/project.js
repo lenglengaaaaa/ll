@@ -21,7 +21,7 @@ const projectRouter = {
                 component: () => import('@/views/SingleProject/ProjectOverview'),
                 meta: { 
                     title:'项目总览',
-                    icon: '#icon-zonglan'
+                    icon: 'overview'
                 }
             },
             {
@@ -31,7 +31,7 @@ const projectRouter = {
                 redirect:'courts/list',
                 meta: { 
                     title:'台区管理',
-                    icon: '#icon-transformer-area'
+                    icon: 'courts'
                 },
                 children:[
                 {
@@ -60,7 +60,7 @@ const projectRouter = {
                 redirect:'room/list',
                 meta: { 
                     title:'配电房管理',
-                    icon: '#icon-peidianfang'
+                    icon: 'room'
                 },
                 children:[
                 {
@@ -89,7 +89,7 @@ const projectRouter = {
                 redirect:'cabinet/list',
                 meta: { 
                     title:'配电柜管理',
-                    icon: '#icon-peidiangui'
+                    icon: 'cabinet'
                 },
                 children:[
                 {
@@ -118,7 +118,7 @@ const projectRouter = {
                 redirect:'cover/list',
                 meta: { 
                     title:'井盖管理',
-                    icon: '#icon-jinggai'
+                    icon: 'trap'
                 },
                 children:[
                 {
@@ -147,7 +147,7 @@ const projectRouter = {
                 redirect:'cable/list',
                 meta: { 
                     title:'线缆管理',
-                    icon: '#icon-sjt-'
+                    icon: 'line'
                 },
                 children:[
                 {
@@ -170,7 +170,7 @@ const projectRouter = {
                 redirect:'equipment/list',
                 meta: { 
                     title:'设备管理',
-                    icon: '#icon-shebei'
+                    icon: 'device'
                 },
                 children:[
                 {
@@ -204,7 +204,7 @@ const projectRouter = {
                 component: () => import('@/views/SingleProject/Threshold'),
                 meta: { 
                     title:'阈值设置',
-                    icon: '#icon-yueyuzhishezhi'
+                    icon: 'threshold'
                 }
             },
             {
@@ -214,7 +214,7 @@ const projectRouter = {
                 redirect:'alarm/list',
                 meta: { 
                     title:'告警管理',
-                    icon: '#icon-gaojing'
+                    icon: 'alarm'
                 },
                 children:[
                 {

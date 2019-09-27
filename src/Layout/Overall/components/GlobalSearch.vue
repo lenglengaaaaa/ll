@@ -7,9 +7,11 @@
             :modal-append-to-body="false"
         >
             <span slot="title">
-                <svg class="close" aria-hidden="true" @click="closeDialog" @mouseover="hover=true" @mouseleave="hover=false">
-                    <use :xlink:href="hover?'#icon-icon_close_hover':'#icon-icon_close'"></use>
-                </svg>
+                <svg-icon 
+                    @click="closeDialog"
+                    iconClass="close" 
+                    className="close"
+                />
             </span>
             <div class="body">
                 <div class="body_search">
@@ -117,7 +119,6 @@
         name: 'GlobalSearch',
         data() {
             return {
-                hover:false,
                 input:'',
                 Types:[
                     { text: '魔节', value: '魔节' }, 

@@ -45,9 +45,10 @@
                             @keyup.enter.native="handleLogin"
                         />
                         <span class="show-pwd" @click="showPwd">
-                            <svg class="icon" aria-hidden="true">
-                                <use :xlink:href="passwordType === 'password' ? '#icon-eye' : '#icon-eye_open'"></use>
-                            </svg>
+                            <svg-icon 
+                                :iconClass="passwordType === 'password' ? 'eyeclose' : 'eye'" 
+                                className="icon"
+                            />
                         </span>
                     </el-form-item>
                     <el-form-item size="large">
@@ -217,7 +218,7 @@
                 .show-pwd {
                     position: absolute;
                     right: 10px;
-                    top: 6px;
+                    top: 4px;
                     cursor: pointer;
                     user-select: none;
                     .icon{

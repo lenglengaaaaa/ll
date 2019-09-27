@@ -19,9 +19,10 @@
                                 <li v-for="k in item.outLineList" :key="k.deviceId">
                                     <div class="info">
                                         <el-tooltip class="item" effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
-                                            <svg class="icon" aria-hidden="true" >
-                                                <use xlink:href="#icon-ring" ></use>
-                                            </svg>
+                                            <svg-icon 
+                                                iconClass="ring" 
+                                                className="icon"
+                                            />
                                         </el-tooltip>
                                         <span>{{(k.data&&k.data.dataJSON.temp)||'----'}} ℃</span>
                                         <span>{{(k.data&&k.data.dataJSON.lineA)||'----'}} A</span>
