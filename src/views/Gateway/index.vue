@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import {Management} from '../../components/Management'
+    import Management from '@/components/Management'
     import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 

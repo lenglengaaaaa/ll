@@ -57,7 +57,7 @@
 </template>
 
 <script>
-    import {Management} from '@/components/Management'
+    import Management from '@/components/Management'
     import NewProject from '@/views/Project/components/NewProject'
     import { judgeLastData } from '@/utils/methods'
     import {mapActions} from 'vuex'
