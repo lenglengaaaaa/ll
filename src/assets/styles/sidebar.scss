@@ -54,6 +54,8 @@ $height: 50px;
             .el-menu-item{
                 height: $height;
                 line-height: $height;
+                display: flex;
+                align-items: center;
                 &:hover{
                     background: #22a7f0;
                 }
@@ -69,7 +71,7 @@ $height: 50px;
                     color:#fff;
                 }
                 span{
-                    padding-left: 10px;
+                    padding-left: 30px;
                 }
             }
             .is-active{

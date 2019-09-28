@@ -5,6 +5,7 @@ const state={
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
     device: 'desktop',
+    alarmBox:[]
 }
 
 const mutations={
@@ -26,6 +27,9 @@ const mutations={
     TOGGLE_DEVICE: (state, device) => {
         state.device = device
     },
+    SAVE_ALARM:(state,alarm) => {
+        state.alarmBox = alarm;
+    }
 }
 
 const actions= {
@@ -38,6 +42,9 @@ const actions= {
     toggleDevice({ commit }, device) {
         commit('TOGGLE_DEVICE', device)
     },
+    saveAlarm({commit},alarm){
+        commit('SAVE_ALARM', alarm)
+    }
 }   
 
 export default {

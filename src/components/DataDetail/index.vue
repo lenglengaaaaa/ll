@@ -104,7 +104,7 @@
                 sEightData:[],
                 sensorData:[],
                 client:null,
-                loading:true
+                loading:false
             }
         },
         async created () {

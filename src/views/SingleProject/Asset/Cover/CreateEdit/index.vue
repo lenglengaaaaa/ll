@@ -44,7 +44,8 @@
             };
         },
         mounted () {
-            this.getLineTree().then(res=>{
+            const projectId = JSON.parse(sessionStorage.getItem('project')).id;
+            this.getLineTree(projectId).then(res=>{
                 if(!res)return;
                 this.options=res;
             });

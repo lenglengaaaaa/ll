@@ -59,14 +59,13 @@ $height:50px;
                 height: $height;
                 display: flex;
                 align-items: center;
-                .el-icon-setting,.el-icon-search{
+                .el-icon-search,.el-icon-bell,.el-icon-full-screen{
                     padding: 0px 20px;
                     color: #fff;
                     cursor: pointer;
                 }
-                .el-icon-full-screen{
-                    color: #fff;
-                    cursor: pointer;
+                .el-icon-bell{
+                    padding: 0;
                 }
                 .avatar-container {
                     .avatar-wrapper {

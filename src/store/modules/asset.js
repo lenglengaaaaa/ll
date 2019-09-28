@@ -825,10 +825,14 @@ const actions= {
     /**
      * 线缆级联下拉(用于井盖创建,选中所属该井盖下的线缆)
      */
-    getLineTree({commit}){
+    getLineTree({commit},projectId){
         return request({
             method:'post',
-            url:`${api.lineTree}`
+            url:`${api.lineTree}`,
+            data:{
+                id:0,
+                projectId
+            }
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
                 const result = clearEmpty(res.data)

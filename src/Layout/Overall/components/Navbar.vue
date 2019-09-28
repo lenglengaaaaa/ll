@@ -22,6 +22,26 @@
                 
                 <div class="right_menu">
                     <i class="el-icon-full-screen" @click="full"/>
+                    <!-- 告警信息收集展示 -->
+                    <el-popover
+                        placement="bottom-end"
+                        v-model="noticeVisible"
+                        popper-class="header-popper"
+                    >
+                        <el-tabs :stretch="true" v-model="activeName">
+                            <el-tab-pane label="告警信息" name="notice">
+                                <Notice :alarmBox="alarmBox"/>
+                            </el-tab-pane>
+                        </el-tabs>
+                        <div
+                            class="icon-item"
+                            slot="reference"
+                        >
+                            <el-badge :value="alarmBox.length" :max="99">
+                                <i class="el-icon-bell"/>
+                            </el-badge>
+                        </div>
+                    </el-popover>
                     <i class="el-icon-search" @click="flag = true"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
@@ -72,6 +92,7 @@
     import GlobalSearch from './GlobalSearch' 
     import avatar from '@images/default.jpg'
     import {judgeUserDetail} from '@/utils/methods'
+    import Notice from './notice'
     
     export default {
         name:'Header',
@@ -88,11 +109,14 @@
                 phone:false,
                 fold:false,
                 username:'',
-                imagePath:''
+                imagePath:'',
+                noticeVisible: false,
+                activeName:'notice'
             }
         },
         components: {
             GlobalSearch,
+            Notice
         },
         created (){
             //这里进行权限配置,改变navbar
@@ -113,6 +137,11 @@
             },
             '$store.state.user.userDetail'(){
                 this.getAccount();
+            }
+        },
+        computed: {
+            alarmBox() {
+                return this.$store.state.app.alarmBox
             }
         },
         methods: {
