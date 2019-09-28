@@ -20,6 +20,7 @@
             <div class="content">
                 <div class="wrap">
                     <Magic
+                        :loading="loading"
                         :magicData="magicData.data"
                         :assetType="assetType"
                     />
@@ -102,7 +103,8 @@
                 lineData:[],
                 sEightData:[],
                 sensorData:[],
-                client:null
+                client:null,
+                loading:true
             }
         },
         async created () {
@@ -153,12 +155,14 @@
             },
             //获取实时魔节数据
             getMagicData(queryId){
+                this.loading = true;
                 const {id,trapId} = this.assetObj;
                 this.getCurrentMagicData({
                     queryId,
                     assetId:trapId||id,
                     assetType:this.assetType
                 }).then(res=>{
+                    this.loading = false;
                     if(!res) return;
                     this.magicData= {
                         data:currentDataFilter(res,'magic'),

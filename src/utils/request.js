@@ -25,9 +25,7 @@ const tip = msg => {
 const toLogin = () => {
   router.replace({
       path: '/login',        
-      query: {
-          redirect: router.currentRoute.fullPath
-      }
+      query: { redirect: router.currentRoute.fullPath }
   });
 }
 
@@ -75,7 +73,10 @@ axios.interceptors.request.use(
 
     return config
   },
-  error => Promise.reject(error)
+  error => {
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
 )
 
 //拦截响应

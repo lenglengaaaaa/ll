@@ -38,8 +38,6 @@
             rowClick(path){
                 this.$router.push(path)
             },
-        },
-        methods: {
             iconClass(className) {
                 return `card-panel-icon-wrapper ${className}`
             }

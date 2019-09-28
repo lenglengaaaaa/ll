@@ -1,7 +1,6 @@
 <template>
     <cc-table
         title="设备"
-        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -143,7 +142,6 @@
     export default {
         data() {
             return {
-                loading:true,
                 value:null,
                 types:[],
                 data: [],
@@ -157,7 +155,6 @@
         },
         mounted () {
             this.getEquipType();
-            this.getList();
         },
         methods: {
             ...mapActions('equip',[
@@ -166,14 +163,12 @@
             ]),
             //获取设备列表
             getList(obj={}){
-                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
-                this.getEquipList(data).then(res=>{
-                    this.loading = false;
+                return this.getEquipList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

@@ -56,9 +56,6 @@
                 }
             }
         },
-        mounted () {
-            this.getList();
-        },
         methods: {
             ...mapActions('asset',[
                 'skipToEdit',
@@ -71,7 +68,7 @@
                     ...obj
                 }
                 this.params = data ;
-                this.getLineList(data).then(res=>{
+                return this.getLineList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

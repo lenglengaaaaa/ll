@@ -1,7 +1,6 @@
 <template>
     <cc-table
         title="井盖"
-        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -56,7 +55,6 @@
     export default {
         data() {
             return {
-                loading:true,
                 data: [],
                 total:0,
                 params:{
@@ -66,9 +64,6 @@
                 }
             }
         },
-        mounted () {
-            this.getList();
-        },
         methods: {
             ...mapActions('asset',[
                 'skipToEdit',
@@ -76,14 +71,12 @@
                 'deleteTrap'
             ]),
             getList(obj={}){
-                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
-                this.getTrapList(data).then(res=>{
-                    this.loading = false;
+                return this.getTrapList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

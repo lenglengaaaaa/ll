@@ -24,6 +24,7 @@
                 <div class="body">
                     <el-table
                         v-loading="loading"
+                        element-loading-text="拼命加载中"
                         :data="data"
                         border
                         stripe
@@ -130,10 +131,6 @@
     export default {
         name:'cc-table',
         props: {
-            loading:{
-                type:Boolean,
-                default:false
-            },
             data:Array,
             total:Number,
             title:String,
@@ -198,17 +195,19 @@
                 },
                 rules:{
                     pass: [{ required: true, validator: checkOperaPass, trigger: 'blur' }],
-                }
+                },
+                loading:true
             }
         },
-        mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
+        mounted() {
+            // const value = this.$store.state.app.device;
+            // this.resizehandle(value);
+            this.getListData()
         },
         watch: {
-            '$store.state.app.device'(value) {
-                this.resizehandle(value);
-            },
+            // '$store.state.app.device'(value) {
+            //     this.resizehandle(value);
+            // },
         },
         computed: {
             placeholder() {
@@ -224,29 +223,35 @@
                 'getCountUnderTrap',
                 'getCountUnderMainLine'
             ]),
-            resizehandle(value){
+            // resizehandle(value){
                 // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
+            // },
+            //获取数据
+            async getListData(params={}){
+                this.loading = true;
+                await this.getList(params)
+                this.loading = false;
             },
             //搜索
-            search(){
+            search:_.throttle(function(){
                 this.current = 1;
                 const val = this.input.replace(/ /g,'');
-                this.getList({
+                this.getListData({
                     filterStr:val,
                     current:1
                 })
-            },
+            },500),
             //切换显示个数
             handleSizeChange(val) {
                 this.size = val;
                 this.current =1;
-                this.getList({ size:val });
+                this.getListData({ size:val });
                 this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
             },
             //切页
             handleCurrentChange(val) {
                 this.current = val;
-                this.getList({ current:val });
+                this.getListData({ current:val });
                 this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
             },
             //应用跳转

@@ -87,9 +87,6 @@
                 }
             }
         },
-        mounted () {
-            this.getList();
-        },
         methods: {
             ...mapActions('user',[
                 'getAccountList', 
@@ -101,7 +98,7 @@
                     ...obj
                 }
                 this.params = data ;
-                this.getAccountList(data).then(res=>{
+                return this.getAccountList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

@@ -1,21 +1,23 @@
 <template>
     <div>
-        <div class="magicList" v-if="magicData&&magicData.bat">
-            <el-row :gutter="20">
-                <el-col :span="6" v-for="(value,name) in magicData" :key="name" :xs="12">
-                    <div >
-                        <Gauge 
-                            :value="{
-                                name,
-                                value:value.value,
-                                createTime:value.createTime
-                            }"
-                        />
-                    </div>
-                </el-col>
-            </el-row>
+        <div v-loading="loading" element-loading-text="拼命加载中">
+            <div class="magicList" v-if="magicData&&magicData.bat" >
+                <el-row :gutter="20">
+                    <el-col :span="6" v-for="(value,name) in magicData" :key="name" :xs="12">
+                        <div >
+                            <Gauge 
+                                :value="{
+                                    name,
+                                    value:value.value,
+                                    createTime:value.createTime
+                                }"
+                            />
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+            <cc-empty text="无设备" v-else/>
         </div>
-        <cc-empty text="无设备" v-else/>
         <el-divider content-position="left">魔节历史数据</el-divider>
         <div>
             <div class="seletGroup">
@@ -74,6 +76,7 @@
                 default: ()=>{}
             },
             assetType: Number,
+            loading:Boolean
         },
         data() {
             return {

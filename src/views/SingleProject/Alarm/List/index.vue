@@ -1,7 +1,6 @@
 <template>
     <cc-table
         title="告警"
-        :loading="loading"
         :data="data"
         :total="total"
         :getList="getList"
@@ -96,7 +95,6 @@
     export default {
         data() {
             return {
-                loading:true,
                 time:[],
                 value:null,
                 status:[
@@ -116,22 +114,17 @@
                 }
             }
         },
-        mounted () {
-            this.getList();
-        },
         methods: {
             ...mapActions('overall',[
                 'getAlarmList', 
             ]),
             getList(obj={}){
-                this.loading = true;
                 const data = {
                     ...this.params,
                     ...obj
                 }
                 this.params = data ;
-                this.getAlarmList(data).then(res=>{
-                    this.loading = false;
+                return this.getAlarmList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;

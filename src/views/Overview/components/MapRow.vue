@@ -2,11 +2,11 @@
     <el-row :gutter="20" type="flex" >
         <el-col :span="12" :xs="24">
             <el-card class="box-card">
-                <div slot="header" class="clearfix"  >
+                <div slot="header" class="clearfix" >
                     <span>设备地图</span>
                 </div>
                 <div>
-                    <Map 
+                    <cc-map  
                         vid="appliaction"
                         :marker="marker"
                     />
@@ -15,7 +15,7 @@
         </el-col>
         <el-col :span="12" :xs="24">
             <el-card class="box-card">
-                <div slot="header" class="clearfix"  >
+                <div slot="header" class="clearfix" >
                     <span>网关地图</span>
                 </div>
                 <div>
