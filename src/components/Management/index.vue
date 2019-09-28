@@ -100,7 +100,6 @@
         props: {
             type:String,
             title:String,
-            loading:Boolean,
             data:Array,
             total:Number,
             skipTo:Function,
@@ -115,42 +114,50 @@
                 layout:'total, sizes,pager,jumper',
                 current:1,
                 size:20,
+                loading:true
             }
         },
         mounted () {
-            const value = this.$store.state.app.device;
-            this.resizehandle(value);
+            // const value = this.$store.state.app.device;
+            // this.resizehandle(value);
+            this.getListData();
         },
         watch: {
-            '$store.state.app.device'(value) {
-                this.resizehandle(value);
-            }
+            // '$store.state.app.device'(value) {
+            //     this.resizehandle(value);
+            // }
         },
         methods: {
-            resizehandle(value){
+            // resizehandle(value){
                 // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
+            // },
+            //获取数据
+            async getListData(params={}){
+                this.loading = true;
+                await this.getList(params)
+                this.loading = false;
             },
+            //搜索
+            search:_.throttle(function(){
+                this.current = 1;
+                const val = this.input.replace(/ /g,'');
+                this.getListData({
+                    filterStr:val,
+                    current:1
+                })
+            },500),
             //切换显示个数
             handleSizeChange(val) {
                 this.size = val;
                 this.current =1;
-                this.getList({ size:val });
+                this.getListData({ size:val });
                 this.$nextTick(()=>{this.$refs.manTable.bodyWrapper.scrollTop = 0 });
             },
             //切页
             handleCurrentChange(val) {
                 this.current = val;
-                this.getList({ current:val });
+                this.getListData({ current:val });
                 this.$nextTick(()=>{this.$refs.manTable.bodyWrapper.scrollTop = 0 });
-            },
-            //搜索
-            search(){
-                this.current = 1;
-                const val = this.input.replace(/ /g,'');
-                this.getList({
-                    filterStr:val,
-                    current:1
-                })
             },
             //应用跳转
             linkTo(type,row={}){
