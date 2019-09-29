@@ -86,8 +86,7 @@
     }
 
     .notice-container {
-        display: flex;
-        flex-direction: column;
+        @include flex(column);
         .notice-list {
             max-height: 400px;
             overflow: auto;
@@ -99,7 +98,7 @@
                 overflow: hidden;
                 cursor: pointer;
                 transition: all .3s;
-                display: flex;
+                @include flex(row);
                 align-items: center;
                 &:last-child {
                     border-bottom: 0;
@@ -108,9 +107,7 @@
                     margin-right: 16px;
                     &-icon {
                         display: block;
-                        // @include wh(32px);
-                        width: 32px;
-                        height: 32px;
+                        @include wh(32px);
                     }
                 }
                 &-content {
@@ -138,7 +135,7 @@
         .notice-list-bottomBar {
             height: 46px;
             line-height: 46px;
-            display: flex;
+            @include flex(row);
             > div {
                 flex: 1;
                 display: inline-block;
