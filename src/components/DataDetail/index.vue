@@ -66,6 +66,7 @@
                 </div>
             </div>
         </div>
+        <cc-backtop target=".EQUIP_CONTAINER"/>
     </div>
 </template>
 
@@ -285,6 +286,8 @@
 
     .EQUIP_CONTAINER{
         position: relative;
+        height: 100%;
+        overflow: scroll;
         // width: 90%;
         // margin: 0 auto;
         .el-divider--horizontal{

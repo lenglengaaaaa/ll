@@ -68,7 +68,8 @@ import {
     Notification,
     Link,
     Divider,
-    Image
+    Image,
+    Backtop
 } from 'element-ui';
 
 export default function(Vue){
@@ -139,6 +140,7 @@ export default function(Vue){
     Vue.use(Link);
     Vue.use(Divider);
     Vue.use(Image);
+    Vue.use(Backtop);
     Vue.prototype.$loading = Loading.service;
     Vue.prototype.$msgbox = MessageBox;
     Vue.prototype.$alert = MessageBox.alert;

@@ -42,11 +42,6 @@
         data () {
             return {}
         },
-        watch: {
-            '$store.state.app.alarmBox'(arr){
-                console.log(arr,'arr')
-            },
-        },
         methods: {
             moment(time) {
                 return this.$moment(time).fromNow();
