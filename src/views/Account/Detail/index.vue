@@ -1,18 +1,25 @@
 <template>
     <div class="account_detail">
         <div class="wrap">
-            <div class="avatar">
-                <el-upload
-                    class="avatar-uploader"
-                    :action="api"
+            <div class="avatar_warpper">
+                <my-upload 
+                    ref="uploader"
+                    field="file"
+                    @crop-upload-success="cropUploadSuccess"
+                    @crop-upload-fail="cropUploadFail"
+                    @src-file-set="srcFileSet"
+                    v-model="show"
+                    :width="150"
+                    :height="150"
+                    :url="api"
                     :headers="{'jtoken':token}"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
+                    img-format="jpg"
+                />
+                <img 
+                    class="avatar"
+                    :src="imageUrl" 
+                    @click="toggleShow"
                 >
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
             </div>
             <div>
                 <el-form 
@@ -56,8 +63,12 @@
     import { mapActions } from 'vuex'
     import avatar from '@images/default.jpg'
     import {judgeObject} from '@/utils/methods'
+    import myUpload from 'vue-image-crop-upload';
 
     export default {
+        components: {
+			'my-upload': myUpload
+		},
         data() {
             const checkPhone = (rule,value,callback) =>{
                 const myreg=/^[1][34578][0-9]{9}$/;  
@@ -74,6 +85,7 @@
                 callback();
             }
             return {
+                show: false,
                 imageUrl: '',
                 options:[
                     {title:'账号',value:'',sign:'name'},
@@ -103,6 +115,13 @@
             },
             token(){
                 return this.$store.state.user.token
+            }
+        },
+        watch: {
+            show(newVal) {
+                if(!newVal){
+                    this.$refs.uploader.setStep(1);
+                }
             }
         },
         methods: {
@@ -149,33 +168,53 @@
                     }
                 })
             },
-            //上传成功后回调
-            handleAvatarSuccess(res, file) {
+            /**
+             * 图片上传开关
+             */
+            toggleShow() {
+                this.show = !this.show;
+            },
+            srcFileSet(fileName, fileType, fileSize){
+                // const isJPG = fileType === 'image/jpeg';
+                const isLt2M = fileSize / 1024 / 1024 < 2;
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                    this.$refs.uploader.off();
+                }
+            },
+			/**
+			 * upload success
+			 *
+			 * [param] jsonData   服务器返回数据，已进行json转码
+			 * [param] field
+			 */
+			cropUploadSuccess(jsonData, field){
                 const {id,imageId} = this.userDetail;
-                this.imageUrl = URL.createObjectURL(file.raw);
                 this.updateAvatar({
                     id:imageId,
                     accountId:id,
                     name:'xxx',
-                    imagePath:res.data
+                    imagePath:jsonData.data
                 }).then(result=>{
                     if(!result)return;
-                    this.imageUrl = res.data; 
+                    this.imageUrl = jsonData.data; 
                     this.getAccountDetail(id)
                 })
-            },
-            //上传前回调
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
-            }
+			},
+			/**
+			 * upload fail
+			 *
+			 * [param] status    server api return error status, like 500
+			 * [param] field
+			 */
+			cropUploadFail(status, field){
+				console.log('-------- upload fail --------');
+				console.log(status);
+				console.log('field: ' + field);
+			}
         },
     }
 </script>
@@ -192,33 +231,20 @@
             padding: 15px;
             background:#fff;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-            .avatar{
-                text-align: center;
-                padding: 20px 0;
-                .avatar-uploader .el-upload {
-                    border: 1px dashed #d9d9d9;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    position: relative;
-                    overflow: hidden;
-                }
-                .avatar-uploader .el-upload:hover {
-                    border-color: #409EFF;
-                }
-                .avatar-uploader-icon {
-                    border-radius: 50%;
-                    font-size: 1.75rem;
-                    color: #8c939d;
-                    width: 100px;
-                    height: 100px;
-                    line-height: 100px;
-                    text-align: center;
-                }
+            .avatar_warpper{
+                @include center();
+                margin: 20px 0;
                 .avatar {
-                    width: 100px;
-                    height: 100px;
+                    box-sizing: border-box;
+                    width: 120px;
+                    height: 120px;
                     display: block;
-                    padding: 0;
+                    cursor: pointer;
+                    border-radius: 10px;
+                    padding: 2px;
+                    &:hover{
+                        border: 1px dashed #22a8ed;
+                    }
                 }
             }
             .el-form-item{
