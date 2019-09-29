@@ -6,6 +6,7 @@
             @close="close"
             v-if="dialogVisible"
             :close-on-click-modal="false"
+            v-el-drag-dialog
         >
             <slot></slot>
         </el-dialog>
@@ -13,8 +14,11 @@
 </template>
 
 <script>
+    import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
+
     export default {
         name:'cc-dialog',
+        directives: { elDragDialog },
         props: {
             title:String,
             visible:Boolean,
