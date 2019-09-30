@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import {sleep} from '@/utils/methods'
+
     export default {
         data() {
             return {
@@ -50,9 +52,9 @@
             this.marker=marker;
         },
         mounted () {
-            setTimeout(()=>{
-                this.flag =true;
-            },300)
+            sleep(300).then(()=>{
+                this.flag = true;
+            })
         },
     }
 </script>

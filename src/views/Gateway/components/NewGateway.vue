@@ -15,10 +15,10 @@
                     <el-input v-model="form.number" placeholder="请输入字母,下划线或数字"></el-input>
                 </el-form-item>
                 <el-form-item label="卡号" prop="card">
-                    <el-input v-model="form.card" placeholder="请输入卡号"></el-input>
+                    <el-input v-model="form.card" placeholder="请输入卡号" ></el-input>
                 </el-form-item>
                 <el-form-item label="MAC地址" prop="mac">
-                    <el-input v-model="form.mac" placeholder="请输入网关MAC地址" maxlength="16"></el-input>
+                    <el-input v-model="form.mac" placeholder="请输入网关MAC地址" maxlength="16" :disabled="editFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="网关详情">
                     <el-input v-model="form.detail" placeholder="请输入网关详情"></el-input>
@@ -63,10 +63,27 @@
 
     export default {
         data() {
+            const checkName = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('请输入网关名称'));
+                }
+                const r =  /[\u4E00-\u9FA5]/;
+                if(r.test(value)){
+                    return callback(new Error('请输入数字或字母!'))
+                }
+                callback();
+            };
             const checkMac = (rule, value, callback) => {
                 if(this.editFlag) return callback();
                 if (!value) {
                     return callback(new Error('请输入MAC地址'));
+                }
+                const r =  /[\u4E00-\u9FA5]/;
+                if(r.test(value)){
+                    return callback(new Error('请输入数字或字母!'))
+                }
+                if (value.length<16) {
+                    return callback(new Error(`MAC地址长度为16`));
                 }
                 const obj ={value,type:0}
                 this.$store.dispatch('overall/checkMacOrCard', obj).then(res=>{
@@ -80,7 +97,7 @@
             const checkCard = (rule, value, callback) => {
                 if(this.editFlag) return callback();
                 if (!value) {
-                    return callback(new Error('请输入网关地址'));
+                    return callback(new Error('请输入卡号'));
                 }
                 const obj ={value,type:1}
                 this.$store.dispatch('overall/checkMacOrCard', obj).then(res=>{
@@ -97,13 +114,10 @@
                 editFlag:false,
                 form: {},
                 rules: {
-                    name: [{ required: true, message: '请输入网关名称', trigger: 'blur' }],
+                    name: [{ required: true, validator: checkName, trigger: 'blur' }],
                     number: [{ required: true, message: '请输入网关资产编号', trigger: 'blur' }],
                     card: [ { required: true, validator: checkCard, trigger: 'blur' }],
-                    mac: [
-                        // { min: 16, max: 16, message: 'MAC地址长度为16', trigger: 'blur' },
-                        { required: true, validator: checkMac, trigger: 'blur' }
-                    ],
+                    mac: [{ required: true, validator: checkMac, trigger: 'blur' }],
                 }
             }
         },

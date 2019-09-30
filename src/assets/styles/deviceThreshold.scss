@@ -1,14 +1,11 @@
 .deviceThreshold{
     max-width: 100%;
-    display: flex;
-    justify-content: center;
+    @include center();
     .box-card{
         .el-card__header{
             padding: 10px 20px;
             .clearfix{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+                @include between();
                 .info{
                     strong{
                         font-size: 1.2rem;

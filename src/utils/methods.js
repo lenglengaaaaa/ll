@@ -1,6 +1,13 @@
 import store from '../store'
 
 /**
+ * sleep函数
+ */
+export const sleep = (time=500) => {
+    return new Promise(resolve => setTimeout(resolve,time))
+}
+
+/**
  * 资产管理页面,对单个表单项进行重置
  * @param arr 要清除的表单prop值,['roomId']
  */

@@ -13,14 +13,17 @@
   justify-content: center;
   align-items: center;
 }
+//垂直两边
+@mixin between($direction: column,$inline: flex) {
+  display: $inline;
+  justify-content: space-between;
+  align-items: center;
+}
 //多行超出省略号
 @mixin ell2() {
-  word-break: break-all;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 //宽高
 @mixin wh($width, $height: $width) {

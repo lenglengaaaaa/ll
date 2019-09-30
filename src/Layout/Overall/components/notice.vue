@@ -44,7 +44,7 @@
         },
         methods: {
             moment(time) {
-                return this.$moment(time).fromNow();
+                return this.$moment(time).format('YYYY-MM-DD HH:mm:ss');
             },
             clearBox(){
                 this.$store.dispatch('app/saveAlarm',[])
