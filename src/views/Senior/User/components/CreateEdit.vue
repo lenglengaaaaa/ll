@@ -132,16 +132,7 @@
                 callback();
             }
             return {
-                form: {
-                    userName:'',
-                    name: '',
-                    password:"",
-                    checkPass:'',
-                    operationPwd:'',
-                    phoneNum:'',
-                    email:'',
-                    description:''
-                },
+                form: {},
                 rules: {
                     userName: [{ required: true, message: '请输入用户名称', trigger: 'blur' },],
                     name: [{ required: true, validator: checkAccount, trigger: 'blur' }],
@@ -167,7 +158,7 @@
                 'updateAccount'
             ]),
             handleClose(result=false) {
-                this.form = restForm
+                this.form = restForm;
                 this.close(result);
             },
             submitForm() {

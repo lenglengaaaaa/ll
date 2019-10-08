@@ -138,7 +138,7 @@
             this.getList();
         },
         methods: {
-            ...mapActions('overall',[
+            ...mapActions('senior',[
                 'getOperationList', 
             ]),
             getList(obj={}){

@@ -579,34 +579,6 @@ const actions= {
             }
         })
     },
-
-
-
-    //==================================系统操作管理==================================
-    /**
-     * 获取系统操作管理列表
-     * @param {
-     *      "type":0,  // 操作类型 0全部 1 创建 2 修改 3 删除 4 其他
-     *      "size":20,
-     *      "current":1,
-     *      "startTime":"2019-01-02",   开始时间，默认为结束时间前7天
-     *      "endTime":"2019-8-14"      结束时间,默认为当前时间
-     * }
-     */
-    getOperationList({commit},obj){
-        return request({
-            method:'post',
-            url:`${api.operationList}`,
-            data:obj
-        }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
-                return res
-            }else{
-                res&&tip(res.meassage)
-                return false
-            }
-        })
-    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

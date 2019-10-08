@@ -134,6 +134,7 @@
             data:Array,
             total:Number,
             title:String,
+            assetType:Number,
             getList:Function,
             skipTo:{
                 type:Function,
@@ -158,8 +159,7 @@
             verify:{
                 type:Boolean,
                 default:false
-            },
-            assetType:Number
+            }
         },
         data() {
             const checkOperaPass = (rule, value, callback) => {

@@ -95,7 +95,10 @@
     export default {
         data() {
             return {
-                time:[],
+                time:[
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD'), 
+                    this.$moment().format('YYYY-MM-DD')
+                ],
                 value:null,
                 status:[
                     {value:null,label:'全部'},
@@ -145,7 +148,7 @@
             changeTime(time){
                 const [startTime,endTime] =time;
                 this.time = [startTime,endTime];
-                this.getList({
+                this.$children[0]&&this.$children[0].getListData({
                     startTime,
                     endTime
                 })

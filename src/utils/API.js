@@ -321,6 +321,20 @@ export const api={
 
     //=======================================系统操作管理=====================================================
 
+    //获取应用列表 post
+    getAppList:`${url}/e_view/app/list`,
+
+    //新增应用 post
+    createApp:`${url}/e_view/app/create`,
+
+    //编辑应用 post
+    updateApp:`${url}/e_view/app/update`,
+
+    //删除应用 post
+    deleteApp:`${url}/e_view/app/delete`,
+
+    //=======================================系统操作管理=====================================================
+
     //获取系统操作管理列表 post
     operationList:`${url}/e_view/operation/find/list`
 
