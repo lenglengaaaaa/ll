@@ -140,7 +140,7 @@
             },
             //切换状态回调
             changeStaus(val){
-                this.getList({
+                this.$children[0]&&this.$children[0].getListData({
                     status:val
                 })
             },

@@ -89,7 +89,7 @@
                 }
                 this.deleteLine(id).then(res=>{
                     if(!res)return;
-                    this.getList(this.params);
+                    this.$children[0]&&this.$children[0].getListData()
                 })
             },
             skipTo(type,row) {

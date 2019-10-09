@@ -66,9 +66,6 @@
                 value:{}
             }
         },
-        mounted () {
-            // this.getList();
-        },
         methods: {
             ...mapActions('asset',[
                 'skipToEdit',

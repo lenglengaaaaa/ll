@@ -196,7 +196,7 @@
                 }
                 if(!deviceType) delete data.deviceType;
                 this.params = data;
-                this.getList(data)
+                this.$children[0]&&this.$children[0].getListData(data);
             },
             skipTo(type,row) {
                 this.$store.dispatch('asset/skipToEdit',{
@@ -224,7 +224,7 @@
                 }
                 this.deleteEquip(row).then(res=>{
                     if(!res)return;
-                    this.getList();
+                    this.$children[0]&&this.$children[0].getListData()
                 });
             }
         },

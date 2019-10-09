@@ -102,14 +102,14 @@
                 const {id} = row;
                 this.deleteProject(id).then(res=>{
                     if(!res)return;
-                    this.getList();
+                    this.$children[0]&&this.$children[0].getListData()
                 })
             },
             recover(row){
                 const {id} = row;
                 this.recoveProject(id).then(res=>{
                     if(!res)return;
-                    this.getList();
+                    this.$children[0]&&this.$children[0].getListData()
                 })
             },
             skipTo(type,row){
@@ -129,7 +129,7 @@
                 this.editFlag=false;
                 this.value  ={};
                 if(!result)return;
-                this.getList(this.params);
+                this.$children[0]&&this.$children[0].getListData()
             },
         },
     }

@@ -134,9 +134,6 @@
                 }
             }
         },
-        mounted () {
-            this.getList();
-        },
         methods: {
             ...mapActions('senior',[
                 'getOperationList', 
@@ -147,7 +144,7 @@
                     ...obj
                 }
                 this.params = data ;
-                this.getOperationList(data).then(res=>{
+                return this.getOperationList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;
@@ -156,13 +153,13 @@
             },
             //切换状态回调
             changeStaus(val){
-                this.getList({ type:val });
+                this.$children[0]&&this.$children[0].getListData({ type:val })
             },
             //切换时间回调
             changeTime(time){
                 const [startTime,endTime] =time;
                 this.time = [startTime,endTime];
-                this.getList({
+                this.$children[0]&&this.$children[0].getListData({
                     startTime,
                     endTime
                 })
