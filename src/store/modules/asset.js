@@ -87,15 +87,16 @@ const actions= {
      * @param obj 列表数据
      */
     skipToEdit({commit},obj){
-        const {type,row,storage,deviceType} = obj;
+        const {type,row,storage} = obj;
         const address =row.location?row.location.split(','):[];
         const city = address.slice(0,3);
         const location = address[3]||"";
         const storageName = storage || 'assetObj'
         //修改资产类型
-        sessionStorage.setItem('appType',deviceType);
+        sessionStorage.setItem('appType',row.deviceType || null);
         sessionStorage.setItem( storageName , JSON.stringify({
             editFlag:type&&type==='edit'?true:false,
+            activeFlag:type==='active'?true:false,
             data:{
                 ...row,
                 city,

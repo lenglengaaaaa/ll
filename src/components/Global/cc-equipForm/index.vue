@@ -266,6 +266,7 @@
                                 if(!res)return;
                                 if(this.isActivate){
                                     this.next();
+                                    sessionStorage.setItem('equipObj',JSON.stringify({data}));
                                     return;
                                 }
                                 this.$router.push({name:'EquList'});

@@ -11,7 +11,14 @@
         >   
             <template>
                 <el-table-column
-                    prop="appName"
+                    prop="id"
+                    label="应用ID"
+                    align="center"
+                    sortable
+                    show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="name"
                     label="应用名称"
                     align="center"
                     sortable
@@ -68,7 +75,7 @@
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="appDetail"
+                    prop="detail"
                     label="描述"
                     align="center"
                     sortable
@@ -88,6 +95,7 @@
 <script>
     import { judgeLastData } from '@/utils/methods'
     import CreateEdit from './components/CreateEdit'
+    import { mapActions } from 'vuex';
 
     export default {
         components: {
@@ -95,28 +103,35 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        appName:'应用一',
-                        appKey:'userName',
-                        appType:'13612345678',
-                        netModel:'123@163.com',
-                        coapWay:'1',
-                        mqttWay:'2',
-                        agentliteWay:'3',
-                        httpsWay:'4',
-                        appDetail:'震动值：静止',
-                    }
-                ],
-                total:100,
+                data: [],
+                total:0,
                 dialogVisible:false,
                 editFlag:false,
-                value:{}
+                value:{},
+                params:{
+                    size:20,    
+                    current:1,
+                    filerstr:""
+                }
             }
         },
         methods: {
-            getList(){
-
+            ...mapActions('senior',[
+                'getAppList', 
+                'deleteApp'
+            ]),
+            getList(obj={}){
+                const data = {
+                    ...this.params,
+                    ...obj
+                }
+                this.params = data ;
+                return this.getAppList(data).then(res=>{
+                    if(!res)return;
+                    const {data,page} = res;
+                    this.data = data;
+                    this.total = page.total;
+                })
             },
             skipTo(type,row) {
                 this.dialogVisible = true;
@@ -125,13 +140,24 @@
                     this.value=row;
                 }
             },
-            close(){
+            remove(row){
+                const {id} = row;
+                const current = judgeLastData(this.data,this.params.current);
+                this.params ={
+                    ...this.params,
+                    current
+                }
+                this.deleteApp(id).then(res=>{
+                    if(!res)return;
+                    this.$children[0]&&this.$children[0].getListData()
+                })
+            },
+            close(result){
                 this.dialogVisible=false;
                 this.editFlag=false;
                 this.value  ={};
-            },
-            remove(){
-                
+                if(!result)return;
+                this.$children[0]&&this.$children[0].getListData()
             }
         },
     }

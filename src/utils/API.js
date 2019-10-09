@@ -294,6 +294,12 @@ export const api={
     //导出配电柜下单个出线的历史视图 post
     getRingHistoryExecl:`${url}/e_view/data/statistics/switch/history/execl`,
 
+    //Lora 设备激活时获取随机设备地址 get
+    getRandomEui:`${url}/e_view/device/random/address`,
+
+    //Lora 设备激活 post
+    activateDevice:`${url}/e_view/device/lora/activate`,
+
     //=======================================阈值设置=====================================================
 
     //查看告警阈值设置详情 get

@@ -38,7 +38,7 @@
                             <el-table-column
                                 label="操作"
                                 align="center"
-                                width="280"
+                                width="320"
                                 v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
@@ -49,6 +49,14 @@
                                             @click="linkTo('check',scope.row)"
                                         >
                                             {{title==='角色'?'权限分配':'查看'}}
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="warning"
+                                            v-if="scope.row.deviceType&&scope.row.remark1==1"
+                                            @click="linkTo('active',scope.row)"
+                                        >
+                                            激活
                                         </el-button>
                                         <el-button
                                             size="mini"
@@ -261,6 +269,7 @@
                     case 'add':
                     case 'edit':
                     case 'set':
+                    case 'active':
                         this.skipTo(type,row);
                         break;
                     case 'delete' :

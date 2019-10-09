@@ -26,7 +26,7 @@
                 prop="typeName"
                 label="设备类型"
                 align="center"
-                width="200"
+                width="180"
                 show-overflow-tooltip
             />
             <el-table-column
@@ -35,7 +35,7 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-                width="200"
+                width="180"
             >
                 <template slot-scope="scope">
                     <el-link 
@@ -203,13 +203,14 @@
                     type,
                     row,
                     storage:'equipObj',
-                    deviceType:row.deviceType
                 })
-                if(type==='set'){
-                    this.$router.push({name:'DeviceThSet'});
-                    return;
+                switch (type) {
+                    case 'set':
+                        this.$router.push({name:'DeviceThSet'});
+                        return;
+                    default:
+                        this.$router.push({name:'NewEqu'});
                 }
-                this.$router.push({name:'NewEqu'});
             },
             skipToDetail(row){
                 this.$router.push({name:'EquDetail'})

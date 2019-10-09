@@ -590,6 +590,54 @@ const actions= {
             }
         })
     },
+
+    /**
+     * Lora 设备激活时获取随机设备地址
+     * @param deviceEui Lora 设备deviceEuii
+     */
+    getRandomEui({commit},deviceEui){
+        return request({
+            method:'get',
+            url:`${api.getRandomEui}`,
+            data:{
+                deviceEui
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * Lora 设备激活
+     * @param {
+     *      appSKey  应用密钥
+     *      devAddr  设备地址
+     *      devEUI 设备eui
+     *      fCntDown 下行帧数
+     *      fCntUp 上行帧数
+     *      nwkSKey 网络密钥
+     * }
+     */
+    activateDevice({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.activateDevice}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return true
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    }
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

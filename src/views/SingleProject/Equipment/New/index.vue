@@ -1,6 +1,6 @@
 <template>
     <div class="create_container">
-        <template v-if="!this.editFlag">
+        <template v-if="!this.editFlag && !this.activeFlag">
             <div class="step">
                 <el-steps :active="active" finish-status="success" simple>
                     <el-step title="选择设备"></el-step>
@@ -23,10 +23,11 @@
                 </template>
             </div>
         </template>
-        <template v-else>
-            <div class="edit">
+        <template v-if="this.editFlag">
                 <AddApply />
-            </div>
+        </template>
+        <template v-if="this.activeFlag">
+            <ActApply />
         </template>
     </div>
 </template>
@@ -43,12 +44,15 @@
         data() {
             return {
                 active: 0,
-                editFlag:false,
             };
         },
-        created () {
-            const {editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
-            this.editFlag = editFlag;
+        computed: {
+            editFlag() {
+                return JSON.parse(sessionStorage.getItem('equipObj')).editFlag;
+            },
+            activeFlag(){
+                return JSON.parse(sessionStorage.getItem('equipObj')).activeFlag;
+            }
         },
         methods: {
             pre(){
@@ -88,7 +92,7 @@
             width: 100%;
             margin-top: 30px;
         }
-        .edit{
+        .edit,.activate{
             width: 100%;
             // height: 100%;
             display: flex;
