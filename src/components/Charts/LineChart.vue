@@ -62,10 +62,13 @@
                     },
                     dataZoom: [
                         {
+                            type: 'inside',
+                        },
+                        {
                             type: 'slider',
                             xAxisIndex: 0,
                             filterMode: 'empty'
-                        },
+                        }
                     ],
                     series:[],
                 }
