@@ -1,6 +1,13 @@
 <template>
     <el-backtop :target="target">
-        <div class="box"> UP </div>
+        <el-tooltip content="回到顶部" placement="left">
+            <div class="box">
+                <svg-icon 
+                    iconClass="arrowUp" 
+                    className="icon"
+                />
+            </div>
+        </el-tooltip>
     </el-backtop>
 </template>
 
@@ -15,13 +22,16 @@
 
 <style lang="scss" scoped>
     .box{
-        height: 100%;
-        width: 100%;
-        background-color: #22a7f0;
-        box-shadow: 0 0 6px rgba(0,0,0, .12);
+        width: 40px;
+        height: 40px;
         text-align: center;
         line-height: 40px;
         color: #fff;
         border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(26,26,26,.1);
+        &:hover{
+            background: #d3d3d3;
+        }
     }
 </style>

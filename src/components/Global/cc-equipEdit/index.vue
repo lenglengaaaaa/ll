@@ -11,7 +11,7 @@
                 <el-input v-model="form.name" placeholder="请输入资产名称"></el-input>
             </el-form-item>
             <el-form-item label="资产编号" prop="number">
-                <el-input v-model="form.number" placeholder="请输入资产编号"></el-input>
+                <el-input v-model="form.number" placeholder="请输入资产编号" :disabled="editFlag"></el-input>
             </el-form-item>
             
             <slot></slot>
@@ -82,6 +82,7 @@
         },
         data() {
             const checkNumber = (rule, value, callback) => {
+                if(this.editFlag)return callback();
                 const id = this.form.id || null
                 const obj ={id,num:value,type:this.type}
                 if (!value) {
