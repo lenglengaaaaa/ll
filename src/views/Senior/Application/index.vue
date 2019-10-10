@@ -11,7 +11,7 @@
         >   
             <template>
                 <el-table-column
-                    prop="id"
+                    prop="appId"
                     label="应用ID"
                     align="center"
                     sortable

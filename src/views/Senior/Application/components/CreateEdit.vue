@@ -8,8 +8,8 @@
         <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="appForm">
             <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="应用ID" prop="id">
-                        <el-input v-model="form.id" placeholder="请输入应用ID" :disabled="editFlag"></el-input>
+                    <el-form-item label="应用ID" prop="appId">
+                        <el-input v-model="form.appId" placeholder="请输入应用ID" :disabled="editFlag"></el-input>
                     </el-form-item>
                     <el-form-item label="应用名称" prop="name">
                         <el-input v-model="form.name" placeholder="请输入应用名称"></el-input>
@@ -56,7 +56,7 @@
     import { mapActions } from 'vuex';
 
     const restForm ={
-        id:'',
+        appId:'',
         name:'',
         appKey:'',
         appType:'',
@@ -82,7 +82,7 @@
             return {
                 form: {},
                 rules: {
-                    id: [{ required: true, message: '请输入应用ID', trigger: 'blur' },],
+                    appId: [{ required: true, message: '请输入应用ID', trigger: 'blur' },],
                     name: [{ required: true, message: '请输入应用名称', trigger: 'blur' },],
                     appKey: [{ required: true, message: '请输入应用密钥', trigger: 'blur' }],
                     appType: [{ required: true, message: '请输入应用类型', trigger: 'blur' }],

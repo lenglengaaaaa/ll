@@ -49,8 +49,8 @@
                     onClick:this.checkDetail.bind(this,res)
                 });
                 this.$store.dispatch('app/saveAlarm',[
-                    ...this.$store.state.app.alarmBox,
-                    res
+                    res,
+                    ...this.$store.state.app.alarmBox
                 ])
             })
         },
