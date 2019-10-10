@@ -52,7 +52,6 @@
                         type: 'category',
                         data:[],
                         axisLine: {onZero: false},
-                        
                     },
                     yAxis: {
                         type: 'value',
