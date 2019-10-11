@@ -38,9 +38,14 @@
             <el-table-column
                 label="设备EUI"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.deviceEui||'---'"
+            />
+            <el-table-column
+                label="设备地址域"
+                align="center"
+                show-overflow-tooltip
+                :formatter="(row)=>row.deviceAdress||'---'"
             />
             <el-table-column
                 label="告警详情"
