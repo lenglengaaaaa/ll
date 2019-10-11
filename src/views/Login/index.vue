@@ -10,7 +10,7 @@
         </div>
         <div class="body">
             <div class="bg">
-                <img src="@images/login_bg.jpg" alt="loginbg">
+                <img src="@images/login_bg.png" alt="loginbg">
             </div>
             <div class="login">
                 <div class="login_title">
@@ -185,11 +185,10 @@
         }
         .body{
             height: calc(100vh - 150px);
-            display: flex;
-            align-items: center;
+            @include around();
             .bg{
-                padding-left: 19.8vw;
-                padding-right: 7.2vw;
+                // padding-left: 19.8vw;
+                // padding-right: 7.2vw;
                 img{
                     width: 30rem;
                 }

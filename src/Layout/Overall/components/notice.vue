@@ -50,12 +50,13 @@
                 this.$store.dispatch('app/saveAlarm',[])
             },
             viewDetail(item){
+                if(!sessionStorage.getItem('project'))return;
                 const result = {
                     ...item,
                     id:item.warnInfoId
                 }
-                // sessionStorage.setItem('obj',JSON.stringify(result));
-                // this.$router.push({name:'AlarmDetail'})
+                sessionStorage.setItem('obj',JSON.stringify(result));
+                this.$router.push({name:'AlarmDetail'})
             }
         },
     }

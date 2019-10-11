@@ -6,6 +6,7 @@
         :getList="getList"
         :skipTo="skipTo"
         :remove="remove"
+        :isDevice="true"
         :verify="false"
     >
         <template #select>
@@ -26,7 +27,6 @@
                 prop="typeName"
                 label="设备类型"
                 align="center"
-                width="180"
                 show-overflow-tooltip
             />
             <el-table-column
@@ -41,6 +41,7 @@
                     <el-link 
                         type="primary" 
                         @click="skipToDetail(scope.row)" 
+                        :underline="false"
                     >
                         {{scope.row.name}}
                     </el-link>
@@ -51,7 +52,6 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-                width="160"
                 :formatter="(row)=>row.deviceEui || '-'"
             />
             <el-table-column
@@ -59,7 +59,6 @@
                 label="设备编号"
                 align="center"
                 sortable
-                width="150"
                 show-overflow-tooltip
             />
             <el-table-column

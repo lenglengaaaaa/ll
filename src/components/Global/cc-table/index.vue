@@ -38,7 +38,7 @@
                             <el-table-column
                                 label="操作"
                                 align="center"
-                                width="320"
+                                :width="isDevice?350:300"
                                 v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
@@ -52,16 +52,8 @@
                                         </el-button>
                                         <el-button
                                             size="mini"
-                                            type="warning"
-                                            v-if="scope.row.deviceType&&scope.row.remark1==1"
-                                            @click="linkTo('active',scope.row)"
-                                        >
-                                            激活
-                                        </el-button>
-                                        <el-button
-                                            size="mini"
                                             type="primary"
-                                            v-if="scope.row.deviceType&&inThresholdRange(scope.row.deviceType)"
+                                            v-if="isDevice&&inThresholdRange(scope.row.deviceType)"
                                             @click="linkTo('set',scope.row)"
                                         >
                                             阈值设置
@@ -79,6 +71,14 @@
                                             @click="linkTo('delete',scope.row)"
                                         >
                                             删除
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="warning"
+                                            v-if="isDevice&&scope.row.remark1==1"
+                                            @click="linkTo('active',scope.row)"
+                                        >
+                                            激活
                                         </el-button>
                                     </template>
                             </el-table-column>
@@ -163,6 +163,10 @@
             hasAdd:{
                 type:Boolean,
                 default:true
+            },
+            isDevice:{
+                type:Boolean,
+                default:false
             },
             verify:{
                 type:Boolean,

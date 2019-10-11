@@ -136,7 +136,7 @@
             },
             linkTo(row) {
                 sessionStorage.setItem('obj',JSON.stringify(row));
-                this.$router.push({name:'Detail'})
+                this.$router.push({name:'AlarmDetail'})
             },
             //切换状态回调
             changeStaus(val){

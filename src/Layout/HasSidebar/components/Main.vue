@@ -92,7 +92,7 @@
                     id:item.warnInfoId
                 }
                 sessionStorage.setItem('obj',JSON.stringify(result));
-                this.$router.push({name:'Detail'})
+                this.$router.push({name:'AlarmDetail'})
             },
             toggleSideBar() {
                 this.$store.dispatch('app/toggleSideBar')

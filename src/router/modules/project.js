@@ -224,7 +224,7 @@ const projectRouter = {
                 },
                 {
                     path:'detail',
-                    name:'Detail',
+                    name:'AlarmDetail',
                     component: () => import('@/views/SingleProject/Alarm/Detail'),
                     meta:{title:'告警详情'}
                 }

@@ -19,6 +19,13 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@mixin around($direction: column,$inline: flex) {
+  display: $inline;
+  justify-content: space-around;
+  align-items: center;
+}
+
 //多行超出省略号
 @mixin ell2() {
   overflow: hidden;
