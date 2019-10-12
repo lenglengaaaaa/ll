@@ -82,6 +82,11 @@
                 this.option.title.text = value;
             }
         },
+        watch: {
+            '$store.state.app.sidebar.opened'(flag) {
+                this.chart&&this.chart.resize();
+            }
+        },
         mounted() {
             this.chart = this.$echarts.init(document.getElementById(this.id))
             this.drawLine();

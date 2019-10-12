@@ -31,7 +31,7 @@
             this.client = this.$mqtt.connect(`topic_warning_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'告警信息')
-                const {address,alertMsg,devName,time} = res;
+                const {address,alertMsg,devName,time,lng,lat} = res;
                 this.$notify({ 
                     duration: 30000,
                     title: '告警信息',
@@ -42,6 +42,7 @@
                             <div>设备名称 : <strong>${devName}</strong></div>
                             <div>设备地址域 : <strong>${address}</strong></div>
                             <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
+                            ${(lng||lat)?`<div>经纬度 : <strong >${lng},${lat}</strong></div>`:''}
                             <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
                             <div class="tip">注 :点击查看详情</div>
                         </div>
@@ -153,6 +154,7 @@
             & > div{
                 padding: 5px 0;
                 font-size: 15px;
+                text-align: left;
             }
             .red{
                 color:red

@@ -33,6 +33,9 @@
         watch: {
             value(value) {
                 this.getData();
+            },
+            '$store.state.app.sidebar.opened'(flag) {
+                this.chart&&this.chart.resize();
             }
         },
         methods: {
