@@ -14,6 +14,7 @@
 
 <script>
     import Breadcrumb from '@/components/Breadcrumb'
+    import {xyTransformation} from '@/utils/methods'
 
     export default {
         components: {
@@ -32,27 +33,32 @@
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'告警信息')
                 const {address,alertMsg,devName,time,lng,lat} = res;
-                this.$notify({ 
-                    duration: 30000,
-                    title: '告警信息',
-                    type: 'warning',
-                    dangerouslyUseHTMLString: true,
-                    message: `
-                        <div class="noti">
-                            <div>设备名称 : <strong>${devName}</strong></div>
-                            <div>设备地址域 : <strong>${address}</strong></div>
-                            <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
-                            ${(lng||lat)?`<div>经纬度 : <strong >${lng},${lat}</strong></div>`:''}
-                            <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
-                            <div class="tip">注 :点击查看详情</div>
-                        </div>
-                    `,
-                    onClick:this.checkDetail.bind(this,res)
-                });
-                this.$store.dispatch('app/saveAlarm',[
-                    res,
-                    ...this.$store.state.app.alarmBox
-                ])
+                xyTransformation([lng,lat]).then(result=>{
+                    this.$notify({ 
+                        duration: 30000,
+                        title: '告警信息',
+                        type: 'warning',
+                        dangerouslyUseHTMLString: true,
+                        message: `
+                            <div class="noti">
+                                <div>设备名称 : <strong>${devName}</strong></div>
+                                <div>设备地址域 : <strong>${address}</strong></div>
+                                <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
+                                ${result?`<div>经纬度 : <strong >${result}</strong></div>`:''}
+                                <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
+                                <div class="tip">注 :点击查看详情</div>
+                            </div>
+                        `,
+                        onClick:this.checkDetail.bind(this,res)
+                    });
+                    this.$store.dispatch('app/saveAlarm',[
+                        {
+                            ...res,
+                            position:result&&result.join(',')
+                        },
+                        ...this.$store.state.app.alarmBox
+                    ])
+                })
             })
         },
         mounted () {

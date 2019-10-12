@@ -80,9 +80,7 @@
             },
             text(value){
                 this.option.title.text = value;
-            }
-        },
-        watch: {
+            },
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart&&this.chart.resize();
             }

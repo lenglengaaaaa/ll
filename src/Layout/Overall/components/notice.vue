@@ -13,9 +13,9 @@
                                 <strong>告警信息: </strong>
                                 <span class="notice-item-content-title-msg">{{item.alertMsg}}</span>
                             </div>
-                            <div v-if="item.lng||item.lat">
+                            <div v-if="item.position">
                                 <strong>经纬度: </strong>
-                                <span>{{item.lng}},{{item.lat}}</span>
+                                <span>{{item.position}}</span>
                             </div>
                         </h4>
                         <div class="notice-item-content-description">

@@ -27,7 +27,8 @@
 }
 
 //多行超出省略号
-@mixin ell2() {
+@mixin textOverflow($width) {
+  width:$width;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;

@@ -1,4 +1,5 @@
 import store from '../store'
+import AMap from "@/utils/AMap"
 
 /**
  * sleep函数
@@ -282,4 +283,24 @@ export const currentDataFilter = (res,type)=>{
         }
     }
     return obj;
+}
+
+/**
+ * 原始GPS坐标转换为高德坐标
+ */
+export const xyTransformation =async (position) => {
+    if(!position[0])return false;
+    const resMap =await AMap();
+    const fetchValue = () =>{
+        return new Promise((resolve)=>{
+            resMap.convertFrom(position, 'gps', function (status, result) {
+                if (result.info === 'ok') {
+                    const {lng,lat} = result.locations[0];
+                    resolve([lng,lat])
+                }
+                resolve(position)
+            });
+        })
+    }
+    return await fetchValue();
 }

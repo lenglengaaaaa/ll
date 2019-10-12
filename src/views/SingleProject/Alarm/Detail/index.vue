@@ -36,6 +36,12 @@
                             {{single.alarmMsg}}
                         </span>
                     </p>
+                    <p v-if="single.isshock">
+                        <strong>设备经纬度</strong>
+                        <span >
+                            {{xy}}
+                        </span>
+                    </p>
                     <p v-if="!single.status">
                         <strong>告警处理</strong>
                         <span>
@@ -60,6 +66,7 @@
             </div>
             <div>
                 <cc-mapSingle 
+                    v-if="success"
                     vid="alarm"
                     :position="single.position"
                     :hasSearch="false"
@@ -72,6 +79,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import { xyTransformation } from '@/utils/methods'
     
     export default {
         data() {
@@ -93,12 +101,9 @@
                     {value:2,label:'不予处理'},
                     {value:3,label:'延期处理'},
                 ],
-                single:{}
+                single:{},
+                success:false
             }
-        },
-        created () {
-            const {longitude,latitude} = this.alarmObj;
-            this.single.position = [ longitude|| 113.991244 , latitude||22.5959 ];
         },
         mounted () {
             this.getDetail();
@@ -106,6 +111,9 @@
         computed: {
             alarmObj() {
                 return JSON.parse(sessionStorage.getItem('obj'));
+            },
+            xy(){
+                return this.single.position.join(',')
             }
         },
         methods: {
@@ -120,15 +128,23 @@
                     id,type
                 }).then(res=>{
                     if(!res)return;
+                    const {createTime,location,decodeHex,status,details,longitude,latitude} = res;
                     this.getData(res,this.firstArray);
                     this.getData(res,this.secondArray);
-                    this.single ={
-                        createTime:this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss'),
-                        location:(res.location&&res.location.split(',').join('')) || '---',
-                        alarmMsg:res.decodeHex,
-                        status:res.status,
-                        details:res.details || ''
-                    }
+                    xyTransformation([longitude,latitude]).then(res=>{
+                        this.single ={
+                            createTime:this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss'),
+                            location:(location&&location.split(',').join('')) || '---',
+                            alarmMsg:decodeHex,
+                            status,
+                            details:details || '',
+                            position:res&&decodeHex=="震动值：震动 "?
+                                res:[longitude||113.991244,latitude||22.595988],
+                            isshock:res&&decodeHex=="震动值：震动 "
+                        }
+                        this.success = true;
+                    })
+                    
                 })  
             },
             //获取数据
