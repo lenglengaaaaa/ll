@@ -1,5 +1,5 @@
 <template>
-    <cc-equipEdit
+    <cc-assetEdit
         :form="form"
         :create="create"
         :edit="edit"
@@ -29,7 +29,7 @@
                 <el-input v-model="form.cutoff" placeholder="请输入所属断路柜"></el-input>
             </el-form-item>
         </template>
-    </cc-equipEdit>
+    </cc-assetEdit>
 </template>
 
 <script>

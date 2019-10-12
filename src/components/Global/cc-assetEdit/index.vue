@@ -62,7 +62,7 @@
 
 <script>
     export default {
-        name:'cc-equipEdit',
+        name:'cc-assetEdit',
         props: {
             form: {
                 type: Object,

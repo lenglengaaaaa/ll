@@ -1,5 +1,5 @@
 <template>
-    <cc-equipEdit
+    <cc-assetEdit
         :form="form"
         :hasCable="false"
         :hasMap="false"
@@ -19,7 +19,7 @@
                 </el-select>
             </el-form-item>
         </template>
-    </cc-equipEdit>
+    </cc-assetEdit>
 </template>
 
 <script>

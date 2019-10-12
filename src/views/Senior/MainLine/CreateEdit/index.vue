@@ -1,5 +1,5 @@
 <template>
-    <cc-equipEdit
+    <cc-assetEdit
         :form="form"
         :hasCable="false"
         :hasMap="false"
@@ -7,7 +7,7 @@
         :edit="edit"
         :type="5"
     >
-    </cc-equipEdit>
+    </cc-assetEdit>
 </template>
 
 <script>

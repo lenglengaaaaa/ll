@@ -1,5 +1,5 @@
 <template>
-    <cc-equipEdit
+    <cc-assetEdit
         :form="form"
         :create="create"
         :edit="edit"
@@ -55,7 +55,7 @@
                 <el-input v-model="form.listName[index]" placeholder="请输入线路名称"></el-input>
             </el-form-item>
         </template>
-    </cc-equipEdit>
+    </cc-assetEdit>
 </template>
 
 <script>
