@@ -38,6 +38,7 @@
                         containLabel: true
                     },
                     legend: {
+                        type: 'scroll',
                         x:'right',
                         // orient:'vertical',
                         align:'right',
@@ -113,7 +114,8 @@
                         },
                         animationDuration: 2800,
                         animationEasing: 'quadraticOut',
-                        symbolSize: 10,
+                        symbolSize: 8,
+                        // showAllSymbol: true//标注所有数据点 , 多数据时会有卡顿
                     }
                 })
                 this.option.series = result;
@@ -121,7 +123,6 @@
                 // 基于准备好的dom，初始化echarts实例
                 // 绘制图表
                 this.chart.setOption(this.option,true)
-                
             },
         }
     }
