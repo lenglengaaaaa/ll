@@ -142,13 +142,14 @@ export const judgeObject = (x,y) =>{
  */
 export const timeDiff = (startTime,endTime) =>{
     const dayDiff = moment(endTime).diff(moment(startTime),'day');
+    const isSameDay = moment(endTime).isSame(startTime,'day');
     switch (true) {
         case dayDiff >= 365:
             return 'YYYY-MM-DD HH:mm:ss';
-        case (31 >= dayDiff && dayDiff >=1):
+        case !isSameDay:
             return 'MM-DD HH:mm:ss';
-        case 1 > dayDiff:
-            return 'HH:mm:ss';
+        case isSameDay :
+            return 'HH:mm:ss'
         default:
             return 'HH:mm:ss'
     }

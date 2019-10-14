@@ -112,7 +112,8 @@
                             ]
                         },
                         animationDuration: 2800,
-                        animationEasing: 'quadraticOut'
+                        animationEasing: 'quadraticOut',
+                        symbolSize: 10,
                     }
                 })
                 this.option.series = result;
