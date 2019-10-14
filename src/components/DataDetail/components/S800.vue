@@ -93,7 +93,7 @@
                 }).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if(!res || !deviceInfoList.length)return;
-                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap})
+                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,startTime,endTime})
                     this.timeArray = timeResult;
                     this.allData = result;
                     this.currentValue = result[this.value] || [];

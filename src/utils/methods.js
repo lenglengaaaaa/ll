@@ -1,5 +1,6 @@
-import store from '../store'
-import AMap from "@/utils/AMap"
+import store from '../store';
+import AMap from "@/utils/AMap";
+import moment from 'moment';
 
 /**
  * sleep函数
@@ -137,13 +138,32 @@ export const judgeObject = (x,y) =>{
 // }
 
 /**
+ * 时间差,moment.format取值
+ */
+export const timeDiff = (startTime,endTime) =>{
+    const dayDiff = moment(endTime).diff(moment(startTime),'day');
+    switch (true) {
+        case dayDiff >= 365:
+            return 'YYYY-MM-DD HH:mm:ss';
+        case (31 >= dayDiff && dayDiff >=1):
+            return 'MM-DD HH:mm:ss';
+        case 1 > dayDiff:
+            return 'HH:mm:ss';
+        default:
+            return 'HH:mm:ss'
+    }
+}
+
+
+/**
  * 设备历史数据筛选(NEW)
  * @param list 设备列表
  * @param data 数据
  * @param type 类型
  */
 export const newFilterData = (obj) =>{
-    const {list,data,type='magic'} = obj;
+    const {list,data,type='magic',startTime,endTime} = obj;
+    const diffTime = timeDiff(startTime,endTime);
     let timeArray= [];
     const result = list.reduce((pre,current)=>{
         const { id,deviceType,deviceAdress,name,isDelete } = current ;
@@ -161,7 +181,7 @@ export const newFilterData = (obj) =>{
                     continue;
                 }
                 if(!obj[item]) obj[item] = [];
-                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),single[item]]);
+                obj[item].push([moment(single.createTime).format(diffTime),single[item]]);
             }
         })
         for(let k in obj){
@@ -170,7 +190,7 @@ export const newFilterData = (obj) =>{
         }
         return pre;
     },{})
-    const timeResult = _.sortBy(timeArray).map(item => moment(item).format("MM-DD HH:mm:ss")) || [];
+    const timeResult = _.sortBy(timeArray).map(item => moment(item).format(diffTime)) || [];
     return {
         result,
         timeResult

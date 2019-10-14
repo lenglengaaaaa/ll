@@ -84,7 +84,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    import { newFilterData ,downFile } from '@/utils/methods'
+    import { newFilterData ,downFile,timeDiff } from '@/utils/methods'
     import {LineChart} from '@/components/Charts'
 
     export default {
@@ -152,6 +152,7 @@
                 }).then(res=>{
                     const {history} = res;
                     if( !res )return;
+                    const diffTime = timeDiff(startTime,endTime);
                     let timeArray = [];
                     const result = this.currentRing.outLineList&&this.currentRing.outLineList.reduce((pre,current)=>{
                         const {outLineId,outLineName} = current;
@@ -163,7 +164,7 @@
                             const {dataJSON} = single;
                             for(let item in dataJSON){
                                 if(!obj[item]) obj[item] = [];
-                                obj[item].push([moment(single.createTime).format('MM-DD HH:mm:ss'),dataJSON[item]]);
+                                obj[item].push([moment(single.createTime).format(diffTime),dataJSON[item]]);
                             }
                         })
                         for(let k in obj){
@@ -172,7 +173,7 @@
                         }
                         return pre;
                     },{})
-                    const timeResult = _.sortBy(timeArray).map(item=>moment(item).format("MM-DD HH:mm:ss"));
+                    const timeResult = _.sortBy(timeArray).map(item=>moment(item).format(diffTime));
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['temp'] || [];
