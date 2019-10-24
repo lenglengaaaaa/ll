@@ -16,6 +16,7 @@
             <el-tab-pane label="设备列表" lazy>
                 <cc-equipList 
                     :data="equipList"
+                    :getList="getEquipList"
                 />
             </el-tab-pane>  
             <el-tab-pane label="数据视图" lazy>
@@ -84,7 +85,7 @@
             return {
                 equipList:[],
                 params:{
-                    size:50,
+                    size:100,
                     current:1,
                     type:1
                 },
@@ -100,7 +101,6 @@
                 if(!res )return;
                 this.switchList = switchList.length ? switchList : defaultValue;
             })
-            this.getEquipList(id);
             
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
@@ -137,7 +137,7 @@
             ]),
             //获取设备列表
             getEquipList(chestId){
-                this.getEquipInAsset({
+                return this.getEquipInAsset({
                     ...this.params,
                     chestId
                 }).then(res=>{

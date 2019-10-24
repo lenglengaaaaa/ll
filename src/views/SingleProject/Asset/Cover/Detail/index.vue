@@ -6,6 +6,7 @@
             <el-tab-pane label="设备列表" lazy>
                 <cc-equipList 
                     :data="equipList"
+                    :getList="getEquip"
                 />
             </el-tab-pane>
             <el-tab-pane label="数据视图" lazy>
@@ -32,14 +33,13 @@
                 params:{
                     projectId:(sessionStorage.getItem('project')&&JSON.parse(sessionStorage.getItem('project')).id) || null,
                     current:1,
-                    size:50
+                    size:100
                 }
             }
         },
         created () {
-            const {name,trapName,id,trapId} =JSON.parse(sessionStorage.getItem("obj"));
+            const {name,trapName} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name||trapName;
-            this.getEquip(trapId || id);
         },
         methods: {
             ...mapActions('equip',[
@@ -47,7 +47,7 @@
             ]),
             //获取设备列表
             getEquip(trapId){
-                this.getEquipList({
+                return this.getEquipList({
                     ...this.params,
                     trapId,
                 }).then(res=>{

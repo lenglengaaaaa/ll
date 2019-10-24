@@ -1,6 +1,8 @@
 <template>
     <div>
         <el-table
+            v-loading="loading"
+            element-loading-text="拼命加载中"
             :data="data"
             border
             stripe
@@ -41,48 +43,6 @@
                 sortable
                 show-overflow-tooltip
             />
-            <!-- <el-table-column
-                prop="courtsId"
-                label="所属台区"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.courtsId || '-'"
-            />
-            <el-table-column
-                prop="chestId"
-                label="所属配电柜"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.chestId || '-'"
-            />
-            <el-table-column
-                prop="trapId"
-                label="所属井盖"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.trapId || '-'"
-            />
-            <el-table-column
-                prop="lineId"
-                label="所属线缆"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.lineId || '-'"
-            />
-            <el-table-column
-                prop="magicId"
-                label="所属魔节"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.magicId || '-'"
-            />
-            <el-table-column
-                prop="cenId"
-                label="所属集中器"
-                align="center"
-                show-overflow-tooltip
-                :formatter="(row)=>row.cenId || '-'"
-            /> -->
         </el-table>
         <div v-else>
             <EquipDetail 
@@ -103,13 +63,26 @@
         },
         props:{
             data:Array,
+            getList:Function
         },
         data() {
             return {
                 detailFlag:false,
+                loading:false
             }
         },
+        mounted () {
+            const {id,trapId} =JSON.parse(sessionStorage.getItem("obj"));
+            this.getListData(trapId || id);
+        },
         methods: {
+            //获取数据
+            async getListData(id){
+                this.loading = true;
+                await this.data;
+                await this.getList(id)
+                this.loading = false;
+            },
             skipToList(){
                 this.detailFlag = false;
             },

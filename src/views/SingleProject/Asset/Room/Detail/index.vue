@@ -56,6 +56,7 @@
             <el-tab-pane label="设备列表" lazy>
                 <cc-equipList 
                     :data="equipList"
+                    :getList="getEquipList"
                 />
             </el-tab-pane>
             <el-tab-pane label="数据视图" lazy>
@@ -80,7 +81,7 @@
                 data: [],
                 equipList:[],
                 params:{
-                    size:50,
+                    size:100,
                     current:1,
                     type:1
                 }
@@ -90,7 +91,6 @@
             const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name
             this.getList(id);
-            this.getEquipList(id);
         },
 
         methods: {
@@ -120,7 +120,7 @@
             },
             //获取设备列表
             getEquipList(roomId){
-                this.getEquipInAsset({
+                return this.getEquipInAsset({
                     ...this.params,
                     roomId
                 }).then(res=>{
