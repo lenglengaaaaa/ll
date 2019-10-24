@@ -342,7 +342,7 @@
         .el-form{
             width:1100px;
             max-width: 100%;
-            overflow: scroll;
+            overflow: auto;
             padding: 15px;
             margin-bottom: 5px;
             background:#fff;

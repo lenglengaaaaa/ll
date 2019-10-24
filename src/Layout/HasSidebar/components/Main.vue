@@ -147,7 +147,7 @@
         .main{
             padding:0 15px 15px;
             height: calc(100vh - 145px);
-            overflow: scroll;
+            overflow: auto;
         }
     }
 

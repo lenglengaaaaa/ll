@@ -109,7 +109,7 @@
                 phone:false,
                 fold:false,
                 username:'',
-                imagePath:'',
+                imagePath:require('@images/default.jpg'),
                 noticeVisible: false,
                 activeName:'notice'
             }

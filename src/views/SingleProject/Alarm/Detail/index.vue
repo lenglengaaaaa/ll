@@ -189,7 +189,7 @@
             padding: 0 20px 20px 20px;
             width: 1200px;
             max-width: 100%;
-            overflow: scroll;
+            overflow: auto;
             background: #fff;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) ;
             font-size: 0.75rem;

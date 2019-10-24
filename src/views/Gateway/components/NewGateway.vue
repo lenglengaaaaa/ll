@@ -185,7 +185,7 @@
         }
         .body{
             margin-top: 10px;
-            overflow: scroll;
+            overflow: auto;
             height: calc(100% - 44px);
             .el-form{
                 margin: 0px auto;

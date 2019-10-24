@@ -46,7 +46,7 @@
             .el-tabs__content{
                 height: calc(100vh - 215px);
                 max-height: calc(100vh - 215px);
-                overflow: scroll;
+                overflow: auto;
                 .el-tab-pane{
                     height: 100%;
                 }

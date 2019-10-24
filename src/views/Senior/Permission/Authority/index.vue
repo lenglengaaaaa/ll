@@ -119,7 +119,7 @@
         .wrap{
             border: 1px solid #ebeef5;
             height: 100%;
-            overflow-y: scroll;
+            overflow-y: auto;
             .el-row{
                 .el-col{
                     padding:10px 20px;

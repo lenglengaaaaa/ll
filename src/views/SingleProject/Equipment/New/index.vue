@@ -88,7 +88,7 @@
             width: 60%;
         }
         .content{
-            overflow: scroll;
+            overflow: auto;
             width: 100%;
             margin-top: 30px;
         }

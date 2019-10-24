@@ -1,9 +1,11 @@
 <template>
-    <div 
-        :is="currentForm" 
-        :next="next" 
-        :pre="pre" 
-    />
+    <keep-alive>
+        <div 
+            :is="currentForm" 
+            :next="next" 
+            :pre="pre" 
+        />
+    </keep-alive>
 </template>
 
 <script>

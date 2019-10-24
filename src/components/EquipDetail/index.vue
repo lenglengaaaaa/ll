@@ -145,7 +145,7 @@
     .Equip_Detail{
         width: 100%;
         height: 100%;
-        overflow: scroll;
+        overflow: auto;
         position: relative;
         .el-icon-back{
             border-radius: 5px;

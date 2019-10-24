@@ -20,7 +20,7 @@ $height: 50px;
     .Sidebar_container{
         background: #34495e;
         height: calc(100vh - 50px);
-        overflow-y: scroll;
+        overflow-y: auto;
         .app_title{
             height: $height;
             display: flex;

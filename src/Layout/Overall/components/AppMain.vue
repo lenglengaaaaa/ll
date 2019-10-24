@@ -17,6 +17,6 @@
         padding-top:50px; 
         height: calc(100vh - 50px);
         background: #ecefef;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 </style>

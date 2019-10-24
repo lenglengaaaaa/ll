@@ -45,9 +45,9 @@
     .THRESHOLD_SET{
         .el-tabs {
             .el-tabs__content{
-                    height: calc(100vh - 215px);
-                    max-height: calc(100vh - 215px);
-                    overflow: scroll;
+                    height: calc(100vh - 216px);
+                    max-height: calc(100vh - 216px);
+                    overflow: auto;
             }
             .is-always-shadow{
                 box-shadow: none;

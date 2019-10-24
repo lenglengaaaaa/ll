@@ -287,7 +287,7 @@
     .EQUIP_CONTAINER{
         position: relative;
         height: 100%;
-        overflow: scroll;
+        overflow: auto;
         // width: 90%;
         // margin: 0 auto;
         .el-divider--horizontal{

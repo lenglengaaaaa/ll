@@ -67,8 +67,7 @@
                         },
                         {
                             type: 'slider',
-                            xAxisIndex: 0,
-                            filterMode: 'empty'
+                            filterMode: 'none',
                         }
                     ],
                     series:[],
