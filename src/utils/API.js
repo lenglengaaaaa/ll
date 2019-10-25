@@ -57,6 +57,8 @@ export const api={
     //获取区域树 get
     getAreaTree:`${url}/e_view/area/tree`,
 
+    //全局搜索设备 get
+    getAllDevice:`${url}/e_view/device/home/filter`,
 
     //===========================项目管理====================================
 
@@ -221,7 +223,7 @@ export const api={
     getCountUnderMainLine:`${url}/e_view/line/sonList`,
 
     //=======================================设备管理=====================================================
-    
+
     //验证dev_EUI是否存在 get
     checkEUI:`${url}/e_view/device/exist`,
 

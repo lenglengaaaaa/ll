@@ -61,6 +61,27 @@ const actions= {
         })
     },
 
+
+    /**
+     * 全局搜索设备,可以对 安装地址，设备名称，设备编号，eui 模糊搜索
+     * @param filterStr String
+     */
+    getAllDevice({commit},filterStr){
+        return request({
+            method:'get',
+            url:`${api.getAllDevice}`,
+            data:{
+                filterStr
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                return false
+            }
+        })
+    },
+
     //==================================项目管理==================================
 
     /**
