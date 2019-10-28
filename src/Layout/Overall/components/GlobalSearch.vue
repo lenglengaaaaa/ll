@@ -36,7 +36,14 @@
                         stripe
                     >   
                         <el-table-column
+                            prop="projectName"
                             label="所属项目"
+                            header-align="center"
+                            align="center"
+                        />
+                        <el-table-column
+                            prop="name"
+                            label="设备名称"
                             header-align="center"
                             align="center"
                         >
@@ -45,16 +52,10 @@
                                     @click.native.prevent="skipDetail(scope.row)"
                                     type="text"
                                 >
-                                    {{scope.row.projectName}}
+                                    {{scope.row.name}}
                                 </el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column
-                            prop="name"
-                            label="设备名称"
-                            header-align="center"
-                            align="center"
-                        />
                         <el-table-column
                             prop="number"
                             label="资产编号"
@@ -181,11 +182,10 @@
             },
             //跳转设备详情
             skipDetail(row) {
-                sessionStorage.setItem('project',JSON.stringify({
-                    id: row.projectId,
-                    name:row.projectName
-                }));
-                this.$router.push({name:'ProjectOverview'})
+                const {projectId,projectName,id} = row;
+                sessionStorage.setItem('project',JSON.stringify({ id:projectId, name:projectName }));
+                sessionStorage.setItem('equipObj',JSON.stringify(row))
+                this.$router.push({name:'EquDetail',params:{equipId:id}})
                 this.closeDialog();
             },
             //输入框事件,防抖

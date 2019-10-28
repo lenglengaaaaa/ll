@@ -185,7 +185,8 @@ const projectRouter = {
                     meta:{title:'添加(编辑)设备'}
                 },
                 {
-                    path:'detail',
+                    // path:'detail',
+                    path:'project/equipment/:equipId',
                     name:'EquDetail',
                     component: () => import('@/components/EquipDetail'),
                     meta:{title:'设备详情'}

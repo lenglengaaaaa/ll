@@ -87,8 +87,8 @@
                 this.detailFlag = false;
             },
             skipToDetail(row) {
-                this.detailFlag = true;
                 sessionStorage.setItem('equipObj',JSON.stringify(row))
+                this.detailFlag = true;
             }
         },
     }
