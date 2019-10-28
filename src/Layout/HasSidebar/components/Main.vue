@@ -32,7 +32,7 @@
             this.client = this.$mqtt.connect(`topic_warning_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'告警信息')
-                const {address,alertMsg,devName,time,lng,lat} = res;
+                const {address,alertMsg,devName,time,lng,lat,projectName} = res;
                 xyTransformation([lng,lat]).then(result=>{
                     this.$notify({ 
                         duration: 30000,
@@ -43,6 +43,7 @@
                             <div class="noti">
                                 <div>设备名称 : <strong>${devName}</strong></div>
                                 <div>设备地址域 : <strong>${address}</strong></div>
+                                <div>所属项目 : <strong>${projectName}</strong></div>
                                 <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
                                 ${result?`<div>经纬度 : <strong >${result}</strong></div>`:''}
                                 <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
@@ -94,12 +95,10 @@
         },
         methods: {
             checkDetail(item){
-                const result = {
-                    ...item,
-                    id:item.warnInfoId
-                }
-                sessionStorage.setItem('obj',JSON.stringify(result));
-                this.$router.push({name:'AlarmDetail'})
+                const { warnInfoId  ,projectName , projectId } = item;
+                sessionStorage.setItem('project',JSON.stringify({ id:projectId, name:projectName }));
+                sessionStorage.setItem('obj',JSON.stringify({...item,id:warnInfoId}));
+                this.$router.push({name:'AlarmDetail',params:{warnInfoId}});
             },
             toggleSideBar() {
                 this.$store.dispatch('app/toggleSideBar')

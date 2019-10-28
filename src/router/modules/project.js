@@ -223,7 +223,7 @@ const projectRouter = {
                     component: () => import('@/views/SingleProject/Alarm/List'),
                 },
                 {
-                    path:'detail',
+                    path:'/project/alarm/:warnInfoId',
                     name:'AlarmDetail',
                     component: () => import('@/views/SingleProject/Alarm/Detail'),
                     meta:{title:'告警详情'}

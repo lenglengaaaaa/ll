@@ -52,6 +52,7 @@
             .is-always-shadow{
                 box-shadow: none;
                 border: 1px solid #dcdfe6;
+                max-width: 100%;
             }
         }
     }

@@ -9,6 +9,10 @@
                     <div class="notice-item-content">
                         <h4 class="notice-item-content-title">
                             <strong>设备名称: </strong>{{item.devName}}
+                            <div>
+                                <strong>所属项目: </strong>
+                                <span>{{item.projectName}}</span>
+                            </div>
                             <div >
                                 <strong>告警信息: </strong>
                                 <span class="notice-item-content-title-msg">{{item.alertMsg}}</span>
@@ -54,13 +58,10 @@
                 this.$store.dispatch('app/saveAlarm',[])
             },
             viewDetail(item){
-                if(!sessionStorage.getItem('project'))return;
-                const result = {
-                    ...item,
-                    id:item.warnInfoId
-                }
-                sessionStorage.setItem('obj',JSON.stringify(result));
-                this.$router.push({name:'AlarmDetail'})
+                const { warnInfoId , projectName , projectId } = item;
+                sessionStorage.setItem('project',JSON.stringify({ id:projectId, name:projectName }));
+                sessionStorage.setItem('obj',JSON.stringify({...item,id:warnInfoId}));
+                this.$router.push({name:'AlarmDetail',params:{warnInfoId}})
             }
         },
     }
