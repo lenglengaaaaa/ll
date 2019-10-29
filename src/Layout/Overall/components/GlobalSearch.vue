@@ -18,9 +18,10 @@
                     <el-input 
                         v-model="input" 
                         placeholder="支持设备名称,设备编号,eui,安装地址,搜索 "
-                        suffix-icon="el-icon-search"
-                        @input="onInput"
-                    />
+                        @blur="onInput"
+                    >
+                        <el-button slot="append" icon="el-icon-search" @click="onInput"></el-button>
+                    </el-input>
                 </div>
                 <div class="body_content">
                     <div class="content_title">
@@ -189,15 +190,15 @@
                 this.closeDialog();
             },
             //输入框事件,防抖
-            onInput(value){
-                if(!value){
+            onInput(){
+                if(!this.input){
                     this.data = [];
                     return 
                 }
                 this.loading = true;
                 clearTimeout(this.timer)
                 this.timer =setTimeout(()=>{
-                    this.getAllDevice(value).then(res=>{
+                    this.getAllDevice(this.input).then(res=>{
                         this.loading = false;
                         if(!res)return;
                         this.data = res;
@@ -236,19 +237,19 @@
                         .el-input{
                             max-width: 400px;
                         }
-                        .el-input__inner{
-                            height: 45px;
-                            border: 1px solid #d2d6d9;
-                            border-radius: 20px;
-                            font-size: 0.9rem;
-                            &:focus{
-                                border-color:#82c4f2; 
-                            }
-                            &::-webkit-input-placeholder {
-                                color: #757575;
-                                font-size: 0.9rem;
-                            }
-                        }
+                        // .el-input__inner{
+                        //     height: 45px;
+                        //     border: 1px solid #d2d6d9;
+                        //     border-radius: 20px;
+                        //     font-size: 0.9rem;
+                        //     &:focus{
+                        //         border-color:#82c4f2; 
+                        //     }
+                        //     &::-webkit-input-placeholder {
+                        //         color: #757575;
+                        //         font-size: 0.9rem;
+                        //     }
+                        // }
                     }
                     .body_content{
                         .content_title{
