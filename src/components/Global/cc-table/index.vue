@@ -9,8 +9,8 @@
                                 size="small"
                                 :placeholder="placeholder"
                                 v-model="input"
-                                @blur="search"
-                            >
+                            >   
+                                <!-- @blur="search" -->
                                 <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                             </el-input>
                         </div>

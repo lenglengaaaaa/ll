@@ -5,7 +5,7 @@
         :total="total"
         :getList="getList"
     >   
-        <template #header>
+        <template #select>
             <div class="alarmTool">
                 <el-select v-model="value" placeholder="请选择" @change="changeStaus">
                     <el-option
@@ -181,6 +181,9 @@
             .el-input__inner{
                 max-width: 150px !important;
             }
+        }
+        .el-date-editor{
+            margin-right: 20px;
         }
         .el-input__inner{
             max-width: 300px !important;

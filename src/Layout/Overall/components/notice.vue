@@ -11,7 +11,7 @@
                             <strong>设备名称: </strong>{{item.devName}}
                             <div>
                                 <strong>所属项目: </strong>
-                                <span>{{item.projectName}}</span>
+                                <span>{{item.projectName || '未知'}}</span>
                             </div>
                             <div >
                                 <strong>告警信息: </strong>

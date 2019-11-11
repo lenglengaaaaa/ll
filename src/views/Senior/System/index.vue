@@ -8,7 +8,7 @@
         :hasOpera="false"
     >   
         <template #header>
-            <div class="alarmTool">
+            <div class="handleTool">
                 <el-select v-model="value" placeholder="请选择" @change="changeStaus">
                     <el-option
                         v-for="item in status"
@@ -169,7 +169,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .alarmTool{
+    .handleTool{
         .el-select{
             padding-right: 20px;
             .el-input__inner{
