@@ -31,12 +31,19 @@
             <cc-empty v-else text=""></cc-empty>
         </div>
         <div class="notice-list-bottomBar">
-            <div @click="clearBox">
-                清空 通知
+            <div >
+                <el-switch
+                    v-model="alarmFlag"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="通知"
+                    inactive-text="关闭"
+                >
+                </el-switch>
             </div>
-            <!-- <div>
-                查看更多
-            </div> -->
+            <div @click="clearBox">
+                清空通知
+            </div>
         </div>
     </div>
 </template>
@@ -47,8 +54,18 @@
         props: {
             alarmBox:Array
         },
-        data () {
+        data() {
             return {}
+        },
+        computed: {
+            alarmFlag:{
+                get(){
+                    return this.$store.state.app.alarmFlag ;
+                },
+                set(){
+                    this.$store.dispatch('app/switchAlarm');
+                }
+            }
         },
         methods: {
             moment(time) {
@@ -62,7 +79,7 @@
                 sessionStorage.setItem('project',JSON.stringify({ id:projectId, name:projectName }));
                 sessionStorage.setItem('obj',JSON.stringify({...item,id:warnInfoId}));
                 this.$router.push({name:'AlarmDetail',params:{warnInfoId}})
-            }
+            },
         },
     }
 </script>

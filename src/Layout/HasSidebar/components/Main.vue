@@ -34,24 +34,26 @@
                 console.log(res,'告警信息')
                 const {address,alertMsg,devName,time,lng,lat,projectName} = res;
                 xyTransformation([lng,lat]).then(result=>{
-                    this.$notify({ 
-                        duration: 30000,
-                        title: '告警信息',
-                        type: 'warning',
-                        dangerouslyUseHTMLString: true,
-                        message: `
-                            <div class="noti">
-                                <div>设备名称 : <strong>${devName}</strong></div>
-                                <div>设备地址域 : <strong>${address}</strong></div>
-                                <div>所属项目 : <strong>${projectName || 'xxx'}</strong></div>
-                                <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
-                                ${result?`<div>经纬度 : <strong >${result}</strong></div>`:''}
-                                <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
-                                <div class="tip">注 :点击查看详情</div>
-                            </div>
-                        `,
-                        onClick:this.checkDetail.bind(this,res)
-                    });
+                    if(this.alarmFlag){
+                        this.$notify({ 
+                            duration: 30000,
+                            title: '告警信息',
+                            type: 'warning',
+                            dangerouslyUseHTMLString: true,
+                            message: `
+                                <div class="noti">
+                                    <div>设备名称 : <strong>${devName}</strong></div>
+                                    <div>设备地址域 : <strong>${address}</strong></div>
+                                    <div>所属项目 : <strong>${projectName || 'xxx'}</strong></div>
+                                    <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
+                                    ${result?`<div>经纬度 : <strong >${result}</strong></div>`:''}
+                                    <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
+                                    <div class="tip">注 :点击查看详情</div>
+                                </div>
+                            `,
+                            onClick:this.checkDetail.bind(this,res)
+                        });
+                    }
                     this.$store.dispatch('app/saveAlarm',[
                         {
                             ...res,
@@ -92,6 +94,9 @@
             projectId(){
                 return JSON.parse(sessionStorage.getItem('project')).id;
             },
+            alarmFlag() {
+                return this.$store.state.app.alarmFlag ;
+            }
         },
         methods: {
             checkDetail(item){

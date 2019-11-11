@@ -1,22 +1,20 @@
 import Cookies from 'js-cookie'
+import { stat } from 'fs'
 
 const state={
     sidebar: {
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
     device: 'desktop',
-    alarmBox:[]
+    alarmBox:[],
+    alarmFlag:Cookies.get('alarmFlag') ? !!+Cookies.get('alarmFlag') : true,
 }
 
 const mutations={
     //切换侧边栏状态
     TOGGLE_SIDEBAR: state => {
         state.sidebar.opened = !state.sidebar.opened
-        if (state.sidebar.opened) {
-            Cookies.set('sidebarStatus', 1)
-        } else {
-            Cookies.set('sidebarStatus', 0)
-        }
+        state.sidebar.opened ? Cookies.set('sidebarStatus', 1) : Cookies.set('sidebarStatus', 0);
     },
     //关闭侧边栏
     CLOSE_SIDEBAR: (state) => {
@@ -29,6 +27,11 @@ const mutations={
     },
     SAVE_ALARM:(state,alarm) => {
         state.alarmBox = alarm;
+    },
+
+    SWITCH_ALARM:(state)=>{
+        state.alarmFlag = !state.alarmFlag;
+        state.alarmFlag ? Cookies.set('alarmFlag', 1) : Cookies.set('alarmFlag', 0);
     }
 }
 
@@ -44,6 +47,9 @@ const actions= {
     },
     saveAlarm({commit},alarm){
         commit('SAVE_ALARM', alarm)
+    },
+    switchAlarm({commit}){
+        commit('SWITCH_ALARM')
     }
 }   
 
