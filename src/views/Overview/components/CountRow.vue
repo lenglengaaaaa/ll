@@ -1,37 +1,63 @@
 <template>
-    <el-row :gutter="15" type="flex">
-        <el-col :span="8" v-for="item in rows" :key="item.icon" :xs="24">
-            <div class="grid-content" @click="rowClick(item.path)">
-                <div class="card-panel">
-                    <div>
-                        <div :class="iconClass(item.className)">
-                            <svg-icon 
-                                :iconClass="item.icon" 
-                                className="icon"
-                            />
+    <!-- <el-row :gutter="15" type="flex"> -->
+        <!-- <el-col :span="8" v-for="item in rows" :key="item.icon" :xs="24"> -->
+            <div class="COUNT_WRAP">
+                <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item.path)">
+                    <div class="card-panel">
+                        <div>
+                            <div :class="iconClass(item.className)">
+                                <svg-icon 
+                                    :iconClass="item.icon" 
+                                    className="icon"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <span class="name">{{item.name}}</span>
+                            <span>
+                                {{item.has}}/{{item.total}}
+                            </span>
                         </div>
                     </div>
-                    <div>
-                        <span class="name">{{item.name}}</span>
-                        <span>
-                            {{item.has}}/{{item.total}}
-                        </span>
+                    <div class="progress">
+                        <el-progress :percentage="item.has/item.total*100" :show-text="false"></el-progress>
                     </div>
                 </div>
-                <div class="progress">
-                    <el-progress :percentage="item.has/item.total*100" :show-text="false"></el-progress>
-                </div>
             </div>
-        </el-col>
-    </el-row>
+        <!-- </el-col> -->
+    <!-- </el-row> -->
 </template>
 
 <script>
     export default {
-        props: {
-            rows:{
-                type:Array,
-                default:()=>[]
+        data() {
+            return {
+                rows: [
+                    {
+                        name:'网关',
+                        icon:'gateway',
+                        path:'/gateway',
+                        className:'icon-gateway',
+                        total:5,
+                        has:4
+                    },
+                    {
+                        name:"项目",
+                        icon:'project',
+                        path:'/project',
+                        className:'icon-project',
+                        total:1,
+                        has:1,
+                    },
+                    {
+                        name:'设备',
+                        icon:'equip',
+                        path:'/project',
+                        className:'icon-equip',
+                        total:4,
+                        has:2
+                    }
+                ]
             }
         },
         methods:{
@@ -51,15 +77,29 @@
                 flex-direction: column;
         }
     }
+    .COUNT_WRAP{
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
     .el-row {
-        margin-bottom: 20px;
+        flex-direction: column;
+        height: 100%;
         .grid-content {
-                padding:30px 20px;
-                min-height: 36px;
+                &:nth-child(2){
+                    margin: 10px 0;
+                }
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding:10px;
+                padding-top: 20px;
+                height: 100%;
                 background: #fff;
-                margin-bottom: 20px;
                 cursor: pointer;
                 box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                border-radius: 5px;
                 .card-panel{
                     display: flex;
                     .card-panel-icon-wrapper{
@@ -77,7 +117,7 @@
                             height: 4.5em;
                         }
                         .name{
-                            font-size: 1.5rem;
+                            font-size: 1.2rem;
                             font-weight: bold;
                         }
                         span{
@@ -96,7 +136,7 @@
                 }
                 .progress{
                     padding: 20px;
-                    margin-top: 20px;
+                    margin-top: 10px;
                 }
                 &:hover{
                     .card-panel-icon-wrapper{

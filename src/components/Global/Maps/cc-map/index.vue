@@ -2,6 +2,7 @@
     <div 
         :id="vid" 
         class="map"
+        :style="{'height':`${mapHeight}px`}"
     />
 </template>
 
@@ -21,6 +22,10 @@
             marker:{
                 type:Array,
                 default:()=>[]
+            },
+            mapHeight:{
+                type:Number,
+                default:500
             }
         },
         data() {
@@ -37,6 +42,9 @@
         },
         watch: {
             marker(newValue, oldValue) {
+                this.initAMap();
+            },
+            mapHeight(){
                 this.initAMap();
             }
         },

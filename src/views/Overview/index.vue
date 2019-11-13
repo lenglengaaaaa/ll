@@ -6,30 +6,40 @@
             </span>
         </div>
         <div class="body">
-            <CountRow :rows="rows" />
-            <div class="ChartRow">
-                <el-row :gutter="20" type="flex" >
-                    <el-col :span="12" :xs="24">
-                        <div class="data-content" >
-                            <SoeChart
-                                v-if="soeCount.length"
-                                :soeCount="soeCount"
-                            />
-                            <cc-empty v-else/>
+            <el-row :gutter="0" class="row-wrap" type="flex">
+                <el-col :span="4" :xs="24">
+                    <CountRow />
+                </el-col>
+                <el-col :span="20" :xs="24">
+                    <div class="body-right">
+                        <div class="body-right-top">
+                            <el-row :gutter="20" type="flex" class="chart-wrap">
+                                <el-col :span="12" :xs="24">
+                                    <div class="data-content" >
+                                        <SoeChart
+                                            v-if="soeCount.length"
+                                            :soeCount="soeCount"
+                                        />
+                                        <cc-empty v-else/>
+                                    </div>
+                                </el-col>
+                                <el-col :span="12" :xs="24">
+                                    <div class="data-content" >
+                                        <CategoryChart
+                                            v-if="equipList.length" 
+                                            :equipList="equipList"
+                                        />
+                                        <cc-empty v-else/>
+                                    </div>
+                                </el-col>
+                            </el-row>
                         </div>
-                    </el-col>
-                    <el-col :span="12" :xs="24">
-                        <div class="data-content" >
-                            <CategoryChart
-                                v-if="equipList.length" 
-                                :equipList="equipList"
-                            />
-                            <cc-empty v-else/>
+                        <div class="body-right-bottom">
+                            <MapRow />
                         </div>
-                    </el-col>
-                </el-row>
-            </div>
-            <MapRow />
+                    </div>
+                </el-col>
+            </el-row>
         </div>
         <cc-backtop target=".Overview_container"/>
     </div>
@@ -49,32 +59,6 @@
         },
         data() {
             return {
-                rows: [
-                    {
-                        name:'网关',
-                        icon:'gateway',
-                        path:'/gateway',
-                        className:'icon-gateway',
-                        total:5,
-                        has:4
-                    },
-                    {
-                        name:"项目",
-                        icon:'project',
-                        path:'/project',
-                        className:'icon-project',
-                        total:1,
-                        has:1,
-                    },
-                    {
-                        name:'设备',
-                        icon:'equip',
-                        path:'/project',
-                        className:'icon-equip',
-                        total:4,
-                        has:2
-                    }
-                ],
                 equipList:[],
                 soeCount:[]
             }
@@ -88,11 +72,21 @@
             padding: 0px !important;
             .body{
                 padding: 0 20px;
-            }
-        }
-        .ChartRow{
-            .el-row{
-                flex-direction: column;
+                height: auto !important;
+                .row-wrap,.chart-wrap{
+                    flex-direction: column;
+                }
+                &-right{
+                    &-top{
+                        margin-bottom: 0px !important;
+                        .el-col{
+                            margin: 10px 0 !important;
+                        }
+                        .data-content {
+                            height: 400px !important;
+                        }
+                    }
+                }
             }
         }
     }
@@ -102,28 +96,53 @@
         overflow: auto;
         .title_bar{
             background: #fff;
-            padding: 15px 15px;
+            padding: 10px 15px;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             span{
-                font-size: 1rem;
+                font-size: 0.8rem;
                 font-weight: 500;
                 color: #4abced;
             }
         }
-        .ChartRow{
-            .el-row {
-                margin-bottom: 20px;
-                .data-content {
-                        padding: 30px 0px;
-                        background: #fff;
-                        margin-bottom: 20px;
-                        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                        height: 400px;
-                    }
+        .body{
+            height: calc(100% - 51px);
+            .el-row{
+                width: 100%;
+                height: 100%;
+                margin: 0px !important;
+                .el-col{
+                    height: inherit;
+                }
             }
-        }   
+            &-right{
+                display: flex;
+                flex-direction: column;
+                height: inherit;
+                &-top{
+                    height: 50%;
+                    margin-bottom: 5px;
+                    .el-col{
+                        padding: 0 !important;
+                        &:nth-child(1){
+                            margin: 0 10px 0 10px;
+                        }
+                    }
+                    .data-content {
+                        margin-bottom: 5px;
+                        width: 100%;
+                        background: #fff;
+                        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                        height: 100%;
+                        border-radius: 5px;
+                    }
+                }
+                &-bottom{
+                    height: 50%;
+                }
+            }
+        }
     }
 </style>
