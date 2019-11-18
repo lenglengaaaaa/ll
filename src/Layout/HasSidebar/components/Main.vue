@@ -78,7 +78,7 @@
             '$store.state.app.sidebar.opened'(flag) {
                 const type = this.$store.state.app.device;
                 if(type ==='mobile')return;
-                $('.apply_main').css({width:!flag?'calc(100% - 54px)':'calc(100% - 210px)'})
+                this.$('.apply_main').css({width:!flag?'calc(100% - 54px)':'calc(100% - 210px)'})
             },
             //暂时用于无权限监听关闭mqtt
             $route(to,from){
@@ -110,11 +110,11 @@
             },
             fitScreen(screen){
                 if(screen ==='mobile'){
-                    $('.apply_main').css({width:''})
+                    this.$('.apply_main').css({width:''})
                 } 
                 if(screen ==='desktop'){
                     const fold = this.$store.state.app.sidebar.opened;
-                    $('.apply_main').css({width:!fold?'calc(100% - 54px)':'calc(100% - 210px)'})
+                    this.$('.apply_main').css({width:!fold?'calc(100% - 54px)':'calc(100% - 210px)'})
                 }
             }
         },

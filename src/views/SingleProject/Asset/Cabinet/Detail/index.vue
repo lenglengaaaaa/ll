@@ -114,7 +114,7 @@
                 }
                 if(!outLine)return;
                 outLine.data ={
-                    createTime:moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                    createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                     dataJSON:{
                         ...outLine.data.dataJSON,
                         ...data

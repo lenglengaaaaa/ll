@@ -48,7 +48,7 @@
             sleep(500).then(()=>{
                 this.flag = true;
             })
-            this.mapHeight = $('.el-card__body').height();
+            this.mapHeight = this.$('.el-card__body').height();
         },
         created () {
             let marker = [];
@@ -62,13 +62,13 @@
             this.marker=marker;
 
             window.addEventListener('resize',()=>{
-                this.cardHeight = $('.el-card__body').height();
+                this.cardHeight = this.$('.el-card__body').height();
             },false);
         },
         watch: {
             cardHeight(newValue, oldValue) {
                 if(newValue !== oldValue){
-                    this.mapHeight = $('.el-card__body').height();
+                    this.mapHeight = this.$('.el-card__body').height();
                 }
             }
         }

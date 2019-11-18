@@ -1,8 +1,9 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-// import moment from 'moment'
-// import echarts from 'echarts'
+import Vue from 'vue';
+// import moment from 'moment';
+// import echarts from 'echarts';
+// import $ from 'jquery';
 
 import '@/assets/icons' // icon
 import '@/components'
@@ -20,10 +21,13 @@ import mqtt from './utils/Mqtt'
 
 import App from './App'
 
-import _ from 'lodash'
+// import _ from 'lodash'
 
 //挂载elemtnt-ui
 Vue.use(element);
+
+//挂载jquery
+Vue.prototype.$ = $;
 
 //挂载echarts
 Vue.prototype.$echarts = echarts;
