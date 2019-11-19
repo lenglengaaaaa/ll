@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -9,23 +9,25 @@
   <body>
     <script src="static/config.js"></script>
 
-    <!-- <script src="static/package/vue.min.js"></script>
-    <script src="static/package/vuex.min.js"></script>
-    <script src="static/package/vue-router.min.js"></script>
-    <script src="static/package/moment.min.js"></script>
-    <script src="static/package/zh-cn.js"></script>
-    <script src="static/package/jquery.min.js"></script>
-    <script src="static/package/lodash.min.js"></script>
-    <script src="static/package/echarts.min.js"></script> -->
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
-    <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
-    <script src="https://unpkg.com/vuex/dist/vuex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/locale/zh-cn.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@4.2.1/dist/echarts.min.js"></script>
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <script src="static/package/vue.min.js"></script>
+      <script src="static/package/vuex.min.js"></script>
+      <script src="static/package/vue-router.min.js"></script>
+      <script src="static/package/moment.min.js"></script>
+      <script src="static/package/zh-cn.js"></script>
+      <script src="static/package/jquery.min.js"></script>
+      <script src="static/package/lodash.min.js"></script>
+      <script src="static/package/echarts.min.js"></script>
+    <% }else{ %>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+      <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
+      <script src="https://unpkg.com/vuex/dist/vuex.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/locale/zh-cn.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/echarts@4.2.1/dist/echarts.min.js"></script>
+    <% } %>
     
     <div id="app"></div>
     <!-- built files will be auto injected -->

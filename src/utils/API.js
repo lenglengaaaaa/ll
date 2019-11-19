@@ -1,12 +1,7 @@
-let url;
-
-//判断环境
 const env =process.env.NODE_ENV;
-if(env ==='development'){
-    url = $cfg.dev_url;
-}else{
-    url = $cfg.pro_url;
-}
+
+//根据环境不同,请求不同的接口
+let url = env === 'development'? $cfg.dev_url : $cfg.pro_url ;
 
 export const api={
     //=======================================登录登出=====================================================
