@@ -21,31 +21,9 @@ export default {
                     {value: 'CBTemp',label: '板子自身温度'}
                 ],
             value: 'co',
-            time: [
-                this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
-                this.$moment().format('YYYY-MM-DD 23:59:59')
-            ],
-            allData:[],
-            timeArray:[],
-            currentValue:[],
-        }
-    },
-    computed: {
-        assetObj() {
-            return JSON.parse(sessionStorage.getItem('obj'));
         }
     },
     methods: {
-        ...mapActions('equip',[
-            'getSensorHistoryData',
-            'getSensorHistoryExecl',
-            'gets800HistoryData',
-            'getS800HistoryExecl'
-        ]),
-        //切换变量
-        changeParam(val){
-            this.currentValue = this.allData[val] || [];
-        },
         //匹配名称&单位
         match(name,flag){
             let design;

@@ -67,15 +67,21 @@
 </template>
 
 <script>
-    import { newFilterData ,downFile } from '@/utils/methods'
-    import { mapActions } from 'vuex'
+    import { newFilterData } from '@/utils/methods'
     import SensorMixin from './mixin/Sensor'
+    import Throttle from './mixin/Throttle'
+
 
     export default {
         props: {
             sensorData: Array,
         },
-        mixins:[SensorMixin],
+        mixins:[SensorMixin,Throttle],
+        data() {
+            return {
+                sign: 'Sensor'
+            }
+        },
         created () {
             this.getSensorHistory();
         },
@@ -99,22 +105,6 @@
                     this.currentValue = result[this.value]||[];
                 })
             },
-            //下载
-            download: _.throttle(function(){
-                if(!this.sensorData.length || !this.timeArray.length) return;
-                const {id,trapId} = this.assetObj;
-                const startTime = this.time[0];
-                const endTime = this.time[1];
-                this.getSensorHistoryExecl({
-                    assetId:trapId||id,
-                    assetType:this.assetType,
-                    startTime,
-                    endTime
-                }).then(res=>{
-                    if(!res)return;
-                    downFile(res);
-                })
-            },5000),
             //切换日期
             changeDate(date){
                 if(!date)return;

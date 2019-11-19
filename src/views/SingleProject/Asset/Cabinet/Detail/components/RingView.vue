@@ -83,6 +83,7 @@
 </template>
 
 <script>
+    import _ from 'lodash';
     import { mapActions } from 'vuex'
     import { newFilterData ,downFile,timeDiff } from '@/utils/methods'
     import {LineChart} from '@/components/Charts'
@@ -160,11 +161,11 @@
                         if(!currentData) return pre;
                         let obj = {};
                         currentData.forEach(single=>{
-                            timeArray.push(moment(single.createTime).valueOf());
+                            timeArray.push(this.$moment(single.createTime).valueOf());
                             const {dataJSON} = single;
                             for(let item in dataJSON){
                                 if(!obj[item]) obj[item] = [];
-                                obj[item].push([moment(single.createTime).format(diffTime),dataJSON[item]]);
+                                obj[item].push([this.$moment(single.createTime).format(diffTime),dataJSON[item]]);
                             }
                         })
                         for(let k in obj){
@@ -173,7 +174,7 @@
                         }
                         return pre;
                     },{})
-                    const timeResult = _.sortBy(timeArray).map(item=>moment(item).format(diffTime));
+                    const timeResult = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['temp'] || [];

@@ -61,11 +61,12 @@
 </template>
 
 <script>
-    import {Gauge,LineChart} from '@/components/Charts'
-    import { newFilterData , downFile} from '@/utils/methods'
-    import { mapActions } from 'vuex'
+    import { Gauge , LineChart } from '@/components/Charts'
+    import { newFilterData } from '@/utils/methods'
+    import Throttle from './mixin/Throttle'
 
     export default {
+        mixins:[Throttle],
         components: {
             Gauge,
             LineChart,
@@ -80,6 +81,7 @@
         },
         data() {
             return {
+                sign:'Magic',
                 options: [
                         {value: "temp",name: '环境温度'}, 
                         {value: "hum",name: '环境湿度'}, 
@@ -91,28 +93,12 @@
                         {value: "bat",name: '电池电压'}
                     ],
                 value: "temp",
-                time: [
-                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
-                    this.$moment().format('YYYY-MM-DD 23:59:59')
-                ],
-                allData:[],
-                timeArray:[],
-                currentValue:[],
             }
         },
         created () {
             this.getMagicHistory();
         },
-        computed: {
-            assetObj() {
-                return JSON.parse(sessionStorage.getItem('obj'));
-            }
-        },
         methods: {
-            ...mapActions('equip',[
-                'getMagicHistoryData',
-                'getMagicHistoryExecl'
-            ]),
             //获取魔节历史数据
             async getMagicHistory(){
                 const {id,trapId} = this.assetObj;
@@ -131,26 +117,6 @@
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
                 })
-            },
-            //下载
-            download: _.throttle(function(){
-                if((this.magicData&&!this.magicData.bat) || !this.timeArray.length ) return;
-                const {id,trapId} = this.assetObj;
-                const startTime = this.time[0];
-                const endTime = this.time[1];
-                this.getMagicHistoryExecl({
-                    assetId:trapId||id,
-                    assetType:this.assetType,
-                    startTime,
-                    endTime
-                }).then(res=>{
-                    if(!res)return;
-                    downFile(res);
-                })
-            },5000),
-            //切换变量
-            changeParam(val){
-                this.currentValue = this.allData[val] || [];
             },
             //切换日期
             changeDate(date){

@@ -211,13 +211,13 @@
                 //筛选数据
                 const filterData = (currentVal)=>{
                     if(!currentVal)return;
-                    currentVal.createTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+                    currentVal.createTime = this.$moment(time).format('YYYY-MM-DD HH:mm:ss');
                     let obj = {};
                     for(let i in data){
                         if(data[i]!=='--'){
                             obj[i] = {
                                 value:data[i],
-                                createTime:moment(time).format('YYYY-MM-DD HH:mm:ss')
+                                createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
                     }

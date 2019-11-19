@@ -86,10 +86,11 @@
 
 <script>
     import {LineChart} from '@/components/Charts'
-    import {newFilterData,downFile} from '@/utils/methods'
-    import { mapActions } from 'vuex'
+    import { newFilterData } from '@/utils/methods'
+    import Throttle from './mixin/Throttle'
 
     export default {
+        mixins:[Throttle],
         components: {
             LineChart,
         },
@@ -98,6 +99,7 @@
         },
         data() {
             return {
+                sign:'Tline',
                 options: [
                         {value: 'lineTemp',label: '线缆温度'}, 
                         {value: 'lineA',label: '线缆电流'}, 
@@ -109,32 +111,16 @@
                         {value: 'signal',label: '信号强度'}
                     ],
                 value: 'lineTemp',
-                time: [
-                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
-                    this.$moment().format('YYYY-MM-DD 23:59:59')
-                ],
-                allData:[],
-                timeArray:[],
-                currentValue:[],
                 customColors: [
                     {color: '#67c23a', percentage: 90},
                     {color: '#f56c6c', percentage: 100}
                 ],
             }
         },
-        computed: {
-            assetObj() {
-                return JSON.parse(sessionStorage.getItem('obj'));
-            }
-        },
         created () {
             this.getLineHistory();
         },
         methods: {
-            ...mapActions('equip',[
-                'getTrapLineHistory',
-                'getTrapHistoryExecl'
-            ]),
             //获取线缆历史数据
             getLineHistory(){
                 const {id,trapId}=this.assetObj;
@@ -152,25 +138,6 @@
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
                 })
-            },
-            //下载
-            download: _.throttle(function(){
-                if(!this.lineData.length || !this.timeArray.length ) return;
-                const {id,trapId}=this.assetObj;
-                const startTime = this.time[0];
-                const endTime = this.time[1];
-                this.getTrapHistoryExecl({
-                    queryId:trapId||id,
-                    startTime,
-                    endTime
-                }).then(res=>{
-                    if(!res)return;
-                    downFile(res)
-                })
-            },5000),
-            //切换变量
-            changeParam(val){
-                this.currentValue = this.allData[val] || [];
             },
             //切换日期
             changeDate(date){

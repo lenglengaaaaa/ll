@@ -135,6 +135,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import _ from 'lodash'
 
     export default {
         name:'cc-table',

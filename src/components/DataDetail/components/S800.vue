@@ -67,17 +67,22 @@
 </template>
 
 <script>
-    import { newFilterData , downFile} from '@/utils/methods'
-    import { mapActions } from 'vuex'
+    import { newFilterData } from '@/utils/methods'
     import SensorMixin from './mixin/Sensor'
+    import Throttle from './mixin/Throttle'
 
     export default {
         props: {
             sEightData: Array,
         },
-        mixins:[SensorMixin],
+        mixins:[SensorMixin,Throttle],
         created () {
             this.getS800History();
+        },
+        data() {
+            return {
+                sign: 'S800'
+            }
         },
         methods: {
             //获取线缆历史数据
@@ -99,22 +104,6 @@
                     this.currentValue = result[this.value] || [];
                 })
             },
-            //下载
-            download: _.throttle(function(){
-                if(!this.sEightData.length || !this.timeArray.length ) return;
-                const {id,trapId}=this.assetObj;
-                const startTime = this.time[0];
-                const endTime = this.time[1];
-                this.getS800HistoryExecl({
-                    assetId:trapId||id,
-                    assetType:this.assetType,
-                    startTime,
-                    endTime
-                }).then(res=>{
-                    if(!res)return;
-                    downFile(res);
-                })
-            },5000),
             //切换日期
             changeDate(date){
                 if(!date)return;
