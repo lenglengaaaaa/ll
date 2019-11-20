@@ -9,7 +9,7 @@
   <body>
     <script src="static/config.js"></script>
 
-    <% if (process.env.NODE_ENV === 'production') { %>
+    <% if (process.env.NET_ENV === 'intranet') { %>
       <script src="static/package/vue.min.js"></script>
       <script src="static/package/vuex.min.js"></script>
       <script src="static/package/vue-router.min.js"></script>

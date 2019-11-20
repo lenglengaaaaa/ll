@@ -17,6 +17,7 @@
                     align="center"
                     sortable
                     show-overflow-tooltip
+                    className="weight"
                 />
                 <el-table-column
                     prop="name"
@@ -135,6 +136,8 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    .weight{
+        font-weight: bold;  
+    }
 </style>
