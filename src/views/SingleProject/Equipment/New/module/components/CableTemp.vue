@@ -70,7 +70,7 @@
             <!-- 井盖下传感设备只有魔节 -->
             <template v-if="!form.assetType">
                 <el-form-item label="所属魔节" prop="parentId" >
-                    <el-select v-model="form.parentId" clearable>
+                    <el-select v-model="form.parentId" clearable filterable>
                         <el-option 
                             v-for="item in deviceMenus"
                             :key="item.id"
@@ -94,7 +94,7 @@
                     prop="parentId"
                     v-if="!form.sensorType"
                 >
-                    <el-select v-model="form.parentId" clearable>
+                    <el-select v-model="form.parentId" clearable filterable>
                         <el-option 
                             v-for="item in deviceMenus"
                             :key="item.id"

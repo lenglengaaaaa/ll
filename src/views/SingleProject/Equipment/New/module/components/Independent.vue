@@ -113,7 +113,7 @@
                     :prop="form.isSingle?'parentId':''"
                     v-if="!form.sensorType"
                 >
-                    <el-select v-model="form.parentId" clearable>
+                    <el-select v-model="form.parentId" clearable filterable>
                         <el-option 
                             v-for="item in deviceMenus"
                             :key="item.id"
