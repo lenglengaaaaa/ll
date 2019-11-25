@@ -40,7 +40,6 @@
             return {
                 marker:[],
                 flag:false,
-                cardHeight:0,
                 mapHeight:0
             }
         },
@@ -48,7 +47,13 @@
             sleep(500).then(()=>{
                 this.flag = true;
             })
-            this.mapHeight = this.$('.el-card__body').height();
+            this.mapHeight = this.cardHeight;
+        },
+        computed: {
+            cardHeight() {
+                const card_body = document.getElementsByClassName('el-card__body')[0];
+                return card_body.offsetHeight;
+            }
         },
         created () {
             let marker = [];
@@ -62,15 +67,8 @@
             this.marker=marker;
 
             window.addEventListener('resize',()=>{
-                this.cardHeight = this.$('.el-card__body').height();
+                this.mapHeight = this.$('.el-card__body').height();
             },false);
-        },
-        watch: {
-            cardHeight(newValue, oldValue) {
-                if(newValue !== oldValue){
-                    this.mapHeight = this.$('.el-card__body').height();
-                }
-            }
         }
     }
 </script>
@@ -92,6 +90,7 @@
     .mapRow{
         .el-col{
             padding: 0px !important;
+            height: 100%;
             &:nth-child(1){
                 margin: 0px 10px 0 10px;
             }
