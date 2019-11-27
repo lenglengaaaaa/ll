@@ -47,13 +47,7 @@
             sleep(500).then(()=>{
                 this.flag = true;
             })
-            this.mapHeight = this.cardHeight;
-        },
-        computed: {
-            cardHeight() {
-                const card_body = document.getElementsByClassName('el-card__body')[0];
-                return card_body.offsetHeight;
-            }
+            this.mapHeight = this.$('.el-card__body').height();
         },
         created () {
             let marker = [];
