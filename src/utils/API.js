@@ -322,6 +322,9 @@ export const api={
     //告警处理
     alarmHandle:`${url}/e_view/warning/dispose`,
 
+    //告警导出
+    exportAlarm:`${url}/e_view/warning/execl`,
+
     //=======================================系统操作管理=====================================================
 
     //获取应用列表 post

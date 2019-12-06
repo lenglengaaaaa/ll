@@ -498,6 +498,31 @@ const actions= {
         })
     },
 
+    /**
+     * 导出告警
+     * @param {
+     *      projectId 项目ID
+     *      startTime 起始时间
+     *      endTime   结束时间
+     *      告警类型   0未处理  1已处理  2不处理  3延期
+     * }
+     */
+    exportAlarm({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.exportAlarm}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                tip(res.meassage,'success')
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
     //==================================阈值设置==================================
     /**
      * 查看告警阈值设置详情

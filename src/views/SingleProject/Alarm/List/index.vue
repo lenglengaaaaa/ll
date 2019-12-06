@@ -4,6 +4,7 @@
         :data="data"
         :total="total"
         :getList="getList"
+        :hasAdd="false"
     >   
         <template #select>
             <div class="alarmTool">
@@ -26,6 +27,7 @@
                     :clearable='false'
                     @change="changeTime"
                 />
+                <i class="el-icon-download" @click="download" title="导出告警"/>
             </div>
         </template>
         <template>
@@ -96,6 +98,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import { downFile} from '@/utils/methods'
     
     export default {
         data() {
@@ -122,9 +125,15 @@
                 }
             }
         },
+        computed: {
+            projectId() {
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            }
+        },
         methods: {
             ...mapActions('overall',[
-                'getAlarmList', 
+                'getAlarmList',
+                'exportAlarm' 
             ]),
             getList(obj={}){
                 const data = {
@@ -166,7 +175,21 @@
                     3:'延期处理'
                 }
                 return obj[status];
-            }
+            },
+            //下载
+            download: _.throttle(function(){
+                const startTime = this.time[0];
+                const endTime = this.time[1];
+                this.exportAlarm({
+                    projectId:this.projectId,
+                    type:this.value,
+                    startTime,
+                    endTime
+                }).then(res=>{
+                    if(!res)return;
+                    downFile(res);
+                })
+            },5000),
         },
     }
 </script>
@@ -187,6 +210,13 @@
         }
         .el-input__inner{
             max-width: 300px !important;
+        }
+        .el-icon-download{
+            padding: 8px;
+            cursor: pointer;
+            background: #ecefef;
+            border-radius: 5px;
+            margin-right: 20px;
         }
     }
 </style>
