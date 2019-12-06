@@ -46,8 +46,8 @@
                     color: ['#3398DB'],
                     tooltip: {},
                     grid: {
-                        left: '8%',
-                        right: '8%',
+                        left: '2%',
+                        right: '10%',
                         bottom: '3%',
                         containLabel: true
                     },

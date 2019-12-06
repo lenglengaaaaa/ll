@@ -15,22 +15,33 @@
                         <div class="body-right-top">
                             <el-row :gutter="20" type="flex" class="chart-wrap">
                                 <el-col :span="12" :xs="24">
-                                    <div class="data-content" >
-                                        <SoeChart
-                                            v-if="soeCount.length"
-                                            :soeCount="soeCount"
-                                        />
-                                        <cc-empty v-else/>
-                                    </div>
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix" >
+                                            <span>SOE总数</span>
+                                        </div>
+                                        <div class="data-content" >
+                                            <SoeChart
+                                                v-if="soeCount.length"
+                                                :soeCount="soeCount"
+                                            />
+                                            <cc-empty v-else/>
+                                        </div>
+                                    </el-card>
                                 </el-col>
                                 <el-col :span="12" :xs="24">
-                                    <div class="data-content" >
-                                        <CategoryChart
-                                            v-if="equipList.length" 
-                                            :equipList="equipList"
-                                        />
-                                        <cc-empty v-else/>
-                                    </div>
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix" >
+                                            <span>设备数量</span>
+                                        </div>
+                                        <div class="data-content" >
+                                            <CategoryChart
+                                                v-if="equipList.length" 
+                                                :equipList="equipList"
+                                            />
+                                            <cc-empty v-else/>
+                                        </div>
+                                    </el-card>
+                                    
                                 </el-col>
                             </el-row>
                         </div>
@@ -46,6 +57,7 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     import { SoeChart , CategoryChart} from '@/components/Charts'
     import CountRow from './components/CountRow'
     import MapRow from './components/MapRow'
@@ -62,11 +74,54 @@
                 equipList:[],
                 soeCount:[]
             }
-        }
+        },
+        mounted () {
+            this.getCount();
+            this.getSoe();
+        },
+        methods: {
+            ...mapActions('overall',[
+                'getEquipCount',
+                'getSoeCount',
+                'getDeviceAddress'
+            ]),
+            //获取设备数量
+            getCount(){
+                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
+                this.getEquipCount(0).then(res=>{
+                    if(!res) return;
+                    const result = res.reduce((pre,current)=>{
+                        for(let item of equipTypeMenu){
+                            if(current.deviceType === item.id){
+                                current.name = item.value;
+                                current.value = current.count;
+                            }
+                        }
+                        return [...pre,current]
+                    },[])
+                    this.equipList = result;
+                })
+            },
+            //获取SOE数量
+            getSoe(){
+                let startTime = this.$moment().startOf('year').format('YYYY-MM-DD');
+                let endTime = this.$moment().endOf('year').format('YYYY-MM-DD');
+                this.getSoeCount({
+                    query:null,
+                    queryType:0,
+                    startTime,
+                    endTime,
+                    timeType:0
+                }).then(res=>{
+                    if(!res)return;
+                    this.soeCount = Object.values(res);
+                })
+            },
+        },
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scope>
     @media screen and (max-width: 870px) {
         .Overview_container{
             padding: 0px !important;
@@ -130,13 +185,35 @@
                             margin: 0 10px 0 10px;
                         }
                     }
-                    .data-content {
-                        margin-bottom: 5px;
-                        width: 100%;
+                    .box-card{
+                        border-radius: 5px;
+                        height: 100%;
                         background: #fff;
                         box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                        .el-card__header{
+                            padding: 8px 15px;
+                        }
+                        .clearfix{
+                            font-size: 0.8rem;
+                            font-weight: bold;
+                            color: #171717;
+                        }
+                        .el-card__body{
+                            box-sizing: border-box;
+                            padding: 10px;
+                            height: calc(100% - 38px);
+                        }
+                    }
+                    .data-content {
+                        width: 100%;
+                        background: #fff;
                         height: 100%;
-                        border-radius: 5px;
+                        #soe{
+                            height: 345px;
+                        }
+                        #category{
+                            height: 330px;
+                        }
                     }
                 }
                 &-bottom{

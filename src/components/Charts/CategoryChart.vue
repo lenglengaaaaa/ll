@@ -38,7 +38,7 @@
                 //把配置和数据放这里
                 this.chart.setOption({
                     title:{
-                        text:'设备种类数量',
+                        text:'设备数量',
                         x:'center'
                     },
                     tooltip: {
@@ -46,6 +46,7 @@
                         formatter: "{a} <br/>{b}: {c}台 ({d}%)"
                     },
                     legend: {
+                        type: 'scroll',
                         x: 'center',
                         y:'bottom',
                         data:names
@@ -57,12 +58,20 @@
                         {   
                             name:'设备数量 :',
                             type:'pie',
-                            radius : [30, 110],
+                            radius : [20, 110],
                             center : ['50%', '45%'],
-                            roseType : 'radius',
+                            roseType : 'area',
+                            lableLine: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
                             data:this.equipList,
                             animationEasing: 'cubicInOut',
-                            animationDuration: 2600
+                            animationDuration: 2600,
                         }
                     ],
                 })
