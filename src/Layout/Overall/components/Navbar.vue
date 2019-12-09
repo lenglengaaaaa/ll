@@ -153,10 +153,6 @@
                 };
                 //获取用户详情
                 this.getAccount();
-                //获取设备类型下拉列表
-                if(!sessionStorage.getItem('equipTypeMenu')){
-                    this.$store.dispatch('equip/getEquipTypeMenu')
-                }
             },
             //获取用户详情
             getAccount(){

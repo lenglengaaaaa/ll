@@ -138,7 +138,8 @@
             getList(obj={}){
                 const data = {
                     ...this.params,
-                    ...obj
+                    ...obj,
+                    filterStr:obj.filterStr||null,
                 }
                 this.params = data ;
                 return this.getAlarmList(data).then(res=>{

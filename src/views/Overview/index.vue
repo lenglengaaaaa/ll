@@ -76,8 +76,12 @@
             }
         },
         mounted () {
-            this.getCount();
-            this.getSoe();
+            this.initial();
+        },
+        computed: {
+            equipTypeMenu() {
+                return this.$store.state.equip.equipTypeMenu; 
+            }
         },
         methods: {
             ...mapActions('overall',[
@@ -85,13 +89,21 @@
                 'getSoeCount',
                 'getDeviceAddress'
             ]),
+            //初始化
+            initial(){
+                this.getSoe();
+                (async ()=>{
+                    const flag = sessionStorage.getItem('equipTypeMenu');
+                    await !flag && this.$store.dispatch('equip/getEquipTypeMenu');
+                    await this.getCount();
+                })()
+            },
             //获取设备数量
             getCount(){
-                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
                 this.getEquipCount(0).then(res=>{
                     if(!res) return;
                     const result = res.reduce((pre,current)=>{
-                        for(let item of equipTypeMenu){
+                        for(let item of this.equipTypeMenu){
                             if(current.deviceType === item.id){
                                 current.name = item.value;
                                 current.value = current.count;
