@@ -185,6 +185,7 @@
         }
         .body{
             height: calc(100vh - 150px);
+            overflow: hidden;
             @include around();
             .bg{
                 // padding-left: 19.8vw;

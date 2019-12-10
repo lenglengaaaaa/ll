@@ -75,6 +75,10 @@
     @media screen and (max-width: 870px) {
         .el-row{
                 flex-direction: column;
+                .icon {
+                    width: 4.5em !important;
+                    height: 4.5em !important;
+                }
         }
     }
     .COUNT_WRAP{
@@ -113,8 +117,8 @@
                         align-items: center;
                         justify-content: center;
                         .icon {
-                            width: 4.5em;
-                            height: 4.5em;
+                            width: 4.6875vw;
+                            height: 4.6875vw;
                         }
                         .name{
                             font-size: 1.2rem;

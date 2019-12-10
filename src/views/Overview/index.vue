@@ -149,9 +149,6 @@
                         .el-col{
                             margin: 10px 0 !important;
                         }
-                        .data-content {
-                            height: 400px !important;
-                        }
                     }
                 }
             }
@@ -220,11 +217,8 @@
                         width: 100%;
                         background: #fff;
                         height: 100%;
-                        #soe{
+                        #soe,#category{
                             height: 345px;
-                        }
-                        #category{
-                            height: 330px;
                         }
                     }
                 }

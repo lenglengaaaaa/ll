@@ -59,11 +59,10 @@
                 });
             }
             this.marker=marker;
-
             window.addEventListener('resize',()=>{
                 this.mapHeight = this.$('.el-card__body').height();
             },false);
-        }
+        },
     }
 </script>
 
@@ -73,11 +72,6 @@
             flex-direction: column;
             .el-col{
                 margin: 10px 0 !important;
-                .box-card{
-                    .el-card__body{
-                        height: 500px !important;
-                    }
-                }
             }
         }
     }
