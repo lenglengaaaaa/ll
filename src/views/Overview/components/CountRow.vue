@@ -15,7 +15,8 @@
                         <div>
                             <span class="name">{{item.name}}</span>
                             <span>
-                                {{item.has}}/{{item.total}}
+                                <span :style="{color:'#008000'}">{{item.has}}</span>/
+                                <span :style="{fontSize:'1.2rem'}">{{item.total}}</span>
                             </span>
                         </div>
                     </div>
@@ -29,38 +30,55 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+    
     export default {
         data() {
             return {
                 rows: [
                     {
-                        name:'网关',
-                        icon:'gateway',
-                        path:'/gateway',
-                        className:'icon-gateway',
-                        total:5,
-                        has:4
-                    },
-                    {
                         name:"项目",
                         icon:'project',
                         path:'/project',
                         className:'icon-project',
-                        total:1,
-                        has:1,
+                        total:0,
+                        has:0,
                     },
                     {
                         name:'设备',
                         icon:'equip',
                         path:'/project',
                         className:'icon-equip',
-                        total:4,
-                        has:2
+                        total:0,
+                        has:0
+                    },
+                    {
+                        name:'网关',
+                        icon:'gateway',
+                        path:'/gateway',
+                        className:'icon-gateway',
+                        total:0,
+                        has:0
                     }
                 ]
             }
         },
+        mounted () {
+            this.initiate()
+        },
         methods:{
+            ...mapActions('overall',[
+                'getOnlineDevice',
+                'getLiveProject'
+            ]),
+            initiate(){
+                Promise.all([this.getLiveProject(),this.getOnlineDevice()]).then(res=>{
+                    res.map((item,index)=>{
+                        this.$set(this.rows[index], 'total', item.sum );
+                        this.$set(this.rows[index], 'has', index==0? item.normal:item.online );
+                    })
+                })
+            },
             rowClick(path){
                 this.$router.push(path)
             },

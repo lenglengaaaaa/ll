@@ -82,6 +82,42 @@ const actions= {
         })
     },
 
+    //==================================概览==================================
+
+    /**
+     * 获取 在线设备/设备总数
+     */
+    getOnlineDevice({commit}){
+        return request({
+            method:'get',
+            url:`${api.getOnlineDevice}`,
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取 在线设备/设备总数
+     */
+    getLiveProject({commit}){
+        return request({
+            method:'get',
+            url:`${api.getLiveProject}`,
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
     //==================================项目管理==================================
 
     /**
@@ -361,7 +397,7 @@ const actions= {
 
     //==================================统计==================================
     /**
-     * 获取项目下不同设备数量
+     * 获取不同设备数量
      * @param projectId 项目ID
      */
     getEquipCount({commit},projectId){
@@ -380,7 +416,7 @@ const actions= {
     },
 
     /**
-     * 获取项目下soe数量
+     * 获取soe数量
      * @param {
      *      query 查询ID
      *      queryType 0项目 1配电柜 2配电房 3线缆 4井盖 5相序

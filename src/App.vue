@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'App',
+    name: 'App'
   }
 </script>
 
@@ -29,6 +29,7 @@
     text-decoration: none;
   }
   
+  /* Chrome自定义滚动条 */
   ::-webkit-scrollbar {
       width : 6px;  /*高宽分别对应横竖滚动条的尺寸*/
       height: 1px;
@@ -38,17 +39,6 @@
       /*滚动条里面小方块*/
       border-radius   : 10px;
       background: linear-gradient(135deg, #22a7f0, #22a7f0, #36d7b7);
-      /* background-color: skyblue;
-      background-image: -webkit-linear-gradient(
-          45deg,
-          rgba(255, 255, 255, 0.2) 25%,
-          transparent 25%,
-          transparent 50%,
-          rgba(255, 255, 255, 0.2) 50%,
-          rgba(255, 255, 255, 0.2) 75%,
-          transparent 75%,
-          transparent
-      ); */
   }
 
   ::-webkit-scrollbar-track {
@@ -57,21 +47,6 @@
     background   : #ededed;
     border-radius: 10px;
   }
-
-
-
-  /* .app-main{
-      -ms-scroll-chaining: chained;
-      -ms-overflow-style: none;
-      -ms-content-zooming: zoom;
-      -ms-scroll-rails: none;
-      -ms-content-zoom-limit-min: 100%;
-      -ms-content-zoom-limit-max: 500%;
-      -ms-scroll-snap-type: proximity;
-      -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
-      -ms-overflow-style: none;
-      overflow: auto;
-  } */
 
   .amap-logo,.amap-copyright{
     display: none !important;
@@ -112,17 +87,22 @@
   html {font-size: 62.5%!important; /* 10÷16=62.5% */}
   @media only screen and (min-width: 481px){
       html {
-          font-size: 94%!important; /* 15.04÷16=94% */
+          font-size: 75%!important; /* 12÷16=75% */
       }
   }
   @media only screen and (min-width: 561px){
       html {
-          font-size: 109%!important; /* 17.44÷16=109% */
+          font-size: 87%!important; /* 14÷16=87% */
       }
   }
   @media only screen and (min-width: 641px){
       html {
-          font-size: 125%!important; /* 20÷16=125% */
+          font-size: 100%!important; /* 16÷16=100% */
+      }
+  }
+  @media only screen and (min-width: 881px){
+      html {
+          font-size: 115%!important; /* 16÷16=100% */
       }
   }
 </style>

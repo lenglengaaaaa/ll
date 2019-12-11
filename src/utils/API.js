@@ -55,6 +55,14 @@ export const api={
     //全局搜索设备 get
     getAllDevice:`${url}/e_view/device/home/filter`,
 
+    //===========================概览====================================
+
+    //获取 在线设备/设备总数
+    getOnlineDevice:`${url}/e_view/statistics/online/device`,
+
+    //获取 未被冻结项目/项目总数
+    getLiveProject:`${url}/e_view/statistics/project`,
+
     //===========================项目管理====================================
 
     //项目列表 post
@@ -97,13 +105,13 @@ export const api={
 
     //===========================统计====================================
     
-    //获取项目中设备数量 get
+    //获取设备数量 get
     getEquipCountOnProject:`${url}/e_view/statistics/device/type`,
 
-    //获取项目中资产数量 get
+    //获取资产数量 get
     getAssetCountOnProject:`${url}/e_view/statistics/asset/project`,
 
-    //获取项目下soe数量 post
+    //获取soe数量 post
     getSoeCount:`${url}/e_view/warning/count`,
 
     //获取设备的经纬度、位置信息 get
