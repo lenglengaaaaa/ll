@@ -224,8 +224,8 @@ const projectRouter = {
                     component: () => import('@/views/SingleProject/Alarm/List'),
                 },
                 {
-                    path:'/project/alarm/:warnInfoId',
                     name:'AlarmDetail',
+                    path:'/project/alarm/:warnInfoId',
                     component: () => import('@/views/SingleProject/Alarm/Detail'),
                     meta:{title:'告警详情'}
                 }
