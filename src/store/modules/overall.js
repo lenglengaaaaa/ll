@@ -118,6 +118,40 @@ const actions= {
         })
     },
 
+    /**
+     * 获取首页概览下 设备的位置信息
+     */
+    getDeviceAddressInAll({commit}){
+        return request({
+            method:'get',
+            url:`${api.deviceAddressInAll}`,
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取首页概览下 网关的位置信息
+     */
+    getGatewayAddressInAll({commit}){
+        return request({
+            method:'get',
+            url:`${api.gatewayAddressInAll}`,
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
     //==================================项目管理==================================
 
     /**

@@ -74,6 +74,7 @@
             initiate(){
                 Promise.all([this.getLiveProject(),this.getOnlineDevice()]).then(res=>{
                     res.map((item,index)=>{
+                        if(!item)return;
                         this.$set(this.rows[index], 'total', item.sum );
                         this.$set(this.rows[index], 'has', index==0? item.normal:item.online );
                     })

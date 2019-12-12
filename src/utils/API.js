@@ -63,6 +63,12 @@ export const api={
     //获取 未被冻结项目/项目总数
     getLiveProject:`${url}/e_view/statistics/project`,
 
+    //获取首页概览下 设备的位置信息
+    deviceAddressInAll:`${url}/e_view/statistics/device/loaction`,
+
+    //获取首页概览下 网关的位置信息
+    gatewayAddressInAll:`${url}/e_view/statistics/gateway/loaction`,
+
     //===========================项目管理====================================
 
     //项目列表 post

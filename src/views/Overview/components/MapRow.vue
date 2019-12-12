@@ -8,7 +8,7 @@
                 <div>
                     <cc-map  
                         vid="appliaction"
-                        :marker="marker"
+                        :marker="deviceMarkers"
                         :mapHeight="mapHeight"
                     />
                 </div>
@@ -22,7 +22,7 @@
                 <div>
                     <cc-map 
                         vid="gateway"
-                        :marker="marker"
+                        :marker="gatewayMarkers"
                         v-if="flag"
                         :mapHeight="mapHeight"
                     />
@@ -34,34 +34,41 @@
 
 <script>
     import {sleep} from '@/utils/methods'
+    import { mapActions } from 'vuex'
 
     export default {
         data() {
             return {
-                marker:[],
+                deviceMarkers:[],
+                gatewayMarkers:[],
                 flag:false,
                 mapHeight:0
             }
         },
+        created () {
+            window.addEventListener('resize',()=>{
+                this.mapHeight = this.$('.el-card__body').height();
+            },false);
+        },
         mounted () {
+            this.initiate();
             sleep(500).then(()=>{
                 this.flag = true;
             })
             this.mapHeight = this.$('.el-card__body').height();
         },
-        created () {
-            let marker = [];
-            for (let i = 0 ; i < 10 ; i ++) {
-                marker.push({
-                    longitude:121.59996,
-                    latitude:31.197646 + i * 0.001,
-                    name:i
-                });
+        methods: {
+            ...mapActions('overall',[
+                'getDeviceAddressInAll',
+                'getGatewayAddressInAll'
+            ]),
+            initiate(){
+                Promise.all([this.getDeviceAddressInAll(),this.getGatewayAddressInAll()]).then(res=>{
+                    const [device,gateway] = res;
+                    this.deviceMarkers = device || [];
+                    this.gatewayMarkers = gateway || [];
+                })
             }
-            this.marker=marker;
-            window.addEventListener('resize',()=>{
-                this.mapHeight = this.$('.el-card__body').height();
-            },false);
         },
     }
 </script>
