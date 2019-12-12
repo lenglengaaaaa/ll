@@ -75,8 +75,13 @@
                 soeCount:[]
             }
         },
+        beforeMount() {
+            const flag = sessionStorage.getItem('equipTypeMenu');
+            !flag && this.$store.dispatch('equip/getEquipTypeMenu');
+        },
         mounted () {
-            this.initial();
+            this.getSoe();
+            this.getCount();
         },
         computed: {
             equipTypeMenu() {
@@ -90,14 +95,14 @@
                 'getDeviceAddress'
             ]),
             //初始化
-            initial(){
-                this.getSoe();
-                (async ()=>{
-                    const flag = sessionStorage.getItem('equipTypeMenu');
-                    await !flag && this.$store.dispatch('equip/getEquipTypeMenu');
-                    await this.getCount();
-                })()
-            },
+            // initial(){
+                // this.getSoe();
+                // (async ()=>{
+                //     const flag = sessionStorage.getItem('equipTypeMenu');
+                //     await !flag && this.$store.dispatch('equip/getEquipTypeMenu');
+                //     await this.getCount();
+                // })()
+            // },
             //获取设备数量
             getCount(){
                 this.getEquipCount(0).then(res=>{

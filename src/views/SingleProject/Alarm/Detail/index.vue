@@ -128,18 +128,18 @@
                     id,type
                 }).then(res=>{
                     if(!res)return;
-                    const {createTime,location,decodeHex,status,details,longitude,latitude} = res;
+                    const {createTime,location,decodeHex,status,details,longitude,latitude,deviceType} = res;
                     this.getData(res,this.firstArray);
                     this.getData(res,this.secondArray);
-                    xyTransformation([longitude,latitude]).then(res=>{
+                    xyTransformation([longitude,latitude]).then(result=>{
                         this.single ={
                             createTime:this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss'),
                             location:(location&&location.split(',').join('')) || '---',
                             alarmMsg:decodeHex,
                             status,
                             details:details || '',
-                            position:res&&decodeHex=="震动值：震动 "?
-                                res:[longitude||113.991244,latitude||22.595988],
+                            position:res&&decodeHex=="震动值：震动 "&&deviceType==30?
+                                result:[longitude||113.991244,latitude||22.595988],
                             isshock:res&&decodeHex=="震动值：震动 "
                         }
                         this.success = true;
