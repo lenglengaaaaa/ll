@@ -120,7 +120,7 @@
                             type: 'gauge',
                             center: ['50%', '50%'],    // 默认全局居中
                             radius: '100%',
-                            min:0,
+                            min:value.min || 0,
                             max:value.max,
                             axisLine: {            // 坐标轴线
                                 lineStyle: {       // 属性lineStyle控制线条样式

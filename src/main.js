@@ -48,6 +48,8 @@ Vue.prototype._ = _
 //挂载moment
 Vue.prototype.$moment = moment;
 
+Vue.prototype.$log = window.console.log;
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
