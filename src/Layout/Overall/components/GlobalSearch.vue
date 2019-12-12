@@ -18,7 +18,7 @@
                     <el-input 
                         v-model="input" 
                         placeholder="支持设备名称,设备编号,eui,安装地址,搜索 "
-                        @blur="onInput"
+                        @keyup.enter.native="onInput"
                     >
                         <el-button slot="append" icon="el-icon-search" @click="onInput"></el-button>
                     </el-input>
