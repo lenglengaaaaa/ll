@@ -13,9 +13,9 @@
                         size="small"
                         :placeholder="`搜索${title}`"
                         v-model="input"
-                        @blur="search"
+                        @keyup.enter.native="search"
                     >
-                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                        <el-button slot="append" icon="el-icon-search" @click="search" ></el-button>
                     </el-input>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                     filterStr:val,
                     current:1
                 })
-            },500),
+            },1000),
             //切换显示个数
             handleSizeChange(val) {
                 this.size = val;
