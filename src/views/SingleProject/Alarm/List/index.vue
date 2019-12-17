@@ -138,8 +138,7 @@
             getList(obj={}){
                 const data = {
                     ...this.params,
-                    ...obj,
-                    filterStr:obj.filterStr||null,
+                    ...obj
                 }
                 this.params = data ;
                 return this.getAlarmList(data).then(res=>{
@@ -157,7 +156,7 @@
             changeStaus(val){
                 this.$children[0]&&this.$children[0].getListData({
                     status:val
-                })
+                });
             },
             //切换时间回调
             changeTime(time){
