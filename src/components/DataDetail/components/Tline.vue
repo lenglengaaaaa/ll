@@ -136,14 +136,15 @@
                     startTime,
                     endTime
                 }).then(res=>{
+                    //echart关闭Loading
+                    lineChart.hideLoading();
+
                     const {lineInfoList,lineDateMap} = res;
                     if(!res || !lineInfoList.length)return;
                     const {result,timeResult} = newFilterData({list:lineInfoList,data:lineDateMap,type:'line',startTime,endTime});
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
-                    //echart关闭Loading
-                    lineChart.hideLoading();
                 })
             },
             //切换日期

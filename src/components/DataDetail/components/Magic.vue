@@ -115,14 +115,16 @@
                     startTime,
                     endTime
                 }).then(res=>{
+                    //echart关闭Loading
+                    lineChart.hideLoading();
+
                     const {deviceInfoList,dataMap} = res;
                     if( !res|| !deviceInfoList.length )return;
                     const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,startTime,endTime});
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
-                    //echart关闭Loading
-                    lineChart.hideLoading();
+                    
                 })
             },
             //切换日期

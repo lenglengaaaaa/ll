@@ -159,6 +159,10 @@
                     startTime,
                     endTime
                 }).then(res=>{
+                    //echart关闭Loading
+                    lineAChart.hideLoading();
+                    tempChart.hideLoading();
+
                     const {history} = res;
                     if( !res )return;
                     const diffTime = timeDiff(startTime,endTime);
@@ -186,10 +190,6 @@
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['temp'] || [];
-
-                    //echart关闭Loading
-                    lineAChart.hideLoading();
-                    tempChart.hideLoading();
                 })
             },
             //下载
