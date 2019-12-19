@@ -129,6 +129,9 @@
             }
         }
     }
+    .loadingMsg{
+        margin-left: 20px;
+    }
     .apply_main{
         width: 100%;
         // height: 100%;

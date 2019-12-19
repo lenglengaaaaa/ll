@@ -34,6 +34,12 @@ export default {
         //下载
         download: _.throttle(function(){
             if(!this.callJudge()) return;
+            const msg = this.$message({
+                iconClass:"el-icon-loading",
+                dangerouslyUseHTMLString: true,
+                message:`<strong class="loadingMsg">历史数据下载中...</strong>`,
+                duration:0
+            });
             const {id,trapId} = this.assetObj;
             const startTime = this.time[0];
             const endTime = this.time[1];
@@ -44,6 +50,7 @@ export default {
                 endTime
             }).then(res=>{
                 if(!res)return;
+                msg.close();
                 downFile(res);
             })
         },5000),

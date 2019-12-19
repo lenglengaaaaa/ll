@@ -66,12 +66,14 @@
                         <LineChart 
                             :text="`${ringName} (电流曲线图)`" 
                             id="keyA"
+                            ref="lineAChart"
                             :value="lineAData"
                             :timeArray="timeArray"
                         />
                         <LineChart 
                             :text="`${ringName} (温度曲线图)`" 
                             id="keyT"
+                            ref="tempChart"
                             :value="tempData"
                             :timeArray="timeArray"
                         />
@@ -144,6 +146,12 @@
             },
             //获取历史数据
             getRingHistory(){
+                //echarts加载Loading
+                const lineAChart = this.$refs.lineAChart&&this.$refs.lineAChart.chart;
+                const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
+                lineAChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+                tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.getRingHistoryData({
@@ -178,6 +186,10 @@
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['temp'] || [];
+
+                    //echart关闭Loading
+                    lineAChart.hideLoading();
+                    tempChart.hideLoading();
                 })
             },
             //下载
@@ -185,12 +197,19 @@
                 if(!this.switchList.length || !this.timeArray.length ) return;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
+                const msg = this.$message({
+                    iconClass:"el-icon-loading",
+                    dangerouslyUseHTMLString: true,
+                    message:`<strong class="loadingMsg">历史数据下载中...</strong>`,
+                    duration:0
+                });
                 this.getRingHistoryExecl({
                     queryId:this.switchId,
                     startTime,
                     endTime
                 }).then(res=>{
                     if(!res)return;
+                    msg.close();
                     downFile(res);
                 })
             },5000)

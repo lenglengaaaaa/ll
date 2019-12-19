@@ -178,6 +178,12 @@
             },
             //下载
             download: _.throttle(function(){
+                const msg = this.$message({
+                    iconClass:"el-icon-loading",
+                    dangerouslyUseHTMLString: true,
+                    message:`<strong class="loadingMsg">告警数据下载中...</strong>`,
+                    duration:0
+                });
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.exportAlarm({
@@ -187,6 +193,7 @@
                     endTime
                 }).then(res=>{
                     if(!res)return;
+                    msg.close();
                     downFile(res);
                 })
             },5000),

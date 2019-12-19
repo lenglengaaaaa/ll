@@ -53,6 +53,7 @@
             </div>
             <LineChart
                 id="MagicLine"
+                ref="lineChart"
                 :value="currentValue"
                 :timeArray="timeArray"
             />
@@ -95,12 +96,16 @@
                 value: "temp",
             }
         },
-        created () {
+        mounted () {
             this.getMagicHistory();
         },
         methods: {
             //获取魔节历史数据
             async getMagicHistory(){
+                //echarts加载Loading
+                const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
+                lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
+
                 const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
@@ -116,6 +121,8 @@
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
+                    //echart关闭Loading
+                    lineChart.hideLoading();
                 })
             },
             //切换日期

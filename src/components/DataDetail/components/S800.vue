@@ -60,6 +60,7 @@
         </div>
         <LineChart
             id="S800"
+            ref="lineChart"
             :value="currentValue"
             :timeArray="timeArray"
         />
@@ -76,17 +77,21 @@
             sEightData: Array,
         },
         mixins:[SensorMixin,Throttle],
-        created () {
-            this.getS800History();
-        },
         data() {
             return {
                 sign: 'S800'
             }
         },
+        mounted () {
+            this.getS800History();
+        },
         methods: {
             //获取线缆历史数据
             getS800History(){
+                //echarts加载Loading
+                const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
+                lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
+
                 const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
@@ -102,6 +107,8 @@
                     this.timeArray = timeResult;
                     this.allData = result;
                     this.currentValue = result[this.value] || [];
+                    //echart关闭Loading
+                    lineChart.hideLoading();
                 })
             },
             //切换日期
