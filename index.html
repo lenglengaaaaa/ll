@@ -7,10 +7,10 @@
     <title>智慧配电运维</title>
   </head>
   <body>
+    <script src="static/js/vendor.dll.js"></script>
     <script src="static/config.js"></script>
 
     <% if (process.env.NET_ENV === 'intranet') { %>
-      <script src="static/package/vue.min.js"></script>
       <script src="static/package/vuex.min.js"></script>
       <script src="static/package/vue-router.min.js"></script>
       <script src="static/package/moment.min.js"></script>
@@ -19,7 +19,6 @@
       <script src="static/package/lodash.min.js"></script>
       <script src="static/package/echarts.min.js"></script>
     <% }else{ %>
-      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
       <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
       <script src="https://unpkg.com/vuex/dist/vuex.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
