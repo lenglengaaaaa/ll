@@ -1,32 +1,28 @@
 <template>
-    <!-- <el-row :gutter="15" type="flex"> -->
-        <!-- <el-col :span="8" v-for="item in rows" :key="item.icon" :xs="24"> -->
-            <div class="COUNT_WRAP">
-                <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item.path)">
-                    <div class="card-panel">
-                        <div>
-                            <div :class="iconClass(item.className)">
-                                <svg-icon 
-                                    :iconClass="item.icon" 
-                                    className="icon"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <span class="name">{{item.name}}</span>
-                            <span>
-                                <span :style="{color:'#008000'}">{{item.has}}</span>/
-                                <span :style="{fontSize:'1.2rem'}">{{item.total}}</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="progress">
-                        <el-progress :percentage="item.has/item.total*100" :show-text="false"></el-progress>
+    <div class="COUNT_WRAP">
+        <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item.path)">
+            <div class="card-panel">
+                <div>
+                    <div :class="iconClass(item.className)">
+                        <svg-icon 
+                            :iconClass="item.icon" 
+                            className="icon"
+                        />
                     </div>
                 </div>
+                <div>
+                    <span class="name">{{item.name}}</span>
+                    <span>
+                        <span :style="{color:'#008000'}">{{item.has}}</span>/
+                        <span :style="{fontSize:'1.2rem'}">{{item.total}}</span>
+                    </span>
+                </div>
             </div>
-        <!-- </el-col> -->
-    <!-- </el-row> -->
+            <div class="progress">
+                <el-progress :percentage="item.percentage" :show-text="false"></el-progress>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -43,6 +39,7 @@
                         className:'icon-project',
                         total:0,
                         has:0,
+                        percentage:0
                     },
                     {
                         name:'设备',
@@ -50,7 +47,8 @@
                         path:'/project',
                         className:'icon-equip',
                         total:0,
-                        has:0
+                        has:0,
+                        percentage:0
                     },
                     {
                         name:'网关',
@@ -58,7 +56,8 @@
                         path:'/gateway',
                         className:'icon-gateway',
                         total:0,
-                        has:0
+                        has:0,
+                        percentage:0
                     }
                 ]
             }
@@ -77,6 +76,8 @@
                         if(!item)return;
                         this.$set(this.rows[index], 'total', item.sum );
                         this.$set(this.rows[index], 'has', index==0? item.normal:item.online );
+                        item.normal&&this.$set(this.rows[index], 'percentage', (item.normal/item.sum)*100);
+                        item.online&&this.$set(this.rows[index], 'percentage', (item.online/item.sum)*100 );
                     })
                 })
             },
