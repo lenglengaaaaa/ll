@@ -174,7 +174,9 @@
                 padding: 0px 20px;
                 border-right: 2px solid #e1e1e1;
                 img{
-                    width: 7rem;
+                    // width: 7rem;
+                    widows: 128px;
+                    height: 24px;
                 }
             }
             .title{
@@ -192,6 +194,7 @@
                 // padding-right: 7.2vw;
                 img{
                     width: 30rem;
+                    height: 382px;
                 }
             }
             .login{

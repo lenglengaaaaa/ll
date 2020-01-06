@@ -52,7 +52,7 @@
         },
         mounted () {
             this.initiate();
-            sleep(500).then(()=>{
+            sleep(1000).then(()=>{
                 this.flag = true;
             })
             this.mapHeight = this.$('.el-card__body').height();
@@ -86,6 +86,7 @@
         .el-col{
             padding: 0px !important;
             height: 100%;
+            flex: 1;
             &:nth-child(1){
                 margin: 0px 10px 0 10px;
             }

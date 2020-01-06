@@ -2,12 +2,14 @@
     <div class="COUNT_WRAP">
         <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item.path)">
             <div class="card-panel">
-                <div>
-                    <div :class="iconClass(item.className)">
-                        <svg-icon 
-                            :iconClass="item.icon" 
-                            className="icon"
-                        />
+                <div >
+                    <div class="iconSign">
+                        <div :class="iconClass(item.className)">
+                            <svg-icon 
+                                :iconClass="item.icon" 
+                                className="icon"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -106,76 +108,76 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-    }
-    .el-row {
-        flex-direction: column;
-        height: 100%;
         .grid-content {
-                &:nth-child(2){
-                    margin: 10px 0;
-                }
+            &:nth-child(2){
+                margin: 10px 0;
+            }
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            padding:10px;
+            padding-top: 20px;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+            border-radius: 5px;
+            .card-panel{
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding:10px;
-                padding-top: 20px;
-                height: 100%;
-                background: #fff;
-                cursor: pointer;
-                box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                border-radius: 5px;
-                .card-panel{
+                flex: 1;
+                .iconSign{
+                    padding: 25px 0;
+                }
+                .card-panel-icon-wrapper{
+                    padding:16px;
+                    border-radius: 6px;
+                }
+                div{
                     display: flex;
-                    .card-panel-icon-wrapper{
-                        padding:16px;
-                        border-radius: 6px;
+                    flex-direction: column;
+                    flex: 1;
+                    align-items: center;
+                    justify-content: center;
+                    .icon {
+                        width: 4.6875vw;
+                        height: 4.6875vw;
                     }
-                    div{
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1;
-                        align-items: center;
-                        justify-content: center;
-                        .icon {
-                            width: 4.6875vw;
-                            height: 4.6875vw;
-                        }
-                        .name{
-                            font-size: 1.2rem;
-                            font-weight: bold;
-                        }
-                        span{
-                            padding: 15px 0;
-                        }
+                    .name{
+                        font-size: 1.2rem;
+                        font-weight: bold;
                     }
-                    .icon-gateway{
-                        color: #f4516c;
-                    }
-                    .icon-project{
-                        color:#36a3f7;
-                    }
-                    .icon-equip{
-                        color: #34bfa3;
+                    span{
+                        padding: 15px 0;
                     }
                 }
-                .progress{
-                    padding: 20px;
-                    margin-top: 10px;
+                .icon-gateway{
+                    color: #f4516c;
                 }
-                &:hover{
-                    .card-panel-icon-wrapper{
-                        color:#fff;
-                    }
-                    .icon-gateway{
-                        background: #f4516c;
-                    }
-                    .icon-project{
-                        background:#36a3f7;
-                    }
-                    .icon-equip{
-                        background: #34bfa3;
-                    }
+                .icon-project{
+                    color:#36a3f7;
+                }
+                .icon-equip{
+                    color: #34bfa3;
                 }
             }
+            .progress{
+                padding: 20px;
+                margin-top: 10px;
+            }
+            &:hover{
+                .card-panel-icon-wrapper{
+                    color:#fff;
+                }
+                .icon-gateway{
+                    background: #f4516c;
+                }
+                .icon-project{
+                    background:#36a3f7;
+                }
+                .icon-equip{
+                    background: #34bfa3;
+                }
+            }
+        }
     }
 </style>

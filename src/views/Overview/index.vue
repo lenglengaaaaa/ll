@@ -190,6 +190,7 @@
                     margin-bottom: 5px;
                     .el-col{
                         padding: 0 !important;
+                        flex: 1;
                         &:nth-child(1){
                             margin: 0 10px 0 10px;
                         }
@@ -224,6 +225,7 @@
                 }
                 &-bottom{
                     height: 50%;
+                    flex: 1;
                 }
             }
         }
