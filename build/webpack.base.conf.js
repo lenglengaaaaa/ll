@@ -3,18 +3,12 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-
 const webpack = require('webpack');
 const CopyWebpackPlugin=require('copy-webpack-plugin');
-
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-// 引入 ParallelUglifyPlugin 插件
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -134,28 +128,6 @@ module.exports = {
     new CopyWebpackPlugin([ // 拷贝生成的文件到dist目录 这样每次不必手动去cv
       {from: 'static', to:'static'}
     ]),
-    // 使用 ParallelUglifyPlugin 并行压缩输出JS代码
-    new ParallelUglifyPlugin({
-      // 传递给 UglifyJS的参数如下：
-      uglifyJS: {
-        output: {
-          /* 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，可以设置为false */
-          beautify: false,
-          /* 是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为false */
-          comments: false
-        },
-        compress: {
-          /* 是否删除代码中所有的console语句，默认为不删除，开启后，会删除所有的console语句 */
-          drop_console: false,
-          /* 是否内嵌虽然已经定义了，但是只用到一次的变量，比如将 var x = 1; y = x, 转换成 y = 5, 默认为不转换，为了达到更好的压缩效果，可以设置为false */
-          collapse_vars: false,
-          /* 是否提取出现了多次但是没有定义成变量去引用的静态值，比如将 x = 'xxx'; y = 'xxx'  转换成
-            var a = 'xxxx'; x = a; y = a; 默认为不转换，为了达到更好的压缩效果，可以设置为false
-          */
-          reduce_vars: false
-        }
-      }
-    }),
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
