@@ -92,7 +92,7 @@
             }
             .box-card{
                 border-radius: 5px;
-                height: 100%;
+                height:calc(100% - 1px);
                 background: #fff;
                 box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
                 .el-card__header{

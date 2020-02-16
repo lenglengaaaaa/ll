@@ -104,10 +104,10 @@
         }
     }
     .COUNT_WRAP{
-        height: inherit;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        // justify-content: space-around;
         .grid-content {
             &:nth-child(2){
                 margin: 10px 0;
@@ -129,7 +129,7 @@
                     padding: 25px 0;
                 }
                 .card-panel-icon-wrapper{
-                    padding:16px;
+                    padding:0.5rem;
                     border-radius: 6px;
                 }
                 div{
@@ -139,8 +139,8 @@
                     align-items: center;
                     justify-content: center;
                     .icon {
-                        width: 4.6875vw;
-                        height: 4.6875vw;
+                        width: 3.5rem;
+                        height: 60px;
                     }
                     .name{
                         font-size: 1.2rem;
