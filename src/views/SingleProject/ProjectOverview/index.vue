@@ -28,13 +28,6 @@
                     />
                     <cc-empty v-else/>
                 </el-card>
-                <!-- <div class="data-content" >
-                    <CategoryChart
-                        v-if="equipList.length" 
-                        :equipList="equipList"
-                    />
-                    <cc-empty v-else/>
-                </div> -->
             </el-col>
             <el-col :span="16" :xs="24" class="mapBox">
                 <el-card 
