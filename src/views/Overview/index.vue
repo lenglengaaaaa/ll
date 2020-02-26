@@ -151,6 +151,9 @@
                         }
                     }
                 }
+                .data-content{
+                    height: 400px !important;
+                }
             }
         }
     }

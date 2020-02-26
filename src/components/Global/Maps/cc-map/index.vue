@@ -2,7 +2,6 @@
     <div 
         :id="vid" 
         class="map"
-        :style="{'height':`${mapHeight}px`}"
     />
 </template>
 
@@ -23,10 +22,6 @@
                 type:Array,
                 default:()=>[]
             },
-            mapHeight:{
-                type:Number,
-                default:500
-            }
         },
         data() {
             return {
@@ -44,9 +39,6 @@
             marker(newValue, oldValue) {
                 this.initAMap();
             },
-            mapHeight(){
-                this.initAMap();
-            }
         },
         methods: {
             //初始化地图

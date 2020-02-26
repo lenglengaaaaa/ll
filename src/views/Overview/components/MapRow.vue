@@ -6,13 +6,10 @@
                     <span>设备地图</span>
                     <el-button class="clearfix-right" type="text" @click="magnify('equip')">放大</el-button>
                 </div>
-                <div>
-                    <cc-map  
-                        vid="appliaction"
-                        :marker="deviceMarkers"
-                        :mapHeight="mapHeight"
-                    />
-                </div>
+                <cc-map  
+                    vid="appliaction"
+                    :marker="deviceMarkers"
+                />
             </el-card>
         </el-col>
         <el-col :span="12" :xs="24">
@@ -21,14 +18,11 @@
                     <span>网关地图</span>
                     <el-button class="clearfix-right" type="text" @click="magnify('gateway')">放大</el-button>
                 </div>
-                <div>
-                    <cc-map 
-                        vid="gateway"
-                        :marker="gatewayMarkers"
-                        v-if="flag"
-                        :mapHeight="mapHeight"
-                    />
-                </div>
+                <cc-map 
+                    vid="gateway"
+                    :marker="gatewayMarkers"
+                    v-if="flag"
+                />
             </el-card>
         </el-col>
         <el-dialog
@@ -45,7 +39,6 @@
             <cc-map  
                 vid="magnify"
                 :marker="dialogMarkers"
-                :mapHeight="700"
             />
         </el-dialog>
     </el-row>
@@ -63,21 +56,14 @@
                 dialogMarkers:[],
                 dialogTitle:'',
                 flag:false,
-                mapHeight:0,
                 dialogVisible: false
             }
-        },
-        created () {
-            window.addEventListener('resize',()=>{
-                this.mapHeight = this.$('.el-card__body').height();
-            },false);
         },
         mounted () {
             this.initiate();
             sleep(1000).then(()=>{
                 this.flag = true;
             })
-            this.mapHeight = this.$('.el-card__body').height();
         },
         methods: {
             ...mapActions('overall',[
@@ -93,12 +79,9 @@
             },
             magnify(title){
                 this.dialogMarkers = [];
-                console.log(this.dialogMarkers,'dialogMarkers1')
-                
                 this.dialogVisible = true;
                 this.dialogTitle = title === 'equip'? '设备地图': '网关地图';
                 this.dialogMarkers = title === 'equip' ? this.deviceMarkers : this.gatewayMarkers;
-                console.log(this.dialogMarkers,'dialogMarkers2')
             },
             handleClose(done) {
                 done();
@@ -145,6 +128,14 @@
                     padding: 10px;
                     height: calc(100% - 38px);
                 }
+                .map{
+                        height: calc(100% - 0px);
+                }
+                @media screen and (max-width: 870px){
+                    .map{
+                        height: 500px;
+                    }
+                }
             }
         }
     }
@@ -163,6 +154,9 @@
         }
         .el-dialog__body{
             padding: 0px;
+            .map{
+                height: 700px;
+            }
         }
     }
 </style>

@@ -1,41 +1,38 @@
 <template>
-    <div>
-        <div>
-            <el-row :gutter="20" type="flex" >
-                <el-col :span="12" :xs="24">
-                    <div class="data-content" >
-                        <SoeChart
-                            v-if="soeCount.length"
-                            :soeCount="soeCount"
-                        />
-                        <cc-empty v-else/>
-                    </div>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <div class="data-content" >
-                        <CategoryChart
-                            v-if="equipList.length" 
-                            :equipList="equipList"
-                        />
-                        <cc-empty v-else/>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
-        <div>
-            <el-card class="box-card">
-                <div slot="header" class="clearfix"  >
-                    <span>设备地图</span>
+    <div class="pjOverview">
+        <el-row :gutter="15" type="flex" >
+            <el-col :span="8" :xs="24" class="chartBox">
+                <div class="data-content" >
+                    <SoeChart
+                        v-if="soeCount.length"
+                        :soeCount="soeCount"
+                    />
+                    <cc-empty v-else/>
                 </div>
-                <div>
+                <div class="data-content" >
+                    <CategoryChart
+                        v-if="equipList.length" 
+                        :equipList="equipList"
+                    />
+                    <cc-empty v-else/>
+                </div>
+            </el-col>
+            <el-col :span="16" :xs="24" class="mapBox">
+                <el-card 
+                    class="box-card" 
+                    :body-style="{height: 'calc(100% - 77px)'}"
+                >
+                    <div slot="header" class="clearfix"  >
+                        <span>设备地图</span>
+                    </div>
                     <cc-map 
                         :marker="marker"
                         vid="apply"
                         :zoom="19"
                     />
-                </div>
-            </el-card>
-        </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -114,32 +111,72 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
     @media screen and (max-width: 870px) {
-        .el-row{
+        .pjOverview{
+            .el-row{
                 flex-direction: column;
-        }
-    }
-    .el-row {
-        margin-bottom: 20px;
-        .data-content {
-                padding: 30px 0px;
-                background: #fff;
-                margin-bottom: 20px;
-                box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                height: 400px;
+                .chartBox{
+                    .data-content{
+                        height: 400px;
+                        margin-bottom: 10px;
+                    }
+                }   
+                .mapBox{
+                    .box-card{
+                        .map{
+                            height: 500px;
+                        }
+                    }   
+                }
             }
-    }
-    .box-card{
-        background: #fff;
-        box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-        .el-card__header{
-            padding: 8px 15px;
         }
-        .clearfix{
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #171717;
+    }
+    .pjOverview{
+        height: 100%;
+        .el-row {
+            height: inherit;
+            .chartBox{
+                display: flex;
+                flex-direction: column;
+                .data-content {
+                    flex: 1;
+                    padding: 15px 0px;
+                    background: #fff;
+                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                    border-radius: 10px;
+                    &:nth-child(1){
+                        margin-bottom: 10px;
+                    }
+                    #soe,#category{
+                        height: calc(100% - 0px);
+                    }
+                }
+            }
+            .mapBox{
+                .box-card{
+                    height: 100%;
+                    background: #fff;
+                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                    .el-card__header{
+                        padding: 8px 15px;
+                    }
+                    .clearfix{
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                        color: #171717;
+                    }
+                    .map{
+                        height: calc(100% - 0px) ;
+                    }
+                    @media screen and (max-width: 870px){
+                        .map{
+                            height: 500px;
+                        }
+                    }
+                }
+                
+            }
         }
     }
 </style>
