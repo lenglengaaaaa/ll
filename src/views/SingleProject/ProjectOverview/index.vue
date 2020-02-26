@@ -1,7 +1,7 @@
 <template>
     <div class="pjOverview">
         <el-row :gutter="15" type="flex" >
-            <el-col :span="8" :xs="24" class="chartBox">
+            <el-col :span="10" :xs="24" class="chartBox">
                 <el-card 
                     class="box-card" 
                     :body-style="{height: 'calc(100% - 77px)'}"
@@ -29,7 +29,7 @@
                     <cc-empty v-else/>
                 </el-card>
             </el-col>
-            <el-col :span="16" :xs="24" class="mapBox">
+            <el-col :span="14" :xs="24" class="mapBox">
                 <el-card 
                     class="box-card" 
                     :body-style="{height: 'calc(100% - 77px)'}"

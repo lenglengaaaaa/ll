@@ -96,6 +96,13 @@
             flex-direction: column;
             .el-col{
                 margin: 10px 0 !important;
+                .box-card{
+                    .clearfix{
+                        &-right{
+                            display: none;
+                        }
+                    }
+                }
             }
         }
     }
