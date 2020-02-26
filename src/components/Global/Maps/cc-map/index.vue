@@ -80,6 +80,9 @@
                             renderClusterMarker: this._renderClusterMarker
                         });
                         cluster.on('click',this.clusterClick)
+
+                        var tool = new this.resMap.ToolBar();
+                        this.map.addControl(tool);    
                     });
                 } catch (err) {}
             },

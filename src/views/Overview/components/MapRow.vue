@@ -4,6 +4,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix" >
                     <span>设备地图</span>
+                    <el-button class="clearfix-right" type="text" @click="magnify('equip')">放大</el-button>
                 </div>
                 <div>
                     <cc-map  
@@ -18,6 +19,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix" >
                     <span>网关地图</span>
+                    <el-button class="clearfix-right" type="text" @click="magnify('gateway')">放大</el-button>
                 </div>
                 <div>
                     <cc-map 
@@ -29,6 +31,23 @@
                 </div>
             </el-card>
         </el-col>
+        <el-dialog
+            :title="dialogTitle"
+            :visible.sync="dialogVisible"
+            v-if="dialogVisible"
+            top="7vh"
+            width="75%"
+            class="mapDialog"
+            :before-close="handleClose"
+            center
+            destroy-on-close
+        >
+            <cc-map  
+                vid="magnify"
+                :marker="dialogMarkers"
+                :mapHeight="700"
+            />
+        </el-dialog>
     </el-row>
 </template>
 
@@ -41,8 +60,11 @@
             return {
                 deviceMarkers:[],
                 gatewayMarkers:[],
+                dialogMarkers:[],
+                dialogTitle:'',
                 flag:false,
-                mapHeight:0
+                mapHeight:0,
+                dialogVisible: false
             }
         },
         created () {
@@ -68,6 +90,18 @@
                     this.deviceMarkers = device || [];
                     this.gatewayMarkers = gateway || [];
                 })
+            },
+            magnify(title){
+                this.dialogMarkers = [];
+                console.log(this.dialogMarkers,'dialogMarkers1')
+                
+                this.dialogVisible = true;
+                this.dialogTitle = title === 'equip'? '设备地图': '网关地图';
+                this.dialogMarkers = title === 'equip' ? this.deviceMarkers : this.gatewayMarkers;
+                console.log(this.dialogMarkers,'dialogMarkers2')
+            },
+            handleClose(done) {
+                done();
             }
         },
     }
@@ -102,6 +136,9 @@
                     font-size: 0.8rem;
                     font-weight: bold;
                     color: #171717;
+                    &-right{
+                        float: right; padding: 3px 0
+                    }
                 }
                 .el-card__body{
                     box-sizing: border-box;
@@ -111,5 +148,21 @@
             }
         }
     }
-    
+    .mapDialog{
+        .el-dialog__header{
+            border-radius: 10px 10px 0px 0px;
+            padding: 12px 20px;
+            background-color: #eee;
+            
+            .el-dialog__title{
+                font-weight: bold;
+            }
+            .el-dialog__headerbtn{
+                top: 15px;
+            }
+        }
+        .el-dialog__body{
+            padding: 0px;
+        }
+    }
 </style>
