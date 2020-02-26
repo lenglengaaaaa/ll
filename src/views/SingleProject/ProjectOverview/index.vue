@@ -2,20 +2,39 @@
     <div class="pjOverview">
         <el-row :gutter="15" type="flex" >
             <el-col :span="8" :xs="24" class="chartBox">
-                <div class="data-content" >
+                <el-card 
+                    class="box-card" 
+                    :body-style="{height: 'calc(100% - 77px)'}"
+                >
+                    <div slot="header" class="clearfix"  >
+                        <span>项目SOE总数</span>
+                    </div>
                     <SoeChart
                         v-if="soeCount.length"
                         :soeCount="soeCount"
                     />
                     <cc-empty v-else/>
-                </div>
-                <div class="data-content" >
+                </el-card>
+                <el-card 
+                    class="box-card" 
+                    :body-style="{height: 'calc(100% - 77px)'}"
+                >
+                    <div slot="header" class="clearfix"  >
+                        <span>项目设备数量</span>
+                    </div>
                     <CategoryChart
                         v-if="equipList.length" 
                         :equipList="equipList"
                     />
                     <cc-empty v-else/>
-                </div>
+                </el-card>
+                <!-- <div class="data-content" >
+                    <CategoryChart
+                        v-if="equipList.length" 
+                        :equipList="equipList"
+                    />
+                    <cc-empty v-else/>
+                </div> -->
             </el-col>
             <el-col :span="16" :xs="24" class="mapBox">
                 <el-card 
@@ -117,8 +136,8 @@
             .el-row{
                 flex-direction: column;
                 .chartBox{
-                    .data-content{
-                        height: 400px;
+                    .box-card{
+                        height: 500px;
                         margin-bottom: 10px;
                     }
                 }   
@@ -136,6 +155,29 @@
         height: 100%;
         .el-row {
             height: inherit;
+            .chartBox{
+                display: flex;
+                flex-direction: column;
+                .box-card{
+                    flex:1;
+                    background: #fff;
+                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                    .el-card__header{
+                        padding: 8px 15px;
+                    }
+                    .clearfix{
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                        color: #171717;
+                    }
+                    #soe,#category{
+                        height: calc(100% - 0px);
+                    }
+                    &:nth-child(1){
+                        margin-bottom: 10px;
+                    }
+                }
+            }
             .chartBox{
                 display: flex;
                 flex-direction: column;
@@ -175,7 +217,6 @@
                         }
                     }
                 }
-                
             }
         }
     }

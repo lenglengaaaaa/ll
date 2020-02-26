@@ -158,4 +158,7 @@
     .info{
         font-size: 14px;
     }
+    .amap-info-content{
+        max-height: 250px;
+    }
 </style>
