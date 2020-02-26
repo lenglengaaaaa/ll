@@ -259,7 +259,7 @@
             handleSizeChange(val) {
                 this.size = val;
                 this.current =1;
-                this.getListData({ size:val });
+                this.getListData({ size:val, current:1 });
                 this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
             },
             //切页
