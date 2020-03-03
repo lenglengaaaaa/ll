@@ -401,6 +401,7 @@ export const api={
     //为账户分配权限(用于创建&编辑) post
     allotAccountPower:`${url}/e_view/role/allocation/permission/account`,
 
+    //测试
 }
 
 export default function(Vue){
