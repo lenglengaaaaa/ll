@@ -339,7 +339,7 @@ export const api={
     //告警导出
     exportAlarm:`${url}/e_view/warning/execl`,
 
-    //=======================================系统操作管理=====================================================
+    //=======================================应用管理=====================================================
 
     //获取应用列表 post
     getAppList:`${url}/e_view/app/list`,
@@ -356,7 +356,50 @@ export const api={
     //=======================================系统操作管理=====================================================
 
     //获取系统操作管理列表 post
-    operationList:`${url}/e_view/operation/find/list`
+    operationList:`${url}/e_view/operation/find/list`,
+
+    //=======================================权限管理=====================================================
+
+    //创建角色 post
+    createRole:`${url}/e_view/role/create`,
+
+    //验证角色名称是否已经被使用 get
+    verifyRoleName:`${url}/e_view/role/verify/name/isUse`,
+
+    //编辑角色 post
+    updateRole:`${url}/e_view/role/update`,
+
+    //根据角色id，获取其下的所有子角色 get
+    getChildRole:`${url}/e_view/role/searchSon`,
+
+    //====================================前面用于角色管理中创建、编辑、删除等
+
+    //获取项目整个权限树 get
+    getPowerTree:`${url}/e_view/permission/tree`,
+
+    //获取父级相关的权限配置信息 get 7.2.5
+    //用于角色权限&账户管理分配权限
+    getParentLevelPower:`${url}/e_view/role/permission/info`,
+
+    //获取指定账户 所属角色的权限信息 get 7.2.6
+    //查询某个账户它的角色权限相关信息，账户进行权限修改或者分配时，需要先获到它的角色权限
+    getAccountPower:`${url}/e_view/role/accountOfRole/permission`,
+
+    //获取指定角色父角色的权限信息 get 7.2.7
+    //查询指定的角色 它的 父角色的权限相关信息，角色进行权限修改或者分配时，需要先获到它的父角色权限
+    getRolePower:`${url}/e_view/role/parent/permission`,
+
+    //顺序 7.2.5 -> 7.2.6 or 7.2.7
+
+    //根据父类的资产id，获取所有的其子类子类资产相关权限 post
+    //给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
+    getSubClassPower:`${url}/e_view/role/assest/change`,
+
+    //为角色分配权限(用于创建&编辑) post
+    allotRolePower:`${url}/e_view/role/allocation/permission`,
+
+    //为账户分配权限(用于创建&编辑) post
+    allotAccountPower:`${url}/e_view/role/allocation/permission/account`,
 
 }
 
