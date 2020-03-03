@@ -161,8 +161,9 @@
         }
         .el-dialog__body{
             padding: 0px;
+            height: calc(100vh - 20vh);
             .map{
-                height: 700px;
+                height: calc(100% - 0px);
             }
         }
     }
