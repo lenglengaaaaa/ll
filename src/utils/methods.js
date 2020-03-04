@@ -28,12 +28,14 @@ export const resetSingle =(_this,arr=[],form="equipForm")=>{
  */
 export const judgeLastData=(list,current)=>{
     const nextSize = list.length - 1;
-    if(!nextSize){
+    if(nextSize === 0 ){
         if(current===1){
             return 1;
         }else{
             return current -1;
         }
+    }else{
+        return 1
     }
 }
 

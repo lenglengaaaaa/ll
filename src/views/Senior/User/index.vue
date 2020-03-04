@@ -13,21 +13,25 @@
                     prop="userName"
                     label="用户名称"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
                     prop="name"
                     label="账号"
                     align="center"
-                    sortable
                     show-overflow-tooltip
+                />
+                <el-table-column
+                    prop="roleName"
+                    label="父角色(权限)"
+                    align="center"
+                    show-overflow-tooltip
+                    :formatter="(row)=>row.roleName || '-' " 
                 />
                 <el-table-column
                     prop="phoneNum"
                     label="手机号码"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                     :formatter="(row)=>row.phoneNum || '-' " 
                 />
@@ -35,7 +39,6 @@
                     prop="email"
                     label="邮箱"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                     :formatter="(row)=>row.email || '-' " 
                 />
@@ -51,6 +54,7 @@
                     label="创建时间"
                     align="center"
                     sortable
+                    show-overflow-tooltip
                     :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
                 />
             </template>

@@ -40,6 +40,18 @@
                     </el-col>
                 </template>
                 <el-col :span="12" :xs="24">
+                    <el-form-item label="父角色(权限)" prop="roleId">
+                        <el-select v-model="form.roleId" placeholder="所属父角色" :disabled="this.editFlag">
+                            <el-option l
+                                v-for="item in roleList"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
+                            />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
                     <el-form-item label="手机号码" prop="phoneNum">
                         <el-input v-model.number="form.phoneNum" placeholder="请输入手机号码" maxlength="11" type="tel"></el-input>
                     </el-form-item>
@@ -140,8 +152,12 @@
                     checkPass: [{ required: true, validator: checkPass, trigger: 'blur' }],
                     operationPwd: [{ required: true, validator: operatePass, trigger: 'blur' }],
                     phoneNum: [{ validator: checkPhone, trigger: 'blur' }],
-                    email: [{  validator: checkEmail, trigger: 'blur' }]
-                }
+                    email: [{  validator: checkEmail, trigger: 'blur' }],
+                    roleId: [
+                        { required: true, message: '请选择所属父角色', trigger: 'change' },
+                    ],
+                },
+                roleList:[]
             }
         },
         watch: {
@@ -152,10 +168,19 @@
                 }
             },
         },
+        created () {
+            this.getChildRole(null).then(res=>{
+                if(!res) return;
+                this.roleList = res;
+            });
+        },
         methods: {
             ...mapActions('user',[
                 'createAccount',
                 'updateAccount'
+            ]),
+            ...mapActions('permission',[
+                'getChildRole',
             ]),
             handleClose(result=false) {
                 this.form = restForm;

@@ -21,10 +21,10 @@ const seniorRouter = {
                     }
                 },
                 {
-                    path:'permission',
-                    name:'Permission',
-                    component: () => import('@/views/Senior/Permission'),
-                    redirect:'permission/list',
+                    path:'role',
+                    name:'Role',
+                    component: () => import('@/views/Senior/Role'),
+                    redirect:'role/list',
                     meta: { 
                         title:'角色管理',
                         icon: 'jurisdiction'
@@ -32,13 +32,13 @@ const seniorRouter = {
                     children:[
                         {
                             path:'list',
-                            name:'PermissionList',
-                            component: () => import('@/views/Senior/Permission/List'),
+                            name:'RoleList',
+                            component: () => import('@/views/Senior/role/List'),
                         },
                         {
-                            path:'authority',
-                            name:'Authority',
-                            component: () => import('@/views/Senior/Permission/Authority'),
+                            path:'permission',
+                            name:'Permission',
+                            component: () => import('@/views/Senior/role/Permission'),
                             meta:{title:'权限分配'}
                         }
                     ]

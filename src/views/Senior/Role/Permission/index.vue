@@ -102,7 +102,7 @@
                 }else{
 
                 }
-                this.$router.push({name:'PermissionList'});
+                this.$router.push({name:'RoleList'});
             }
         },
     }

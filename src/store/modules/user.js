@@ -148,6 +148,7 @@ const actions= {
         *      phoneNum 手机号
         *      email 邮箱
         *      description 描述
+        *      roleId 账户所属角色
         * }
         */
     createAccount({commit},obj){

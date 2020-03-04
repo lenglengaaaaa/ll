@@ -372,8 +372,8 @@ export const api={
     //编辑角色 post
     updateRole:`${url}/e_view/role/update`,
 
-    //获取用户列表 get
-    getRoleList:`${url}/e_view/role/searchSon`,
+    //获取角色列表 post
+    getRoleList:`${url}/e_view/role/page`,
 
     //获取角色基本信息 get
     getRoleInfo:`${url}/e_view/role/info`,

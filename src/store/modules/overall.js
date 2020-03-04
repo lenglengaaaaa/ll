@@ -157,9 +157,9 @@ const actions= {
     /**
      * 项目列表
      * @param {
-        *      size 显示数量
-        *      current 当前页码
-        * }
+    *      size 显示数量
+    *      current 当前页码
+    * }
      */
     getProjectList({commit},obj){
         return request({
