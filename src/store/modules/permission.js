@@ -22,6 +22,8 @@ const mutations={
 }
 
 const actions= {
+    //===============================================用户管理===================================================
+
     /**
     * 获取用户列表 ✔
     * @param {
@@ -191,6 +193,203 @@ const actions= {
             if(res&&res.code===10000000){
                 tip(res.meassage,'success')
                 return true;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    //==============================权限管理==============================================
+
+    /**
+    * 获取项目整个权限树
+    */
+    getPowerTree({commit}){
+        return request({
+            method:'get',
+            url:`${api.getPowerTree}`,
+            data:{}
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    * 获取父级相关的权限配置信息 
+    * @param {
+    *      role Or accountId 角色/账户  的主键自增id
+    *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
+    * }
+    */
+    getParentLevelPower({commit},obj){
+        return request({
+            method:'get',
+            url:`${api.getParentLevelPower}`,
+            data:{
+                role:obj.role || null ,
+                accountId:obj.accountId || null,
+                type:obj.type
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    * 根据父类的资产id，获取所有的其子类子类资产相关权限
+    * 给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
+    * @param {
+    *      role Or accountId 角色/账户  的主键自增id
+    *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
+    *      assetArr 勾选的资产id 数组 []
+    *      assetType 0 项目 ， 1 台区， 2 配电房 井盖和配电柜下无权限配置的资产
+    * }
+    */
+    getSubClassAssest({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getSubClassAssest}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    //===============角色==============================
+
+    /**
+    * 获取指定角色父角色的权限信息 
+    * 角色进行权限修改或者分配时，需要先获到它的父角色权限
+    * @param {
+    *      roleId 角色ID
+    * }
+    */
+    getRoleParentPower({commit},roleId){
+        return request({
+            method:'get',
+            url:`${api.getRoleParentPower}`,
+            data:{
+                roleId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    * 为角色分配权限(用于创建&编辑)
+    * 初次为新建的角色分配权限，所有的主键id 都为null
+    * 修改角色的权限 ，此时存在三种情况，
+    *   id为null，说明修改时增加赋予的权限 增加时id时null
+        id项被删除，删除了相关权限， 不用传
+        id对应的数据permissionIds 发生改变 修改时permisssionIds改变
+    * @param {
+    *      personId                 角色id
+    *      id                       不同权限对应的主键id, 新增时为null，或者不传
+    *      name                     资产名称，此接口无意义，不传
+    *      assetId                  资产id，基础权限和菜单权限为null
+    *      permissionIds            权限id字符串，逗号隔开
+    *      basiPermissionIds        基础权限对象 {}
+    *      menuPermissionIds        菜单权限对象 {}
+    *      projecPermissionList     项目权限对象数组 []
+    *      courtsPermissionList     台区权限对象数组 []
+    *      roomPermissionList       配电房权限对象数组 []
+    *      chestPermissionList      配电柜权限对象数组 []
+    *      trapPermission           台区权限对象数组 []
+    * }
+    */
+    allotRolePower({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.allotRolePower}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return true;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    //===============账户==============================
+    /**
+    * 获取某个账户它的角色权限相关信息 
+    * 账户进行权限修改或者分配时，需要先获到它的角色权限
+    * @param {
+    *      accountId 账户id
+    * }
+    */
+    getAccountParentPower({commit},accountId){
+        return request({
+            method:'get',
+            url:`${api.getAccountParentPower}`,
+            data:{
+                accountId
+            }
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+    * 为账户分配权限(用于创建&编辑)
+    * 修改账户的权限 ，此时存在三种情况，
+    *   id为null，说明修改时增加赋予的权限 增加时id时null
+        id项被删除，删除了相关权限， 不用传
+        id对应的数据permissionIds 发生改变 修改时permisssionIds改变
+    * @param {
+    *      personId                 角色id
+    *      id                       不同权限对应的主键id, 新增时为null，或者不传
+    *      name                     资产名称，此接口无意义，不传
+    *      assetId                  资产id，基础权限和菜单权限为null
+    *      permissionIds            权限id字符串，逗号隔开
+    *      basiPermissionIds        基础权限对象 {}
+    *      menuPermissionIds        菜单权限对象 {}
+    *      projecPermissionList     项目权限对象数组 []
+    *      courtsPermissionList     台区权限对象数组 []
+    *      roomPermissionList       配电房权限对象数组 []
+    *      chestPermissionList      配电柜权限对象数组 []
+    *      trapPermission           台区权限对象数组 []
+    * }
+    */
+    allotAccountPower({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.allotAccountPower}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000){
+                tip(res.meassage,'success')
+                return res.data;
             }else{
                 res&&tip(res.meassage)
                 return false;

@@ -392,17 +392,17 @@ export const api={
 
     //获取指定账户 所属角色的权限信息 get 7.2.6
     //查询某个账户它的角色权限相关信息，账户进行权限修改或者分配时，需要先获到它的角色权限
-    getAccountPower:`${url}/e_view/role/accountOfRole/permission`,
+    getAccountParentPower:`${url}/e_view/role/accountOfRole/permission`,
 
     //获取指定角色父角色的权限信息 get 7.2.7
     //查询指定的角色 它的 父角色的权限相关信息，角色进行权限修改或者分配时，需要先获到它的父角色权限
-    getRolePower:`${url}/e_view/role/parent/permission`,
+    getRoleParentPower:`${url}/e_view/role/parent/permission`,
 
     //顺序 7.2.5 -> 7.2.6 or 7.2.7
 
     //根据父类的资产id，获取所有的其子类子类资产相关权限 post
     //给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
-    getSubClassPower:`${url}/e_view/role/assest/change`,
+    getSubClassAssest:`${url}/e_view/role/assest/change`,
 
     //为角色分配权限(用于创建&编辑) post
     allotRolePower:`${url}/e_view/role/allocation/permission`,
