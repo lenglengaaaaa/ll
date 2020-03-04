@@ -366,11 +366,20 @@ export const api={
     //验证角色名称是否已经被使用 get
     verifyRoleName:`${url}/e_view/role/verify/name/isUse`,
 
+    //根据账户id，获取其下的所有子角色 get
+    getChildRole:`${url}/e_view/role/searchSon`,
+
     //编辑角色 post
     updateRole:`${url}/e_view/role/update`,
 
-    //根据角色id，获取其下的所有子角色 get
-    getChildRole:`${url}/e_view/role/searchSon`,
+    //获取用户列表 get
+    getRoleList:`${url}/e_view/role/searchSon`,
+
+    //获取角色基本信息 get
+    getRoleInfo:`${url}/e_view/role/info`,
+
+    //删除角色 get
+    deleteRole:`${url}/e_view/role/delete`,
 
     //====================================前面用于角色管理中创建、编辑、删除等
 
@@ -401,7 +410,6 @@ export const api={
     //为账户分配权限(用于创建&编辑) post
     allotAccountPower:`${url}/e_view/role/allocation/permission/account`,
 
-    //测试
 }
 
 export default function(Vue){
