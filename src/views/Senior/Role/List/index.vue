@@ -110,6 +110,7 @@
             },
             skipTo(type,row) {
                 if(type==='check'){
+                    sessionStorage.setItem('obj',JSON.stringify(row));
                     this.$router.push({name:'Permission'});
                     return;
                 }

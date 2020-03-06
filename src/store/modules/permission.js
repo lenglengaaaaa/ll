@@ -221,9 +221,10 @@ const actions= {
     },
 
     /**
-    * 获取父级相关的权限配置信息 
+    * 获取指定 角色/账户  id的权限信息
+    * 根据角色或者账户的id，获取相关的权限配置信息 
     * @param {
-    *      role Or accountId 角色/账户  的主键自增id
+    *      roleOrAccountId 角色/账户  的主键自增id
     *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
     * }
     */
@@ -232,8 +233,7 @@ const actions= {
             method:'get',
             url:`${api.getParentLevelPower}`,
             data:{
-                role:obj.role || null ,
-                accountId:obj.accountId || null,
+                roleOrAccountId:obj.roleOrAccountId,
                 type:obj.type
             }
         }).then(res=>{
@@ -250,7 +250,7 @@ const actions= {
     * 根据父类的资产id，获取所有的其子类子类资产相关权限
     * 给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
     * @param {
-    *      role Or accountId 角色/账户  的主键自增id
+    *      roleOrAccountId 角色/账户  的主键自增id
     *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
     *      assetArr 勾选的资产id 数组 []
     *      assetType 0 项目 ， 1 台区， 2 配电房 井盖和配电柜下无权限配置的资产

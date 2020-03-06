@@ -386,19 +386,18 @@ export const api={
     //获取项目整个权限树 get
     getPowerTree:`${url}/e_view/permission/tree`,
 
-    //获取父级相关的权限配置信息 get 7.2.5
-    //用于角色权限&账户管理分配权限
+    //获取指定 角色/账户  id的权限信息  7.2.5
     getParentLevelPower:`${url}/e_view/role/permission/info`,
 
     //获取指定账户 所属角色的权限信息 get 7.2.6
-    //查询某个账户它的角色权限相关信息，账户进行权限修改或者分配时，需要先获到它的角色权限
+    //查询某个账户它的角色权限相关信息，账户进行权限修改或者分配时，需要先获到它的父角色权限
     getAccountParentPower:`${url}/e_view/role/accountOfRole/permission`,
 
     //获取指定角色父角色的权限信息 get 7.2.7
     //查询指定的角色 它的 父角色的权限相关信息，角色进行权限修改或者分配时，需要先获到它的父角色权限
     getRoleParentPower:`${url}/e_view/role/parent/permission`,
 
-    //顺序 7.2.5 -> 7.2.6 or 7.2.7
+    //顺序 7.2.6 or 7.2.7 -> 7.2.5
 
     //根据父类的资产id，获取所有的其子类子类资产相关权限 post
     //给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
