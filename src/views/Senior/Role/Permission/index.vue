@@ -2,8 +2,7 @@
     <div class="Permission-container">
         <div class="wrap">
             <el-row >
-                <el-col :span="6">模块</el-col>
-                <el-col :span="18">方法</el-col>
+                <el-col :span="24">权限分配</el-col>
             </el-row>
             <el-tree
                 :props="props"
@@ -15,8 +14,7 @@
                 ref="tree"
                 @check="currentChange"
                 @check-change="handleCheckChange"
-            >
-            </el-tree>
+            />
             <el-row >
                 <el-col :span="24">
                     <el-button type="primary" size="small" @click="opera('save')">保存</el-button>
@@ -90,6 +88,9 @@
             //获取当前角色 / 账户 权限树
             async getCurrentRoleOrAccountTree(){
                 let childList = {};
+
+                //💥需要为树结构的每一层增加一个唯一的nodeId
+                //(1) 获取完整的权限树
                 const fullTree = await this.getPowerTree().then(res=>{
                     if(!res) return false;
                     //为节点添加nodeId标识
@@ -110,28 +111,14 @@
                     this.childList = childList;
                     return result;
                 }) ;
+
+                //(2) 获取当前角色/用户父角色权限树 , 和完整的权限树进行匹配 , 父角色不存在的权限Node进行删除
                 await this.getRoleParentPower(this.currentObj.id).then(res=>{
                     if(!res || !fullTree) return;
                     for(let i in res){
+                        //分数组和非数组两种情况
                         if(Array.isArray(res[i])){
                             this.addBottomNodeId(res[i],i);
-                            // res[i].map(item=>{
-                            //     item.nodeId = `${i}${item.assetId}`;
-
-                            //     item.level = 2;
-                            //     let powerIds = [];
-                            //     const tempArr = JSON.parse(JSON.stringify(childList))[i];
-                            //     const list = tempArr.reduce((pre,cur)=>{
-                            //         cur.nodeId = `${cur.nodeId}${item.assetId}`
-                            //         powerIds.push(cur.nodeId);
-                            //         return [...pre,cur]
-                            //     },[])
-                            //     item.childList = list;
-
-                            //     const arr = [item.nodeId,...powerIds];
-                            //     item.permissionIds = arr.join(',');
-                            //     return item ;
-                            // })
                         }else{
                             const arr = res[i].permissionIds.split(',').map(item=> `${i}${item}`)
                             res[i].permissionIds = arr.join(',');
@@ -152,7 +139,9 @@
                         return [...pre,result];
                     },[])
                 })
-                //获取当前角色权限信息
+
+                //获取当前角色已配置过的权限信息 , 为node添加选中状态 
+                //注意: 保存项目 和 各资产的id信息用于提交时应用 以及 重新获取资产改变id
                 await this.getPowerInfo({
                     roleOrAccountId:this.currentObj.id,
                     type:0
@@ -164,6 +153,8 @@
                     for(let i in res){
                         //替换台区、配电房、配电柜、井盖列表
                         //如果项目为空 , 下方的权限都为不可选状态
+
+                        //存在的项目添加选中状态
                         if(i==='projecPermissionList'){
                             res[i].length&&res[i].forEach(item=>{
                                 item.permissionIds.split(',').forEach(k=>{
@@ -178,7 +169,6 @@
                                 ...this.powerInfo,
                                 [i]:res[i]
                             }
-
                             res[i].length&&res[i].map(item=>{
                                 item.nodeId = `${i}${item.assetId}`;
                                 
@@ -197,6 +187,7 @@
                                 return item ;
                             })
                         }else{
+                            //基础设置和菜单设置状态改变
                             res[i]&&res[i].permissionIds.split(',').forEach(item=> {
                                 this.$refs.tree.setChecked(`${i}${item}`,true)
                             })
@@ -226,6 +217,8 @@
                     },[])
                     console.log(this.tree,'tree')
                 });
+
+                //(4) 各资产添加选中状态
                 await this.tree.forEach(item=>{
                     if(item.permissionName !== 'basiPermissionIds' && item.permissionName !== 'menuPermissionIds' && item.permissionName !== 'projecPermissionList'){
                         item.childList.length&&item.childList.forEach(i=>{
@@ -237,7 +230,6 @@
                         })
                     }
                 })
-                // await this.$refs.tree.setCheckedNodes(this.tree);
             },
             /**
              * 对象方面,通过递归查询父权限与权限树存在部分,不存在的进行remove
@@ -303,15 +295,17 @@
                 const permissionName = curNode.permissionName;
                 //当level为1时,表示最外层
                 if(curNode.level === 1 && obj[curNode.permissionName]){
-                    //当curCheckStatus状态为false时, 台区、配电房、配电柜、井盖权限列表为空
-                    //当curCheckStatus状态为false时, 配电房、配电柜权限列表为空
-                    //当curCheckStatus状态为false时, 配电柜权限列表为空
+                    //当取消'项目'全选时, 台区、配电房、配电柜、井盖权限列表为空
+                    //当取消'台区'全选时, 配电房、配电柜权限列表为空
+                    //当取消'配电房'全选时, 配电柜权限列表为空
                     if(!this.curCheckStatus){ 
                         //取消全选
                         obj[curNode.permissionName].forEach(item=>this.$refs.tree.setChecked(item ,false));
                         this.getSonAsset( [], assetType[permissionName] );
                     }else{
                         //全选
+
+                        //😑当选择台区时应该只返回配电房列表 台区 -> 配电房 -> 配电柜
                         const assetIds = curNode.childList.length&&curNode.childList.map( item => item.assetId);
                         if(!assetIds.length) return; 
                         this.getSonAsset( assetIds, assetType[permissionName] );
@@ -370,15 +364,15 @@
             //操作
             opera(type){
                 if(type ==='save'){
-                    const tempObj = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
+                    //获取各资产(包括项目)permissions
+                    const { level2 } = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
                         if(cur.level === 2){
                             pre['level2'].push(cur);
                         }
                         return pre
                     },{ level2:[] })
-                    const { level2 } = tempObj;
 
-                    const box = level2.reduce((pre,cur)=>{
+                    const assetsGather = level2.reduce((pre,cur)=>{
                         const str = cur.nodeId.replace(/[^a-zA-Z]/g, '');
                         const ids = this.$refs.tree.getNode(cur.nodeId).childNodes.reduce((previous,current)=>{
                             if(current.checked){
@@ -399,8 +393,9 @@
                         "chestPermissionList":[],
                         "trapPermissionList":[]
                     })
+
                     //获取基础设置、菜单设置permissions
-                    const res = this.$refs.tree.getCheckedKeys(true).reduce((pre,cur)=>{
+                    const { basiPermissionIds, menuPermissionIds } = this.$refs.tree.getCheckedKeys(true).reduce((pre,cur)=>{
                         const str = cur.replace(/[^a-zA-Z]/g, '');
                         const num = cur.replace(/[^0-9]/ig,"");
                         if(pre[str]){
@@ -411,21 +406,21 @@
                         basiPermissionIds:[],
                         menuPermissionIds:[]
                     })
-                    let last = {
+                    let basicGather = {
                         basiPermissionIds:{
-                            id:this.$refs.tree.getNode("basiPermissionIds1first").data.id,
-                            permissionIds:res["basiPermissionIds"].join(',')
+                            id: this.$refs.tree.getNode("basiPermissionIds1first").data.id,
+                            permissionIds: basiPermissionIds.join(',')
                         },
                         menuPermissionIds:{
-                            id:this.$refs.tree.getNode("menuPermissionIds2first").data.id,
-                            permissionIds:res["menuPermissionIds"].join(',')
+                            id: this.$refs.tree.getNode("menuPermissionIds2first").data.id,
+                            permissionIds: menuPermissionIds.join(',')
                         }
                     };
 
                     this.allotRolePower({
                         personId:this.currentObj.id,
-                        ...last, 
-                        ...box
+                        ...basicGather, 
+                        ...assetsGather
                     }).then(res=>{
                         if(!res)return;
                         this.$router.push({name:'RoleList'});
