@@ -387,7 +387,7 @@ export const api={
     getPowerTree:`${url}/e_view/permission/tree`,
 
     //获取指定 角色/账户  id的权限信息  7.2.5
-    getParentLevelPower:`${url}/e_view/role/permission/info`,
+    getPowerInfo:`${url}/e_view/role/permission/info`,
 
     //获取指定账户 所属角色的权限信息 get 7.2.6
     //查询某个账户它的角色权限相关信息，账户进行权限修改或者分配时，需要先获到它的父角色权限

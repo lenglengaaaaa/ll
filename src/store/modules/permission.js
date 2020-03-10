@@ -203,7 +203,7 @@ const actions= {
     //==============================权限管理==============================================
 
     /**
-    * 获取项目整个权限树
+    * 获取项目整个权限树 ✔
     */
     getPowerTree({commit}){
         return request({
@@ -228,14 +228,11 @@ const actions= {
     *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
     * }
     */
-    getParentLevelPower({commit},obj){
+    getPowerInfo({commit},obj){
         return request({
             method:'get',
-            url:`${api.getParentLevelPower}`,
-            data:{
-                roleOrAccountId:obj.roleOrAccountId,
-                type:obj.type
-            }
+            url:`${api.getPowerInfo}`,
+            data:obj
         }).then(res=>{
             if(res&&res.code===10000000){
                 return res.data;
@@ -247,10 +244,10 @@ const actions= {
     },
 
     /**
-    * 根据父类的资产id，获取所有的其子类子类资产相关权限
+    * 根据父类的资产id，获取所有的其子类子类资产相关权限 ✔
     * 给账户或者角色  初次分配或者修改权限时，资产相关的权限会因为勾选数量的变化，影响到附属资产的级联变动
     * @param {
-    *      roleOrAccountId 角色/账户  的主键自增id
+    *      roleOrAccountId 父角色ID
     *      type 区分是查询角色 还是 查询账户 0 角色  1 账户
     *      assetArr 勾选的资产id 数组 []
     *      assetType 0 项目 ， 1 台区， 2 配电房 井盖和配电柜下无权限配置的资产
@@ -274,7 +271,7 @@ const actions= {
     //===============角色==============================
 
     /**
-    * 获取指定角色父角色的权限信息 
+    * 获取指定角色父角色的权限信息 ✔
     * 角色进行权限修改或者分配时，需要先获到它的父角色权限
     * @param {
     *      roleId 角色ID
