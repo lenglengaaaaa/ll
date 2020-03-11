@@ -1,41 +1,54 @@
 <template>
     <div>
         <cc-table
-            title="角色"
+            title="用户"
             :data="data"
             :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
             hasCheck
-        >
+        >   
             <template>
                 <el-table-column
+                    prop="userName"
+                    label="用户名称"
+                    align="center"
+                    show-overflow-tooltip
+                />
+                <el-table-column
                     prop="name"
-                    label="角色名称"
+                    label="账号"
                     align="center"
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="parentName"
-                    label="父角色"
+                    prop="roleName"
+                    label="父角色(权限)"
                     align="center"
                     show-overflow-tooltip
-                    :formatter="(row)=>row.parentName || '-'"
+                    :formatter="(row)=>row.roleName || '-' " 
                 />
                 <el-table-column
-                    prop="detail"
-                    label="角色描述"
+                    prop="phoneNum"
+                    label="手机号码"
                     align="center"
                     show-overflow-tooltip
-                    :formatter="(row)=>row.detail || '-'"
+                    :formatter="(row)=>row.phoneNum || '-' " 
                 />
                 <el-table-column
-                    prop="createAccountName"
-                    label="创建人"
+                    prop="email"
+                    label="邮箱"
                     align="center"
                     show-overflow-tooltip
-                    :formatter="(row)=>row.createAccountName || '-'"
+                    :formatter="(row)=>row.email || '-' " 
+                />
+                <el-table-column
+                    prop="description"
+                    label="详情"
+                    align="center"
+                    show-overflow-tooltip
+                    :formatter="(row)=>row.description || '-' " 
                 />
                 <el-table-column
                     prop="createTime"
@@ -57,10 +70,10 @@
 </template>
 
 <script>
+    import CreateEdit from '../components/CreateEdit'
     import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
-    import CreateEdit from '../components/CreateEdit'
-    
+
     export default {
         components: {
             CreateEdit
@@ -69,19 +82,20 @@
             return {
                 data: [],
                 total:0,
-                params:{
-                    size:20,    
-                    current:1   
-                },
                 dialogVisible:false,
                 editFlag:false,
-                value:{}
+                value:{},
+                params:{
+                    size:20,    
+                    current:1 ,   
+                    projectId: 0
+                }
             }
         },
         methods: {
-            ...mapActions('permission',[
-                'getRoleList',
-                'deleteRole'
+            ...mapActions('user',[
+                'getAccountList', 
+                'deleteAccount'
             ]),
             getList(obj={}){
                 const data = {
@@ -89,7 +103,7 @@
                     ...obj
                 }
                 this.params = data ;
-                return this.getRoleList(data).then(res=>{
+                return this.getAccountList(data).then(res=>{
                     if(!res)return;
                     const {data,page} = res;
                     this.data = data;
@@ -103,7 +117,7 @@
                     ...this.params,
                     current
                 }
-                this.deleteRole(id).then(res=>{
+                this.deleteAccount(id).then(res=>{
                     if(!res)return;
                     this.$children[0]&&this.$children[0].getListData()
                 })
@@ -111,7 +125,7 @@
             skipTo(type,row) {
                 if(type==='check'){
                     sessionStorage.setItem('obj',JSON.stringify(row));
-                    this.$router.push({name:'RolePermission'});
+                    this.$router.push({name:'AccountPermission'});
                     return;
                 }
                 this.dialogVisible = true;
@@ -132,5 +146,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>

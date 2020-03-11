@@ -2,7 +2,7 @@
     <div class="Permission-container">
         <div class="wrap">
             <el-row >
-                <el-col :span="24">角色权限分配</el-col>
+                <el-col :span="24">用户权限分配</el-col>
             </el-row>
             <el-tree
                 :props="props"
@@ -81,9 +81,9 @@
             ...mapActions('permission',[
                 'getPowerTree', 
                 'getPowerInfo',
-                'getRoleParentPower',
+                'getAccountParentPower',
                 'getSubClassAssest',
-                'allotRolePower'
+                'allotAccountPower'
             ]),
             //获取当前角色 / 账户 权限树
             async getCurrentRoleOrAccountTree(){
@@ -113,7 +113,7 @@
                 }) ;
 
                 //(2) 获取当前角色/用户父角色权限树 , 和完整的权限树进行匹配 , 父角色不存在的权限Node进行删除
-                await this.getRoleParentPower(this.currentObj.id).then(res=>{
+                await this.getAccountParentPower(this.currentObj.id).then(res=>{
                     if(!res || !fullTree) return;
                     for(let i in res){
                         //分数组和非数组两种情况
@@ -144,7 +144,7 @@
                 //注意: 保存项目 和 各资产的id信息用于提交时应用 以及 重新获取资产改变id
                 await this.getPowerInfo({
                     roleOrAccountId:this.currentObj.id,
-                    type:0
+                    type:1
                 }).then(res=>{
                     if(!res) return;
 
@@ -301,8 +301,8 @@
             //获取项目、资产下子类资产相关权限信息
             getSonAsset( assetArr, assetType ){
                 this.getSubClassAssest({
-                    roleOrAccountId:this.currentObj.parentId,
-                    type:0,
+                    roleOrAccountId:this.currentObj.roleId,
+                    type:1,
                     assetArr,
                     assetType
                 }).then(res=>{
@@ -398,16 +398,16 @@
                         }
                     };
 
-                    this.allotRolePower({
+                    this.allotAccountPower({
                         personId:this.currentObj.id,
                         ...basicGather, 
                         ...assetsGather
                     }).then(res=>{
                         if(!res)return;
-                        this.$router.push({name:'RoleList'});
+                        this.$router.push({name:'UserList'});
                     })
                 }
-                this.$router.push({name:'RoleList'});
+                this.$router.push({name:'UserList'});
             }
         },
     }

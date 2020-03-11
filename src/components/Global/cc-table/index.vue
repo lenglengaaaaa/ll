@@ -49,7 +49,7 @@
                                             v-if="hasCheck"
                                             @click="linkTo('check',scope.row)"
                                         >
-                                            {{title==='角色'?'权限分配':'查看'}}
+                                            {{title==='角色'||title==='用户'?'权限分配':'查看'}}
                                         </el-button>
                                         <el-button
                                             size="mini"

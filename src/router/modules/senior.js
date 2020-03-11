@@ -15,10 +15,24 @@ const seniorRouter = {
                     path:'userControl',
                     name:'UserControl',
                     component: () => import('@/views/Senior/User'),
+                    redirect:'userControl/list',
                     meta: { 
                         title:'用户管理',
                         icon: 'user'
-                    }
+                    },
+                    children:[
+                        {
+                            path:'list',
+                            name:'UserList',
+                            component: () => import('@/views/Senior/User/List'),
+                        },
+                        {
+                            path:'permission',
+                            name:'AccountPermission',
+                            component: () => import('@/views/Senior/User/Permission'),
+                            meta:{title:'用户权限分配'}
+                        }
+                    ]
                 },
                 {
                     path:'role',
@@ -37,9 +51,9 @@ const seniorRouter = {
                         },
                         {
                             path:'permission',
-                            name:'Permission',
+                            name:'RolePermission',
                             component: () => import('@/views/Senior/role/Permission'),
-                            meta:{title:'权限分配'}
+                            meta:{title:'角色权限分配'}
                         }
                     ]
                 },
