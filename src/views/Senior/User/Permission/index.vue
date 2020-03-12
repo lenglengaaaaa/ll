@@ -115,6 +115,7 @@
                 //(2) 获取当前角色/用户父角色权限树 , 和完整的权限树进行匹配 , 父角色不存在的权限Node进行删除
                 await this.getAccountParentPower(this.currentObj.id).then(res=>{
                     if(!res || !fullTree) return;
+
                     for(let i in res){
                         //分数组和非数组两种情况
                         if(Array.isArray(res[i])){
@@ -124,18 +125,23 @@
                             res[i].permissionIds = arr.join(',');
                         }
                     }
+
                     fullTree.reduce((pre,cur)=>{
                         cur.childList = cur.permissionName === "basiPermissionIds" || cur.permissionName === "menuPermissionIds"
                             ?  cur.childList : res[cur.permissionName];
                         return [...pre,cur];
                     },[])
+
                     this.tree = fullTree.reduce((pre,cur)=>{
                         let result = [];
-                        if(!Array.isArray(res[cur.permissionName])){
+
+                        const isArray = Array.isArray(res[cur.permissionName]);
+                        if( !isArray ){
                             result = this.removeNodeForObj( res[cur.permissionName].permissionIds, cur );
                         }else{
                             result = this.removeNodeForArray( cur );
                         }
+
                         return [...pre,result];
                     },[])
                 })
@@ -190,14 +196,24 @@
                                 })
                             })
                         }else{
-                            //要考虑数组长度为0的情况 , 为0时不修改childList
+                            //要考虑数组长度为0的情况 , 为0时不修改childList,保留父权限childList
                             if(res[cur.permissionName].length){
                                 new Promise((resolve)=>{
-                                    cur.childList = res[cur.permissionName];
-                                    resolve()
+                                    const preChildList = cur.childList.map(item=>{
+                                        res[cur.permissionName].forEach(k=>{
+                                            if(item.assetId == k.assetId){
+                                                item = k;
+                                            }
+                                        })
+                                        return item;
+                                    });
+
+                                    cur.childList = preChildList;
+                                    resolve( res[cur.permissionName] );
+
                                 }).then(res=>{
                                     //各资产添加checkBox状态
-                                    cur.childList.forEach(i=>{
+                                    res.forEach(i=>{
                                         i.permissionIds.split(',').forEach((k,index)=>{
                                             if(index !==0){
                                                 this.$refs.tree.setChecked(k,true);
@@ -250,7 +266,7 @@
                 return node;
             },
             /**
-             * 节点选中状态发生变化时的回调 , 用于level为2
+             * 节点选中状态发生变化时的回调 , 用于level为2,获取项目、资产下子类资产相关权限信息
              * @param data 改节点对应的对象
              * @param checked 节点本身是否被选中
              */
@@ -290,7 +306,7 @@
                     }else{
                         //全选
 
-                        //😑当选择台区时应该只返回配电房列表 台区 -> 配电房 -> 配电柜
+                        //😑当选择台区时应该只返回配电房列表 台区 -> 配电房 -> 配电柜 , 接口需要调整
                         const assetIds = curNode.childList.length&&curNode.childList.map( item => item.assetId);
                         if(!assetIds.length) return; 
                         this.getSonAsset( assetIds, assetType[permissionName] );
