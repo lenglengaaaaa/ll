@@ -246,6 +246,8 @@
                                         })
                                     })
                                 })
+                            }else{
+                                cur.childList.map(item=>{ item.id = null });
                             }
                         }
                         //数组存在时为'可选状态'False,不存在时为'不可选状态'true
