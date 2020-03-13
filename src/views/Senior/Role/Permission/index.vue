@@ -119,10 +119,27 @@
                     for(let i in res){
                         //分数组和非数组两种情况
                         if(Array.isArray(res[i])){
-                            this.addBottomNodeId(res[i],i);
+                            res[i].map(item=>{
+                                item.nodeId = `${i}${item.assetId}`;
+                                item.level = 2;
+
+                                //拿取res
+                                item.permissionIds = [item.nodeId,...item.permissionIds.split(',').map(k=>`${i}${k}${item.assetId}`)].join(',');
+                                
+                                const tempArr = JSON.parse(JSON.stringify(this.childList))[i];
+                                const list = tempArr.reduce((pre,cur)=>{
+                                    cur.nodeId = `${cur.nodeId}${item.assetId}`
+                                    return [...pre,cur]
+                                },[])
+                                item.childList = list;
+
+                                return item ;
+                            })
                         }else{
-                            const arr = res[i].permissionIds.split(',').map(item=> `${i}${item}`)
-                            res[i].permissionIds = arr.join(',');
+                            if(res[i]){
+                                const arr = res[i].permissionIds.length ? res[i].permissionIds.split(',').map(item=> `${i}${item}`) :[];
+                                res[i].permissionIds = arr.join(',') ;
+                            }   
                         }
                     }
 
@@ -137,7 +154,11 @@
 
                         const isArray = Array.isArray(res[cur.permissionName]);
                         if( !isArray ){
-                            result = this.removeNodeForObj( res[cur.permissionName].permissionIds, cur );
+                            result = this.removeNodeForObj( 
+                                res[cur.permissionName] && res[cur.permissionName].permissionIds.length ? 
+                                        res[cur.permissionName].permissionIds.split(','): [], 
+                                cur 
+                            );
                         }else{
                             result = this.removeNodeForArray( cur );
                         }
@@ -189,11 +210,15 @@
                         //替换项目中ID
                         if(cur.permissionName === 'projecPermissionList'){
                             cur.childList.map(item=>{
-                                res[cur.permissionName].forEach(k=>{
-                                    if(item.name === k.name){
-                                        item.id = k.id;
-                                    }
-                                })
+                                if(!res[cur.permissionName].length){
+                                    item.id = null;
+                                }else{
+                                    res[cur.permissionName].forEach(k=>{
+                                        if(item.name === k.name){
+                                            item.id = k.id;
+                                        }
+                                    })
+                                }
                             })
                         }else{
                             //要考虑数组长度为0的情况 , 为0时不修改childList,保留父权限childList
@@ -236,13 +261,33 @@
              * @param node JSON数据
              */
             removeNodeForObj(permissionIds,node){
-                let cur = 0;
-                if(cur!==0 && !permissionIds.includes(node.nodeId)){
-                    this.$ref.tree.remove(node.nodeId);
-                }
-                cur++;
-                if(!node.childList) return node;
-                node.childList.map(item => this.removeNodeForObj( permissionIds, item ))
+                //第一层,如基础设置、菜单设置, 如果permissionIds为空时, 说明没有权限, 应为disabled状态.
+                if( node.level ==1 && !permissionIds.length){
+                    node.disabled = true;
+                    //为空将childList设置空.
+                    setTimeout(()=>{ this.$refs.tree.updateKeyChildren(node.nodeId,[]) });
+                    return node; 
+                };
+
+                // 第二层 
+                node.childList.forEach(item=>{
+                    if(item.nodeId === "menuPermissionIds1" || item.nodeId === "menuPermissionIds2"){
+                        // nodeId为"menuPermissionIds1" and "menuPermissionIds2" 如果不存在数组中删除
+                        !permissionIds.includes(item.nodeId) && setTimeout(()=>{ this.$refs.tree.remove(item.nodeId) });
+                    }else{
+                        // 第三层, 存在的保留
+                        item.childList = item.childList.reduce((pre,cur)=>{
+                            if( permissionIds.includes(cur.nodeId) ){
+                                return [...pre,cur];
+                            }
+                            return pre;
+                        },[])
+
+                        //if数组为空后删除parentNode
+                        if(!item.childList.length) setTimeout(()=>{ this.$refs.tree.remove(item.nodeId) }) ;
+                    }
+                })
+
                 return node;
             },
             /**
@@ -250,18 +295,23 @@
              * @param node Array数据
              */
             removeNodeForArray(node){
-                node.disabled = node.childList.length? false: true;
+                //第一层
+                if( !node.childList.length ){
+                    node.disabled = true;
+                    //为空将childList设置空.
+                    setTimeout(()=>{ this.$refs.tree.updateKeyChildren(node.nodeId,[]) });
+                    return node; 
+                };
 
                 node.childList.map(cur =>{
                     const permissionIds = cur.permissionIds.split(',');
-                    if(!permissionIds.includes(`${cur.nodeId}`)){
-                        this.$ref.tree.remove(node.nodeId);
-                    }
-                    cur.childList.map(item=>{
-                        if(!permissionIds.includes(`${cur.nodeId}`)){
-                            this.$ref.tree.remove(node.nodeId);
+                    //第三层, 存在的进行保留
+                    cur.childList = cur.childList.reduce((pre,cur)=>{
+                        if( permissionIds.includes(cur.nodeId) ){
+                            return [...pre,cur];
                         }
-                    })
+                        return pre;
+                    },[])
                 })
                 return node;
             },
@@ -272,21 +322,6 @@
              */
             handleCheckChange(data, checked) {
                 this.curCheckStatus = checked;
-
-                //当level为2时,表示项目管理下的项目(台区、配单房)
-                const sonClass = data.level && data.level === 2 && data;
-                if( sonClass ){
-                    const str = sonClass.nodeId.replace(/[^a-zA-Z]/g, '');
-                    if(!obj[str]) return;
-                    const list = this.tree.filter(item =>item.permissionName === str)[0].childList;
-                    const assetIds = list.reduce((pre,cur)=>{
-                        let node = this.$refs.tree.getNode(cur.nodeId);
-                        if(node.checked)  return  [...pre,cur.assetId];
-                        return pre
-                    },[]);
-                    obj[str].forEach(item=>this.$refs.tree.setChecked(item ,false));
-                    this.getSonAsset( assetIds, assetType[str] );
-                }
             },
             /**
              * 当复选框被点击的时候触发 , 用于level为1时
@@ -311,7 +346,24 @@
                         if(!assetIds.length) return; 
                         this.getSonAsset( assetIds, assetType[permissionName] );
                     }
+                }else{
+                    const str = curNode.nodeId.replace(/[^a-zA-Z]/g, ''); //
+                    if(!obj[str]) return;
+                    const list = this.tree.filter(item =>item.permissionName === str)[0].childList; //
+
+                    const assetIds = list.reduce((pre,cur)=>{
+                        let node = this.$refs.tree.getNode(cur.nodeId);
+                        //往下找是否childNodes中是否有选中的
+                        const LeafChecked = node.childNodes.some(item=>item.checked);
+
+                        if(node.checked || LeafChecked) { 
+                            return  [...pre,cur.assetId];
+                        };
+                        return pre
+                    },[]);
                     
+                    obj[str].forEach(item=>this.$refs.tree.setChecked(item ,false));
+                    this.getSonAsset( assetIds, assetType[str] );
                 }
             },
             //获取项目、资产下子类资产相关权限信息
@@ -364,14 +416,28 @@
             },
             //操作
             opera(type){
+
                 if(type ==='save'){
                     //获取各资产(包括项目)permissions
-                    const { level2 } = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
-                        if(cur.level === 2){
-                            pre['level2'].push(cur);
+                    const level2 = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
+                        const str = cur.nodeId.replace(/[^a-zA-Z]/g, '');
+                        const isArr = [
+                            'projecPermissionList',
+                            'courtsPermissionList',
+                            'roomPermissionList',
+                            "chestPermissionList",
+                            "trapPermissionList"
+                        ];
+                        if(!isArr.includes(str)) return pre;
+                        //有全选的情况
+                        if( cur.level !== 2 ){
+                            const parent = this.$refs.tree.getNode(cur.nodeId).parent.data ;
+                            if( pre.findIndex(item=>item.name === parent.name) === -1){
+                                pre.push(parent);
+                            }
                         }
                         return pre
-                    },{ level2:[] });
+                    },[]);
 
                     //✔ 
                     const assetsGather = level2.reduce((pre,cur)=>{
@@ -380,7 +446,9 @@
                             if(current.checked){
                                 return [...previous,current.data.id]
                             }
+                            return previous;
                         },[])
+
                         pre[str].push({
                             id:cur.id,
                             name:cur.name,
