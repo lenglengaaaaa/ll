@@ -357,7 +357,7 @@
             getSonAsset( assetArr, assetType ){
                 this.getSubClassAssest({
                     roleOrAccountId:this.currentObj.roleId,
-                    type:1,
+                    type:0,
                     assetArr,
                     assetType
                 }).then(res=>{
