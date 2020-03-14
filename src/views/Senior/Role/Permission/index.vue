@@ -119,22 +119,7 @@
                     for(let i in res){
                         //分数组和非数组两种情况
                         if(Array.isArray(res[i])){
-                            res[i].map(item=>{
-                                item.nodeId = `${i}${item.assetId}`;
-                                item.level = 2;
-
-                                //拿取res
-                                item.permissionIds = [item.nodeId,...item.permissionIds.split(',').map(k=>`${i}${k}${item.assetId}`)].join(',');
-                                
-                                const tempArr = JSON.parse(JSON.stringify(this.childList))[i];
-                                const list = tempArr.reduce((pre,cur)=>{
-                                    cur.nodeId = `${cur.nodeId}${item.assetId}`
-                                    return [...pre,cur]
-                                },[])
-                                item.childList = list;
-
-                                return item ;
-                            })
+                            this.filterPermissionId(res[i],i);
                         }else{
                             if(res[i]){
                                 const arr = res[i].permissionIds.length ? res[i].permissionIds.split(',').map(item=> `${i}${item}`) :[];
@@ -193,7 +178,7 @@
                         //增加标识
                         if(Array.isArray(res[i])){
                             this.powerInfo = { ...this.powerInfo, [i]:res[i] };
-                            this.addBottomNodeId(res[i],i);
+                            this.filterPermissionId(res[i],i);
                         }else{
                             //基础设置和菜单设置状态改变
                             res[i]&&res[i].permissionIds.split(',').forEach(item=> {
@@ -390,15 +375,35 @@
                     },[])
                 })
             },
+            //过滤父权限及自身角色/账户权限信息
+            filterPermissionId(data,i){
+                data.map(item=>{
+                    item.nodeId = `${i}${item.assetId}`;
+                    item.level = 2;
+                    //拿取res
+                    item.permissionIds = [item.nodeId,...item.permissionIds.split(',').map(k=>`${i}${k}${item.assetId}`)].join(',');
+                    
+                    const tempArr = JSON.parse(JSON.stringify(this.childList))[i];
+                    const list = tempArr.reduce((pre,cur)=>{
+                        cur.nodeId = `${cur.nodeId}${item.assetId}`
+                        return [...pre,cur]
+                    },[])
+                    item.childList = list;
+
+                    return item ;
+                })
+            },
             //给最底层加上nodeId 例如 项目XXX-创建.nodeId = 项目nodeName+创建Id+项目XX资产ID
             addBottomNodeId(data,i){
                 data.map(item=>{
-                    if(this.powerInfo[i]){
+                    if(this.powerInfo[i].length){
                         this.powerInfo[i].forEach(k=>{
                             if(item.name === k.name){
                                 item.id = k.id;
                             }
                         })
+                    }else{
+                        item.id = null;
                     }
                     item.nodeId = `${i}${item.assetId}`;
                     item.level = 2;
