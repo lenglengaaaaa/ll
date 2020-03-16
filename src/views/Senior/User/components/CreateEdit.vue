@@ -132,15 +132,21 @@
                 callback();
             }
             const checkPhone = (rule,value,callback) =>{
-                if(!`${value}`.length) callback();
-                const myreg=/^[1][34578][0-9]{9}$/;  
-                if (!myreg.test(value)) { callback(new Error('请输入正确的手机号码')) };
+                if(value && `${value}`.length){
+                    const myreg=/^[1][34578][0-9]{9}$/;  
+                    if (!myreg.test(value)) { 
+                        callback(new Error('请输入正确的手机号码'));
+                    };
+                }
                 callback();
             }
             const checkEmail = (rule,value,callback) =>{
-                if(!`${value}`.length) callback();
-                const myreg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;  
-                if (!myreg.test(value)) { callback(new Error('请输入正确的邮箱')) };
+                if(value && `${value}`.length){
+                    const myreg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;  
+                    if (!myreg.test(value)) { 
+                        callback(new Error('请输入正确的邮箱'));
+                    };
+                }
                 callback();
             }
             return {
