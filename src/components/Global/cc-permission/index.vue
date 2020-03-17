@@ -125,14 +125,15 @@
                     return res;
                 })
 
+                
                 //(2) 获取当前角色/用户 父角色 拥有的权限 , 与完整的权限树匹配取并集
-                const filteredTree = this.roleOrAccount === 0 ? 
-                    await this.getRoleParentPower(this.currentObj.id).then( res =>{
-                        return this.filterForParent(res,integrityTree);
-                    })
-                    :await this.getAccountParentPower(this.currentObj.id).then( res =>{
-                        return this.filterForParent(res,integrityTree);
-                    })
+                const parentFunctions = {
+                    0:this.getRoleParentPower, //角色
+                    1:this.getAccountParentPower  //用户
+                }
+                const filteredTree = await parentFunctions[this.roleOrAccount](this.currentObj.id).then(res=>{
+                    return this.filterForParent(res,integrityTree);
+                })
 
 
                 //(3) 获取当前角色已配置过的权限信息 , 为node添加选中状态 
@@ -147,7 +148,7 @@
                         if(Array.isArray(res[i])){
                             //保留id 切换资产时使用 & 提交权限需要
                             this.powerInfo = { ...this.powerInfo, [i]:res[i] };
-
+                            
                             res[i].length && res[i].forEach( item =>{
                                 item.permissionIds.split(',').forEach( k =>{
                                     this.$refs.tree.setChecked(`${i}${k}${item.assetId}`,true)
@@ -170,7 +171,7 @@
                                     k.id = null;
                                 }else{
                                     res[item.permissionName].forEach( i =>{
-                                        if(k.name === i.name){
+                                        if(k.assetId === i.assetId){
                                             k.id = i.id;
                                         }
                                     })
@@ -284,6 +285,10 @@
                     }else{
                         //全选
 
+                        //台区、配电房 , 如果项目设置为全选状态 , 不用进行接口请求;
+                        // const { checked } = this.$refs.tree.getNode("projecPermissionList3first");
+                        // if( (curNode.id == 4 || curNode.id == 5) && checked) return;
+
                         //😑当选择台区时应该只返回配电房列表 台区 -> 配电房 -> 配电柜 , 接口需要调整
                         const assetIds = curNode.childList.length&&curNode.childList.map( item => item.assetId);
                         if(!assetIds.length) return; 
@@ -312,14 +317,41 @@
             //获取项目、资产下子类资产相关权限信息
             getSonAsset( assetArr, assetType ){
                 this.getSubClassAssest({
-                    roleOrAccountId:this.currentObj.parentId,
+                    roleOrAccountId:this.roleOrAccount === 0 ?this.currentObj.parentId :this.currentObj.roleId,
                     type:0,
                     assetArr,
                     assetType
                 }).then(res=>{
                     if(!res)return;
                     for(let i in res){
-                        this.addBottomNodeId(res[i],i);
+                        res[i].forEach(item=>{
+                            if(this.powerInfo[i].length){
+                                this.powerInfo[i].forEach(k=>{
+                                    if(item.assetId === k.assetId){
+                                        item.id = k.id;
+                                    }
+                                })
+                            }else{
+                                item.id = null;
+                            }
+                            item.nodeId = `${i}${item.assetId}`;
+                            item.level = 2;
+
+                             //为筛选资产所拥有的childList做准备
+                            const permissionIds = [...item.permissionIds.split(',').map(k=>`${i}${k}${item.assetId}`)];
+                            
+                            //为资产添加childList
+                            //为节点添加nodeId以自身nodeId与资产ID拼接组成 , 生成唯一的nodeId
+                            //筛选出当前资产拥有权限的childList
+                            const tempList = JSON.parse(JSON.stringify(this.assets_childList))[i];
+                            const filterList = tempList.filter( node =>{
+                                node.nodeId = `${node.nodeId}${item.assetId}`;
+                                return permissionIds.includes(node.nodeId);
+                            })
+                            item.childList = filterList;
+                            
+                            return item ;
+                        })
                     }
                     this.tree.reduce((pre,cur)=>{
                         if(res[cur.permissionName]){
@@ -331,37 +363,8 @@
                     },[])
                 })
             },
-            //给最底层加上nodeId 例如 项目XXX-创建.nodeId = 项目nodeName+创建Id+项目XX资产ID
-            addBottomNodeId(data,i){
-                data.map(item=>{
-                    if(this.powerInfo[i].length){
-                        this.powerInfo[i].forEach(k=>{
-                            if(item.name === k.name){
-                                item.id = k.id;
-                            }
-                        })
-                    }else{
-                        item.id = null;
-                    }
-                    item.nodeId = `${i}${item.assetId}`;
-                    item.level = 2;
-                    const powerIds = [];
-                    const tempArr = JSON.parse(JSON.stringify(this.childList))[i];
-                    const list = tempArr.reduce((pre,cur)=>{
-                        cur.nodeId = `${cur.nodeId}${item.assetId}`
-                        powerIds.push(cur.nodeId);
-                        return [...pre,cur]
-                    },[])
-                    item.childList = list;
-                    const arr = [item.nodeId,...powerIds];
-                    item.permissionIds = arr.join(',');
-
-                    return item ;
-                })
-            },
             //操作
             opera(type){
-
                 if(type ==='save'){
                     //获取各资产(包括项目)permissions
                     const level2 = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
@@ -377,7 +380,7 @@
                         //有全选的情况
                         if( cur.level !== 2 ){
                             const parent = this.$refs.tree.getNode(cur.nodeId).parent.data ;
-                            if( pre.findIndex(item=>item.name === parent.name) === -1){
+                            if( pre.some(item=>item.nodeId === parent.nodeId) ===false){
                                 pre.push(parent);
                             }
                         }
@@ -446,8 +449,9 @@
                             this.$router.push({name:'UserList'});
                         })
                     }
+                }else{
+                    this.roleOrAccount === 0 ? this.$router.push({name:'RoleList'}) :this.$router.push({name:'UserList'});
                 }
-                this.roleOrAccount === 0 ? this.$router.push({name:'RoleList'}) :this.$router.push({name:'UserList'});
             }
         }
     }
