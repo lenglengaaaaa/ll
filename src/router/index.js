@@ -36,6 +36,11 @@ const router= new Router({
       component: () => import('@/views/error-page/404'),
     },
     {
+      path: '/NoPermission',
+      name:'NoPermission',
+      component: () => import('@/views/error-page/NoPermission'),
+    },
+    {
       path: '/',
       name: 'Overall',
       component:OverallLayout,

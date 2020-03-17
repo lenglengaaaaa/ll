@@ -125,10 +125,11 @@
                             this.loading = true
                             this.$store.dispatch('user/login', this.loginForm).then((res) => {
                                 this.loading = false
-                                if(!res) return;
+                                if(!res) return;    
+                                    
                                 if(!res.length){
                                     //待定
-                                    this.$router.push({ name:'Error' });
+                                    this.$router.push({ name:'NoPermission' });
                                 }else{
                                     let route_Arr ={
                                         "1":"Overall",

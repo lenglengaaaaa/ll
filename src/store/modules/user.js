@@ -18,7 +18,7 @@ const tip = (msg,type="error") => {
 const state={
     token: getToken(),
     userDetail:JSON.parse(sessionStorage.getItem('userDetail')),
-    permissionIds:[]
+    permissionIds:JSON.parse(sessionStorage.getItem('permissionIds'))
 }
 
 const mutations={
@@ -47,8 +47,10 @@ const actions= {
                     commit('SET_TOKEN', jtoken);
                     setToken(jtoken)
                     
+                    //菜单权限信息
                     const { menuPermissionIds } = user_detail.permissionVO;
                     const permissionIds = _.sortBy(menuPermissionIds.permissionIds.split(','));
+                    sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
                     commit('SET_PERMISSIONIDS', [...permissionIds,'66','67']);
 
                     return ["1","2","3","4"].filter(item=>{
