@@ -365,7 +365,6 @@
                 if(type ==='save'){
                     //获取各资产(包括项目)permissions
                     const level2 = this.$refs.tree.getCheckedNodes().reduce((pre,cur)=>{
-                        console.log(cur,'cur')
                         const str = cur.nodeId.replace(/[^a-zA-Z]/g, '');
                         const isArr = [
                             'projecPermissionList',
@@ -384,8 +383,6 @@
                         }
                         return pre
                     },[]);
-
-                    console.log(level2,'level2')
 
                     //✔ 
                     const assetsGather = level2.reduce((pre,cur)=>{

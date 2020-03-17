@@ -17,13 +17,16 @@ const tip = (msg,type="error") => {
 
 const state={
     token: getToken(),
-    userDetail:JSON.parse(sessionStorage.getItem('userDetail'))
-    
+    userDetail:JSON.parse(sessionStorage.getItem('userDetail')),
+    permissionIds:[]
 }
 
 const mutations={
     SET_TOKEN: (state, token) => {
-        state.token = token
+        state.token = token ;
+    },
+    SET_PERMISSIONIDS: (state, ids) => {
+        state.permissionIds = ids ;
     },
     SET_USERDETAIL: (state, detail) => {
         state.userDetail = detail;
@@ -39,10 +42,18 @@ const actions= {
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
                 if(res&&res.code===10000000&&res.data){
-                    const { jtoken } = res.data
-                    commit('SET_TOKEN', jtoken)
+                    const { jtoken, user_detail } = res.data
+                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail));
+                    commit('SET_TOKEN', jtoken);
                     setToken(jtoken)
-                    return true;
+                    
+                    const { menuPermissionIds } = user_detail.permissionVO;
+                    const permissionIds = _.sortBy(menuPermissionIds.permissionIds.split(','));
+                    commit('SET_PERMISSIONIDS', [...permissionIds,'66','67']);
+
+                    return ["1","2","3","4"].filter(item=>{
+                        return permissionIds.includes(item);
+                    })
                 }else{
                     res&&tip(res.meassage)
                     return false;

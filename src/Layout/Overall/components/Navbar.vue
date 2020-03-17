@@ -14,7 +14,7 @@
                         router
                         @select="selectMenu"
                     >   
-                        <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path">
+                        <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :disabled="item.hidden">
                             {{ item.name }}
                         </el-menu-item>
                     </el-menu>
@@ -70,7 +70,7 @@
                 @select="closeList"
                 router
             >   
-                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route">
+                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route" :disabled="item.hidden">
                     {{ item.name }}
                 </el-menu-item>
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
@@ -93,18 +93,13 @@
     import avatar from '@images/default.jpg'
     import {judgeUserDetail} from '@/utils/methods'
     import Notice from './notice'
+    import { mapState } from 'vuex'
     
     export default {
         name:'Header',
         data() {
             return {
                 activeIndex: '',
-                navbar:[
-                    {path:'/overview',name:'概览',route:{name:'Overview'}},
-                    {path:'/gateway',name:'网关管理',route:{name:'Gateway'}},
-                    {path:'/project',name:'项目管理',route:{name:'Project'}},
-                    {path:'/senior',name:'高级管理',route:{name:'Senior'}}
-                ],
                 flag:false,
                 phone:false,
                 fold:false,
@@ -140,8 +135,25 @@
             }
         },
         computed: {
+            ...mapState('user',[
+                'permissionIds',
+            ]),
             alarmBox() {
                 return this.$store.state.app.alarmBox
+            },
+            navbar(){
+                const arr = [
+                    {id:"1",path:'/overview',name:'概览',route:{name:'Overview'},hidden:false},
+                    {id:"2",path:'/gateway',name:'网关管理',route:{name:'Gateway'},hidden:false},
+                    {id:"3",path:'/project',name:'项目管理',route:{name:'Project'},hidden:false},
+                    {id:"4",path:'/senior',name:'高级管理',route:{name:'Senior'},hidden:false}
+                ];
+
+                //权限设置
+                return arr.map(item=>{
+                    item.hidden = !this.permissionIds.includes(item.id);
+                    return item ;
+                })
             }
         },
         methods: {
@@ -174,7 +186,9 @@
             },
             //skipHome
             skipHome(){
-                this.$router.push({name:'Overview'})
+                //如果不存在概览权限, 不进行跳转.
+                if(!this.permissionIds.some(i=>i==="1")) return;
+                this.$router.push({ name:'Overview' })
             },
             //skipAccount
             skipAccount(){

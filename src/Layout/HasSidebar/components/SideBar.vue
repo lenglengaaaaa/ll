@@ -18,7 +18,13 @@
                     :collapse-transition="false"
                     @select='handleClickOutside'
                 >   
-                    <el-menu-item v-for="item in routes" :key="item.path" :index="item.path" :route="{name:item.name}">
+                    <el-menu-item 
+                        v-for="item in routes"  
+                        :key="item.path" 
+                        :index="item.path" 
+                        :route="{name:item.name}"
+                        :disabled="item.hidden"
+                    >
                         <svg-icon 
                             :iconClass="item.meta.icon" 
                             className="icon"
@@ -32,6 +38,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+
     export default {
         data() {
             return {
@@ -50,13 +58,21 @@
             },
         },
         computed: {
+            ...mapState('user',[
+                'permissionIds',
+            ]),
             routes() {
                 const routes = this.$router.options.routes ;
                 const path = this.$route.path.split('/')[1]
                 this.path=path;
                 const index = routes.findIndex((item)=>item.path ===`/${path}`);
                 const result = routes[index].children[path=="project"?1:0].children;
-                return result
+
+                //权限设置
+                return result.map(item=>{
+                    item.hidden = !this.permissionIds.includes(item.id);
+                    return item;
+                })
             },
             device() {
                 return this.$store.state.app.device

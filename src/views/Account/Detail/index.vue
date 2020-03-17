@@ -60,7 +60,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions,mapState } from 'vuex'
     import avatar from '@images/default.jpg'
     import {judgeObject} from '@/utils/methods'
     import myUpload from 'vue-image-crop-upload';
@@ -107,9 +107,9 @@
             this.getAccount()
         },
         computed: {
-            userDetail() {
-                return JSON.parse(sessionStorage.getItem('userDetail'));
-            },
+            ...mapState('user',[
+                'userDetail',
+            ]),
             api(){
                 return this.$api.uploadAvatar;
             },

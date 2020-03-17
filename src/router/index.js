@@ -18,7 +18,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 Vue.use(Router)
 
 
-const originalPush = Router.prototype.push
+const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
@@ -32,6 +32,7 @@ const router= new Router({
     },
     {
       path: '/404',
+      name:'Error',
       component: () => import('@/views/error-page/404'),
     },
     {
@@ -74,6 +75,7 @@ const router= new Router({
           redirect: '/account/detail',
           children:[
             {
+              id:"66",
               path:'detail',
               name:'AccountDetail',
               component: () => import('@/views/Account/Detail'),
@@ -83,6 +85,7 @@ const router= new Router({
               }
             },
             {
+              id:"67",
               path:'changePass',
               name:'ChangePass',
               component: () => import('@/views/Account/ChangePass'),
@@ -96,7 +99,7 @@ const router= new Router({
       ]
     },
     //404页面
-    { path: '*', redirect: '/404', hidden: true }
+    { path: '*', redirect: '/404' }
   ]
 })
 

@@ -16,6 +16,7 @@ const projectRouter = {
             redirect: '/projectOverview',
             children:[
             {
+                id:"5",
                 path:'projectOverview',
                 name:'ProjectOverview',
                 component: () => import('@/views/SingleProject/ProjectOverview'),
@@ -25,6 +26,7 @@ const projectRouter = {
                 }
             },
             {
+                id:"6",
                 path:'courts',
                 name:'Courts',
                 component: () => import('@/views/SingleProject/Asset'),
@@ -54,6 +56,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"7",
                 path:'room',
                 name:'Room',
                 component: () => import('@/views/SingleProject/Asset'),
@@ -83,6 +86,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"8",
                 path:'cabinet',
                 name:'Cabinet',
                 component: () => import('@/views/SingleProject/Asset'),
@@ -112,6 +116,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"9",
                 path:'cover',
                 name:'Cover',
                 component: () => import('@/views/SingleProject/Asset'),
@@ -141,6 +146,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"10",
                 path:'cable',
                 name:'Cable',
                 component: () => import('@/views/SingleProject/Asset'),
@@ -164,6 +170,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"11",
                 path:'equipment',
                 name:'Equipment',
                 component: () => import('@/views/SingleProject/Equipment'),
@@ -200,6 +207,7 @@ const projectRouter = {
                 ]
             },
             {
+                id:"12",
                 path:'threshold',
                 name:'Threshold',
                 component: () => import('@/views/SingleProject/Threshold'),
@@ -209,6 +217,7 @@ const projectRouter = {
                 }
             },
             {
+                id:"13",
                 path:'alarm',
                 name:'Alarm',
                 component: () => import('@/views/SingleProject/Alarm'),

@@ -12,6 +12,7 @@ const seniorRouter = {
             redirect: '/senior/userControl',
             children:[
                 {
+                    id:"14",
                     path:'userControl',
                     name:'UserControl',
                     component: () => import('@/views/Senior/User'),
@@ -35,6 +36,7 @@ const seniorRouter = {
                     ]
                 },
                 {
+                    id:"15",
                     path:'role',
                     name:'Role',
                     component: () => import('@/views/Senior/Role'),
@@ -58,7 +60,8 @@ const seniorRouter = {
                     ]
                 },
                 {
-                path:'mainLine',
+                    id:"16",
+                    path:'mainLine',
                     name:'MainLine',
                     component: () => import('@/views/Senior/MainLine'),
                     redirect:'mainLine/list',
@@ -102,6 +105,7 @@ const seniorRouter = {
                     ]
                 },
                 {
+                    id:"17",
                     path:'application',
                     name:'Application',
                     component: () => import('@/views/Senior/Application'),
@@ -111,6 +115,7 @@ const seniorRouter = {
                     }
                 },
                 {
+                    id:"18",
                     path:'module',
                     name:'Module',
                     component: () => import('@/views/Senior/Module'),
@@ -134,6 +139,7 @@ const seniorRouter = {
                     ]
                 },
                 {
+                    id:"19",
                     path:'product',
                     name:'Product',
                     component: () => import('@/views/Senior/Product'),
@@ -143,6 +149,7 @@ const seniorRouter = {
                     }
                 },
                 {
+                    id:"20",
                     path:'system',
                     name:'System',
                     component: () => import('@/views/Senior/System'),
@@ -152,6 +159,7 @@ const seniorRouter = {
                     }
                 },
                 {
+                    id:"21",
                     path:'repair',
                     name:'Repair',
                     component: () => import('@/views/Senior/Repair'),

@@ -1,6 +1,6 @@
 <template>
     <div class="COUNT_WRAP">
-        <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item.path)">
+        <div class="grid-content" v-for="item in rows" :key="item.icon" @click="rowClick(item)">
             <div class="card-panel">
                 <div >
                     <div class="iconSign">
@@ -28,13 +28,14 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
-    
+    import { mapActions, mapState } from 'vuex'
+
     export default {
         data() {
             return {
-                rows: [
+                rows:[
                     {
+                        id:"3",
                         name:"项目",
                         icon:'project',
                         path:'/project',
@@ -44,6 +45,7 @@
                         percentage:0
                     },
                     {
+                        id:"3",
                         name:'设备',
                         icon:'equip',
                         path:'/project',
@@ -53,6 +55,7 @@
                         percentage:0
                     },
                     {
+                        id:"2",
                         name:'网关',
                         icon:'gateway',
                         path:'/gateway',
@@ -64,8 +67,13 @@
                 ]
             }
         },
-        mounted () {
+        created () {
             this.initiate()
+        },
+        computed: {
+            ...mapState('user',[
+                'permissionIds',
+            ])
         },
         methods:{
             ...mapActions('overall',[
@@ -83,8 +91,9 @@
                     })
                 })
             },
-            rowClick(path){
-                this.$router.push(path)
+            rowClick(item){
+                if(!this.permissionIds.includes(item.id))return;
+                this.$router.push(item.path);
             },
             iconClass(className) {
                 return `card-panel-icon-wrapper ${className}`
