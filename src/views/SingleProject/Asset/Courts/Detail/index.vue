@@ -19,7 +19,8 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)" v-if="hasSkipDetail">{{scope.row.name}}</el-link>
+                    <span v-else>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -56,11 +57,20 @@
 </template>
 
 <script>
-
+    import { mapState } from 'vuex'
+    
     export default {
         data() {
             return {
                 data: [],
+            }
+        },
+        computed: {
+            ...mapState('user',[
+                'permissionIds',
+            ]),
+            hasSkipDetail(){    
+                return this.permissionIds.includes("7");
             }
         },
         created () {

@@ -19,7 +19,14 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <el-link 
+                        type="primary"
+                        @click="skipToDetail(scope.row)" 
+                        v-if="hasSkip && hasSkipDetail(scope.row)"
+                    >
+                        {{scope.row.name}}
+                    </el-link>
+                    <span v-else>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -70,7 +77,7 @@
 
 <script>
     import DataDetail from '@/components/DataDetail'
-    import { mapActions } from 'vuex'
+    import { mapActions, mapState } from 'vuex'
 
     export default {
         components: {
@@ -87,12 +94,20 @@
                 }
             }
         },
+        computed: {
+            ...mapState('user',[
+                'permissionIds',
+                'permissionVO',
+            ]),
+            hasSkip(){    
+                return this.permissionIds.includes("8")
+            }
+        },
         created () {
             const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
             this.$route.meta.title=name
             this.getList(id);
         },
-
         methods: {
             ...mapActions('asset',[
                 'getChestList',
@@ -100,6 +115,17 @@
             ...mapActions('equip',[
                 'getEquipInAsset',
             ]),
+            /**
+             * 是否拥有跳转到设备视图的权限
+             * @param row 单个数据
+             */
+            hasSkipDetail(row){
+                const { chestPermissionList } = this.permissionVO;
+
+                const filterArr  = chestPermissionList.filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return false;
+                return filterArr[0].permissionIds.split(',').includes("45");
+            },
             //跳转到配电柜中
             skipToDetail(row) {
                 sessionStorage.setItem('obj',JSON.stringify(row))
