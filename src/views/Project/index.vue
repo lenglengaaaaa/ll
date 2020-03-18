@@ -60,7 +60,7 @@
     import Management from '@/components/Management'
     import NewProject from '@/views/Project/components/NewProject'
     import { judgeLastData } from '@/utils/methods'
-    import {mapActions} from 'vuex'
+    import { mapActions, mapState } from 'vuex'
 
     export default {
         components: {
@@ -79,6 +79,11 @@
                     current:1 ,   
                 }
             }
+        },
+        computed: {
+            ...mapState('user',[
+                'permissionIds',
+            ])
         },
         methods: {
             ...mapActions('overall',[
@@ -123,7 +128,36 @@
             skipToDetail(row={}){
                 //跳转单个应用管理页面
                 sessionStorage.setItem('project',JSON.stringify(row));
-                this.$router.push({name:'ProjectOverview'})
+
+                const childMenuIds = ['5','6','7','8','9','10','11','12','13'];
+                const hasChildMenu = this.permissionIds.some(item=>{
+                    return childMenuIds.includes(item);
+                });
+                if(hasChildMenu){
+                    const hasPowerIds =_.sortBy(this.permissionIds.reduce((pre,cur)=>{
+                        if(childMenuIds.includes(cur)){
+                            return [...pre,+cur];
+                        }
+                        return pre
+                    },[]));
+                    const routeNames = {
+                        5:'ProjectOverview',
+                        6:'Courts',
+                        7:'Room',
+                        8:'Cabinet',
+                        9:'Cover',
+                        10:'Cable',
+                        11:'Equipment',
+                        12:'Threshold',
+                        13:'Alarm',
+                    }
+                    this.$router.push({name:routeNames[hasPowerIds[0]]})
+                }else{
+                    this.$message({
+                        message: '该用户无项目详情权限,请联系管理员',
+                        type: 'warning'
+                    });
+                }
             },
             close(result){
                 this.dialogVisible=false;

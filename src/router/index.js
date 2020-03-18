@@ -152,7 +152,27 @@ router.beforeEach(async(to,from,next)=>{
       // }
     }
   }else{
-    next();
+    console.log(to,'to')
+    if(to.path === '/senior'){
+      //高级管理权限设置
+      const { permissionIds } = store.state.user;
+      const seniorChildIds = ['14','15','16','17','18','19','20','21'];
+      const hasPowerIds =_.sortBy(permissionIds.reduce((pre,cur)=>{
+          if(seniorChildIds.includes(cur)){
+              return [...pre,+cur];
+          }
+          return pre
+      },[]));
+      const routeNames = {
+          14:'userControl', 15:'role', 16:'mainLine',
+          17:'application', 18:'module', 19:'product',
+          20:'system', 21:'repair',
+      }
+      console.log(routeNames[hasPowerIds[0]],'routeNames[hasPowerIds[0]]')
+      next(`/senior/${routeNames[hasPowerIds[0]]}`);
+    }else{
+      next();
+    }
   }
 })
 

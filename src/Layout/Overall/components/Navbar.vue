@@ -125,7 +125,7 @@
         },
         watch: {
             $route(to,from){
-                this.hightlight(to.path)
+                this.hightlight(to.path);
             },
             '$store.state.app.device'(value) {
                 this.resizehandle(value);
@@ -137,7 +137,11 @@
         computed: {
             ...mapState('user',[
                 'permissionIds',
+                'permissionVO'
             ]),
+            basiPermissionIds(){
+                return this.permissionVO.basiPermissionIds.permissionIds.split(',');
+            },
             alarmBox() {
                 return this.$store.state.app.alarmBox
             },
@@ -151,7 +155,16 @@
 
                 //权限设置
                 return arr.map(item=>{
-                    item.hidden = !this.permissionIds.includes(item.id);
+                    if(item.id == "3"){
+                        item.hidden = !this.basiPermissionIds.includes("11");
+                    }else if(item.id === "4"){
+                        const seniorChildIds = ['14','15','16','17','18','19','20','21'];
+                        item.hidden = !this.permissionIds.some(item=>{
+                            return seniorChildIds.includes(item);
+                        })
+                    }else{
+                        item.hidden = !this.permissionIds.includes(item.id);
+                    }
                     return item ;
                 })
             }

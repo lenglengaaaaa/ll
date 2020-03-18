@@ -9,7 +9,7 @@ const seniorRouter = {
             path: '',
             name: 'Senior',
             component:SideBarLayout,
-            redirect: '/senior/userControl',
+            // redirect: `/senior/userControl`,
             children:[
                 {
                     id:"14",
