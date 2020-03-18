@@ -58,7 +58,7 @@
                                     >
                                     </el-date-picker>
                                 </el-form-item>
-                                <el-form-item label="下载 :">
+                                <el-form-item label="下载 :" v-if="hasExport">
                                     <i class="el-icon-download" @click="download"></i>
                                 </el-form-item>
                             </el-form>
@@ -111,11 +111,13 @@
                 timeArray:[],
                 lineAData:[],
                 tempData:[],
+                hasExport:true
             }
         },
         mounted () {
-            const {id,name} = JSON.parse(sessionStorage.getItem('obj'));
+            const {id, name, hasExport} = JSON.parse(sessionStorage.getItem('obj'));
             this.title = name ;
+            this.hasExport = hasExport;
         },
         watch: {
             switchList(arr) {

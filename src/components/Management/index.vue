@@ -1,7 +1,7 @@
 <template>
     <div class="Management_container">
         <div class="title_bar">
-            <el-button size="small" type="success" @click="linkTo('add')">
+            <el-button size="small" type="success" @click="linkTo('add')" :disabled="createFlag">
                 新增{{title}}<i class="el-icon-plus el-icon--right" />
             </el-button>
         </div>
@@ -52,6 +52,7 @@
                                 size="mini"
                                 type="primary"
                                 @click="linkTo('edit',scope.row)"
+                                :disabled="hasEdit(scope.row)"
                             >
                                 编辑
                             </el-button>
@@ -63,6 +64,7 @@
                                 size="mini"
                                 type="success"
                                 @click="linkTo('recover',scope.row)"
+                                :disabled="recoverFlag"
                             >
                                 恢复
                             </el-button>
@@ -71,6 +73,7 @@
                                 type="danger"
                                 @click="linkTo('delete',scope.row)"
                                 v-else
+                                :disabled="freezeFlag"
                             >
                                 {{type==='gateway'?'删除':'冻结'}}
                             </el-button>
@@ -96,7 +99,8 @@
 
 <script>
     import _ from 'lodash';
-
+    import { mapState } from 'vuex'
+    
     export default {
         props: {
             type:String,
@@ -119,19 +123,43 @@
             }
         },
         mounted () {
-            // const value = this.$store.state.app.device;
-            // this.resizehandle(value);
             this.getListData();
         },
-        watch: {
-            // '$store.state.app.device'(value) {
-            //     this.resizehandle(value);
-            // }
+        computed: {
+            ...mapState('user',[
+                'permissionVO',
+            ]),
+            permissionIds(){
+                const { basiPermissionIds } = this.permissionVO;
+                return basiPermissionIds.permissionIds.split(',');
+            },
+            createFlag() {
+                if(this.type === 'gateway') return false;
+                return !this.permissionIds.includes('12');
+            },
+            recoverFlag(){
+                if(this.type === 'gateway') return false;
+                return !this.permissionIds.includes('13');
+            },
+            freezeFlag(){
+                if(this.type === 'gateway') return false;
+                return !this.permissionIds.includes('50');
+            }
         },
         methods: {
-            // resizehandle(value){
-                // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
-            // },
+            /**
+             * 是否可以编辑
+             * @param row 单个数据
+             */
+            hasEdit(row){
+                if(this.type === 'gateway') return false;
+                const { projecPermissionList } = this.permissionVO;
+                
+                const filterArr  = projecPermissionList.filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return true;
+                return !filterArr[0].permissionIds.split(',').includes("30");
+
+            },
             //获取数据
             async getListData(params={}){
                 this.loading = true;

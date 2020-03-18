@@ -25,7 +25,8 @@
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="skipToDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <el-link type="primary" @click="skipToDetail(scope.row)" v-if="hasSkipDetail(scope.row)">{{scope.row.name}}</el-link>
+                    <span v-else>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -63,8 +64,7 @@
 
 <script>
     import { judgeLastData } from '@/utils/methods'
-    import { mapActions } from 'vuex';
-
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         data() {
@@ -78,12 +78,39 @@
                 }
             }
         },
+        computed: {
+            ...mapState('user',[
+                'permissionVO',
+            ])
+        },
         methods: {
             ...mapActions('asset',[
                 'skipToEdit',
                 'getChestList', 
                 'deleteChest'
             ]),
+            /**
+             * 是否拥有跳转到设备视图的权限
+             * @param row 单个数据
+             */
+            hasSkipDetail(row){
+                const { chestPermissionList } = this.permissionVO;
+
+                const filterArr  = chestPermissionList.filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return false;
+                return filterArr[0].permissionIds.split(',').includes("45");
+            },
+            /**
+             * 是否拥有数据导出功能(魔戒数据)
+             * @param row 单个数据
+             */
+            hasExport(row){
+                const { chestPermissionList } = this.permissionVO;
+
+                const filterArr  = chestPermissionList.filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return false;
+                return filterArr[0].permissionIds.split(',').includes("46");
+            },
             getList(obj={}){
                 const data = {
                     ...this.params,
@@ -115,7 +142,10 @@
             },
             skipToDetail(row){
                 this.$router.push({name:'CabinetDetail'})
-                sessionStorage.setItem('obj',JSON.stringify(row))
+                sessionStorage.setItem('obj',JSON.stringify({
+                    ...row,
+                    hasExport:this.hasExport(row)
+                }))
             },
         },
     }

@@ -386,7 +386,7 @@ const actions= {
         }).then(res=>{
             if(res&&res.code===10000000){
                 tip(res.meassage,'success')
-                return res.data;
+                return true;
             }else{
                 res&&tip(res.meassage)
                 return false;

@@ -16,7 +16,7 @@
                             </el-input>
                         </div>
                         <div v-if="hasAdd">
-                            <el-button size="small" type="success" @click="linkTo('add')">
+                            <el-button size="small" type="success" @click="linkTo('add')" :disabled="createFlag">
                                 添加{{title}}<i class="el-icon-plus el-icon--right" />
                             </el-button>
                         </div>
@@ -63,6 +63,7 @@
                                             size="mini"
                                             type="success"
                                             @click="linkTo('edit',scope.row)"
+                                            :disabled="title==='角色'||title==='用户'? editFlag : hasEdit(scope.row)"
                                         >
                                             编辑
                                         </el-button>
@@ -70,6 +71,7 @@
                                             size="mini"
                                             type="danger"
                                             @click="linkTo('delete',scope.row)"
+                                            :disabled="title==='角色'||title==='用户'? deleteFlag : hasDelete(scope.row)"
                                         >
                                             删除
                                         </el-button>
@@ -135,7 +137,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions, mapState } from 'vuex'
     import _ from 'lodash'
 
     export default {
@@ -214,16 +216,71 @@
             }
         },
         mounted() {
-            // const value = this.$store.state.app.device;
-            // this.resizehandle(value);
             this.getListData()
         },
-        watch: {
-            // '$store.state.app.device'(value) {
-            //     this.resizehandle(value);
-            // },
-        },
         computed: {
+            ...mapState('user',[
+                'permissionVO',
+            ]),
+            //-----------------------------------------权限控制---------------------------------
+            basiPermissionIds(){
+                const { basiPermissionIds } = this.permissionVO;
+                return basiPermissionIds.permissionIds.split(',');
+            },  
+            projecPermissionList(){
+                return this.permissionVO.projecPermissionList;
+            },
+            courtsPermissionList(){
+                return this.permissionVO.courtsPermissionList;
+            },
+            roomPermissionList(){
+                return this.permissionVO.roomPermissionList;
+            },
+            chestPermissionList(){
+                return this.permissionVO.chestPermissionList;
+            },
+            trapPermissionList(){
+                return this.permissionVO.trapPermissionList;
+            },
+            createFlag() {
+                const type = this.title;
+                if(type !== '角色' && type !== '用户'&& type !== '台区' && type !== '井盖') return false;
+                const obj = {
+                    "用户":"26",
+                    "角色":"22",
+                    "台区":"32",
+                    "井盖":"33"
+                }
+                if(type === '台区' || type ==='井盖'){
+                    const project = JSON.parse(sessionStorage.getItem('project'));
+
+                    const filterArr  = this.projecPermissionList.filter( item=> item.assetId == project.id );
+                    if( !filterArr.length ) return true;
+                    return !filterArr[0].permissionIds.split(',').includes(obj[type]);
+
+                }else{
+                    return !this.basiPermissionIds.includes(obj[type]);
+                }
+            },
+            editFlag(){
+                const type = this.title;
+                if(type !== '角色' && type !== '用户') return false;
+                const obj = {
+                    "用户":"27",
+                    "角色":"23",
+                }
+                return !this.basiPermissionIds.includes(obj[type]);
+            },
+            deleteFlag(){
+                const type = this.title;
+                if(type !== '角色' && type !== '用户') return false;
+                const obj = {
+                    "用户":"28",
+                    "角色":"24",
+                }
+                return !this.basiPermissionIds.includes(obj[type]);
+            },
+            //-----------------------------------------权限控制---------------------------------
             placeholder() {
                 return `搜索${this.$props.title}` 
             },
@@ -237,9 +294,56 @@
                 'getCountUnderTrap',
                 'getCountUnderMainLine'
             ]),
-            // resizehandle(value){
-                // value==='desktop'?this.layout='total,sizes,pager,jumper' :this.layout = 'pager'
-            // },
+            /**
+             * 是否拥有编辑功能
+             * @param row 单个数据
+             */
+            hasEdit(row){
+                const type = this.title;
+                if(type !== '台区' && type !== '配电房' && type !== '配电柜' && type !== '井盖') return false;
+
+                const permissionArr = {
+                    '台区':this.courtsPermissionList,
+                    '配电房':this.roomPermissionList,
+                    '配电柜':this.chestPermissionList,
+                    '井盖':this.trapPermissionList,
+                }
+                const editPowerId = {
+                    "台区":"35",
+                    "配电房":"39",
+                    "配电柜":"43",
+                    "井盖":"48"
+                }    
+                const filterArr  = permissionArr[type].filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return true;
+                return !filterArr[0].permissionIds.split(',').includes(editPowerId[type]);
+            },
+            /**
+             * 是否拥有删除功能
+             * @param row 单个数据
+             */
+            hasDelete(row){
+                const type = this.title;
+                if(type !== '台区' && type !== '配电房' && type !== '配电柜' && type !== '井盖') return false;
+                
+                const permissionArr = {
+                    '台区':this.courtsPermissionList,
+                    '配电房':this.roomPermissionList,
+                    '配电柜':this.chestPermissionList,
+                    '井盖':this.trapPermissionList,
+                }
+                const deletePowerId = {
+                    "台区":"36",
+                    "配电房":"40",
+                    "配电柜":"44",
+                    "井盖":"49"
+                }   
+
+                const filterArr  = permissionArr[type].filter( item=> item.assetId == row.id );
+                if( !filterArr.length ) return true;
+                return !filterArr[0].permissionIds.split(',').includes(deletePowerId[type]);
+
+            },
             //获取数据
             async getListData(params={}){
                 this.loading = true;
