@@ -46,13 +46,19 @@ const actions= {
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
                 if(res&&res.code===10000000&&res.data){
-                    const { jtoken, user_detail } = res.data
-                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail));
+                    const { jtoken, user_detail } = res.data;
+                    
+                    //setToken
                     commit('SET_TOKEN', jtoken);
                     setToken(jtoken);
+
+                    //setUserDetail
+                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail));
+                    commit('SET_USERDETAIL', user_detail);
                     
                     sessionStorage.setItem('permissionVO',JSON.stringify(user_detail.permissionVO));
                     commit('SET_PERMISSIONVO', user_detail.permissionVO);
+                    
                     //菜单权限信息
                     const { menuPermissionIds } = user_detail.permissionVO;
                     const permissionIds = _.sortBy(menuPermissionIds.permissionIds.split(','));

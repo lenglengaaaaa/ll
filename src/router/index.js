@@ -152,7 +152,6 @@ router.beforeEach(async(to,from,next)=>{
       // }
     }
   }else{
-    console.log(to,'to')
     if(to.path === '/senior'){
       //高级管理权限设置
       const { permissionIds } = store.state.user;

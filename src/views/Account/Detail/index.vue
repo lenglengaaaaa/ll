@@ -132,12 +132,14 @@
             ]),
             //获取用户信息
             getAccount(data){
-                const userDetail =data || this.userDetail;
+                const userDetail = data || this.userDetail;
                 this.imageUrl = userDetail.imagePath || avatar;
                 this.form = userDetail;
                 this.options.reduce((pre,current)=>{
                     for(let i in userDetail){
-                        if(current.sign === i){ current.value = userDetail[i]; }
+                        if(current.sign === i){ 
+                            current.value = userDetail[i] || "xxx"; 
+                        }
                     }
                     return {...pre,current}
                 },{})
