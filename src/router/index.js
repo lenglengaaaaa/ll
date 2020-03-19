@@ -152,7 +152,7 @@ router.beforeEach(async(to,from,next)=>{
       // }
     }
   }else{
-    if(to.path === '/senior'){
+    if(to.path === '/senior' || to.path === '/senior/'){
       //高级管理权限设置
       const { permissionIds } = store.state.user;
       const seniorChildIds = ['14','15','16','17','18','19','20','21'];

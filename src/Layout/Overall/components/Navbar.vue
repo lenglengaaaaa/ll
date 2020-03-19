@@ -21,7 +21,30 @@
                 </div>
                 
                 <div class="right_menu">
-                    <i class="el-icon-full-screen" @click="full"/>
+                    <!-- 全屏 -->
+                    <i class="el-icon-full-screen" @click="full" title="全屏"/>
+
+                    <!-- 二维码录入 -->
+                    <el-popover
+                        placement="bottom-end"
+                        width="200"
+                        trigger="click"
+                    >
+                        <el-input placeholder="二维码字符串" size="small">
+                            <el-button 
+                                slot="append" 
+                                icon="el-icon-upload2" 
+                                @click="enteringCode"
+                                size="small"
+                            />
+                        </el-input>
+                        <svg-icon 
+                            slot="reference"
+                            iconClass="entering" 
+                            className="el-icon-entering"
+                        />
+                    </el-popover>
+                    
                     <!-- 告警信息收集展示 -->
                     <el-popover
                         placement="bottom-end"
@@ -38,11 +61,11 @@
                             slot="reference"
                         >
                             <el-badge :value="alarmBox.length" :max="99">
-                                <i class="el-icon-bell"/>
+                                <i class="el-icon-bell" title="告警信息"/>
                             </el-badge>
                         </div>
                     </el-popover>
-                    <i class="el-icon-search" @click="flag = true"/>
+                    <i class="el-icon-search" @click="flag = true" title="设备搜索"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
                             <img :src="imagePath" class="user-avatar">
@@ -76,7 +99,7 @@
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
                 <el-submenu index="1">
                     <template slot="title">
-                        <img src="@images/avatar.png" />
+                        <img src="@images/avatar.png" :style="{paddingRight:'5px'}"/>
                         <span>{{username}}</span>
                     </template>
                     <el-menu-item @click="skipAccount" index="1-1">账号管理</el-menu-item>
@@ -211,6 +234,10 @@
             closeSearch(){
                 this.flag = false;
                 this.closeList()
+            },
+            //录入二维码字符串
+            enteringCode(){
+                console.log('录入')
             },
             //全屏
             full(){

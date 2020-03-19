@@ -60,12 +60,16 @@ $height:50px;
                 height: $height;
                 display: flex;
                 align-items: center;
-                .el-icon-search,.el-icon-bell,.el-icon-full-screen{
-                    padding: 0px 20px;
+                .el-icon-search,.el-icon-bell,.el-icon-full-screen,.el-icon-entering{
+                    padding: 0px 15px;
                     color: #fff;
                     cursor: pointer;
                 }
-                .el-icon-bell{
+                .svg-icon{
+                    width: 22px;
+                    height: 22px;
+                }
+                .el-icon-bell,.el-icon-full-screen{
                     padding: 0;
                 }
                 .avatar-container {

@@ -10,7 +10,7 @@
                 <el-input v-model="form.name" placeholder="请输入角色名称" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="父角色" prop="parentId">
-                <el-select v-model="form.parentId" placeholder="属于哪个父角色">
+                <el-select v-model="form.parentId" placeholder="属于哪个父角色" :disabled="editFlag">
                     <el-option l
                         v-for="item in roleList"
                         :key="item.id"
