@@ -30,7 +30,7 @@
                         width="200"
                         trigger="click"
                     >
-                        <el-input placeholder="二维码字符串" size="small">
+                        <el-input placeholder="二维码字符串" size="small" v-model="codeStr">
                             <el-button 
                                 slot="append" 
                                 icon="el-icon-upload2" 
@@ -129,7 +129,8 @@
                 username:'',
                 imagePath:require('@images/default.jpg'),
                 noticeVisible: false,
-                activeName:'notice'
+                activeName:'notice',
+                codeStr:''
             }
         },
         components: {
