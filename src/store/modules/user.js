@@ -17,9 +17,9 @@ const tip = (msg,type="error") => {
 
 const state={
     token: getToken(),
-    userDetail:JSON.parse(sessionStorage.getItem('userDetail')),
-    permissionIds:JSON.parse(sessionStorage.getItem('permissionIds')),
-    permissionVO:JSON.parse(sessionStorage.getItem('permissionVO'))
+    userDetail: JSON.parse(sessionStorage.getItem('userDetail')),
+    permissionIds: JSON.parse(sessionStorage.getItem('permissionIds')),
+    permissionVO: JSON.parse(sessionStorage.getItem('permissionVO'))
 }
 
 const mutations={
@@ -60,12 +60,14 @@ const actions= {
                     commit('SET_PERMISSIONVO', user_detail.permissionVO);
                     
                     //菜单权限信息
-                    const { menuPermissionIds } = user_detail.permissionVO;
-                    const permissionIds = _.sortBy(menuPermissionIds.permissionIds.split(','));
+                    const { basiPermissionIds, menuPermissionIds } = user_detail.permissionVO;
+                    const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
+                    const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
                     sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
                     commit('SET_PERMISSIONIDS', [...permissionIds,'66','67']);
-
-                    return ["1","2","3","4"].filter(item=>{
+                    
+                    //111 为项目管理权限ID, 因为id为1的情况有重复;
+                    return ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
                         return permissionIds.includes(item);
                     })
                 }else{

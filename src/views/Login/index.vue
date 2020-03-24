@@ -69,6 +69,8 @@
 </template>
 
 <script>
+    import { menuPermission } from '@/utils/methods'
+
     export default {
         data() {
             const validateUsername = (rule, value, callback) => {
@@ -128,16 +130,9 @@
                                 if(!res) return;    
                                     
                                 if(!res.length){
-                                    //待定
                                     this.$router.push({ name:'NoPermission' });
                                 }else{
-                                    let route_Arr ={
-                                        "1":"Overall",
-                                        "2":"Gateway",
-                                        "3":"Project",
-                                        "4":"Senior"
-                                    };
-                                    this.$router.push({ name: route_Arr[res[0]] });
+                                    this.$router.push({ name: menuPermission(res[0]) });
                                 }
                             })
                         } else {

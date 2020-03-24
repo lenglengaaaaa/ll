@@ -327,3 +327,19 @@ export const xyTransformation =async (position) => {
     }
     return await fetchValue();
 }
+
+/**
+ * 菜单权限
+ */
+export const menuPermission = (id)=>{
+    switch (id) {
+        case '1':
+            return 'Overall'
+        case '2':
+            return 'Gateway'
+        case '111':
+            return 'Project'
+        default:
+            return 'Senior'
+    }
+}

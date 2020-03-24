@@ -161,11 +161,7 @@
         computed: {
             ...mapState('user',[
                 'permissionIds',
-                'permissionVO'
             ]),
-            basiPermissionIds(){
-                return this.permissionVO.basiPermissionIds.permissionIds.split(',');
-            },
             alarmBox() {
                 return this.$store.state.app.alarmBox
             },
@@ -176,11 +172,11 @@
                     {id:"3",path:'/project',name:'项目管理',route:{name:'Project'},hidden:false},
                     {id:"4",path:'/senior',name:'高级管理',route:{name:'Senior'},hidden:false}
                 ];
-
+                
                 //权限设置
                 return arr.map(item=>{
                     if(item.id == "3"){
-                        item.hidden = !this.basiPermissionIds.includes("11");
+                        item.hidden = !this.permissionIds.includes("111");
                     }else if(item.id === "4"){
                         const seniorChildIds = ['14','15','16','17','18','19','20','21'];
                         item.hidden = !this.permissionIds.some(item=>{

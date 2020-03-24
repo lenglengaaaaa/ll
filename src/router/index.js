@@ -7,6 +7,7 @@ import { message } from 'element-ui'
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie
+import { menuPermission } from '@/utils/methods'
 import OverallLayout from '@/Layout/Overall'
 import SideBarLayout from '@/Layout/HasSidebar'
 
@@ -114,7 +115,7 @@ router.beforeEach(async(to,from,next)=>{
   NProgress.start()
 
   // determine whether the user has logged in
-  const hasToken = getToken()
+  const hasToken = getToken();
 
   //某些页面需要校验是否登录，如果登录了就可以访问，否则跳转到登录页。这里我们通过localStorage 来简易判断是否登录
   if (!hasToken) {
@@ -133,26 +134,41 @@ router.beforeEach(async(to,from,next)=>{
           NProgress.done()
         }, 2000);
       })
-      
-      // const hasGetUserInfo = store.state.user.name
-      // if (hasGetUserInfo) {
-      //   next()
-      // } else {
-      //   try {
-      //     // get user info
-      //     await store.dispatch('user/getInfo')
-      //     next()
-      //   } catch (error) {
-      //     // remove token and go to login page to re-login
-      //     await store.dispatch('user/resetToken')
-      //     Message.error(error || 'Has Error')
-      //     next(`/login`)
-      //     NProgress.done()
-      //   }
-      // }
     }
   }else{
-    if(to.path === '/senior' || to.path === '/senior/'){
+    if( !JSON.parse(sessionStorage.getItem('permissionIds') && to.path !== '/login') ){
+      const { id } = store.state.user.userDetail;
+
+      store.dispatch('permission/getPowerInfo',{
+        roleOrAccountId:id,
+        type:1
+      }).then(res=>{
+        if(!res) return next();
+        
+        //所有权限
+        sessionStorage.setItem('permissionVO',JSON.stringify(res));
+        store.commit('user/SET_PERMISSIONVO', res);
+
+        //菜单权限
+        const { basiPermissionIds, menuPermissionIds } = res;
+        const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
+        const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
+        sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
+        store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
+
+  
+        const resultArr = ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
+            return permissionIds.includes(item);
+        })
+        if(!resultArr.length){
+          next('/NoPermission');
+        }else{
+          next({
+            name: menuPermission(resultArr[0])
+          });
+        }
+      })
+    }else if(to.path === '/senior' || to.path === '/senior/'){
       //高级管理权限设置
       const { permissionIds } = store.state.user;
       const seniorChildIds = ['14','15','16','17','18','19','20','21'];
@@ -167,7 +183,6 @@ router.beforeEach(async(to,from,next)=>{
           17:'application', 18:'module', 19:'product',
           20:'system', 21:'repair',
       }
-      console.log(routeNames[hasPowerIds[0]],'routeNames[hasPowerIds[0]]')
       next(`/senior/${routeNames[hasPowerIds[0]]}`);
     }else{
       next();
