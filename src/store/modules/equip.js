@@ -14,7 +14,7 @@ const tip = (msg,type="error") => {
 }
 
 const state={
-    equipTypeMenu:sessionStorage.getItem('equipTypeMenu')?JSON.parse(sessionStorage.getItem('equipTypeMenu')) : []
+    equipTypeMenu: JSON.parse(sessionStorage.getItem('equipTypeMenu'))
 }
 
 const mutations={
@@ -82,7 +82,6 @@ const actions= {
                 return res.data;
             }else{
                 res&&tip(res.meassage)
-                commit('SET_MENU', [])
                 return false;
             }
         })

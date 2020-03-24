@@ -59,6 +59,7 @@
 <script>
     import { mapActions } from 'vuex'
     import { SoeChart , CategoryChart} from '@/components/Charts'
+    import { judgeEquipTypeMenu } from '@/utils/methods'
     import CountRow from './components/CountRow'
     import MapRow from './components/MapRow'
 
@@ -93,9 +94,8 @@
             initial(){
                 this.getSoe();
                 (async ()=>{
-                    const equipTypeMenu = !sessionStorage.getItem('equipTypeMenu') && 
-                                            await this.$store.dispatch('equip/getEquipTypeMenu');
-                    await this.getCount(equipTypeMenu||this.equipTypeMenu);
+                    const equipTypeMenu = await judgeEquipTypeMenu();
+                    await this.getCount( equipTypeMenu || this.equipTypeMenu );
                 })()
             },
             //获取设备数量

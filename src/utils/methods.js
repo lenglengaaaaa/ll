@@ -56,6 +56,22 @@ export const judgeUserDetail = () =>{
 }
 
 /**
+ * 判断sessionStorage中是否有equipTypeMenu
+ */
+export const judgeEquipTypeMenu = () =>{
+    if(sessionStorage.getItem('equipTypeMenu')){
+        return new Promise((resolve,reject)=>{
+            resolve(JSON.parse(sessionStorage.getItem('equipTypeMenu')))
+        })
+    }else{
+        return store.dispatch('equip/getEquipTypeMenu').then(res=>{
+            if(!res)return;
+            return res;
+        })  
+    }
+}
+
+/**
  * 拆分字符串
  */
 export const splitString = (value) =>{

@@ -114,7 +114,7 @@
 <script>
     import GlobalSearch from './GlobalSearch' 
     import avatar from '@images/default.jpg'
-    import {judgeUserDetail} from '@/utils/methods'
+    import { judgeUserDetail, judgeEquipTypeMenu} from '@/utils/methods'
     import Notice from './notice'
     import { mapState } from 'vuex'
     
@@ -198,6 +198,7 @@
                 };
                 //获取用户详情
                 this.getAccount();
+                judgeEquipTypeMenu();
             },
             //获取用户详情
             getAccount(){
