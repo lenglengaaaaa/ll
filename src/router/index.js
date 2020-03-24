@@ -7,7 +7,7 @@ import { message } from 'element-ui'
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie
-import { menuPermission } from '@/utils/methods'
+import { menuPermission, judgeUserDetail } from '@/utils/methods'
 import OverallLayout from '@/Layout/Overall'
 import SideBarLayout from '@/Layout/HasSidebar'
 
@@ -136,27 +136,22 @@ router.beforeEach(async(to,from,next)=>{
       })
     }
   }else{
-    if( !JSON.parse(sessionStorage.getItem('permissionIds') && to.path !== '/login') ){
-      const { id } = store.state.user.userDetail;
+    if((!JSON.parse(sessionStorage.getItem('userDetail')) || !JSON.parse(sessionStorage.getItem('permissionIds')) && to.path !== '/login') ){
 
-      store.dispatch('permission/getPowerInfo',{
-        roleOrAccountId:id,
-        type:1
-      }).then(res=>{
+      judgeUserDetail().then(res=>{
         if(!res) return next();
-        
+        const { permissionVO } = res;
         //所有权限
-        sessionStorage.setItem('permissionVO',JSON.stringify(res));
-        store.commit('user/SET_PERMISSIONVO', res);
+        sessionStorage.setItem('permissionVO',JSON.stringify(permissionVO));
+        store.commit('user/SET_PERMISSIONVO', permissionVO);
 
-        //菜单权限
-        const { basiPermissionIds, menuPermissionIds } = res;
+        //菜单权限信息
+        const { basiPermissionIds, menuPermissionIds } = permissionVO;
         const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
         const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
         sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
         store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
 
-  
         const resultArr = ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
             return permissionIds.includes(item);
         })
@@ -168,6 +163,7 @@ router.beforeEach(async(to,from,next)=>{
           });
         }
       })
+
     }else if(to.path === '/senior' || to.path === '/senior/'){
       //高级管理权限设置
       const { permissionIds } = store.state.user;
