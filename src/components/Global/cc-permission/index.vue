@@ -161,7 +161,6 @@
                             })
                         }
                     }
-
                     this.tree.forEach(item=>{
                         if(item.id === "1" || item.id === "2"){
                             item.id = res[item.permissionName] && res[item.permissionName].id
@@ -170,11 +169,13 @@
                                 if(!res[item.permissionName].length){
                                     k.id = null;
                                 }else{
-                                    res[item.permissionName].forEach( i =>{
+                                    for(let i of res[item.permissionName]){
                                         if(k.assetId === i.assetId){
                                             k.id = i.id;
+                                            break;
                                         }
-                                    })
+                                        k.id = null;
+                                    }
                                 }
                             }
                         }

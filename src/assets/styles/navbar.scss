@@ -60,8 +60,13 @@ $height:50px;
                 height: $height;
                 display: flex;
                 align-items: center;
-                .el-icon-search,.el-icon-bell,.el-icon-full-screen,.el-icon-entering{
+                .el-icon-bell,.el-icon-full-screen{
                     padding: 0px 15px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                .el-icon-search,.el-icon-entering{
+                    margin: 0 15px;
                     color: #fff;
                     cursor: pointer;
                 }

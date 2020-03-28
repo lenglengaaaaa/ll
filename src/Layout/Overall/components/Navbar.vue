@@ -198,6 +198,7 @@
                 };
                 //获取用户详情
                 this.getAccount();
+                //获取设备类型列表
                 judgeEquipTypeMenu();
             },
             //获取用户详情
