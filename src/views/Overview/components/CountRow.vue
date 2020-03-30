@@ -35,7 +35,7 @@
             return {
                 rows:[
                     {
-                        id:"3",
+                        id:"111",
                         name:"项目",
                         icon:'project',
                         path:'/project',
@@ -45,7 +45,7 @@
                         percentage:0
                     },
                     {
-                        id:"3",
+                        id:"111",
                         name:'设备',
                         icon:'equip',
                         path:'/project',
