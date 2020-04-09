@@ -220,5 +220,132 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@styles/ringView.scss';
+    .RING_VIEW{
+        height: 100%;
+        .el-row{
+            height: 100%;
+            .el-col{
+                height: 100%;
+                .view{
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: auto;
+                    .wrap{
+                        padding: 0;
+                        margin: 0;
+                        position: relative;
+                        max-width: 100%;
+                        strong{
+                            position: absolute;
+                            width: 220px;
+                            top: -99px;
+                            left: 120px;
+                            padding: 5px;
+                            font-size: 0.8rem;
+                            border-radius: 5px;
+                            border: 4px solid black;
+                        }
+                        > li{
+                            display: flex;
+                            width: 400px;
+                            height: 120px;
+                            .title{
+                                    width: 30%;
+                                    padding: 15px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    span{
+                                        font-size: 0.8rem;
+                                        font-weight: bold;
+                                        cursor: pointer;
+                                        padding: 5px;
+                                        display: inline-block;
+                                        border-radius: 5px;
+                                        text-align: center;
+                                        width: 100px;
+                                    }
+                                    .active{
+                                        color: #fff;
+                                        background-color: rgb(54, 169, 225);
+                                    }
+                            }
+                            .list{
+                                width: 70%;
+                                background:url('../../../../../../assets/images/linemap.png') no-repeat ;
+                                position: relative;
+                                &::before{
+                                        content: ' ';
+                                        position: absolute;
+                                        top: -60px;
+                                        left: 0px;
+                                        height: 100%;
+                                        border-left: 4px solid #000;
+                                }
+                                li{
+                                    font-size: 0.75rem;
+                                    position: relative;
+                                    height: 26.5px;
+                                    .info{
+                                        width: 100%;
+                                        position: absolute;
+                                        top: 5px;
+                                        left: 90px;
+                                        display: flex;
+                                        align-items: center;
+                                        .icon{
+                                            width: 20px;
+                                            height: 19px;
+                                            cursor: pointer;
+                                        }
+                                        span{
+                                            // padding: 0 5px;
+                                            width:52px;
+                                            text-align: center;
+                                            &:last-child{
+                                                font-weight: bold;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .DATA_DETAIL{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    padding: 15px 0;
+                    .wrap{
+                        width: 98%;
+                        #line{
+                            height: 300px !important;
+                        }  
+                        .seletGroup{
+                            padding-bottom: 20px;
+                            .el-form{
+                                .el-form-item{
+                                    margin-bottom: 0px;
+                                }
+                            }
+                            .el-icon-download{
+                                padding: 10px;
+                                cursor: pointer;
+                                background: #ecefef;
+                                border-radius: 5px;
+                            }
+                        }
+                    }
+                    .lineChart{
+                        height: 300px;
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+        }
+    }
 </style>

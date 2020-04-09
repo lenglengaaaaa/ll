@@ -370,10 +370,10 @@ const actions= {
             url:`${api.getCurrentMagicData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
-                return res.data
+            if( res && res.code===10000000 && res.data ){
+                return res.data;
             }else{
-                res&&tip(res.meassage)
+                res&&tip(res.meassage);
                 return false
             }
         })

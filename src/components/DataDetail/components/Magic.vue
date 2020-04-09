@@ -117,7 +117,7 @@
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
-
+                    
                     const {deviceInfoList,dataMap} = res;
                     if( !res|| !deviceInfoList.length )return;
                     const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,startTime,endTime});

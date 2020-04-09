@@ -89,7 +89,7 @@
                     current:1,
                     type:1
                 },
-                switchList:[],
+                switchList:defaultValue,
                 client:null
             }
         },

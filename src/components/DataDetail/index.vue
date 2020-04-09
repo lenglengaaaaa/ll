@@ -164,7 +164,7 @@
                     assetType:this.assetType
                 }).then(res=>{
                     this.loading = false;
-                    if(!res) return;
+                    if( !res ) return;
                     this.magicData= {
                         data:currentDataFilter(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
