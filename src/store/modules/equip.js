@@ -419,7 +419,7 @@ const actions= {
             if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                res&&tip(res.meassage)
+                if(res && res.code !== 10000000 ) res&&tip(res.meassage)
                 return false
             }
         })
@@ -443,7 +443,7 @@ const actions= {
             if(res&&res.code===10000000&&res.data){
                 return res.data
             }else{
-                res&&tip(res.meassage)
+                res&&tip(res.meassage);
                 return false
             }
         })
@@ -462,10 +462,10 @@ const actions= {
             url:`${api.getS801CurrentData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res&&res.code===10000000 && res.data){
                 return res.data;
             }else{
-                res&&tip(res.meassage)
+                if(res && res.code !== 10000000 ) res&&tip(res.meassage);
                 return false
             }
         })
@@ -477,10 +477,10 @@ const actions= {
             url:`${api.getS803CurrentData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res&&res.code===10000000 && res.data){
                 return res.data;
             }else{
-                res&&tip(res.meassage)
+                if(res && res.code !== 10000000 ) res&&tip(res.meassage);
                 return false
             }
         })
@@ -492,10 +492,10 @@ const actions= {
             url:`${api.getS805CurrentData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res&&res.code===10000000 && res.data){
                 return res.data;
             }else{
-                res&&tip(res.meassage)
+                if(res && res.code !== 10000000 ) res&&tip(res.meassage);
                 return false
             }
         })
@@ -517,7 +517,7 @@ const actions= {
             url:`${api.getS801HistoryData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res && res.code===10000000 && res.data){
                 return res.data
             }else{
                 res&&tip(res.meassage)
@@ -532,7 +532,7 @@ const actions= {
             url:`${api.getS803HistoryData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res && res.code===10000000&&res.data){
                 return res.data
             }else{
                 res&&tip(res.meassage)
@@ -547,7 +547,7 @@ const actions= {
             url:`${api.getS805HistoryData}`,
             data:obj
         }).then(res=>{
-            if(res&&res.code===10000000&&res.data){
+            if(res && res.code===10000000&&res.data){
                 return res.data
             }else{
                 res&&tip(res.meassage)

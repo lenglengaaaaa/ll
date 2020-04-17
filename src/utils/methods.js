@@ -344,6 +344,7 @@ export const dataProcessing=(list,dataMap,type='line')=>{
                 id,
                 number,
                 name,
+                deviceAdress,
                 createTime:currentData?
                     moment(currentData.createTime).format('YYYY-MM-DD HH:mm:ss'):null,
                 data:currentData?

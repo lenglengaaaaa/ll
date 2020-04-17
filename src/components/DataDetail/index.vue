@@ -219,8 +219,8 @@
             },
             //MQTT数据处理
             mqttDataHandle(res){
-                const {address,lineId,fc,data,time} = res;
-                if(fc==33||fc==36)return;
+                const { address, lineId, fc, data, time } = res;
+                if( fc==33 || fc==36 )return;
                 //筛选数据
                 const filterData = (currentVal)=>{
                     if(!currentVal)return;
@@ -249,15 +249,15 @@
                         }
                         break;
                     case 38:
-                        const line = this.lineData.filter(item=>item.id==lineId)[0];
+                        const line = this.lineData.filter( item => item.id == lineId )[0];
                         filterData(line);
                         break;
                     case 28:
-                        const sEight = this.sEightData.filter(item=>item.id==address)[0];
+                        const sEight = this.sEightData.filter( item=> item.deviceAdress == address )[0];
                         filterData(sEight);
                         break;
                     default:
-                        const sensor = this.sensorData.filter(item=>item.id==address)[0];
+                        const sensor = this.sensorData.filter( item=> item.deviceAdress == address )[0];
                         filterData(sensor);
                         break;
                 }
