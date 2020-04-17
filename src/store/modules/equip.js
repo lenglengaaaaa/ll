@@ -450,16 +450,71 @@ const actions= {
     },
 
     /**
-     * 获取资产下的s801、s802、s803 实时数据
+     * 获取资产下的s801、s803、s805 实时数据
      * @param {
      *      assetId  资产ID
      *      assetType  0:配电柜 1:配电房 2:井盖
      * }
      */
-    getSensorCurrentData({commit},obj){
+    getS801CurrentData({commit},obj){
         return request({
             method:'post',
-            url:`${api.getSensorCurrentData}`,
+            url:`${api.getS801CurrentData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    getS803CurrentData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS803CurrentData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    getS805CurrentData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS805CurrentData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data;
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取资产下的s801、s803、s805 历史数据
+     * @param {
+     *      assetId  资产ID
+     *      assetType  0:配电柜 1:配电房 2:井盖
+     *      createTime 起始时间 (2019-01-01)
+     *      endTime 结束时间 (2019-01-1)
+     *      key 环境变量
+     * }
+     */
+    getS801HistoryData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS801HistoryData}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
@@ -471,19 +526,25 @@ const actions= {
         })
     },
 
-    /**
-     * 获取资产下的s801、s802、s803 历史数据
-     * @param {
-     *      assetId  资产ID
-     *      assetType  0:配电柜 1:配电房 2:井盖
-     *      createTime 起始时间 (2019-01-01)
-     *      endTime 结束时间 (2019-01-1)
-     * }
-     */
-    getSensorHistoryData({commit},obj){
+    getS803HistoryData({commit},obj){
         return request({
             method:'post',
-            url:`${api.getSensorHistoryData}`,
+            url:`${api.getS803HistoryData}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    getS805HistoryData({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS805HistoryData}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
@@ -553,13 +614,43 @@ const actions= {
     },
 
     /**
-     * 导出资产下s801、s802、s803的历史数据
+     * 导出资产下s801、s803、s805的历史数据
      * @param 同历史数据
      */
-    getSensorHistoryExecl({commit},obj){
+    getS801HistoryExecl({commit},obj){
         return request({
             method:'post',
-            url:`${api.getSensorHistoryExecl}`,
+            url:`${api.getS801HistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    getS803HistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS803HistoryExecl}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    getS805HistoryExecl({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getS805HistoryExecl}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){

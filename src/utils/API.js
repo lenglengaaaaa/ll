@@ -284,11 +284,16 @@ export const api={
     //获取资产下s800的历史数据 post
     gets800HistoryData:`${url}/e_view/data/statistics/s800/history`,
 
-    //获取资产下的s801、s802、s803 实时数据 post
-    getSensorCurrentData:`${url}/e_view/data/statistics/other/current`,
+    //获取资产下的s801、s803、s805 实时数据 post 
+    getS801CurrentData:`${url}/e_view/data/statistics/s801/current`,
+    getS803CurrentData:`${url}/e_view/data/statistics/s803/current`,
+    getS805CurrentData:`${url}/e_view/data/statistics/s805/current`,
 
-    //获取资产下的s801、s802、s803 历史数据 post
-    getSensorHistoryData:`${url}/e_view/data/statistics/other/history`,
+    //获取资产下的s801、s802、s803 历史数据 post 
+    getS801HistoryData:`${url}/e_view/data/statistics/s801/history`,
+    getS803HistoryData:`${url}/e_view/data/statistics/s803/history`,
+    getS805HistoryData:`${url}/e_view/data/statistics/s805/history`,
+
 
     //导出资产下的环境（多个魔节）历史数据 post
     getMagicHistoryExecl:`${url}/e_view/data/statistics/history/cmterminal/execl`,
@@ -299,8 +304,10 @@ export const api={
     //导出资产下s800的历史数据 post
     getS800HistoryExecl:`${url}/e_view/data/statistics/s800/history/execl`,
 
-    //导出资产下s801、s802、s803的历史数据 post
-    getSensorHistoryExecl:`${url}/e_view/data/statistics/other/history/execl`,
+    //导出资产下s801、s803、s805的历史数据 post
+    getS801HistoryExecl:`${url}/e_view/data/statistics/s801/history/execl`,
+    getS803HistoryExecl:`${url}/e_view/data/statistics/s803/history/execl`,
+    getS805HistoryExecl:`${url}/e_view/data/statistics/s805/history/execl`,
 
     //导出配电柜下单个出线的历史视图 post
     getRingHistoryExecl:`${url}/e_view/data/statistics/switch/history/execl`,

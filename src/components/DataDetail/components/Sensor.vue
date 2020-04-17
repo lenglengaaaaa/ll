@@ -68,14 +68,14 @@
 </template>
 
 <script>
-    import { newFilterData } from '@/utils/methods'
+    import { lastDataFilter } from '@/utils/methods'
     import SensorMixin from './mixin/Sensor'
     import Throttle from './mixin/Throttle'
-
 
     export default {
         props: {
             sensorData: Array,
+            sensorType:String
         },
         mixins:[SensorMixin,Throttle],
         data() {
@@ -83,12 +83,18 @@
                 sign: 'Sensor'
             }
         },
-        mounted () {
-            this.getSensorHistory();
+        watch: {
+            sensorType( type ) {
+                console.log(type,'type')
+                this.getSensorHistory(type);
+            }
+        },
+        mounted(){
+            this.getSensorHistory('801');
         },
         methods: {
             //获取独立传感器历史数据
-            getSensorHistory(){
+            getSensorHistory(type){
                 //echarts加载Loading
                 const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
@@ -96,28 +102,43 @@
                 const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
-                this.getSensorHistoryData({
+                const func = {
+                    '801':this.getS801HistoryData,
+                    '803':this.getS803HistoryData,
+                    '805':this.getS805HistoryData
+                }
+                
+                func[type]({
                     assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
-                    endTime
+                    endTime,
+                    key:this.value
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
-
-                    const {deviceInfoList,dataMap} = res;
-                    if( !res || !deviceInfoList.length )return;
-                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,type:'sensor',startTime,endTime})
-                    this.allData = result;
+                    const { deviceInfoList, dataMap } = res;
+                    if( !res || !deviceInfoList.length ){
+                        this.timeArray = [];
+                        this.currentValue = [];
+                        return;
+                    };
+                    const { result, timeResult } = lastDataFilter({list:deviceInfoList,data:dataMap,type:'sensor',startTime,endTime})
                     this.timeArray = timeResult;
-                    this.currentValue = result[this.value]||[];
+                    this.currentValue = result;
                 })
+
             },
             //切换日期
             changeDate(date){
                 if(!date)return;
                 this.time = [date[0],date[1]];
                 this.getSensorHistory();
+            },
+             //切换环境变量
+            changeParam(val){
+                this.value = val;
+                this.getSensorHistory(this.sensorType);
             },
         },
     }

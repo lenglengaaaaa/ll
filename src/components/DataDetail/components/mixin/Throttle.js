@@ -24,12 +24,16 @@ export default {
         ...mapActions('equip',[
             'getMagicHistoryData',
             'getTrapLineHistory',
-            'getSensorHistoryData',
             'gets800HistoryData',
+            'getS801HistoryData',
+            'getS803HistoryData',
+            'getS805HistoryData',
             'getMagicHistoryExecl',
             'getTrapHistoryExecl',
             'getS800HistoryExecl',
-            'getSensorHistoryExecl',
+            'getS801HistoryExecl',
+            'getS803HistoryExecl',
+            'getS805HistoryExecl',
         ]),
         //下载
         download: _.throttle(function(){
@@ -89,7 +93,12 @@ export default {
                 case 'S800':
                     return this.getS800HistoryExecl(params);
                 case 'Sensor':
-                    return this.getSensorHistoryExecl(params);
+                    const func = {
+                        '801':this.getS801HistoryExecl,
+                        '803':this.getS803HistoryExecl,
+                        '805':this.getS805HistoryExecl
+                    }
+                    return func[this.sensorType](params);
                 default:
                     console.log('null')
             }

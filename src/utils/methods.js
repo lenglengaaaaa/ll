@@ -186,7 +186,7 @@ export const lastDataFilter = ( obj ) =>{
     const result = list.reduce((pre,current)=>{
         const { id, deviceType, deviceAdress, name } = current ;
         const currentData = type==='magic' ? data[deviceAdress] :
-                                type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
+                                type==='sensor'? data[deviceAdress] 
                                     : data[id];
         // if( isDelete || !currentData ) return pre;
         if( !currentData ) return pre;
@@ -241,41 +241,41 @@ export const magicDataFilter = (params) =>{
  * @param data 数据
  * @param type 类型
  */
-export const newFilterData = (obj) =>{
-    const {list,data,type='magic',startTime,endTime} = obj;
-    const diffTime = timeDiff(startTime,endTime);
-    let timeArray= [];
-    const result = list.reduce((pre,current)=>{
-        const { id, deviceType ,deviceAdress, name, isDelete } = current ;
-        const currentData = type==='magic' ? data[deviceAdress] :
-                                type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
-                                    : data[id];
-        // if( isDelete || !currentData ) return pre;
-        if( !currentData ) return pre;
-        let obj = {};
-        currentData.forEach(single=>{
-            for(let item in single){
-                if(item==='cbtemp'||item==='lat'||item==='lng'||item==='mode'||item==='status'||item==='shake') continue;
-                if(item==='createTime'){
-                    timeArray.push(moment(single.createTime).valueOf());
-                    continue;
-                }
-                if(!obj[item]) obj[item] = [];
-                obj[item].push([moment(single.createTime).format(diffTime),single[item]]);
-            }
-        })
-        for(let k in obj){
-            if(!pre[k]) pre[k] = [];
-            pre[k].push({ name,data:obj[k] });
-        }
-        return pre;
-    },{})
-    const timeResult = _.sortBy(timeArray).map(item => moment(item).format(diffTime)) || [];
-    return {
-        result,
-        timeResult
-    }
-}
+// export const newFilterData = (obj) =>{
+//     const {list,data,type='magic',startTime,endTime} = obj;
+//     const diffTime = timeDiff(startTime,endTime);
+//     let timeArray= [];
+//     const result = list.reduce((pre,current)=>{
+//         const { id, deviceType ,deviceAdress, name, isDelete } = current ;
+//         const currentData = type==='magic' ? data[deviceAdress] :
+//                                 type==='sensor'? data[deviceAdress] 
+//                                     : data[id];
+//         // if( isDelete || !currentData ) return pre;
+//         if( !currentData ) return pre;
+//         let obj = {};
+//         currentData.forEach(single=>{
+//             for(let item in single){
+//                 if(item==='cbtemp'||item==='lat'||item==='lng'||item==='mode'||item==='status'||item==='shake') continue;
+//                 if(item==='createTime'){
+//                     timeArray.push(moment(single.createTime).valueOf());
+//                     continue;
+//                 }
+//                 if(!obj[item]) obj[item] = [];
+//                 obj[item].push([moment(single.createTime).format(diffTime),single[item]]);
+//             }
+//         })
+//         for(let k in obj){
+//             if(!pre[k]) pre[k] = [];
+//             pre[k].push({ name,data:obj[k] });
+//         }
+//         return pre;
+//     },{})
+//     const timeResult = _.sortBy(timeArray).map(item => moment(item).format(diffTime)) || [];
+//     return {
+//         result,
+//         timeResult
+//     }
+// }
 
 /**
  * 文件下载功能
@@ -336,8 +336,7 @@ export const dataProcessing=(list,dataMap,type='line')=>{
     const result = list.reduce((pre,current)=>{
         const { id, name, number, isDelete, deviceType, deviceAdress } = current;
         const currentData = type==='line'? dataMap[id] :
-                                type==='s800'?dataMap[deviceAdress]:
-                                    dataMap[deviceType]&&dataMap[deviceType][deviceAdress];
+                                type==='s800' || type === 'sensor' ? dataMap[deviceAdress]: '';
         if(isDelete) return pre;
         return [
             ...pre,

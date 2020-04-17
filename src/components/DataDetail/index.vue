@@ -56,12 +56,18 @@
         <div class="s800">
             <div class="title">
                 <span>红外、烟雾、液位等传感器</span>
+                <el-select v-model="sensorType" @change="changeSensor">
+                    <el-option label="烟感" value="801" />
+                    <el-option label="红外" value="803" />
+                    <el-option label="液位" value="805" />
+                </el-select>
                 <el-divider></el-divider>
                 <div class="content">
                     <div class="wrap">
                         <Sensor
                             :sensorData="sensorData"
                             :assetType="assetType"
+                            :sensorType="sensorType"
                         />
                     </div>
                 </div>
@@ -95,6 +101,7 @@
                 magicList:[],
                 currentMagic:{},
                 magicId:'',
+                sensorType:'801',
                 params:{
                     trapId:null,
                     roomId:null,
@@ -141,7 +148,9 @@
                 'getCurrentMagicData',
                 'getLineCurrentData',
                 'gets800CurrentData',
-                'getSensorCurrentData'
+                'getS801CurrentData',
+                'getS803CurrentData',
+                'getS805CurrentData',
             ]),
             //获取资产下魔节列表
             getMagicList(){
@@ -196,10 +205,13 @@
             //获取资产下的红外、烟感等设备实时数据
             getSensorData(){
                 const {id,trapId} = this.assetObj;
-                this.getSensorCurrentData({
-                    assetId:trapId||id,
-                    assetType:this.assetType
-                }).then(res=>{
+                const params = { assetId:trapId || id, assetType:this.assetType };
+                const func = {
+                    '801':this.getS801CurrentData,
+                    '803':this.getS803CurrentData,
+                    '805':this.getS805CurrentData,
+                }
+                func[this.sensorType](params).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
                     this.sensorData = dataProcessing(deviceInfoList,dataMap,'sensor');
@@ -254,6 +266,10 @@
             changeMagic(val){
                 this.currentMagic = this.magicList.filter(item=>item.id ===val)[0];
                 this.getMagicData(val);
+            },
+            //切换传感器回调
+            changeSensor(val){
+                this.getSensorData(val);
             },
             //匹配资产类型
             classifyType(type){

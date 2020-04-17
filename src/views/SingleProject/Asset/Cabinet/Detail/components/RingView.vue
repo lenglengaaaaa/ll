@@ -87,8 +87,8 @@
 <script>
     import _ from 'lodash';
     import { mapActions } from 'vuex'
-    import { newFilterData ,downFile,timeDiff } from '@/utils/methods'
-    import {LineChart} from '@/components/Charts'
+    import { downFile, timeDiff } from '@/utils/methods'
+    import { LineChart } from '@/components/Charts'
 
     export default {
         components: {
