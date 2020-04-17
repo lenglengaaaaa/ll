@@ -87,7 +87,7 @@
 
 <script>
     import {LineChart} from '@/components/Charts'
-    import { newFilterData } from '@/utils/methods'
+    import { lastDataFilter } from '@/utils/methods'
     import Throttle from './mixin/Throttle'
 
     export default {
@@ -134,23 +134,34 @@
                 this.getTrapLineHistory({
                     queryId:trapId||id,
                     startTime,
-                    endTime
+                    endTime,
+                    key:this.value
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
 
                     const {lineInfoList,lineDateMap} = res;
                     if(!res || !lineInfoList.length)return;
-                    const {result,timeResult} = newFilterData({list:lineInfoList,data:lineDateMap,type:'line',startTime,endTime});
-                    this.allData = result;
+                    const {result,timeResult} = lastDataFilter({
+                        list:lineInfoList,
+                        data:lineDateMap,
+                        type:'line',
+                        startTime,
+                        endTime
+                    });
                     this.timeArray = timeResult;
-                    this.currentValue = result[this.value] || [];
+                    this.currentValue = result;
                 })
             },
             //切换日期
             changeDate(date){
                 if(!date)return;
                 this.time = [date[0],date[1]];
+                this.getLineHistory();
+            },
+            //切换环境变量
+            changeParam(val){
+                this.value = val;
                 this.getLineHistory();
             },
             //匹配名称&单位

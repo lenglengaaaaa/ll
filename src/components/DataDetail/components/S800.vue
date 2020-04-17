@@ -68,7 +68,7 @@
 </template>
 
 <script>
-    import { newFilterData } from '@/utils/methods'
+    import { lastDataFilter } from '@/utils/methods'
     import SensorMixin from './mixin/Sensor'
     import Throttle from './mixin/Throttle'
 
@@ -99,24 +99,28 @@
                     assetId:trapId||id,
                     assetType:this.assetType,
                     startTime,
-                    endTime
+                    endTime,
+                    key:this.value
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
                     
                     const {deviceInfoList,dataMap} = res;
                     if(!res || !deviceInfoList.length)return;
-                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,startTime,endTime})
+                    const {result,timeResult} = lastDataFilter({list:deviceInfoList,data:dataMap,startTime,endTime})
                     this.timeArray = timeResult;
-                    this.allData = result;
-                    this.currentValue = result[this.value] || [];
-                    
+                    this.currentValue = result;
                 })
             },
             //切换日期
             changeDate(date){
                 if(!date)return;
                 this.time = [date[0],date[1]];
+                this.getS800History();
+            },
+            //切换环境变量
+            changeParam(val){
+                this.value = val;
                 this.getS800History();
             },
         },

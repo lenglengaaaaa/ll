@@ -63,7 +63,7 @@
 
 <script>
     import { Gauge , LineChart } from '@/components/Charts'
-    import { newFilterData } from '@/utils/methods'
+    import { magicDataFilter } from '@/utils/methods'
     import Throttle from './mixin/Throttle'
 
     export default {
@@ -74,6 +74,10 @@
         },
         props: {
             magicData: {
+                type: Object,
+                default: ()=>{}
+            },
+            currentMagic: {
                 type: Object,
                 default: ()=>{}
             },
@@ -96,8 +100,12 @@
                 value: "temp",
             }
         },
-        mounted () {
-            this.getMagicHistory();
+        created () {
+        },
+        watch: {
+            currentMagic() {
+                this.getMagicHistory();
+            }
         },
         methods: {
             //获取魔节历史数据
@@ -109,22 +117,22 @@
                 const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
+                const { address, name } = this.currentMagic;
                 await this.getMagicHistoryData({
                     assetId:trapId||id,
+                    deviceAddress:address,
                     assetType:this.assetType,
                     startTime,
-                    endTime
+                    endTime,
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
-                    
-                    const {deviceInfoList,dataMap} = res;
-                    if( !res|| !deviceInfoList.length )return;
-                    const {result,timeResult} = newFilterData({list:deviceInfoList,data:dataMap,startTime,endTime});
+                    if(!res) return;
+
+                    const {result,timeResult} = magicDataFilter({ data:res,name, startTime, endTime });
                     this.allData = result;
                     this.timeArray = timeResult;
                     this.currentValue = result[this.value] || [];
-                    
                 })
             },
             //切换日期

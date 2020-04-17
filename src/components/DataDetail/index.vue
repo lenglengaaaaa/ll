@@ -23,6 +23,7 @@
                         :loading="loading"
                         :magicData="magicData.data"
                         :assetType="assetType"
+                        :currentMagic="currentMagic"
                     />
                 </div>
             </div>

@@ -173,6 +173,67 @@ export const timeDiff = (startTime,endTime) =>{
     }
 }
 
+/**
+ * 线缆、S800设备历史数据筛选(最新)
+ * @param list 设备列表
+ * @param data 数据
+ * @param type 类型
+ */
+export const lastDataFilter = ( obj ) =>{
+    const {list,data,type='magic',startTime,endTime} = obj;
+    const diffTime = timeDiff(startTime,endTime);
+    let timeArray= [];
+    const result = list.reduce((pre,current)=>{
+        const { id, deviceType, deviceAdress, name } = current ;
+        const currentData = type==='magic' ? data[deviceAdress] :
+                                type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
+                                    : data[id];
+        // if( isDelete || !currentData ) return pre;
+        if( !currentData ) return pre;
+        let values = [];
+        currentData.forEach( value =>{
+            values.push([moment(value.createTime).format(diffTime),value.keyValue]);
+            timeArray.push(moment(value.createTime).valueOf());
+        })
+        return [...pre, { name, data:values}];
+    },[])
+    const timeResult = _.sortBy(timeArray).map(item => moment(item).format(diffTime)) || [];
+    return {
+        result,
+        timeResult
+    }
+}
+
+/**
+ * 魔节历史数据筛选
+ */
+export const magicDataFilter = (params) =>{
+    const { data, name, startTime, endTime } = params;
+    const diffTime = timeDiff(startTime,endTime);
+    let timeArray= [];
+    let obj = {};
+    data.forEach(single=>{
+        timeArray.push(moment(single.createTime).valueOf());
+        const { decodeHex } = single;
+        for(let item in decodeHex){
+            if(item==='cbtemp'||item==='lat'||item==='lng'||item==='mode'||item==='status'||item==='shake') continue;
+            if(!obj[item]) obj[item] = [];
+            obj[item].push([moment(single.createTime).format(diffTime),decodeHex[item]]);
+        }
+    })
+    let result = {};
+    for(let k in obj){
+        if(!result[k]) result[k] = [];
+        result[k].push({ name,data:obj[k] });
+    }
+    const timeResult = _.sortBy(timeArray).map(item => moment(item).format(diffTime)) || [];
+    return {
+        result,
+        timeResult
+    }
+}
+
+
 
 /**
  * 设备历史数据筛选(NEW)
@@ -185,7 +246,7 @@ export const newFilterData = (obj) =>{
     const diffTime = timeDiff(startTime,endTime);
     let timeArray= [];
     const result = list.reduce((pre,current)=>{
-        const { id,deviceType,deviceAdress,name,isDelete } = current ;
+        const { id, deviceType ,deviceAdress, name, isDelete } = current ;
         const currentData = type==='magic' ? data[deviceAdress] :
                                 type==='sensor'? data[deviceType]&&data[deviceType][deviceAdress] 
                                     : data[id];
@@ -316,8 +377,8 @@ export const currentDataFilter = (res,type)=>{
         if(i==='creatTime')break;
         if(arr.includes(i)){
             obj[i] = {
-                value:res[i].value,
-                createTime:res[i].createTime&&moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
+                value:res[i].keyValue,
+                createTime:res[i].createTime && moment(res[i].createTime).format('YYYY-MM-DD HH:mm:ss')
             };
         }
     }

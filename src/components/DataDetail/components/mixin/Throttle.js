@@ -47,7 +47,8 @@ export default {
                 assetId:trapId||id,
                 assetType:this.assetType,
                 startTime,
-                endTime
+                endTime,
+                key:this.value
             }).then(res=>{
                 if(!res)return;
                 msg.close();
@@ -74,12 +75,16 @@ export default {
             const { assetId, startTime , endTime } = params;
             switch (this.sign) {
                 case 'Magic':
-                    return this.getMagicHistoryExecl(params);
+                    return this.getMagicHistoryExecl({
+                        ...params,
+                        deviceAddress:this.currentMagic.address,
+                    });
                 case 'Tline':
                     return this.getTrapHistoryExecl({
                         queryId:assetId,
                         startTime,
-                        endTime
+                        endTime,
+                        key:this.value
                     });
                 case 'S800':
                     return this.getS800HistoryExecl(params);
