@@ -15,7 +15,13 @@
                                     {{item.switchName}}
                                 </span>
                             </div>
-                            <ul class="list">
+                            <ul 
+                                class="list" 
+                                :style="{
+                                    backgroundImage:`url(${linemap})`,
+                                    backgroundRepeat: 'no-repeat'
+                                }"
+                            >
                                 <li v-for="k in item.outLineList" :key="k.deviceId">
                                     <div class="info">
                                         <el-tooltip class="item" effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
@@ -111,7 +117,8 @@
                 timeArray:[],
                 lineAData:[],
                 tempData:[],
-                hasExport:true
+                hasExport:true,
+                linemap:require('@images/linemap.png')
             }
         },
         mounted () {
@@ -275,7 +282,6 @@
                             }
                             .list{
                                 width: 70%;
-                                background:url('../../../../../../assets/images/linemap.png') no-repeat ;
                                 position: relative;
                                 &::before{
                                         content: ' ';
