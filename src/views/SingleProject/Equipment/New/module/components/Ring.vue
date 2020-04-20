@@ -19,16 +19,6 @@
                     :disabled="editFlag"
                 />
             </el-form-item>
-            <el-form-item label="所属集中器" prop="parentId" v-else>
-                <el-select v-model="form.parentId">
-                    <el-option 
-                        v-for="item in concenMenus"
-                        :key="item.id"
-                        :label="item.name" 
-                        :value="item.id"
-                    />
-                </el-select>
-            </el-form-item>
             <el-form-item label="所属网关" v-if="form.commWay&&!form.isSingle" prop="gatewayId">
                 <el-select v-model="form.gatewayId">
                         <el-option 
@@ -53,6 +43,16 @@
                 <el-select v-model="form.roomId" @change="roomChange">
                     <el-option 
                         v-for="item in roomMenus"
+                        :key="item.id"
+                        :label="item.name" 
+                        :value="item.id"
+                    />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="所属集中器" prop="parentId" v-if="form.isSingle">
+                <el-select v-model="form.parentId">
+                    <el-option 
+                        v-for="item in concenMenus"
                         :key="item.id"
                         :label="item.name" 
                         :value="item.id"
@@ -151,12 +151,12 @@
         watch: {
             "form.isSingle"(value) {
                 if(!value){
-                    resetSingle(this,['deviceEui']);
+                    resetSingle(this,['deviceEui','parentId']);
                     return;
                 }
                 resetSingle(this,['parentId']);
             },
-            "form.commway"(value){
+            "form.commWay"(value){
                 if(!this.form.roomId)return;
                 this.getEquipMenu({
                     deviceType:33,
