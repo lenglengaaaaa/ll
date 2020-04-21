@@ -251,7 +251,7 @@
                 this.$refs.equipForm.validate((valid) => {
                     if (valid) {
                         const location = `${this.form.city.join(',')},${this.form.location}`
-                        const deviceType = +sessionStorage.getItem('appType')
+                        const deviceType = +sessionStorage.getItem('appType');
                         const data ={
                             projectId:this.projectId,
                             ...this.form,
@@ -261,6 +261,9 @@
                             longitude:this.position[0],
                             latitude:this.position[1]
                         }
+                        //创建集中器时 添加is_single
+                        if(deviceType == 33) data.is_single = 0;
+
                         if(!this.editFlag){
                             this.createEquip(data).then(res=>{
                                 if(!res)return;

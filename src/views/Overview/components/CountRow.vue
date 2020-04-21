@@ -83,11 +83,11 @@
             initiate(){
                 Promise.all([this.getLiveProject(),this.getOnlineDevice()]).then(res=>{
                     res.map((item,index)=>{
-                        if(!item)return;
+                        if( !item ) return;
                         this.$set(this.rows[index], 'total', item.sum );
-                        this.$set(this.rows[index], 'has', index==0? item.normal:item.online );
-                        item.normal&&this.$set(this.rows[index], 'percentage', (item.normal/item.sum)*100);
-                        item.online&&this.$set(this.rows[index], 'percentage', (item.online/item.sum)*100 );
+                        this.$set(this.rows[index], 'has', index == 0 ? item.normal:item.online );
+                        item.normal && this.$set(this.rows[index], 'percentage', (item.normal/item.sum)*100);
+                        item.online && this.$set(this.rows[index], 'percentage', (item.online/item.sum)*100 );
                     })
                 })
             },

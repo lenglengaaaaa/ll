@@ -15,14 +15,15 @@
                 prop="typeName"
                 label="设备类型"
                 align="center"
-                sortable
+                column-key="typeName"
+                :filters="equipTypeMenu"
+                :filter-method="filterHandler"
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="name"
                 label="设备名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
@@ -33,7 +34,6 @@
                 prop="number"
                 label="设备编号"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
@@ -75,6 +75,17 @@
             const {id,trapId} =JSON.parse(sessionStorage.getItem("obj"));
             this.getListData(trapId || id);
         },
+        computed: {
+            equipTypeMenu() {
+                const menus = JSON.parse(sessionStorage.getItem('equipTypeMenu'));
+                return menus.map( item =>{
+                    return {
+                        text:item.value,
+                        value:item.value
+                    }
+                })
+            }
+        },
         methods: {
             //获取数据
             async getListData(id){
@@ -89,6 +100,10 @@
             skipToDetail(row) {
                 sessionStorage.setItem('equipObj',JSON.stringify(row))
                 this.detailFlag = true;
+            },
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
             }
         },
     }

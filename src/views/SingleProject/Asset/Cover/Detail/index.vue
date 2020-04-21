@@ -33,7 +33,7 @@
                 params:{
                     projectId:(sessionStorage.getItem('project')&&JSON.parse(sessionStorage.getItem('project')).id) || null,
                     current:1,
-                    size:100
+                    size:500
                 }
             }
         },

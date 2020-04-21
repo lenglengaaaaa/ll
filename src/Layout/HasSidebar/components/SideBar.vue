@@ -18,19 +18,20 @@
                     :collapse-transition="false"
                     @select='handleClickOutside'
                 >   
-                    <el-menu-item 
-                        v-for="item in routes"  
-                        :key="item.path" 
-                        :index="item.path" 
-                        :route="{name:item.name}"
-                        :disabled="item.hidden"
-                    >
-                        <svg-icon 
-                            :iconClass="item.meta.icon" 
-                            className="icon"
-                        />
-                        <span slot="title">{{ item.meta.title }}</span>
-                    </el-menu-item>
+                        <el-menu-item 
+                            v-for="item in routes"  
+                            :key="item.path" 
+                            :index="item.path" 
+                            :route="{name:item.name}"
+                            :disabled="item.hidden"
+                            :title="item.meta.title"
+                        >   
+                            <svg-icon 
+                                :iconClass="item.meta.icon" 
+                                className="icon"
+                            />
+                            <span slot="title">{{ item.meta.title }}</span>
+                        </el-menu-item>
                 </el-menu>
             </div>
         </div>

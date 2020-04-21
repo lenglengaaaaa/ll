@@ -130,7 +130,8 @@
                 imagePath:require('@images/default.jpg'),
                 noticeVisible: false,
                 activeName:'notice',
-                codeStr:''
+                codeStr:'',
+                userClient:null
             }
         },
         components: {
@@ -146,6 +147,17 @@
             this.hightlight(this.$route.path)
             //适配
             this.resizehandle(this.$store.state.app.device);
+
+            //用于权限
+            if(!sessionStorage.getItem('userDetail')) return;
+            this.userClient = this.$mqtt.connect(`topic_create_asset_${this.userId}`);
+            this.$mqtt.listen(this.userClient,res=>{
+                sessionStorage.setItem('permissionVO',JSON.stringify(res));
+                this.$store.commit('user/SET_PERMISSIONVO', res);
+            });
+        },
+        destroyed () {
+            this.userClient&&this.userClient.end();
         },
         watch: {
             $route(to,from){
@@ -162,6 +174,9 @@
             ...mapState('user',[
                 'permissionIds',
             ]),
+            userId(){
+                return JSON.parse(sessionStorage.getItem('userDetail')).id;
+            },
             alarmBox() {
                 return this.$store.state.app.alarmBox
             },

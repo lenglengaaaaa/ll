@@ -16,10 +16,10 @@
             
             <slot></slot>
             <template v-if="hasCable">
-                <el-form-item label="主进线" prop="mainComeline">
+                <el-form-item label="主进线" >
                     <el-input v-model="form.mainComeline" placeholder="请输入资产名称"></el-input>
                 </el-form-item>
-                <el-form-item label="备用进线" prop="comeLine">
+                <el-form-item label="备用进线" >
                     <el-input v-model="form.comeLine" placeholder="请输入资产名称"></el-input>
                 </el-form-item>
             </template>
