@@ -161,8 +161,9 @@ export const judgeObject = (x,y) =>{
 export const timeDiff = (startTime,endTime) =>{
     const dayDiff = moment(endTime).diff(moment(startTime),'day');
     const isSameDay = moment(endTime).isSame(startTime,'day');
+    const isSameYear = moment(endTime).isSame(startTime,'year');
     switch (true) {
-        case dayDiff >= 365:
+        case (dayDiff >= 365) || !isSameYear:
             return 'YYYY-MM-DD HH:mm:ss';
         case !isSameDay:
             return 'MM-DD HH:mm:ss';

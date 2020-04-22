@@ -47,7 +47,7 @@
                                     <div>所属项目 : <strong>${projectName || 'xxx'}</strong></div>
                                     <div>告警信息 : <strong class="red">${alertMsg}</strong></div>
                                     ${result?`<div>经纬度 : <strong >${result}</strong></div>`:''}
-                                    <div>告警时间 : <strong>${moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
+                                    <div>告警时间 : <strong>${this.$moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
                                     <div class="tip">注 :点击查看详情</div>
                                 </div>
                             `,

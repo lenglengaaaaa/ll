@@ -42,8 +42,8 @@
                         x:'right',
                         // orient:'vertical',
                         align:'right',
-                        formatter: function (name) {
-                            return echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…');
+                        formatter: (name) =>{
+                            return this.$echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…');
                         },
                         tooltip: {
                             show: true
