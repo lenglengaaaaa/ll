@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { message } from 'element-ui'
-// import $ from 'jquery';
+import $ from 'jquery';
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie

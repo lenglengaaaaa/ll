@@ -27,12 +27,12 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   externals: {
-    '$':'jquery',
-    'moment': 'moment',
+    // '$':'jquery',
+    // 'moment': 'moment',
     // 'vue': 'Vue',
     'vue-router': 'VueRouter',
     'vuex': 'Vuex',
-    'echarts': 'echarts',
+    // 'echarts': 'echarts',
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

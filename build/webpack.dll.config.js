@@ -6,11 +6,15 @@ module.exports = {
     entry: {
         vendor: [
             'vue',
-            'element-ui',
+            // 'element-ui',
+            'moment',
             'axios',
             'js-cookie',
             'mqtt',
-            'nprogress'
+            'nprogress',
+            'jquery',
+            'lodash',
+            'echarts'
         ] 
     },
     output: {

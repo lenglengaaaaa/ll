@@ -2,9 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import 'babel-polyfill';
 import Vue from 'vue';
-// import moment from 'moment';
-// import echarts from 'echarts';
-// import $ from 'jquery';
+import moment from 'moment';
+import echarts from 'echarts';
+import $ from 'jquery';
+import _ from 'lodash'
 
 import '@/assets/icons' // icon
 import '@/components'
