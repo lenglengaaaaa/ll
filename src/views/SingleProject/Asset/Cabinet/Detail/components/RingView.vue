@@ -24,7 +24,7 @@
                             >
                                 <li v-for="k in item.outLineList" :key="k.deviceId">
                                     <div class="info">
-                                        <el-tooltip class="item" effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
+                                        <el-tooltip effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
                                             <svg-icon 
                                                 iconClass="ring" 
                                                 className="icon"
@@ -141,6 +141,7 @@
             ]),
             //选中出线
             selectOutLine(index,item) {
+                if(this.currentRing.switchId === item.switchId) return;
                 this.highlight = index;
                 this.ringName = item.switchName;
                 this.switchId = item.switchId;

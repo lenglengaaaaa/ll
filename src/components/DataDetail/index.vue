@@ -1,6 +1,6 @@
 <template>
     <div class="EQUIP_CONTAINER">
-        <div class="magic"> 
+        <div class="magic" v-if="magicList.length || hasLine"> 
             <div class="title">
                 <span>魔节环境数据</span>
                 <el-select v-model="magicId" filterable @change="changeMagic">
@@ -113,13 +113,14 @@
                 sEightData:[],
                 sensorData:[],
                 client:null,
-                loading:false
+                loading:false,
+                hasMagic:true
             }
         },
         async created () {
             await this.classifyType(this.assetType)
             await this.getMagicList();
-            await this.getLineData();
+            this.hasLine && await this.getLineData();
             await this.getS800Data();
             await this.getSensorData();
         }, 
@@ -174,7 +175,10 @@
                     assetType:this.assetType
                 }).then(res=>{
                     this.loading = false;
-                    if( !res ) return;
+                    if( !res ){
+                        this.magicData = {};
+                        return;
+                    };
                     this.magicData= {
                         data:currentDataFilter(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')

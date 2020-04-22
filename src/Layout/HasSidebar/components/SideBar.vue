@@ -24,7 +24,6 @@
                             :index="item.path" 
                             :route="{name:item.name}"
                             :disabled="item.hidden"
-                            :title="item.meta.title"
                         >   
                             <svg-icon 
                                 :iconClass="item.meta.icon" 
