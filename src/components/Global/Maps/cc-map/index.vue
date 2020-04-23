@@ -81,7 +81,9 @@
             //新增点坐标回调
             addMarker() {
                 if(!this.marker.length)return;
-                this.marker.map(item=>{
+                this.marker
+                    .filter(item=> item.longitude && item.latitude)
+                    .map(item=>{
                     let point = new this.resMap.Marker({
                         icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                         position:  [item.longitude,item.latitude],
