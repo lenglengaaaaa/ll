@@ -117,12 +117,14 @@
                 hasMagic:true
             }
         },
-        async created () {
-            await this.classifyType(this.assetType)
-            await this.getMagicList();
-            this.hasLine && await this.getLineData();
-            await this.getS800Data();
-            await this.getSensorData();
+        created () {
+            Promise.all([
+                this.classifyType(this.assetType),
+                this.getMagicList(),
+                this.hasLine && this.getLineData(),
+                this.getS800Data(),
+                this.getSensorData()
+            ])
         }, 
         mounted () {
             if(!this.projectId)return;
@@ -189,8 +191,8 @@
             getLineData(){
                 const {id,trapId} = this.assetObj;
                 this.getLineCurrentData(trapId||id).then(res=>{
-                    const {lineInfoList,lineDateMap} = res;
-                    if( !res || !lineInfoList.length )return;
+                    const { lineInfoList, lineDateMap } = res;
+                    if( !res || !lineInfoList.length || !lineDateMap )return;
                     this.lineData = dataProcessing(lineInfoList,lineDateMap);
                 })
             },
