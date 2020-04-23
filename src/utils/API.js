@@ -175,6 +175,9 @@ export const api={
     //配电柜列表 post
     chestList:`${url}/e_view/chest/list`,
 
+    //获取配电柜详情 get
+    getChestDetail:`${url}/e_view/chest/info`,
+
     //配电柜下拉 get
     chestListAll:`${url}/e_view/chest/list/all`,
 

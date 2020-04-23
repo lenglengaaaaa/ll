@@ -87,7 +87,8 @@
             ...mapActions('asset',[
                 'skipToEdit',
                 'getChestList', 
-                'deleteChest'
+                'deleteChest',
+                'getChestDetail'
             ]),
             /**
              * 是否拥有跳转到设备视图的权限
@@ -136,9 +137,13 @@
                     this.$children[0]&&this.$children[0].getListData()
                 })
             },
-            skipTo(type,row) {
-                this.$router.push({name:'NewCabinet'});
-                this.skipToEdit({type,row});
+            async skipTo(type,row) {
+                //获取出现数量 & 名称
+                const Detail = row.id && await this.getChestDetail(row.id);
+                if( Detail ) row.switchList = Detail.switchList;
+                this.skipToEdit({ type, row });
+                await this.$router.push({ name:'NewCabinet' });
+
             },
             skipToDetail(row){
                 this.$router.push({name:'CabinetDetail'})

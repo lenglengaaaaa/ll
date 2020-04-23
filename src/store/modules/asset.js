@@ -87,7 +87,7 @@ const actions= {
      * @param obj 列表数据
      */
     skipToEdit({commit},obj){
-        const {type,row,storage} = obj;
+        const { type, row, storage } = obj;
         const address =row.location?row.location.split(','):[];
         const city = address.slice(0,3);
         const location = address[3]||"";
@@ -372,6 +372,27 @@ const actions= {
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
                 return res;
+            }else{
+                res&&tip(res.meassage)
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 获取配电柜详情
+     * @param id 配电柜ID
+     */
+    getChestDetail({commit},id){
+        return request({
+            method:'get',
+            url:`${api.getChestDetail}`,
+            data:{
+                id
+            }
+        }).then(res=>{
+            if(res && res.code === 10000000 && res.data){
+                return res.data;
             }else{
                 res&&tip(res.meassage)
                 return false;
