@@ -1,6 +1,6 @@
 <template>
     <div class="EQUIP_CONTAINER">
-        <div class="magic" v-if="magicList.length || hasLine"> 
+        <div class="magic" v-if="hasMagic || hasLine"> 
             <div class="title">
                 <span>魔节环境数据</span>
                 <el-select v-model="magicId" filterable @change="changeMagic">
@@ -164,6 +164,8 @@
                         this.currentMagic = res[0];
                         this.magicId = res[0].id;
                         this.getMagicData( res[0].id);
+                    }else{
+                        this.hasMagic = false;
                     }
                 })
             },

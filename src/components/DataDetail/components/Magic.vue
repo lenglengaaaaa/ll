@@ -100,8 +100,6 @@
                 value: "temp",
             }
         },
-        created () {
-        },
         watch: {
             currentMagic() {
                 this.getMagicHistory();
@@ -111,7 +109,7 @@
             //获取魔节历史数据
             async getMagicHistory(){
                 //echarts加载Loading
-                const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
+                const lineChart = this.$refs.lineChart && this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
 
                 const {id,trapId} = this.assetObj;
