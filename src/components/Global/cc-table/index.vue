@@ -419,7 +419,7 @@
             //判断设备是否属于可设置阈值范围内
             inThresholdRange:(type)=>{
                 //线缆,红外,烟雾,侵水(液位),魔节,S800
-                const range = [38,32,35,37,30,28];
+                const range = [38,32,35,37,30,28,36];
                 return range.includes(+type);
             },
             //获取资产下设备数量

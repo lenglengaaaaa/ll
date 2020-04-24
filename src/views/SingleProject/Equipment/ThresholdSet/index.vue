@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    import { Magic, Sensor ,CableTemp } from '@/components/Threshold'
+    import { Magic, Sensor, CableTemp, Ring } from '@/components/Threshold'
 
     export default {
         components: {
-            // Ring,
+            Ring,
             CableTemp,
             Magic,
             Sensor
@@ -33,8 +33,8 @@
             classifyType(type){
                 switch (+type) {
                     //魔戒
-                    // case 36:
-                    //     return Ring;
+                    case 36:
+                        return Ring;
                     //魔节
                     case 30:
                         return Magic;

@@ -16,24 +16,25 @@
             <el-tab-pane label="水浸传感器" lazy>
                 <Sensor :deviceType="37" />
             </el-tab-pane>
+            <el-tab-pane label="魔戒" lazy>
+                <Ring :deviceType="36" />
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
-    import { Magic , Sensor , CableTemp } from '@/components/Threshold'
+    import { Magic , Sensor , CableTemp, Ring } from '@/components/Threshold'
 
     export default {
         components: {
-            // Ring,
+            Ring,
             CableTemp,
             Magic,
             Sensor
         },
         data() {
-            return {
-
-            }
+            return {}
         }
     }
 

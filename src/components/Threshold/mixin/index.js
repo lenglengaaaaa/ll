@@ -1,11 +1,12 @@
 import { mapActions } from 'vuex'
 
 const names = {
-    30:'电缆监测终端（魔节）',
+    30:'电缆监测终端(魔节）',
     38:'线缆温度传感器',
     32:'红外传感器',
     35:'烟雾传感器',
     37:'水浸传感器',
+    36:'低压传感器(魔戒)'
 }
 
 export default {
@@ -82,7 +83,7 @@ export default {
                         }
                     }else{
                         //单个设备阈值设置
-                        const {id,deviceType,deviceAdress,deviceEui,commWay} = this.device
+                        const { id, deviceType, deviceAdress, deviceEui, commWay } = this.device;
                         params = {
                             ...params,
                             setId:id,         

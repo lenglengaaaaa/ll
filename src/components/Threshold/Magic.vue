@@ -3,7 +3,7 @@
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <div class="info">
-                    <strong>阈值设置</strong>
+                    <strong>魔节阈值设置</strong>
                     <div>{{deviceName}}</div>
                 </div>
                 <!-- <el-button type="text" @click="resetDeafault">重置为默认值</el-button> -->
