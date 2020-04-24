@@ -10,6 +10,36 @@
         :assetType="5"
     >
         <template>
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="table-expand">
+                        <el-row :gutter="20">
+                            <el-col :span="12">
+                                <el-form-item label="所属断路柜">
+                                    <span>{{ props.row.cutoff || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="变压前电压">
+                                    <span>{{ props.row.beforeVoltage || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="变压后电压">
+                                    <span>{{ props.row.afterVoltage || '---' }}</span>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="电流等级">
+                                    <span>{{ props.row.electricityLevel || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="电压等级">
+                                    <span>{{ props.row.covoltageLevel || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="台区描述">
+                                    <span>{{ props.row.detail || '---' }}</span>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="number"
                 label="台区编号"
@@ -48,54 +78,6 @@
                 align="center"
                 sortable
                 show-overflow-tooltip
-            />
-            <el-table-column
-                prop="cutoff"
-                label="所属断路柜"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.cutoff || '-'"
-            />
-            <el-table-column
-                prop="beforeVoltage"
-                label="变压前电压"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.beforeVoltage || '-'"
-            />
-            <el-table-column
-                prop="afterVoltage"
-                label="变压后电压"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.afterVoltage || '-'"
-            />
-            <el-table-column
-                prop="electricityLevel"
-                label="电流等级"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.electricityLevel || '-'"
-            />
-            <el-table-column
-                prop="covoltageLevel"
-                label="电压等级"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.covoltageLevel || '-'"
-            />
-            <el-table-column
-                prop="detail"
-                label="描述"
-                align="center"
-                sortable
-                show-overflow-tooltip
-                :formatter="(row)=>row.detail || '-'"
             />
         </template>
     </cc-table>

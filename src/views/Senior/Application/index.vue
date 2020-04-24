@@ -10,6 +10,33 @@
             :verify="false"
         >   
             <template>
+                <el-table-column type="expand">
+                    <template slot-scope="props">
+                        <el-form label-position="left" inline class="table-expand">
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <el-form-item label="coap链接方式">
+                                        <span>{{ props.row.coapWay || '---' }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="mqtt链接方式">
+                                        <span>{{ props.row.mqttWay || '---' }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="AgentLite链接方式">
+                                        <span>{{ props.row.agentliteWay || '---' }}</span>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="https链接方式">
+                                        <span>{{ props.row.httpsWay || '---' }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="描述">
+                                        <span>{{ props.row.detail || '---' }}</span>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-form>
+                    </template>
+                </el-table-column>
                 <el-table-column
                     prop="appId"
                     label="应用ID"
@@ -41,42 +68,6 @@
                 <el-table-column
                     prop="netModel"
                     label="入网类型"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                />
-                <el-table-column
-                    prop="coapWay"
-                    label="coap链接方式"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                />
-                <el-table-column
-                    prop="mqttWay"
-                    label="mqtt链接方式"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                />
-                <el-table-column
-                    prop="agentliteWay"
-                    label="AgentLite链接方式"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                    width="200"
-                />
-                <el-table-column
-                    prop="httpsWay"
-                    label="https链接方式"
-                    align="center"
-                    sortable
-                    show-overflow-tooltip
-                />
-                <el-table-column
-                    prop="detail"
-                    label="描述"
                     align="center"
                     sortable
                     show-overflow-tooltip

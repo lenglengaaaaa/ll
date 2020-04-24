@@ -23,6 +23,42 @@
             </div>
         </template>
         <template>
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="table-expand">
+                        <el-row :gutter="20">
+                            <el-col :span="12">
+                                <el-form-item label="所属台区">
+                                    <span>{{ props.row.courtsName || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="所属配电房">
+                                    <span>{{ props.row.roomName || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="所属配电柜">
+                                    <span>{{ props.row.chestName || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="所属井盖">
+                                    <span>{{ props.row.trapName || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="所属线缆">
+                                    <span>{{ props.row.lineName || '---' }}</span>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="所属魔节">
+                                    <span>{{ (props.row.parentType == 30 && props.row.parentName) || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="所属集中器">
+                                    <span>{{ (props.row.parentType == 33 && props.row.parentName) || '---' }}</span>
+                                </el-form-item>
+                                <el-form-item label="创建时间">
+                                    <span>{{ calFromNow(props.row.createTime) }}</span>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="typeName"
                 label="设备类型"
@@ -33,7 +69,6 @@
                 prop="name"
                 label="设备名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 width="180"
             >
@@ -50,7 +85,6 @@
             <el-table-column
                 label="设备EUI"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.deviceEui || '-'"
             />
@@ -65,11 +99,10 @@
                 prop="deviceAdress"
                 label="设备地址域"
                 align="center"
-                sortable
                 width="150"
                 show-overflow-tooltip
             />
-            <el-table-column
+            <!-- <el-table-column
                 prop="courtsName"
                 label="所属台区"
                 align="center"
@@ -115,7 +148,7 @@
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>( row.parentType==33&&row.parentName )|| '-'"
-            />
+            /> -->
             <!-- <el-table-column
                 prop="location"
                 label="位置信息"
@@ -226,6 +259,10 @@
                     if(!res)return;
                     this.$children[0]&&this.$children[0].getListData()
                 });
+            },
+            //时间转换
+            calFromNow(time){
+                return this.$moment(time).format('YYYY-MM-DD HH:mm:ss')
             }
         },
     }

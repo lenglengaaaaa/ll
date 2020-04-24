@@ -496,6 +496,18 @@
             }
             .el-card__body{
                 padding: 20px 20px 0px;
+                .table-expand label {
+                    min-width: 120px;
+                    color: #34495e;
+                    font-weight: bold;
+                }
+                .table-expand {
+                    font-size: 0;
+                }
+                .table-expand .el-form-item {
+                    margin-bottom: 0;
+                    width: 50%;
+                }
                 .footer{
                     padding: 15px 0;
                     display: flex;
