@@ -230,6 +230,14 @@
 </script>
 
 <style lang="scss" scoped>
+    @media screen and (max-width: 870px) {
+        .RING_VIEW{
+            .el-col{
+                height: auto !important;
+            }
+        }
+    }
+
     .RING_VIEW{
         height: 100%;
         .el-row{
@@ -242,18 +250,19 @@
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    overflow: auto;
                     .wrap{
                         padding: 0;
                         margin: 0;
-                        max-width: 100%;
+                        min-width: 80%;
+                        overflow: auto;
                         .top_branch{
                             position: relative;
                             height: 100px;
                             &_title{
                                 position: absolute;
-                                width: 220px;
+                                // width: 220px;
                                 left: 100px;
+                                top:4px;
                                 padding: 5px;
                                 font-size: 0.8rem;
                                 border-radius: 5px;
@@ -262,10 +271,9 @@
                         }
                         .branch{
                             display: flex;
-                            width: 400px;
                             height: 120px;
                             .title{
-                                    width: 30%;
+                                    // width: 30%;
                                     padding: 15px;
                                     display: flex;
                                     justify-content: center;
@@ -286,7 +294,7 @@
                                     }
                             }
                             .list{
-                                width: 70%;
+                                flex: 1;
                                 position: relative;
                                 &::before{
                                         content: ' ';
@@ -301,7 +309,6 @@
                                     position: relative;
                                     height: 26.5px;
                                     .info{
-                                        width: 100%;
                                         position: absolute;
                                         top: 5px;
                                         left: 90px;
