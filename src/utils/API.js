@@ -321,6 +321,9 @@ export const api={
     //Lora 设备激活 post
     activateDevice:`${url}/e_view/device/lora/activate`,
 
+    //魔戒设备数据批量上传
+    ring_batch_upload:`http://47.92.235.125:8899/deviceNew/import`,
+
     //=======================================阈值设置=====================================================
 
     //查看告警阈值设置详情 get

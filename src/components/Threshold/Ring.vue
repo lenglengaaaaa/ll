@@ -74,7 +74,7 @@
 
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
     .el-col-12{
         text-align: center;
     }

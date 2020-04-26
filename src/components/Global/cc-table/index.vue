@@ -16,6 +16,10 @@
                             </el-input>
                         </div>
                         <div v-if="hasAdd">
+                            <el-button type="primary" size="small" v-if="hasUpload" @click="linkTo('upload')">
+                                批量上传
+                                <i class="el-icon-upload el-icon--right"/>
+                            </el-button>
                             <el-button size="small" type="success" @click="linkTo('add')" :disabled="createFlag">
                                 添加{{title}}<i class="el-icon-plus el-icon--right" />
                             </el-button>
@@ -173,6 +177,10 @@
                 default:false
             },
             verify:{
+                type:Boolean,
+                default:false
+            },
+            hasUpload:{
                 type:Boolean,
                 default:false
             }
@@ -380,6 +388,7 @@
                     case 'edit':
                     case 'set':
                     case 'active':
+                    case 'upload':
                         this.skipTo(type,row);
                         break;
                     case 'delete' :

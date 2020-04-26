@@ -7,6 +7,7 @@
             v-if="dialogVisible"
             :close-on-click-modal="false"
             v-el-drag-dialog
+            destroy-on-close
         >
             <slot></slot>
         </el-dialog>
@@ -34,7 +35,7 @@
             visible(flag) {
                 return this.dialogVisible = flag
             }
-        },
+        }
     }
 </script>
 
