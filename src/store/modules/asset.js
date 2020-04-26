@@ -437,6 +437,8 @@ const actions= {
     *配电柜编辑 
     * @param {
         *      id 配电柜ID
+        *      formerSwitchList 修改前的开关集合，列表有返回
+        *      switchList 修改后开关集合
         *      ...同上
         * }
         */

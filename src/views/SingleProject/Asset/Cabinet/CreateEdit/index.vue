@@ -103,6 +103,11 @@
                 ...data
             };
         },
+        watch: {
+            'form.count'(count) {
+                this.form.listName = this.form.listName.slice(0,count);
+            }
+        },
         methods: {
             ...mapActions('asset',[
                 'getCourtsMenu',
@@ -129,20 +134,21 @@
                 })
             },
             edit(obj){
-                const {switchList,listName} = obj;
+                const { switchList, listName } = obj;
                 const result = this._.sortBy(switchList,item=>item.id);
                 let list ;
-                if(listName&&listName.length){
+                if(  listName&& listName.length ){
                     list = listName.reduce((pre,current,index)=>{
                         return [...pre,{
-                            id:result&&result.length&&result[index]&&result[index].id || null,
+                            id:result && result.length && result[index] && result[index].id || null,
                             name:current
                         }]
                     },[])
                 }
                 const data = {
                     ...obj,
-                    switchList:list || null
+                    switchList:list || null,
+                    formerSwitchList:this.form.formerSwitchList
                 }
                 this.updateChest(data).then(res=>{
                     if(!res)return

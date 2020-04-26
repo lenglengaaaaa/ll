@@ -2,11 +2,13 @@
     <div class="RING_VIEW">
         <el-row :gutter="20" >
             <!-- 魔戒视图 -->
-            <el-col :span="10" :xs="24">
+            <el-col :span="11" :xs="24">
                 <div class="view">
                     <ul class="wrap">
-                        <strong>{{title}}</strong>
-                        <li v-for="(item,index) in switchList" :key="item.switchId">
+                        <li class="top_branch">
+                            <span class="top_branch_title">{{title}}</span>
+                        </li>
+                        <li v-for="(item,index) in switchList" :key="item.switchId" class="branch">
                             <div class="title">
                                 <span 
                                     @click="selectOutLine(index,item)" 
@@ -45,7 +47,7 @@
                 </div>
             </el-col>
             <!-- 历史数据 -->
-            <el-col :span="14" :xs="24">
+            <el-col :span="13" :xs="24">
                 <div class="DATA_DETAIL">
                     <div class="wrap">
                         <div class="seletGroup">
@@ -244,19 +246,21 @@
                     .wrap{
                         padding: 0;
                         margin: 0;
-                        position: relative;
                         max-width: 100%;
-                        strong{
-                            position: absolute;
-                            width: 220px;
-                            top: -99px;
-                            left: 120px;
-                            padding: 5px;
-                            font-size: 0.8rem;
-                            border-radius: 5px;
-                            border: 4px solid black;
+                        .top_branch{
+                            position: relative;
+                            height: 100px;
+                            &_title{
+                                position: absolute;
+                                width: 220px;
+                                left: 100px;
+                                padding: 5px;
+                                font-size: 0.8rem;
+                                border-radius: 5px;
+                                border: 4px solid black;
+                            }
                         }
-                        > li{
+                        .branch{
                             display: flex;
                             width: 400px;
                             height: 120px;
@@ -270,7 +274,7 @@
                                         font-size: 0.8rem;
                                         font-weight: bold;
                                         cursor: pointer;
-                                        padding: 5px;
+                                        padding: 5px 10px;
                                         display: inline-block;
                                         border-radius: 5px;
                                         text-align: center;

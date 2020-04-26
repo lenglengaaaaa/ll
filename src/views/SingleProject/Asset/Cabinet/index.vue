@@ -37,21 +37,20 @@
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="mainComeline"
                 label="主进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.mainComeline || '-'"
             />
             <el-table-column
-                prop="comeLine"
                 label="备用进线"
                 align="center"
                 sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.comeLine || '-'"
             />
             <el-table-column
-                prop="detail"
                 label="描述"
                 align="center"
                 sortable
@@ -140,7 +139,10 @@
             async skipTo(type,row) {
                 //获取出现数量 & 名称
                 const Detail = row.id && await this.getChestDetail(row.id);
-                if( Detail ) row.switchList = Detail.switchList;
+                if( Detail ){
+                    row.switchList = Detail.switchList;
+                    row.formerSwitchList = Detail.switchList;
+                };
                 this.skipToEdit({ type, row });
                 await this.$router.push({ name:'NewCabinet' });
 
