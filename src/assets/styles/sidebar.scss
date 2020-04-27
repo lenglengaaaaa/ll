@@ -21,7 +21,7 @@ $height: 50px;
         background: #34495e;
         // height: calc(100vh - 50px);
         height: 100%;
-        // overflow-y: auto;
+        overflow-y: auto;
         .app_title{
             height: $height;
             display: flex;
@@ -94,9 +94,14 @@ $height: 50px;
         }
         .el-menu--collapse{
             .el-submenu__title{
-                display:block;
-                padding: 0 15px !important;
-                line-height: 55px;
+                position: relative;
+                .icon{
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    margin-left: -11px;
+                    margin-top: -11px;
+                }
             }
         }
     }
@@ -114,12 +119,6 @@ $height: 50px;
         align-items: center;
         &:hover{
             background: #22a7f0;
-        }
-        .el-tooltip{
-            display: flex !important;
-            justify-content: center ;
-            align-items: center;
-            padding:0 15px !important;
         }
         .icon{
             width: 22px;

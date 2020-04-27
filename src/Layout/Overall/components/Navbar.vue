@@ -161,7 +161,6 @@
         },
         watch: {
             $route(to,from){
-                !this.phone && this.$store.dispatch('app/toggleSideBar',1)
                 this.hightlight(to.path);
             },
             '$store.state.app.device'(value) {
@@ -233,6 +232,7 @@
             },
             //菜单激活回调
             selectMenu(){
+                !this.phone && this.$store.dispatch('app/toggleSideBar',1)
                 sessionStorage.removeItem('project');
             },
             //skipHome

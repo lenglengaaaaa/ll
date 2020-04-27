@@ -47,7 +47,7 @@ const errorHandle = (status, other) => {
         store.dispatch('user/resetToken').then(()=>{
           setTimeout(() => {
               toLogin();
-          },50);
+          });
         })
         break;
     // 404请求不存在
