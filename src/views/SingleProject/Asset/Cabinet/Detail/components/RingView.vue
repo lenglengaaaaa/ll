@@ -261,7 +261,7 @@
                             &_title{
                                 position: absolute;
                                 // width: 220px;
-                                left: 100px;
+                                left: 110px;
                                 top:4px;
                                 padding: 5px;
                                 font-size: 0.8rem;
@@ -286,7 +286,7 @@
                                         display: inline-block;
                                         border-radius: 5px;
                                         text-align: center;
-                                        width: 100px;
+                                        width: 110px;
                                     }
                                     .active{
                                         color: #fff;
@@ -308,6 +308,7 @@
                                     font-size: 0.75rem;
                                     position: relative;
                                     height: 26.5px;
+                                    width: 300px;
                                     .info{
                                         position: absolute;
                                         top: 5px;

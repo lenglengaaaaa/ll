@@ -109,6 +109,7 @@
         <UploadDialog 
             :visible="dialogVisible"
             :close="closeDialog"
+            :isUploaded="isUploaded"
         />
     </div>
 </template>
@@ -219,8 +220,17 @@
             calFromNow(time){
                 return this.$moment(time).format('YYYY-MM-DD HH:mm:ss')
             },
+            //关闭上传模态窗
             closeDialog(){
                 this.dialogVisible = false;
+            },
+            //上传成功后获取最新列表
+            isUploaded(){
+                this.params ={
+                    ...this.params,
+                    current:1
+                };
+                this.$children[0]&&this.$children[0].getListData();
             }
         },
     }

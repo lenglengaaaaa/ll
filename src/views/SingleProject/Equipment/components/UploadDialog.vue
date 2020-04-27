@@ -57,7 +57,8 @@
         name:'UploadDialog',
         props: {
             visible: Boolean,
-            close:Function
+            close:Function,
+            isUploaded:Function
         },
         data() {
             return {
@@ -69,15 +70,15 @@
         },
         methods: {
             handleClose(done) {
-                this.active = 1;
                 done();
-                this.close();
+                this.closeDialog();
             },
             next(){
                 if(this.active < 2){
                     this.active++
                 }else{
                     this.$refs.upload.submit();
+
                 }
             },
             downTemplate(){
@@ -87,15 +88,16 @@
                 this.$refs.upload.submit();
             },
             closeDialog(){
+                this.close(this.active);
                 this.active = 1;
-                this.close();
             },
             handleSuccess(res, file){
                 const { code, message, data } = res;
                 if( code === 200 ){
                     this.$message.success(message);
+                    this.isUploaded();
                 }else{
-                    this.$message.error(`${data?data:''}, ${message}`);
+                    this.$message.error(`${data?`${data},`:''}${message}`);
                 }
             },
             handleExceed(files, fileList) {
