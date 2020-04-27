@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { stat } from 'fs'
 
 const state={
     sidebar: {
@@ -12,8 +11,12 @@ const state={
 
 const mutations={
     //切换侧边栏状态
-    TOGGLE_SIDEBAR: state => {
-        state.sidebar.opened = !state.sidebar.opened
+    TOGGLE_SIDEBAR: (state,flag) => {
+        if(flag){
+            state.sidebar.opened = flag;
+        }else{
+            state.sidebar.opened = !state.sidebar.opened
+        }
         state.sidebar.opened ? Cookies.set('sidebarStatus', 1) : Cookies.set('sidebarStatus', 0);
     },
     //关闭侧边栏
@@ -36,8 +39,8 @@ const mutations={
 }
 
 const actions= {
-    toggleSideBar({ commit }) {
-        commit('TOGGLE_SIDEBAR')
+    toggleSideBar({ commit },flag) {
+        commit('TOGGLE_SIDEBAR',flag)
     },
     closeSideBar({ commit }) {
         commit('CLOSE_SIDEBAR')
