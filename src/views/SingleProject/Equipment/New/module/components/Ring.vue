@@ -59,6 +59,12 @@
                     />
                 </el-select>
             </el-form-item>
+            <el-form-item label="是否更新集中器绑定关系" prop="isBinding" v-if="!editFlag">
+                <el-select v-model="form.isBinding">
+                        <el-option label="否" :value="0" />
+                        <el-option label="更新" :value="1" />
+                </el-select>
+            </el-form-item>
             <el-form-item label="所属配电柜" prop="chestId" ref="chestId">
                 <el-select v-model="form.chestId" @change="chestChange">
                     <el-option 
@@ -106,6 +112,7 @@
             return {
                 euiFlag:false,
                 singleFlag:false,
+                editFlag:false,
                 form: {
                     gatewayId:null,
                     deviceEui:'',
@@ -116,7 +123,9 @@
                     chestId:null,
                     switchId:null,
                     outLineId:null,
-                    parentId:null
+                    parentId:null,
+                    isBinding:0,
+                    deviceAddress:''
                 },
                 gateWayMenu:[],
                 courtsMenus:[],
@@ -167,6 +176,11 @@
                     if(!res)return
                     this.concenMenus = res;
                 })
+            },
+            "form.parentId"(value){
+                if(this.editFlag) return;
+                const { address } = this.concenMenus.filter(item=>value === item.id)[0];
+                this.form.deviceAddress = address;
             }
         },
         methods: {

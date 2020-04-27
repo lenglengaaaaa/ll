@@ -183,6 +183,7 @@
                     switchId: [{ required: true, message: '请选择出线线路', trigger: 'change' }],
                     outLineId: [{ required: true, message: '请选择所属相序', trigger: 'change' }],
                     parentId: [{ required: true, message: '请选择附属设备', trigger: 'change' }],
+                    isBinding :[{ required: true, trigger: 'change' }],
                 }
             }
         },
@@ -245,7 +246,8 @@
                 'checkEUI',
                 'checkAddress',
                 'createEquip',
-                'updateEquip'
+                'updateEquip',
+                'updateConcentratorBindinig'
             ]),
             submit() {
                 this.$refs.equipForm.validate((valid) => {
@@ -272,6 +274,8 @@
                                     sessionStorage.setItem('equipObj',JSON.stringify({data}));
                                     return;
                                 }
+                                const { isBinding, deviceAdress } = this.form;
+                                isBinding && isBinding === 1 && this.updateConcentratorBindinig(deviceAdress);
                                 this.$router.push({name:'EquList'});
                             })
                         }else{

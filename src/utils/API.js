@@ -324,6 +324,9 @@ export const api={
     //魔戒设备数据批量上传
     ring_batch_upload:`http://47.92.235.125:8899/deviceNew/import`,
 
+    //更新集中器空中绑定信息
+    update_concentrator_bindinig:`http://47.92.235.125:8899/api/device/updateBind`,
+
     //=======================================阈值设置=====================================================
 
     //查看告警阈值设置详情 get

@@ -243,6 +243,29 @@ const actions= {
     },
 
     /**
+     * 更新集中器空中绑定信息
+     * @param deviceAddress 集中器地址
+     */
+    updateConcentratorBindinig({commit}, deviceAddress){
+        return request({
+            method:'post',
+            url:`${api.update_concentrator_bindinig}`,
+            data:{
+                deviceAddress
+            }
+        }).then(res=>{
+            if(res && res.code===200){
+                tip(res.message,'success')
+            }else{
+                const { data } = res;
+                res && tip(data)
+                return false;
+            }
+        })
+    },
+
+
+    /**
      * 获取配电柜下魔戒视图(详情数据)
      * @param id 配电柜ID
      */
