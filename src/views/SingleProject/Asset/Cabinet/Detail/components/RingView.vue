@@ -179,8 +179,8 @@
                     if( !res )return;
                     const diffTime = timeDiff(startTime,endTime);
                     let timeArray = [];
-                    const result = this.currentRing.outLineList&&this.currentRing.outLineList.reduce((pre,current)=>{
-                        const {outLineId,outLineName} = current;
+                    const result = this.currentRing.outLineList && this.currentRing.outLineList.reduce((pre,current)=>{
+                        const { outLineId, outLineName } = current;
                         const currentData = history[outLineId];
                         if(!currentData) return pre;
                         let obj = {};

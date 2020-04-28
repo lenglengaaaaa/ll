@@ -10,6 +10,10 @@
                         <h4 class="notice-item-content-title">
                             <strong>设备名称: </strong>{{item.devName}}
                             <div>
+                                <strong>设备类型: </strong>
+                                <span>{{item.type || '未知'}}</span>
+                            </div>
+                            <div>
                                 <strong>所属项目: </strong>
                                 <span>{{item.projectName || '未知'}}</span>
                             </div>
