@@ -101,38 +101,30 @@
                     item.hidden = !this.permissionIds.includes(item.id);
                     return item;
                 })
+
+                //如果是项目详情,将低压及电缆沟进行区分
                 if( path === 'project'){
-                    //6.7.8 为低压资产
-                    //9.10 为电缆沟资产
-                    let lowTension={ path:'lowTension', title:'低压资产', group:[] };
-                    let cableChute={ path:'cableChute', title:'电缆沟资产', group:[] };
-                    const filtered = menu.reduce((pre, cur, index, arr)=>{
-                        if(cur.id == 6 || cur.id == 7 || cur.id == 8 ){
-                            if(pre.some(item=>item.path==='lowTension')){
+                    const Asset_Gather = {
+                        lowTension:{ path:'lowTension', title:'低压资产', group:[] },
+                        cableChute:{ path:'cableChute', title:'电缆沟资产', group:[] }
+                    }
+                    const filtered = menu.reduce((pre, cur )=>{
+                        //判断assetTypes类型, 如果存在插入到子集中
+                        //要保证列表的顺序
+                        let { assetTypes } = cur.meta;
+                        if( assetTypes ){
+                            if( pre.some(item => item.path === assetTypes) ){
+                                //存在直接push进数组中
                                 for(let k of pre){
-                                    if(k.path === 'lowTension') {
+                                    if(k.path === assetTypes) {
                                         k.group.push(cur);
                                         break;
                                     };
                                 }
                                 return pre;
                             }else{
-                                lowTension.group.push(cur);
-                                return [...pre, lowTension]
-                            }
-                        }
-                        if(cur.id == 9 || cur.id == 10){
-                            if(pre.some(item=>item.path==='cableChute')){
-                                for(let k of pre){
-                                    if(k.path === 'cableChute') {
-                                        k.group.push(cur);
-                                        break;
-                                    };
-                                }
-                                return pre;
-                            }else{
-                                cableChute.group.push(cur);
-                                return [...pre, cableChute]
+                                Asset_Gather[assetTypes].group.push(cur);
+                                return [...pre, Asset_Gather[assetTypes] ]
                             }
                         }
                         return [...pre,cur]

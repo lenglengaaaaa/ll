@@ -180,8 +180,6 @@
                             }
                         }
                     })
-
-                    console.log(this.tree)
                 })
             },
             //匹配父权限

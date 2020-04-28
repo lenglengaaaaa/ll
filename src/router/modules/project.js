@@ -33,7 +33,8 @@ const projectRouter = {
                 redirect:'courts/list',
                 meta: { 
                     title:'台区管理',
-                    icon: 'courts'
+                    icon: 'courts',
+                    assetTypes:'lowTension'
                 },
                 children:[
                 {
@@ -63,7 +64,8 @@ const projectRouter = {
                 redirect:'room/list',
                 meta: { 
                     title:'配电房管理',
-                    icon: 'room'
+                    icon: 'room',
+                    assetTypes:'lowTension'
                 },
                 children:[
                 {
@@ -93,7 +95,8 @@ const projectRouter = {
                 redirect:'cabinet/list',
                 meta: { 
                     title:'配电柜管理',
-                    icon: 'cabinet'
+                    icon: 'cabinet',
+                    assetTypes:'lowTension'
                 },
                 children:[
                 {
@@ -123,7 +126,8 @@ const projectRouter = {
                 redirect:'cover/list',
                 meta: { 
                     title:'井盖管理',
-                    icon: 'trap'
+                    icon: 'trap',
+                    assetTypes:'cableChute'
                 },
                 children:[
                 {
@@ -153,7 +157,8 @@ const projectRouter = {
                 redirect:'cable/list',
                 meta: { 
                     title:'线缆管理',
-                    icon: 'line'
+                    icon: 'line',
+                    assetTypes:'cableChute'
                 },
                 children:[
                 {
