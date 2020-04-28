@@ -105,7 +105,7 @@
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 console.log(res,'魔戒数据')
-                const {data,fc,outLineId,time} = res;
+                const { data, fc, outLineId, time } = res;
                 if(fc!=36)return;
                 let outLine;
                 for(let item of this.switchList){
