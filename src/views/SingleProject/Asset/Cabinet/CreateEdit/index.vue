@@ -45,22 +45,37 @@
             <el-form-item label="出线数量">
                 <el-input v-model.number="form.count" placeholder="请输入出现数量"></el-input>
             </el-form-item>
-            <el-form-item 
-                v-for="(i,index) in form.count" 
-                :key="index" 
-                :label="`出线线路-${index+1}`" 
-                :prop="`listName[${index}]`"
-                :rules="{ required: true, message: '填写出线名称', trigger: 'blur' }"
-            >
-                <el-input v-model="form.listName[index]" placeholder="请输入线路名称"></el-input>
-            </el-form-item>
+            <!-- 1.新增主线ID -->
+            <div class="outgoing_line" v-for="(i,index) in form.count" :key="index">
+                <el-form-item 
+                    :label="`出线线路-${index+1}-ID`" 
+                    :prop="`listIds[${index}]`"
+                    :rules="[{ validator: validateId, required:true, trigger: ['blur','change'] }]"
+                > 
+                    <el-input 
+                        v-model.number="form.listIds[index]" 
+                        placeholder="请输入出线ID" 
+                        :maxlength="12"
+                    />
+                </el-form-item>
+                <el-form-item 
+                    :label="`出线线路-${index+1}-名称`" 
+                    :prop="`listName[${index}]`"
+                    :rules="{ required: true, message: '填写出线名称', trigger: 'blur' }"
+                >
+                    <el-input 
+                        v-model="form.listName[index]" 
+                        placeholder="请输入出线名称"
+                    />
+                </el-form-item>
+            </div>
         </template>
     </cc-assetEdit>
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
-    import {resetSingle} from '@/utils/methods'
+    import { mapActions } from 'vuex'
+    import { resetSingle } from '@/utils/methods'
 
     export default {
         data() {
@@ -70,7 +85,8 @@
                     parentId:null,
                     inChest:0,
                     count:1,
-                    listName:[]
+                    listName:[],
+                    listIds:[]
                 },
                 courtsMenu:[],
                 roomMenu:[],
@@ -78,7 +94,7 @@
             }
         },
         created () {
-            const {editFlag,data} = JSON.parse(sessionStorage.getItem('assetObj'));
+            const { editFlag, data } = JSON.parse(sessionStorage.getItem('assetObj'));
             const projectId=JSON.parse(sessionStorage.getItem('project')).id;
             //获取台区下拉
             this.getCourtsMenu(projectId).then(res=>{
@@ -90,21 +106,30 @@
                     this.getChestList(data.roomId);
                 }
             })
-            //排序后获取出现名称
-            const arr = data.switchList&&this._.sortBy(data.switchList,(item)=>{
-                return item.id
-            }).map(item=>item.name) || [];
+
+            //2.排序后获取出线ID & name( 新增主线ID )
+            const result =  this._.sortBy(data.switchList,item => item.id).reduce(( pre, cur )=>{
+                pre.listIds.push(+cur.address);
+                pre.listName.push(cur.name);
+                return pre;
+            },{
+                listIds:[],
+                listName:[]
+            })
+            
             //赋值
             this.form={
                 ...this.form,
                 inChest:data.parentId>0?1:0,
                 count:data.switchList&&data.switchList.length || 1,
-                listName:arr,
+                listName: ( result && result.listName ) || [],
+                listIds: ( result && result.listIds ) || [],
                 ...data
             };
         },
         watch: {
             'form.count'(count) {
+                this.form.listIds = this.form.listIds.slice(0,count);
                 this.form.listName = this.form.listName.slice(0,count);
             }
         },
@@ -116,12 +141,36 @@
                 'createChest', 
                 'updateChest'
             ]),
+            //校验出线ID
+            validateId(rule, value, callback, param){
+                if(!value){
+                    callback(new Error('出线ID不能为空!'));
+                    return;
+                }
+                if (typeof value !== 'number') {
+                    callback(new Error('出线ID必须是是数字!'));
+                    return;
+                }
+                if (`${value}`.length !== 12) {
+                    callback(new Error('出线ID长度为12!'));
+                    return;
+                }
+                callback()
+                
+            },
             create(obj) {
-                const {listName} = obj;
+                const { listName, listIds } = obj;
                 let list ;
-                if(listName&&listName.length){
-                    list = listName.reduce((pre,current,index)=>{
-                        return [...pre,{name:current}]
+                if( listName && listName.length ){
+                    list = listName.reduce((pre, current, index )=>{
+                        //3.新增主线ID
+                        return [
+                            ...pre,
+                            {
+                                address: listIds[index],
+                                name: current
+                            }
+                        ]
                     },[])
                 }
                 const data = {
@@ -134,13 +183,14 @@
                 })
             },
             edit(obj){
-                const { switchList, listName } = obj;
+                const { switchList, listName, listIds } = obj;
                 const result = this._.sortBy(switchList,item=>item.id);
                 let list ;
-                if(  listName&& listName.length ){
+                if(  listName && listName.length ){
                     list = listName.reduce((pre,current,index)=>{
                         return [...pre,{
                             id:result && result.length && result[index] && result[index].id || null,
+                            address: listIds[index],
                             name:current
                         }]
                     },[])
@@ -189,5 +239,11 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .outgoing_line{
+        display: flex;
+        justify-content: space-between;
+        .el-form-item{
+            width: 49%;
+        }
+    }
 </style>
