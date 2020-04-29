@@ -32,9 +32,9 @@
                         padding: [5, 10]
                     },
                     grid: {
-                        left: 10,
-                        right: 10,
-                        top: 30,
+                        left: 30,
+                        right: 30,
+                        top: 60,
                         containLabel: true
                     },
                     legend: {

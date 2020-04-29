@@ -24,31 +24,31 @@
                 label="温度(℃)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.temp ) || '-'"
+                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineTemp ) || '-'"
             />
             <el-table-column
                 label="线缆电压(V)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.lineV ) || '-'"
+                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineV ) || '-'"
             />
             <el-table-column
                 label="线缆电流(A)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.lineA ) || '-'"
+                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineA ) || '-'"
             />
             <el-table-column
                 label="电池电压(V)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.batteryA ) || '-'"
+                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.batteryV ) || '-'"
             />
             <el-table-column
                 label="信号强度"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data&&row.data.dataJSON&&row.data.dataJSON.signal ) || '-'"
+                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.signal ) || '-'"
             />
             <el-table-column
                 prop="time"
@@ -56,7 +56,7 @@
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>
-                    (row.data&&row.data.createTime&&this.$moment(row.data.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'
+                    ( row.data && row.data.createTime && this.$moment(row.data.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'
                 "
             />
         </el-table>

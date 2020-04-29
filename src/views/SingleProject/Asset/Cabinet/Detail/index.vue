@@ -104,12 +104,12 @@
             
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
+                const { data, fc, address, time } = res;
+                if( fc != 36 )return;
                 console.log(res,'魔戒数据')
-                const { data, fc, outLineId, time } = res;
-                if(fc!=36)return;
                 let outLine;
                 for(let item of this.switchList){
-                    outLine = item.outLineList.filter(k=>k.outLineId===+outLineId)[0];
+                    outLine = item.outLineList.filter(k => k.deviceAdress === address )[0];
                     if(outLine)break;
                 }
                 if(!outLine)return;
@@ -117,7 +117,7 @@
                     createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                     dataJSON:{
                         ...outLine.data.dataJSON,
-                        ...data
+                        ...typeof data === 'string'?JSON.parse(data) : data
                     }
                 }
             })

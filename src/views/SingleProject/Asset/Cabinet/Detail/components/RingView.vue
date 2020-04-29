@@ -1,6 +1,6 @@
 <template>
     <div class="RING_VIEW">
-        <el-row :gutter="20" >
+        <el-row :gutter="30" >
             <!-- 魔戒视图 -->
             <el-col :span="11" :xs="24">
                 <div class="view">
@@ -32,8 +32,8 @@
                                                 className="icon"
                                             />
                                         </el-tooltip>
-                                        <span>{{(k.data&&k.data.dataJSON.temp)||'----'}} ℃</span>
-                                        <span>{{(k.data&&k.data.dataJSON.lineA)||'----'}} A</span>
+                                        <span class="temp">{{(k.data && k.data.dataJSON.lineTemp)||'----'}} ℃</span>
+                                        <span class="lineA">{{(k.data && k.data.dataJSON.lineA)||'----'}} A</span>
                                         <span 
                                             :style="{color:k.data&&k.data.dataJSON.soe==='0010'?'red':''}"
                                         >
@@ -175,9 +175,9 @@
                     lineAChart.hideLoading();
                     tempChart.hideLoading();
 
-                    const {history} = res;
+                    const { history } = res;
                     if( !res )return;
-                    const diffTime = timeDiff(startTime,endTime);
+                    const diffTime = timeDiff( startTime, endTime );
                     let timeArray = [];
                     const result = this.currentRing.outLineList && this.currentRing.outLineList.reduce((pre,current)=>{
                         const { outLineId, outLineName } = current;
@@ -186,7 +186,7 @@
                         let obj = {};
                         currentData.forEach(single=>{
                             timeArray.push(this.$moment(single.createTime).valueOf());
-                            const {dataJSON} = single;
+                            const { dataJSON } = single;
                             for(let item in dataJSON){
                                 if(!obj[item]) obj[item] = [];
                                 obj[item].push([this.$moment(single.createTime).format(diffTime),dataJSON[item]]);
@@ -201,7 +201,7 @@
                     const timeResult = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
-                    this.tempData = result['temp'] || [];
+                    this.tempData = result['lineTemp'] || [];
                 })
             },
             //下载
@@ -320,9 +320,10 @@
                                             height: 19px;
                                             cursor: pointer;
                                         }
+                                        .temp,.lineA{
+                                            min-width: 60px;
+                                        }
                                         span{
-                                            // padding: 0 5px;
-                                            width:52px;
                                             text-align: center;
                                             &:last-child{
                                                 font-weight: bold;
@@ -338,7 +339,7 @@
                     width: 100%;
                     display: flex;
                     justify-content: center;
-                    padding: 15px 0;
+                    padding: 10px 0;
                     .wrap{
                         width: 98%;
                         #line{
@@ -360,7 +361,7 @@
                         }
                     }
                     .lineChart{
-                        height: 300px;
+                        height: 305px;
                         margin-bottom: 20px;
                     }
                 }

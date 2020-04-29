@@ -4,14 +4,14 @@
             <el-form-item label="设备地址域" prop="deviceAddress">
                 <el-input v-model="form.deviceAddress"></el-input>
             </el-form-item>
-            <el-form-item label="温度(0 ~ 127℃)" prop="temp">
-                <el-input v-model="form.temp"></el-input>
+            <el-form-item label="温度(0 ~ 127℃)" prop="lineTemp">
+                <el-input v-model="form.lineTemp"></el-input>
             </el-form-item>
-            <el-form-item label="电流(0 ~ 6000A)" prop="a">
-                <el-input v-model="form.a"></el-input>
+            <el-form-item label="电流(0 ~ 6000A)" prop="lineA">
+                <el-input v-model="form.lineA"></el-input>
             </el-form-item>
-            <el-form-item label="电压(0 ~ 600V)" prop="v">
-                <el-input v-model="form.v"></el-input>
+            <el-form-item label="电压(0 ~ 600V)" prop="lineV">
+                <el-input v-model="form.lineV"></el-input>
             </el-form-item>
             <el-form-item >
                 <el-button type="primary" @click="submitForm">提交</el-button>
@@ -27,15 +27,15 @@
             return {
                 form: {
                     deviceAddress: '',
-                    temp:'0',
-                    a: '0',
-                    v: '0'
+                    lineTemp:'0',
+                    lineA: '0',
+                    lineV: '0'
                 },
                 rules: {
                     deviceAddress: [ { required: true, message: '请输入设备编码', trigger: 'blur' }, ],
-                    temp: [ { trigger: 'blur' } ],
-                    a: [ { trigger: 'blur' } ],
-                    v: [ { trigger: 'blur' } ]
+                    lineTemp: [ { trigger: 'blur' } ],
+                    lineA: [ { trigger: 'blur' } ],
+                    lineV: [ { trigger: 'blur' } ]
                 },
             }
         },
@@ -54,16 +54,15 @@
             submitForm() {
                 this.$refs.form.validate((valid) => {
                 if (valid) {
-                    const {deviceAddress,temp,a,v} = this.form;
+                    const { deviceAddress, lineTemp, lineA, lineV } = this.form;
                     this.client.publish(`topic_data_${this.projectId}`,JSON.stringify({
                         address: deviceAddress,
                         data:{
-                            lineA:a,
-                            lineV: v,
-                            temp,
+                            lineTemp,
+                            lineA,
+                            lineV
                         },
                         fc: "36",
-                        outLineId: "1",
                         time: new Date()
                     }))
                     this.$message({
