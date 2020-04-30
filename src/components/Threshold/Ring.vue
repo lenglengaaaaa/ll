@@ -15,31 +15,41 @@
                 label-position="top"  
                 :style="{'width':'500px'}"
             >   
-                <el-row :gutter="10">
+                <el-row :gutter="40">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="线缆温度告警限值(℃)" prop="lineTemp">
-                            <el-input-number v-model="thForm.lineTemp" :precision="2" :min="0"></el-input-number>
-                            <!-- <el-input v-model.number="thForm.lineTemp" autocomplete="off" /> -->
+                            <el-input-number v-model="thForm.lineTemp" :precision="2" :min="0" />
                         </el-form-item>
+                        
                         <el-form-item label="线缆电流告警限值(A)" prop="lineA">
-                            <el-input-number v-model="thForm.lineA" :precision="2" :min="0"></el-input-number>
+                            <el-input-number v-model="thForm.lineA" :precision="2" :min="0" />
                         </el-form-item>
                         <el-form-item label="线缆电压告警限值(V)" prop="lineV">
-                            <el-input-number v-model="thForm.lineV" :precision="0" :min="0"></el-input-number>
+                            <el-input-number v-model="thForm.lineV" :precision="0" :min="0" />
                         </el-form-item>
                         <el-form-item label="电池电压限值(V)" prop="batteryA">
-                            <el-input-number v-model="thForm.batteryA" :precision="1" :min="0"></el-input-number>
-                        </el-form-item>
-                        <el-form-item label="板子温度告警限值(℃)" prop="CBTemp">
-                            <el-input-number v-model="thForm.CBTemp" :precision="2" :min="0"></el-input-number>
+                            <el-input-number v-model="thForm.batteryA" :precision="1" :min="0" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="采样周期(分)" prop="samplingPeriod">
-                            <el-input-number v-model="thForm.samplingPeriod" :precision="0" :min="1" :max="32"></el-input-number>
+                        <el-form-item label="板子温度告警限值(℃)" prop="CBTemp">
+                            <el-input-number v-model="thForm.CBTemp" :precision="2" :min="0" />
                         </el-form-item>
-                        <el-form-item label="上报周期-采样周期的倍数(倍)" prop="reportedPeriod">
-                            <el-input-number v-model="thForm.reportedPeriod" :precision="0" :min="1" :max="8"></el-input-number>
+                        <el-form-item label="采样周期(分,1-32)" prop="samplingPeriod">
+                            <el-input-number 
+                                v-model="thForm.samplingPeriod" 
+                                :precision="0" 
+                                :min="1" 
+                                :max="32"
+                            />
+                        </el-form-item>
+                        <el-form-item label="上报周期(倍,1-8)" prop="reportedPeriod">
+                            <el-input-number 
+                                v-model="thForm.reportedPeriod" 
+                                :precision="0" 
+                                :min="1" 
+                                :max="8"
+                            />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -56,18 +66,10 @@
     import Threshold from './mixin'
     
     export default {
-        mixins: [Threshold],
+        mixins: [ Threshold ],
         data() {
             return {
-                thForm:{  
-                    lineTemp:70,
-                    lineA:650,
-                    lineV:15,
-                    batteryA:2.8,
-                    CBTemp:70,
-                    samplingPeriod:1,
-                    reportedPeriod:5
-                },
+                thForm:{}
             }
         },
     }

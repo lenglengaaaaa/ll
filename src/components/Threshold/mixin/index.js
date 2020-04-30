@@ -68,9 +68,20 @@ export default {
         submitForm() {
             this.$refs.thForm.validate((valid) => {
                 if (valid) {
+                    //4.30
+                    let payload = {};
+                    for(let item in this.thForm){
+                        if(this.thForm[item]){
+                            payload[item] = this.thForm[item];
+                        }
+                    }
+                    if( !Object.keys(payload).length ){
+                        this.$message.warning('至少填写一项 !!')
+                        return;
+                    }
+
                     let params ={
-                        payload:JSON.stringify(this.thForm),        
-                        description:'' 
+                        payload:JSON.stringify(payload)        
                     };
                     if(this.path==='/project/threshold'){
                         //全局阈值设置
