@@ -178,7 +178,7 @@
                 })
             },
             "form.parentId"(value){
-                if(this.editFlag) return;
+                if( this.editFlag ) return;
                 const { address } = this.concenMenus.filter(item=>value === item.id)[0];
                 this.form.deviceAddress = address;
             }

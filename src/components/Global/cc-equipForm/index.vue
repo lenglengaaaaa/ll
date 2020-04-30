@@ -274,8 +274,8 @@
                                     sessionStorage.setItem('equipObj',JSON.stringify({data}));
                                     return;
                                 }
-                                const { isBinding, deviceAdress } = this.form;
-                                isBinding && isBinding === 1 && this.updateConcentratorBindinig(deviceAdress);
+                                const { isBinding, deviceAddress } = this.form;
+                                isBinding && isBinding === 1 && this.updateConcentratorBindinig(deviceAddress);
                                 this.$router.push({name:'EquList'});
                             })
                         }else{

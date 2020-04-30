@@ -2,7 +2,7 @@
     <div class="RING_VIEW">
         <el-row :gutter="30" >
             <!-- 魔戒视图 -->
-            <el-col :span="11" :xs="24">
+            <el-col :span="10" :xs="24">
                 <div class="view">
                     <ul class="wrap">
                         <li class="top_branch">
@@ -47,7 +47,7 @@
                 </div>
             </el-col>
             <!-- 历史数据 -->
-            <el-col :span="13" :xs="24">
+            <el-col :span="14" :xs="24">
                 <div class="DATA_DETAIL">
                     <div class="wrap">
                         <div class="seletGroup">

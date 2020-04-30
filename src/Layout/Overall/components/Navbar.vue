@@ -25,7 +25,7 @@
                     <i class="el-icon-full-screen" @click="full" title="全屏"/>
 
                     <!-- 二维码录入 -->
-                    <el-popover
+                    <!-- <el-popover
                         placement="bottom-end"
                         width="200"
                         trigger="click"
@@ -43,7 +43,7 @@
                             iconClass="entering" 
                             className="el-icon-entering"
                         />
-                    </el-popover>
+                    </el-popover> -->
                     
                     <!-- 告警信息收集展示 -->
                     <el-popover
