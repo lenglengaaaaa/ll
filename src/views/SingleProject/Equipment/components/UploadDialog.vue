@@ -121,7 +121,8 @@
                 align-items: center;
                 background-color: #eee;
                 .el-dialog__title{
-                    color: #869198;
+                    color: #000;
+                    font-weight: bold;
                 }
             }
             .el-dialog__body{

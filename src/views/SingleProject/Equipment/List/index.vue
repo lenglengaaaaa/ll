@@ -111,6 +111,10 @@
             :close="closeDialog"
             :isUploaded="isUploaded"
         />
+        <OtherFucDialog 
+            :visible="otherVisible"
+            :close="closeDialog"
+        />
     </div>
 </template>
 
@@ -118,10 +122,13 @@
     import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
     import UploadDialog from '../components/UploadDialog'
+    import OtherFucDialog from '../components/OtherFucDialog'
+
 
     export default {
         components: {
             UploadDialog,
+            OtherFucDialog
         },
         data() {
             return {
@@ -130,6 +137,7 @@
                 data: [],
                 total:0,
                 dialogVisible: false,
+                otherVisible: false,
                 params:{
                     size:20,    
                     current:1 ,   
@@ -183,6 +191,10 @@
                 this.$children[0]&&this.$children[0].getListData(data);
             },
             skipTo(type,row) {
+                if(type === 'otherFuc'){
+                    this.otherVisible= true;
+                    return;
+                }
                 if(type === 'upload'){
                     this.dialogVisible= true;
                     return;
@@ -223,6 +235,7 @@
             //关闭上传模态窗
             closeDialog(){
                 this.dialogVisible = false;
+                this.otherVisible = false;
             },
             //上传成功后获取最新列表
             isUploaded(){

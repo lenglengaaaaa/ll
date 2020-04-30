@@ -255,7 +255,8 @@ const actions= {
             }
         }).then(res=>{
             if(res && res.code===200){
-                tip(res.message,'success')
+                tip(res.message,'success');
+                return true;
             }else{
                 const { data } = res;
                 res && tip(data)

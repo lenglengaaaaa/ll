@@ -16,6 +16,10 @@
                             </el-input>
                         </div>
                         <div v-if="hasAdd">
+                            <el-button type="info" size="small" v-if="hasUpload" @click="linkTo('otherFuc')">
+                                其他功能
+                                <i class="el-icon-circle-plus-outline el-icon--right"/>
+                            </el-button>
                             <el-button type="primary" size="small" v-if="hasUpload" @click="linkTo('upload')">
                                 批量上传
                                 <i class="el-icon-upload el-icon--right"/>
@@ -389,6 +393,7 @@
                     case 'set':
                     case 'active':
                     case 'upload':
+                    case 'otherFuc':
                         this.skipTo(type,row);
                         break;
                     case 'delete' :
