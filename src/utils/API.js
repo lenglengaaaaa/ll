@@ -327,6 +327,15 @@ export const api={
     //更新集中器空中绑定信息
     update_concentrator_bindinig:`http://47.92.235.125:8899/api/device/updateBind`,
 
+    //3.3.16 获取低压集中器的实时数据 post
+    get_concentrator_current:`${url}/e_view/data/statistics/lpconCentrator/current`,
+
+    //3.3.17 获取低压集中器的历史数据 post
+    get_concentrator_history:`${url}/e_view/data/statistics/lpconCentrator/history`,
+
+    //5.8 导出低压传感器历史数据 post
+    export_concentrator_history:`${url}/e_view/data/statistics/lpconCentrator/history/execl`,
+
     //=======================================阈值设置=====================================================
 
     //查看告警阈值设置详情 get

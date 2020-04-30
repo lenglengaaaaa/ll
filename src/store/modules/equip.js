@@ -687,6 +687,75 @@ const actions= {
     },
 
     /**
+     * 获取低压集中器的实时数据
+     * @param assetId 资产ID
+     * @param assetType 资产类型,0配电柜,1配电房,2井盖
+     * @param deviceAddress 设备地址域
+     */
+    getConcentratorCurrent({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.get_concentrator_current}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 获取低压集中器的历史数据
+     * @param assetId 资产ID
+     * @param assetType 资产类型,0配电柜,1配电房,2井盖
+     * @param deviceAddress 设备地址域
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param key 查询的采集项key
+     */
+    getConcentratorHistory({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.get_concentrator_history}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res && tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
+     * 导出低压集中器的历史数据
+     * @param assetId 资产ID
+     * @param assetType 资产类型,0配电柜,1配电房,2井盖
+     * @param deviceAddress 设备地址域
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param key 查询的采集项key
+     */
+    exportConcentratorHistory({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.export_concentrator_history}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res && tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
      * 导出配电柜下单个出线的历史视图
      * @param 同历史数据
      */
