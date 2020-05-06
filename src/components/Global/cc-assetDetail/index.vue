@@ -33,8 +33,7 @@
             },
         },
         data() {
-            return {
-            }
+            return {}
         },
     }
 </script>

@@ -30,6 +30,11 @@
             this.chart.dispose();
             this.chart = null;
         },
+        destroyed(){
+            window.removeEventListener('resize',()=>{
+                this.chart && this.chart.resize()
+            },false);
+        },
         watch: {
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart&&this.chart.resize();

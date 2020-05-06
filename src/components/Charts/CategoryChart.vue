@@ -17,7 +17,7 @@
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.categoryChart);
-            setTimeout(()=>{this.initChart()})
+            setTimeout(()=>{ this.initChart() });
             window.addEventListener('resize',()=>{
                 this.chart&&this.chart.resize()
             },false);
@@ -26,6 +26,11 @@
             if (!this.chart) return
             this.chart.dispose();
             this.chart = null;
+        },
+        destroyed(){
+            window.removeEventListener('resize',()=>{
+                this.chart && this.chart.resize()
+            },false);
         },
         watch: {
             '$store.state.app.sidebar.opened'(flag) {

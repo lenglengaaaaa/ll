@@ -82,20 +82,25 @@
                 this.option.title.text = value;
             },
             '$store.state.app.sidebar.opened'(flag) {
-                this.chart&&this.chart.resize();
+                this.chart && this.chart.resize();
             }
         },
         mounted() {
             this.chart = this.$echarts.init(document.getElementById(this.id))
             this.drawLine();
             window.addEventListener('resize',()=>{
-                this.chart&&this.chart.resize()
+                this.chart && this.chart.resize()
             },false);
         },
         beforeDestroy() {
             if (!this.chart) return
             this.chart.dispose();
             this.chart = null;
+        },
+        destroyed(){
+            window.removeEventListener('resize',()=>{
+                this.chart && this.chart.resize()
+            },false);
         },
         methods: {
             drawLine(){

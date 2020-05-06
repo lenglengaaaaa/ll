@@ -189,7 +189,7 @@
                             const { dataJSON } = single;
                             for(let item in dataJSON){
                                 if(!obj[item]) obj[item] = [];
-                                obj[item].push([this.$moment(single.createTime).format(diffTime),dataJSON[item]]);
+                                obj[item].push([this.$moment(single.createTime).format(diffTime), dataJSON[item]]);
                             }
                         })
                         for(let k in obj){

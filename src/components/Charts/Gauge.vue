@@ -30,6 +30,11 @@
             this.chart.dispose();
             this.chart = null;
         },
+        destroyed(){
+            window.removeEventListener('resize',()=>{
+                this.chart && this.chart.resize()
+            },false);
+        },
         watch: {
             value(value) {
                 this.getData();
