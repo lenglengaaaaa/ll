@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="设备"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -133,8 +131,6 @@
             return {
                 value:null,
                 types:[],
-                data: [],
-                total:0,
                 dialogVisible: false,
                 otherVisible: false,
                 params:{

@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="应用"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -93,8 +91,6 @@
         },
         data() {
             return {
-                data: [],
-                total:0,
                 dialogVisible:false,
                 editFlag:false,
                 value:{},

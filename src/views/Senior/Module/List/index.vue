@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="模组"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -103,39 +101,39 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        name:'模组一',
-                        manufacturerId:'110',
-                        manufacturerName:'中科研究院',
-                        moduleType:'类型一',
-                        moduleSign:'强',
-                        wifiLevel:'1',
-                        mac:'123',
-                        model:'AAA',
-                        activated:0,
-                        status:0,
-                        location:'深圳',
-                        swversion:'1.0',
-                        fwversion:'1.0',
-                        hwversion:'1.0',
-                        protocolType:'1',
-                        bridgeid:'1',
-                        detail:'详情',
-                        commWay:'NB',
-                        moduleSinr:'信噪比',
-                        sigVersion:'1.0',
-                        statusDetail:0
-                    }
-                ],
-                total:100,
                 dialogVisible:false,
                 value:{}
             }
         },
         methods: {
             getList(){
-
+                //  data: [
+                //     {
+                //         name:'模组一',
+                //         manufacturerId:'110',
+                //         manufacturerName:'中科研究院',
+                //         moduleType:'类型一',
+                //         moduleSign:'强',
+                //         wifiLevel:'1',
+                //         mac:'123',
+                //         model:'AAA',
+                //         activated:0,
+                //         status:0,
+                //         location:'深圳',
+                //         swversion:'1.0',
+                //         fwversion:'1.0',
+                //         hwversion:'1.0',
+                //         protocolType:'1',
+                //         bridgeid:'1',
+                //         detail:'详情',
+                //         commWay:'NB',
+                //         moduleSinr:'信噪比',
+                //         sigVersion:'1.0',
+                //         statusDetail:0
+                //     }
+                // ],
+                // total:100,
+                
             },
             skipTo(type,row) {
                 if(type==="edit"){

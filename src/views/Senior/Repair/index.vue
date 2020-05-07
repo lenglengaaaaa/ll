@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="设备修复"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -63,16 +61,6 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        deviceAdress:'119',
-                        creater:'plugin',
-                        createTime:1561714114536,
-                        updateTime:1571714115536,
-                        comment:'Hello World',
-                    }
-                ],
-                total:100,
                 dialogVisible:false,
                 editFlag:false,
                 value:{}
@@ -80,7 +68,16 @@
         },
         methods: {
             getList(){
-
+                // data: [
+                //     {
+                //         deviceAdress:'119',
+                //         creater:'plugin',
+                //         createTime:1561714114536,
+                //         updateTime:1571714115536,
+                //         comment:'Hello World',
+                //     }
+                // ],
+                // total:100,
             },
             skipTo(type,row) {
                 this.dialogVisible = true;

@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="产品"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -58,15 +56,6 @@
         },
         data() {
             return {
-                data: [
-                    {
-                        productName:'产品一',
-                        productProfile:'NB',
-                        deviceEUI:'imei',
-                        appId:'2,1'
-                    }
-                ],
-                total:100,
                 dialogVisible:false,
                 editFlag:false,
                 value:{}
@@ -74,7 +63,15 @@
         },
         methods: {
             getList(){
-
+                // data: [
+                //     {
+                //         productName:'产品一',
+                //         productProfile:'NB',
+                //         deviceEUI:'imei',
+                //         appId:'2,1'
+                //     }
+                // ],
+                // total:100,
             },
             skipTo(type,row) {
                 this.dialogVisible = true;

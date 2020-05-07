@@ -1,8 +1,6 @@
 <template>
     <cc-table
         title="配电柜"
-        :data="data"
-        :total="total"
         :getList="getList"
         :skipTo="skipTo"
         :remove="remove"
@@ -67,8 +65,6 @@
     export default {
         data() {
             return {
-                data: [],
-                total:0,
                 params:{
                     size:20,    
                     current:1 ,   

@@ -1,8 +1,6 @@
 <template>
     <cc-table
         title="系统操作"
-        :data="data"
-        :total="total"
         :getList="getList"
         :hasAdd="false"
         :hasOpera="false"
@@ -125,8 +123,6 @@
                     {value:3,label:'删除'},
                     {value:4,label:'其他'},
                 ],
-                data: [],
-                total:0,
                 params:{
                     type:0,
                     size:20,    

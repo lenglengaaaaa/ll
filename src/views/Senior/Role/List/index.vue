@@ -2,8 +2,6 @@
     <div>
         <cc-table
             title="角色"
-            :data="data"
-            :total="total"
             :getList="getList"
             :skipTo="skipTo"
             :remove="remove"
@@ -66,8 +64,6 @@
         },
         data() {
             return {
-                data: [],
-                total:0,
                 params:{
                     size:20,    
                     current:1   

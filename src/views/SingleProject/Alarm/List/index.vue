@@ -1,8 +1,6 @@
 <template>
     <cc-table
         title="告警"
-        :data="data"
-        :total="total"
         :getList="getList"
         :hasAdd="false"
     >   
@@ -115,8 +113,6 @@
                     {value:2,label:'不予处理'},
                     {value:3,label:'延期处理'},
                 ],
-                data: [],
-                total:0,
                 params:{
                     projectId:JSON.parse(sessionStorage.getItem('project')).id,
                     size:20,    
