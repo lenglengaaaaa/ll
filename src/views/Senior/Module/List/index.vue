@@ -95,7 +95,6 @@
 </template>
 
 <script>
-    import { judgeLastData } from '@/utils/methods'
     import Detail from '../components/Detail'
 
     export default {

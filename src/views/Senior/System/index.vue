@@ -146,9 +146,7 @@
                 this.params = data ;
                 return this.getOperationList(data).then(res=>{
                     if(!res)return;
-                    const {data,page} = res;
-                    this.data = data;
-                    this.total = page.total;
+                    return res;
                 })
             },
             //切换状态回调

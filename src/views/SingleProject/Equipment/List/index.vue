@@ -119,7 +119,6 @@
 </template>
 
 <script>
-    import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
     import UploadDialog from '../components/UploadDialog'
     import OtherFucDialog from '../components/OtherFucDialog'
@@ -161,10 +160,8 @@
                 }
                 this.params = data ;
                 return this.getEquipList(data).then(res=>{
-                    if(!res)return;
-                    const {data,page} = res;
-                    this.data = data;
-                    this.total = page.total;
+                    if(!res) return;
+                    return res;
                 })
             },
             //获取设备类型
@@ -217,8 +214,7 @@
                 this.$router.push({name:'EquDetail',params:{equipId:row.id}})
             },
             //删除设备
-            remove(row){
-                const current = judgeLastData(this.data,this.params.current);
+            remove(row,current){
                 this.params ={
                     ...this.params,
                     current

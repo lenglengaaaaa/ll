@@ -98,7 +98,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    import { downFile} from '@/utils/methods'
+    import { downFile } from '@/utils/methods'
     
     export default {
         data() {
@@ -143,9 +143,7 @@
                 this.params = data ;
                 return this.getAlarmList(data).then(res=>{
                     if(!res)return;
-                    const {data,page} = res;
-                    this.data = data;
-                    this.total = page.total;
+                    return res;
                 })
             },
             linkTo(row) {

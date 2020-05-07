@@ -62,7 +62,6 @@
 </template>
 
 <script>
-    import { judgeLastData } from '@/utils/methods'
     import { mapActions, mapState } from 'vuex';
 
     export default {
@@ -119,14 +118,11 @@
                 this.params = data ;
                 return this.getChestList(data).then(res=>{
                     if(!res)return;
-                    const {data,page} = res;
-                    this.data = data;
-                    this.total = page.total;
+                    return res;
                 })
             },
-            remove(row){
-                const {id} = row;
-                const current = judgeLastData(this.data,this.params.current);
+            remove(row,current){
+                const { id } = row;
                 this.params ={
                     ...this.params,
                     current

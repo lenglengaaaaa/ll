@@ -49,7 +49,6 @@
 </template>
 
 <script>
-    import { judgeLastData } from '@/utils/methods'
     import { mapActions } from 'vuex';
 
     export default {
@@ -78,14 +77,11 @@
                 this.params = data ;
                 return this.getTrapList(data).then(res=>{
                     if(!res)return;
-                    const {data,page} = res;
-                    this.data = data;
-                    this.total = page.total;
+                    return res;
                 })
             },
-            remove(row){
+            remove(row,current){
                 const {id} = row;
-                const current = judgeLastData(this.data,this.params.current);
                 this.params ={
                     ...this.params,
                     current

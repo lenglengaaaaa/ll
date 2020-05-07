@@ -50,7 +50,6 @@
 </template>
 
 <script>
-    import { judgeLastData } from '@/utils/methods'
     import CreateEdit from './components/CreateEdit'
 
     export default {
