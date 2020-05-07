@@ -234,6 +234,7 @@
         .RING_VIEW{
             .el-col{
                 height: auto !important;
+                margin-bottom: 20px;
             }
         }
     }

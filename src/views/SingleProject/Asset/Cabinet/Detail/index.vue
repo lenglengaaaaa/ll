@@ -94,12 +94,19 @@
             }
         },
         created () {
-            const {id,name} =JSON.parse(sessionStorage.getItem("obj"));
-            this.$route.meta.title=name;
+            const { id, name } =JSON.parse(sessionStorage.getItem("obj"));
+            this.$route.meta.title = name;
+
             this.getRingDetail(id).then(res=>{
-                const { switchList } = res;
                 if(!res )return;
-                this.switchList = switchList.length ? switchList : defaultValue;
+                const { switchList } = res;
+                const filtered = switchList.length && switchList.map(item=>{
+                    if( item.outLineList && item.outLineList.length){
+                        item.outLineList = this._.sortBy(item.outLineList,'outLineName');
+                    }
+                    return item;
+                })
+                this.switchList = filtered && filtered.length ? filtered : defaultValue;
             })
             
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);

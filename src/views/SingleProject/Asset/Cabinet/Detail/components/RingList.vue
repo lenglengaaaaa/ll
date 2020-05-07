@@ -10,7 +10,6 @@
             <el-table-column
                 label="设备地址域"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>(row && row.deviceAdress) || '-'"
             />
@@ -19,6 +18,12 @@
                 align="center"
                 show-overflow-tooltip
                 :formatter="(row)=>(row && row.deviceName) || '-'"
+            />
+            <el-table-column
+                label="相序"
+                align="center"
+                show-overflow-tooltip
+                :formatter="(row)=>(row && row.outLineName) || '-'"
             />
             <el-table-column
                 label="温度(℃)"
