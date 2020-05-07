@@ -146,13 +146,12 @@
 
 <script>
     import { mapActions, mapState } from 'vuex'
+    import { judgeLastData, isMobile } from '@/utils/methods'
     import _ from 'lodash'
 
     export default {
         name:'cc-table',
         props: {
-            data:Array,
-            total:Number,
             title:String,
             assetType:Number,
             getList:Function,
@@ -206,8 +205,11 @@
                 })
             };
             return {
+                table_height:'calc(100vh - 300px)',
                 input:'',
                 layout:'total, sizes,pager,jumper',
+                data:[],
+                total:0,
                 current:1,
                 size:20,
                 dialogFormVisible: false,
@@ -228,7 +230,7 @@
             }
         },
         mounted() {
-            this.getListData()
+            this.getListData();
         },
         computed: {
             ...mapState('user',[
@@ -359,7 +361,15 @@
             //获取数据
             async getListData(params={}){
                 this.loading = true;
-                await this.getList(params)
+
+                //获取列表数据
+                const LIST = await this.getList(params);
+                if( LIST ){
+                    const { data, page } = LIST;
+                    // isMobile() && (this.table_height = this.$('.el-table').height());
+                    this.data = data;
+                    this.total = page.total;
+                }
                 this.loading = false;
             },
             //搜索
@@ -426,7 +436,8 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        this.remove(row);
+                        const curPage = judgeLastData( this.data, this.current );
+                        this.remove( row, curPage );
                     }).catch(() => {});
                 }
             },
@@ -457,7 +468,8 @@
             submit(){
                 this.$refs.passForm.validate((valid) => {
                     if (valid) {
-                        this.remove(this.row);
+                        const curPage = judgeLastData( this.data, this.current );
+                        this.remove(this.row, curPage);
                         this.close();
                     } else {
                         this.$message({
@@ -475,6 +487,15 @@
 <style lang="scss">
     @media screen and (max-width: 870px) {
         .Apply-Management{
+            .clearfix{
+                flex-direction: column;
+                align-items: normal !important;
+                div{
+                    &:last-child{
+                        padding-top: 10px;
+                    }
+                }
+            }
             .footer{
                 justify-content: center !important;
             }

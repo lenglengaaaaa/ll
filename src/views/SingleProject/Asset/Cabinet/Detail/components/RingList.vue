@@ -29,31 +29,31 @@
                 label="温度(℃)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineTemp ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.lineTemp ) || '-'"
             />
             <el-table-column
                 label="线缆电压(V)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineV ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.lineV ) || '-'"
             />
             <el-table-column
                 label="线缆电流(A)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.lineA ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.lineA ) || '-'"
             />
             <el-table-column
                 label="电池电压(V)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.batteryV ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.batteryV ) || '-'"
             />
             <el-table-column
                 label="信号强度"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.dataJSON && row.data.dataJSON.signal ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.signal ) || '-'"
             />
             <el-table-column
                 prop="time"

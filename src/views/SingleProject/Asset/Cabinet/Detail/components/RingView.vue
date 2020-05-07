@@ -32,12 +32,12 @@
                                                 className="icon"
                                             />
                                         </el-tooltip>
-                                        <span class="temp">{{(k.data && k.data.dataJSON.lineTemp)||'----'}} ℃</span>
-                                        <span class="lineA">{{(k.data && k.data.dataJSON.lineA)||'----'}} A</span>
+                                        <span class="temp">{{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃</span>
+                                        <span class="lineA">{{(k.data && k.data.decodeHex.lineA)||'----'}} A</span>
                                         <span 
-                                            :style="{color:k.data&&k.data.dataJSON.soe==='0010'?'red':''}"
+                                            :style="{color:k.data&&k.data.decodeHex.soe==='0010'?'red':''}"
                                         >
-                                            {{k.data&&k.data.dataJSON.soe==='0010'?'失压':'有压'}}
+                                            {{k.data&&k.data.decodeHex.soe==='0010'?'失压':'有压'}}
                                         </span>
                                     </div>
                                 </li>
@@ -176,20 +176,21 @@
                     tempChart.hideLoading();
 
                     const { history } = res;
-                    if( !res )return;
+                    if( !res || !history )return;
                     const diffTime = timeDiff( startTime, endTime );
                     let timeArray = [];
                     const result = this.currentRing.outLineList && this.currentRing.outLineList.reduce((pre,current)=>{
                         const { outLineId, outLineName } = current;
-                        const currentData = history[outLineId];
+                        const filtered = history.filter(item=>item.outLineId == outLineId)[0];
+                        const currentData = filtered && filtered.dataList;
                         if(!currentData) return pre;
                         let obj = {};
                         currentData.forEach(single=>{
-                            timeArray.push(this.$moment(single.createTime).valueOf());
-                            const { dataJSON } = single;
+                            const { createTime, dataJSON } = single;
+                            timeArray.push(this.$moment(createTime).valueOf());
                             for(let item in dataJSON){
                                 if(!obj[item]) obj[item] = [];
-                                obj[item].push([this.$moment(single.createTime).format(diffTime), dataJSON[item]]);
+                                obj[item].push([this.$moment(createTime).format(diffTime), dataJSON[item]]);
                             }
                         })
                         for(let k in obj){
