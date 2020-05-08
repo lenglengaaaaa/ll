@@ -35,7 +35,7 @@
                 label="线缆电压(V)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.lineV ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && `${row.data.decodeHex.lineV}` ) || '-'"
             />
             <el-table-column
                 label="线缆电流(A)"

@@ -32,12 +32,17 @@
                                                 className="icon"
                                             />
                                         </el-tooltip>
-                                        <span class="temp">{{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃</span>
-                                        <span class="lineA">{{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A</span>
+                                        <span class="temp">
+                                            {{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃
+                                        </span>
+                                        <span class="lineA">
+                                            {{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A
+                                        </span>
+                                        <!-- N相不判断有压、失压 -->
                                         <span 
-                                            :style="{color:k.data&&k.data.decodeHex.soe==='0010'?'red':''}"
+                                            :style="{color:k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''}"
                                         >
-                                            {{k.data&&k.data.decodeHex.soe==='0010'?'失压':'有压'}}
+                                            {{k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'失压':'有压'}}
                                         </span>
                                     </div>
                                 </li>
