@@ -86,6 +86,11 @@
                             :value="tempData"
                             :timeArray="timeArray"
                         />
+                        <!-- <DoubleLineChart
+                            :text="ringName" 
+                            :value="all_data"
+                            ref="doubleLine"
+                        /> -->
                     </div>
                 </div>
             </el-col>
@@ -97,11 +102,12 @@
     import _ from 'lodash';
     import { mapActions } from 'vuex'
     import { downFile, timeDiff } from '@/utils/methods'
-    import { LineChart } from '@/components/Charts'
+    import { LineChart, DoubleLineChart } from '@/components/Charts'
 
     export default {
         components: {
-            LineChart
+            LineChart,
+            DoubleLineChart
         },
         props: {
             switchList: Array
@@ -122,7 +128,10 @@
                 lineAData:[],
                 tempData:[],
                 hasExport:true,
-                linemap:require('@images/linemap.png')
+                linemap:require('@images/linemap.png'),
+                all_data:{
+                    data:{ lineA:[], lineTemp:[] }
+                }
             }
         },
         mounted () {
@@ -163,8 +172,11 @@
                 //echarts加载Loading
                 const lineAChart = this.$refs.lineAChart&&this.$refs.lineAChart.chart;
                 const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
+                // const doubleLine = this.$refs.doubleLine&&this.$refs.doubleLine.chart;
                 lineAChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
                 tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+                // doubleLine.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+
                 this.loading = true;
 
                 const startTime = this.time[0];
@@ -178,6 +190,7 @@
                     this.loading = false;
                     lineAChart.hideLoading();
                     tempChart.hideLoading();
+                    // doubleLine.hideLoading();
 
                     const { history } = res;
                     if( !res || !history )return;
@@ -207,6 +220,11 @@
                     this.timeArray = timeResult;
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['lineTemp'] || [];
+
+                    // this.all_data = {
+                    //     timeArray : timeResult,
+                    //     data : result
+                    // }
                 })
             },
             //下载
