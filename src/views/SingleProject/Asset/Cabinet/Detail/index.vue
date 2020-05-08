@@ -112,14 +112,14 @@
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 const { data, fc, address, time } = res;
-                if( fc != 36 )return;
-                console.log(res,'魔戒数据')
                 let outLine;
                 for(let item of this.switchList){
                     outLine = item.outLineList.filter(k => k.deviceAdress === address )[0];
                     if(outLine)break;
                 }
-                if(!outLine)return;
+                if( fc != 36 || !outLine )return;
+                console.log(res,'魔戒数据')
+                
                 outLine.data ={
                     createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                     decodeHex:{

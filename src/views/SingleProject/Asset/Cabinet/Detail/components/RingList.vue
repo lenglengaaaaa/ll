@@ -41,7 +41,7 @@
                 label="线缆电流(A)"
                 align="center"
                 show-overflow-tooltip
-                :formatter="(row)=>(row.data && row.data.decodeHex && row.data.decodeHex.lineA ) || '-'"
+                :formatter="(row)=>(row.data && row.data.decodeHex && `${row.data.decodeHex.lineA}` ) || '-'"
             />
             <el-table-column
                 label="电池电压(V)"

@@ -33,7 +33,7 @@
                                             />
                                         </el-tooltip>
                                         <span class="temp">{{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃</span>
-                                        <span class="lineA">{{(k.data && k.data.decodeHex.lineA)||'----'}} A</span>
+                                        <span class="lineA">{{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A</span>
                                         <span 
                                             :style="{color:k.data&&k.data.decodeHex.soe==='0010'?'red':''}"
                                         >
