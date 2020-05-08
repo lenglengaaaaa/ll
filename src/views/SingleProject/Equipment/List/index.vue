@@ -89,17 +89,15 @@
                     :formatter="(row)=>row.deviceEui || '-'"
                 />
                 <el-table-column
-                    prop="number"
-                    label="设备编号"
+                    prop="deviceAdress"
+                    label="设备地址域(设备ID)"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
-                    prop="deviceAdress"
-                    label="设备地址域"
+                    prop="number"
+                    label="设备编号"
                     align="center"
-                    width="150"
                     show-overflow-tooltip
                 />
             </template>

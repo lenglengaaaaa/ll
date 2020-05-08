@@ -1,6 +1,7 @@
 $height: 50px;
 @media screen and (max-width: 870px){
     .Sidebar_container{
+        height:100vh !important;
         position: fixed;
         top: 0px;
         left: 0px;
@@ -19,8 +20,7 @@ $height: 50px;
     }
     .Sidebar_container{
         background: #34495e;
-        // height: calc(100vh - 50px);
-        height: 100%;
+        height: calc(100vh - 50px);
         overflow-y: auto;
         .app_title{
             height: $height;

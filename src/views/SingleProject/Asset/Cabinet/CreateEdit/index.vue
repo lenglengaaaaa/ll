@@ -48,7 +48,7 @@
             <!-- 1.新增主线ID -->
             <div class="outgoing_line" v-for="(i,index) in form.count" :key="index">
                 <el-form-item 
-                    :label="`出线线路-${index+1}-ID`" 
+                    :label="`出线线路-${index+1}-ID (88或99开头)`" 
                     :prop="`listIds[${index}]`"
                     :rules="[{ validator: validateId, required:true, trigger: ['blur','change'] }]"
                 > 
