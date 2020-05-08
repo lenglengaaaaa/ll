@@ -122,8 +122,8 @@
                 if(!outLine)return;
                 outLine.data ={
                     createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                    dataJSON:{
-                        ...outLine.data.dataJSON,
+                    decodeHex:{
+                        ...outLine.data.decodeHex,
                         ...typeof data === 'string'?JSON.parse(data) : data
                     }
                 }

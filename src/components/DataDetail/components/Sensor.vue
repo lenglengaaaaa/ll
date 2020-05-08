@@ -50,6 +50,7 @@
                         end-placeholder="结束日期"
                         :clearable="false"
                         @change="changeDate"
+                        :disabled="loading"
                     >
                     </el-date-picker>
                 </el-form-item>
@@ -80,12 +81,12 @@
         mixins:[SensorMixin,Throttle],
         data() {
             return {
+                loading:false,
                 sign: 'Sensor'
             }
         },
         watch: {
             sensorType( type ) {
-                console.log(type,'type')
                 this.getSensorHistory(type);
             }
         },
@@ -98,6 +99,7 @@
                 //echarts加载Loading
                 const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+                this.loading = true;
 
                 const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
@@ -117,6 +119,8 @@
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
+                    this.loading = false;
+
                     const { deviceInfoList, dataMap } = res;
                     if( !res || !deviceInfoList.length ){
                         this.timeArray = [];
@@ -133,7 +137,7 @@
             changeDate(date){
                 if(!date)return;
                 this.time = [date[0],date[1]];
-                this.getSensorHistory();
+                this.getSensorHistory(this.sensorType);
             },
              //切换环境变量
             changeParam(val){

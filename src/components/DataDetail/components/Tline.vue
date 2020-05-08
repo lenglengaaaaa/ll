@@ -68,6 +68,7 @@
                         end-placeholder="结束日期"
                         :clearable="false"
                         @change="changeDate"
+                        :disabled="loading"
                     >
                     </el-date-picker>
                 </el-form-item>
@@ -100,6 +101,7 @@
         },
         data() {
             return {
+                loading:false,
                 sign:'Tline',
                 options: [
                         {value: 'lineTemp',label: '线缆温度'}, 
@@ -127,6 +129,7 @@
                 //echarts加载Loading
                 const lineChart = this.$refs.lineChart&&this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+                this.loading = true;
                 
                 const {id,trapId}=this.assetObj;
                 const startTime = this.time[0];
@@ -139,6 +142,7 @@
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
+                    this.loading = false;
 
                     const {lineInfoList,lineDateMap} = res;
                     if(!res || !lineInfoList.length)return;

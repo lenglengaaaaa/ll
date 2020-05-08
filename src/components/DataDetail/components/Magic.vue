@@ -43,6 +43,7 @@
                             end-placeholder="结束日期"
                             :clearable="false"
                             @change="changeDate"
+                            :disabled="date_loading"
                         >
                         </el-date-picker>
                     </el-form-item>
@@ -86,6 +87,7 @@
         },
         data() {
             return {
+                date_loading:false,
                 sign:'Magic',
                 options: [
                         {value: "temp",name: '环境温度'}, 
@@ -111,7 +113,8 @@
                 //echarts加载Loading
                 const lineChart = this.$refs.lineChart && this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
-
+                this.date_loading = true;
+                
                 const {id,trapId} = this.assetObj;
                 const startTime = this.time[0];
                 const endTime = this.time[1];
@@ -125,6 +128,8 @@
                 }).then(res=>{
                     //echart关闭Loading
                     lineChart.hideLoading();
+                    this.date_loading = false;
+
                     if(!res) return;
 
                     const {result,timeResult} = magicDataFilter({ data:res,name, startTime, endTime });

@@ -63,6 +63,7 @@
                                         end-placeholder="结束日期"
                                         :clearable="false"
                                         @change="changeDate"
+                                        :disabled="loading"
                                     >
                                     </el-date-picker>
                                 </el-form-item>
@@ -111,6 +112,7 @@
                 ringName:'',
                 switchId:'',
                 highlight: 0,
+                loading:false,
                 currentRing:{},
                 time: [
                     this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
@@ -163,6 +165,7 @@
                 const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
                 lineAChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
                 tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
+                this.loading = true;
 
                 const startTime = this.time[0];
                 const endTime = this.time[1];
@@ -172,6 +175,7 @@
                     endTime
                 }).then(res=>{
                     //echart关闭Loading
+                    this.loading = false;
                     lineAChart.hideLoading();
                     tempChart.hideLoading();
 
