@@ -51,6 +51,33 @@
                     </p>
                 </div>
             </div>
+            <div class="center" v-if="equipObj.deviceType == 33">
+                <el-divider content-position="left">实时数据</el-divider>
+                <div class="intro">
+                    <p>
+                        <strong>上报时间 :</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{ concentrator_data && concentrator_data.createTime || '---'}}
+                        </span>
+                    </p>
+                    <p>
+                        <strong>电压(V)</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{
+                                `${concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue} A` || '---'
+                            }}
+                        </span>
+                    </p>
+                    <p>
+                        <strong>信号强度(dbm)</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{
+                                `${concentrator_data && concentrator_data.signalNB &&concentrator_data.signalNB.keyValue} dbm`  || '---'
+                            }}
+                        </span>
+                    </p>
+                </div>
+            </div>
             <div>
                 <cc-mapSingle 
                     vid="alarmDetail"
@@ -64,6 +91,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+
     export default {
         props: {
             hasClose:{
@@ -99,16 +128,28 @@
                     location:'',
                     createTime:''
                 },
+                concentrator_data:{},
+                client:null
             }
         },
         created () {
-            this.getData(this.firstArray);
-            this.getData(this.secondArray);
+            const { name, deviceAdress, deviceType } = this.equipObj;
+
+            this.$route.meta.title = name;
+            [this.firstArray, this.secondArray].forEach(item=>this.getData(item));
             this.getSingleData();
+
+            if( deviceType == 33) this.isConcentrator(deviceAdress);
+        },
+        destroyed () {
+            this.client && this.client.end();
         },
         computed: {
             equipObj() {
                 return JSON.parse(sessionStorage.getItem('equipObj'));
+            },
+            projectId(){
+                return JSON.parse(sessionStorage.getItem('project')).id;
             }
         },
         methods: {
@@ -136,6 +177,42 @@
                 this.single.createTime = this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss');
                 //设备视图
                 this.imageUrls = imageUrls || [];
+            },
+            ...mapActions('equip',[
+                'getConcentratorCurrent',
+            ]),
+            //如果是类型是集中器
+            isConcentrator(deviceAdress){
+                //通过接口获取实时数据
+                this.getConcentratorCurrent({
+                    deviceAddress: deviceAdress
+                }).then(res=>{
+                    if(!res) return;
+                    const { dataMap } = res;
+
+                    if( !Object.keys(dataMap).length ) return;
+                    this.concentrator_data = {
+                        ...dataMap[deviceAdress],
+                        createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-YY HH:mm:ss')
+                    };
+                })
+
+                //通过Mqtt获取实时数据
+                this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
+                this.$mqtt.listen(this.client,res=>{
+                    const { data, fc, address, time } = res;
+                    if( fc != 33 || address != deviceAdress ) return;
+                    console.log(res,'集中器数据')
+                    this.concentrator_data = {
+                        createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                        signalNB:{ 
+                            keyValue:data.signalNB 
+                        },
+                        v:{ 
+                            keyValue:data.v 
+                        }
+                    }
+                })
             }
         },
     }
