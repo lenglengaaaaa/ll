@@ -108,13 +108,13 @@ const projectRouter = {
                     path:'newCabinet',
                     name:'NewCabinet',
                     component: () => import('@/views/SingleProject/Asset/Cabinet/CreateEdit'),
-                    meta:{title:'添加(编辑)配电柜'}
+                    meta:{ title:'添加(编辑)配电柜' }
                 },
                 {
                     path:'cabinetDetail',
                     name:'CabinetDetail',
                     component: () => import('@/views/SingleProject/Asset/Cabinet/Detail'),
-                    meta:{title:'配电柜详情'}
+                    meta:{ title:'配电柜详情' }
                 },
                 ]
             },
