@@ -1,6 +1,6 @@
 <template>
     <div class="ASSET_DETail">
-        <el-tabs type="border-card" >
+        <el-tabs type="border-card" @tab-click="handleClick">
             <el-tab-pane :label="label" v-if="table" lazy>
                 <el-table
                     :data="data"
@@ -35,6 +35,12 @@
         data() {
             return {}
         },
+        methods: {
+            handleClick(tab) {
+                const { label } = tab;
+                this.$store.dispatch('app/selectTab',label);
+            }
+        }
     }
 </script>
 

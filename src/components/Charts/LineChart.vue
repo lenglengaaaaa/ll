@@ -83,6 +83,12 @@
             },
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart && this.chart.resize();
+            },
+            '$store.state.app.tab_index'(label) {
+                const should_resize = ['魔戒总览','数据视图'];
+                if(should_resize.includes(label)){
+                    this.chart && this.chart.resize();
+                }
             }
         },
         mounted() {
@@ -104,6 +110,7 @@
         },
         methods: {
             drawLine(){
+                const colors= ['#FFFF00','#008000','#FF0000','#0000FF'];
                 const result = this.value.map((item,index)=>{
                     return {
                         data:item.data,

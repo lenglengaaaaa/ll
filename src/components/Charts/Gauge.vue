@@ -41,6 +41,12 @@
             },
             '$store.state.app.sidebar.opened'(flag) {
                 this.chart&&this.chart.resize();
+            },
+            '$store.state.app.tab_index'(label) {
+                const should_resize = ['数据视图'];
+                if(should_resize.includes(label)){
+                    this.chart && this.chart.resize();
+                }
             }
         },
         methods: {

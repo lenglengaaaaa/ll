@@ -264,6 +264,9 @@
                 height: auto !important;
                 margin-bottom: 20px;
             }
+            .lineChart{
+                height: 400px !important;
+            }
         }
     }
 
@@ -368,9 +371,13 @@
                     width: 100%;
                     display: flex;
                     justify-content: center;
-                    padding: 10px 0;
+                    height: 100%;
                     .wrap{
                         width: 98%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
                         #line{
                             height: 300px !important;
                         }  
@@ -388,11 +395,12 @@
                                 border-radius: 5px;
                             }
                         }
+                        .lineChart{
+                            height: calc(100% / 2);
+                            // margin-bottom: 20px;
+                        }
                     }
-                    .lineChart{
-                        height: 305px;
-                        margin-bottom: 20px;
-                    }
+                    
                 }
             }
         }

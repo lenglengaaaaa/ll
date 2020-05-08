@@ -29,7 +29,6 @@
                     :client ="client"
                 />
             </el-tab-pane>
-            
         </template>
     </cc-assetDetail>
 </template>

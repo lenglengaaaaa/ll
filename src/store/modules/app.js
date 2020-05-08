@@ -7,6 +7,7 @@ const state={
     device: 'desktop',
     alarmBox:[],
     alarmFlag:Cookies.get('alarmFlag') ? !!+Cookies.get('alarmFlag') : true,
+    tab_index:''
 }
 
 const mutations={
@@ -35,24 +36,31 @@ const mutations={
     SWITCH_ALARM:(state)=>{
         state.alarmFlag = !state.alarmFlag;
         state.alarmFlag ? Cookies.set('alarmFlag', 1) : Cookies.set('alarmFlag', 0);
+    },
+
+    TAB_INDEX:(state,label)=>{
+        state.tab_index = label;
     }
 }
 
 const actions= {
     toggleSideBar({ commit },flag) {
-        commit('TOGGLE_SIDEBAR',flag)
+        commit('TOGGLE_SIDEBAR',flag);
     },
     closeSideBar({ commit }) {
-        commit('CLOSE_SIDEBAR')
+        commit('CLOSE_SIDEBAR');
     },
     toggleDevice({ commit }, device) {
-        commit('TOGGLE_DEVICE', device)
+        commit('TOGGLE_DEVICE', device);
     },
     saveAlarm({commit},alarm){
-        commit('SAVE_ALARM', alarm)
+        commit('SAVE_ALARM', alarm);
     },
     switchAlarm({commit}){
-        commit('SWITCH_ALARM')
+        commit('SWITCH_ALARM');
+    },
+    selectTab({commit},label){
+        commit('TAB_INDEX',label);
     }
 }   
 
