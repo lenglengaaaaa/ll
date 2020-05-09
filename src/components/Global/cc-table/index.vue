@@ -37,8 +37,8 @@
                         :data="data"
                         border
                         stripe
-                        height="calc(100vh - 300px)"
-                        max-height="calc(100vh - 300px)"
+                        :height="table_height"
+                        :max-height="table_height"
                         header-cell-class-name="table_header"
                         ref="tabledns"
                     >   
@@ -366,7 +366,12 @@
                 const LIST = await this.getList(params);
                 if( LIST ){
                     const { data, page } = LIST;
-                    // isMobile() && (this.table_height = this.$('.el-table').height());
+
+                    // await isMobile() && (this.table_height = this.$('.el-table').height());
+                    //手机端将表格高度&最高高度设置为1060(有调整的空间)
+                    await isMobile() && (this.table_height = 1060);
+
+
                     this.data = data;
                     this.total = page.total;
                 }

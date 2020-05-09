@@ -92,6 +92,7 @@
                     prop="deviceAdress"
                     label="设备地址域(设备ID)"
                     align="center"
+                    width="155"
                     show-overflow-tooltip
                 />
                 <el-table-column

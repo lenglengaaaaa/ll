@@ -64,7 +64,7 @@
                         <strong>电压(V)</strong>
                         <span :style="{fontWeight:'bold'}">
                             {{
-                                `${concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue} A` || '---'
+                                `${(concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue) || '---'} A`
                             }}
                         </span>
                     </p>
@@ -72,7 +72,7 @@
                         <strong>信号强度(dbm)</strong>
                         <span :style="{fontWeight:'bold'}">
                             {{
-                                `${concentrator_data && concentrator_data.signalNB &&concentrator_data.signalNB.keyValue} dbm`  || '---'
+                                `${(concentrator_data && concentrator_data.signalNB &&concentrator_data.signalNB.keyValue) || '---'} dbm`
                             }}
                         </span>
                     </p>
