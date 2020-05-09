@@ -64,7 +64,7 @@
                         <strong>电压(V)</strong>
                         <span :style="{fontWeight:'bold'}">
                             {{
-                                `${(concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue) || '---'} A`
+                                `${(concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue) || '---'} V`
                             }}
                         </span>
                     </p>
@@ -193,6 +193,9 @@
                     if( !Object.keys(dataMap).length ) return;
                     this.concentrator_data = {
                         ...dataMap[deviceAdress],
+                        signalNB:{
+                            keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 130
+                        },
                         createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-YY HH:mm:ss')
                     };
                 })
@@ -206,7 +209,7 @@
                     this.concentrator_data = {
                         createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                         signalNB:{ 
-                            keyValue:data.signalNB 
+                            keyValue:data.signalNB * 2 - 130
                         },
                         v:{ 
                             keyValue:data.v 

@@ -25,8 +25,8 @@
                     :data="data"
                     border
                     stripe
-                    height="calc(100vh - 289px)"
-                    max-height="calc(100vh - 289px)"
+                    :height="table_height"
+                    :max-height="table_height"
                     header-cell-class-name="table_header"
                     ref="manTable"
                 >   
@@ -100,6 +100,8 @@
 <script>
     import _ from 'lodash';
     import { mapState } from 'vuex'
+    import { isMobile } from '@/utils/methods'
+
     
     export default {
         props: {
@@ -115,6 +117,7 @@
         },
         data() {
             return {
+                table_height:'calc(100vh - 289px)',
                 input: '',
                 layout:'total, sizes,pager,jumper',
                 current:1,
@@ -164,6 +167,9 @@
             async getListData(params={}){
                 this.loading = true;
                 await this.getList(params)
+                //await isMobile() && (this.table_height = this.$('.el-table').height());
+                //手机端将表格高度&最高高度设置为1060(有调整的空间)
+                await isMobile() && (this.table_height = 1060);
                 this.loading = false;
             },
             //搜索
