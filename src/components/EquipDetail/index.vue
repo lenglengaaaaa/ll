@@ -194,7 +194,7 @@
                     this.concentrator_data = {
                         ...dataMap[deviceAdress],
                         signalNB:{
-                            keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 130
+                            keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
                         },
                         createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-YY HH:mm:ss')
                     };
@@ -209,7 +209,7 @@
                     this.concentrator_data = {
                         createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                         signalNB:{ 
-                            keyValue:data.signalNB * 2 - 130
+                            keyValue:data.signalNB * 2 - 113
                         },
                         v:{ 
                             keyValue:data.v 
