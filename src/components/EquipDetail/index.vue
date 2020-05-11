@@ -196,7 +196,7 @@
                         signalNB:{
                             keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
                         },
-                        createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-YY HH:mm:ss')
+                        createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
                     };
                 })
 

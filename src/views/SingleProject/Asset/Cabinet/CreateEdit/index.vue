@@ -143,6 +143,10 @@
             ]),
             //校验出线ID
             validateId(rule, value, callback, param){
+                if(!`${value}`.match(new RegExp("^(88|99).*$"))){
+                    callback(new Error('必须以88或99开头!'));
+                    return;
+                }
                 if(!value){
                     callback(new Error('出线ID不能为空!'));
                     return;

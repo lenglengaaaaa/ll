@@ -64,7 +64,7 @@
                     this.$store.dispatch('app/saveAlarm',[
                         {
                             ...res,
-                            type:this.getEquipType(fc),
+                            equipType:this.getEquipType(fc),
                             position: result && result.join(',')
                         },
                         ...this.$store.state.app.alarmBox

@@ -397,7 +397,7 @@
                         }
                         .lineChart{
                             height: calc(100% / 2);
-                            // margin-bottom: 20px;
+                            margin-bottom: 0px;
                         }
                     }
                     
