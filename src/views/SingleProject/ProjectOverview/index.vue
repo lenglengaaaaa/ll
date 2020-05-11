@@ -147,7 +147,7 @@
     .pjOverview{
         height: 100%;
         .el-row {
-            height: inherit;
+            height: 100%;
             .chartBox{
                 display: flex;
                 flex-direction: column;
@@ -172,8 +172,10 @@
                 }
             }
             .chartBox{
+                height: 100%;
                 display: flex;
                 flex-direction: column;
+                .el-card{ height: 50%; }
                 .data-content {
                     flex: 1;
                     padding: 15px 0px;
@@ -189,6 +191,7 @@
                 }
             }
             .mapBox{
+                height: 100%;
                 .box-card{
                     height: 100%;
                     background: #fff;
