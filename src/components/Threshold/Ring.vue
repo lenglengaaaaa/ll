@@ -69,7 +69,15 @@
         mixins: [ Threshold ],
         data() {
             return {
-                thForm:{}
+                thForm:{
+                    lineTemp:70,
+                    lineA:650,
+                    lineV:15,
+                    batteryA:2.8,
+                    CBTemp:70,
+                    samplingPeriod:1,
+                    reportedPeriod:5
+                }
             }
         },
     }

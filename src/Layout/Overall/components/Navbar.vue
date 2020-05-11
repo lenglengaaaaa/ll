@@ -157,7 +157,7 @@
             });
         },
         destroyed () {
-            this.userClient&&this.userClient.end();
+            this.userClient && this.userClient.end();
         },
         watch: {
             $route(to,from){

@@ -17,7 +17,18 @@ export default {
         return {
             id:null,
             deviceName:'',
-            rules:{}
+            rules:{},
+            defaultValue:{
+                36:{
+                    lineTemp:70,
+                    lineA:650,
+                    lineV:15,
+                    batteryA:2.8,
+                    CBTemp:70,
+                    samplingPeriod:1,
+                    reportedPeriod:5
+                }
+            }
         }
     },
     computed: {
@@ -45,21 +56,25 @@ export default {
         getSetting(){
             let params;
             if(this.path==='/project/threshold'){
-                const {id} = this.project;
+                const { id } = this.project;
                 this.deviceName = names[+this.deviceType];
                 params = { setId:id, setType:1, deviceType:this.deviceType };
             }else{
-                const {id,deviceType,name} = this.device;
+                const { id, deviceType, name } = this.device;
                 this.deviceName = name;
                 params = { setId:id, setType:0, deviceType };
             }
             this.getDeviceThreshold(params).then(res=>{
                 if(res){
-                    const {id,payload} = res;
+                    const { id, payload } = res;
                     this.thForm={
                         ...this.thForm,
                         ...JSON.parse(payload)
                     };
+                    this.defaultValue[params.deviceType] ={
+                        ...this.defaultValue[params.deviceType],
+                        ...JSON.parse(payload)
+                    }
                     this.id = id;
                 }
             })
@@ -68,21 +83,24 @@ export default {
         submitForm() {
             this.$refs.thForm.validate((valid) => {
                 if (valid) {
-                    //4.30
+                    //5.11
+                    //可只单独修改一项限值
+                    const equipType = this.deviceType || this.device.deviceType; //设备类型
+
                     let payload = {};
-                    for(let item in this.thForm){
-                        if(this.thForm[item]){
-                            payload[item] = this.thForm[item];
+                    for(let i in this.thForm){
+                        if( this.thForm[i] != this.defaultValue[equipType][i] ){
+                            payload[i] = this.thForm[i];
                         }
                     }
                     if( !Object.keys(payload).length ){
-                        this.$message.warning('至少填写一项 !!')
+                        this.$message.warning('至少修改一项 !!')
                         return;
                     }
-
                     let params ={
                         payload:JSON.stringify(payload)        
                     };
+
                     if(this.path==='/project/threshold'){
                         //全局阈值设置
                         const {id} = this.project
@@ -108,15 +126,19 @@ export default {
                     //新增
                     if(!this.id){
                         this.addThresholdSet(params).then(res=>{
-                            if(res) this.id = res.id;
+                            if(!res) return; 
+                            this.id = res.id;
+                            this.resetDefaultValue(payload);
                             // this.$router.push({name:'EquList'});
                         })
                         return;
                     }
-                    //修改
                     this.updateThresholdSet({
                         ...params,
                         id:this.id,
+                    }).then(res=>{
+                        if(!res) return;
+                        this.resetDefaultValue(res);
                     })
                 } else {
                     return false;
@@ -136,13 +158,23 @@ export default {
                 id:this.id
             }).then(res=>{
                 if(!res)return;
-                this.$message({
-                    message: '重置成功!',
-                    type: 'success'
-                });
+
                 this.id = null;
                 this.$refs.thForm.resetFields();
+                
+                this.resetDefaultValue(res);
+                
             })
+        },
+        //根据返回值修改defaultValue
+        resetDefaultValue(data){
+            const equipType = this.deviceType || this.device.deviceType;
+            delete data.deviceAddress;
+
+            this.defaultValue[equipType] = {
+                ...this.defaultValue[equipType],
+                ...data
+            };
         }
     }
 }

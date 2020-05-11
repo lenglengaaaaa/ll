@@ -15,7 +15,7 @@
                             </div>
                             <div>
                                 <strong>所属项目: </strong>
-                                <span>{{item.projectName || '未知'}}</span>
+                                <span :style="{fontWeight:'bold'}">{{item.projectName || '未知'}}</span>
                             </div>
                             <div >
                                 <strong>告警信息: </strong>

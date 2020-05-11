@@ -13,7 +13,9 @@
     export default {
         name: 'AppMain',
         data() {
-            return {};
+            return {
+                client:null
+            };
         },
         computed: {
             ...mapState('user',[
@@ -71,6 +73,9 @@
                     ])
                 })
             });
+        },
+        destroyed () {
+            this.client && this.client.end();
         },
         methods: {
             //查看告警详情

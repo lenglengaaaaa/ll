@@ -668,7 +668,7 @@ const actions= {
         }).then(res=>{
             if(res&&res.code===10000000){
                 tip(res.meassage,'success')
-                return true;
+                return res.data;
             }else{
                 res&&tip(res.meassage);
                 return false
@@ -689,7 +689,8 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000){
-                return true;
+                tip(res.meassage,'success')
+                return res.data;
             }else{
                 return false
             }
