@@ -204,8 +204,9 @@
                     const result = this.currentRing.outLineList && this.currentRing.outLineList.reduce((pre,current)=>{
                         const { outLineId, outLineName } = current;
                         const filtered = history.filter(item=>item.outLineId == outLineId)[0];
-                        const currentData = filtered && filtered.dataList;
+                        const currentData = filtered && filtered.dataList.length && filtered.dataList;
                         if(!currentData) return pre;
+
                         let obj = {};
                         currentData.forEach(single=>{
                             const { createTime, dataJSON } = single;
@@ -217,12 +218,32 @@
                         })
                         for(let k in obj){
                             if(!pre[k]) pre[k] = [];
-                            pre[k].push({ name:`相序${outLineName}`,data:obj[k] });
+                            pre[k].push({ 
+                                name:`${k==='lineA'?'电流':'温度'}${outLineName}`,
+                                outLineName,
+                                data:obj[k] 
+                            });
                         }
                         return pre;
                     },{})
-                    const timeResult = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
-                    this.timeArray = timeResult;
+
+                    this.timeArray = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
+
+                    for(let item in result){
+                        result[item] = ['A','B','C','D'].map( k =>{
+                            const hasItem = result[item].filter(i => i.outLineName === k);
+                            if(hasItem.length){
+                                return hasItem[0];
+                            }else{
+                                return {
+                                    name:`${item==='lineA'?'电流':'温度'}${k}`,
+                                    outLineName:k,
+                                    data:[]
+                                }
+                            }
+                        })
+                    }           
+                    
                     this.lineAData = result['lineA'] || [];
                     this.tempData = result['lineTemp'] || [];
 

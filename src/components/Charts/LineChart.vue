@@ -110,7 +110,6 @@
         },
         methods: {
             drawLine(){
-                const colors= ['#FFFF00','#008000','#FF0000','#0000FF'];
                 const result = this.value.map((item,index)=>{
                     return {
                         data:item.data,
@@ -118,6 +117,14 @@
                         type:'line',
                         smooth: true,
                         markPoint: {
+                            // itemStyle:{
+                            //     normal:{
+                            //         label:{ 
+                            //             show: true,  
+                            //             color: '#000000',//气泡中字体颜色
+                            //         }
+                            //     }
+                            // },
                             data: [
                                 {type: 'max', name: '最大值'},
                                 {type: 'min', name: '最小值'}
@@ -131,6 +138,9 @@
                 })
                 this.option.series = result;
                 this.option.xAxis.data = this.timeArray;
+                
+                //魔戒折线颜色
+                this.text && (this.option.color=['#fdd835','#43a047','#e53935','#795548']);
                 // 基于准备好的dom，初始化echarts实例
                 // 绘制图表
                 this.chart.setOption(this.option,true)
