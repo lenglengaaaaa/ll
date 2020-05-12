@@ -51,7 +51,7 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属线缆" prop="lineId">
+                <!-- <el-form-item label="所属线缆" prop="lineId">
                     <el-select v-model="form.lineId">
                         <el-option 
                             v-for="item in lineMenus"
@@ -60,7 +60,7 @@
                             :value="item.lineId"
                         />
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
             </template>
             <template v-else>
                 <el-form-item label="所属台区" prop="courtsId" >
@@ -166,12 +166,12 @@
                     roomId:null,
                     chestId:null,
                     trapId:null,
-                    lineId:null,
+                    // lineId:null,
                     parentId:null
                 },
                 gateWayMenu:[],
                 trapMenus:[],
-                lineMenus:[],
+                // lineMenus:[],
                 courtsMenus:[],
                 roomMenus:[],
                 chestMenus:[],
@@ -237,7 +237,7 @@
             //资产类型切换回调
             assetTypeChange(value){
                 this.deviceMenus=[];
-                this.lineMenus = [];
+                // this.lineMenus = [];
                 this.roomMenus = [];
                 this.chestMenus = [];
                 this.gateWayMenu = [];
@@ -251,7 +251,9 @@
                     });
                     return;
                 }
-                resetSingle(this,['trapId','lineId'])
+                // resetSingle(this,['trapId','lineId']);
+                resetSingle(this,['trapId'])
+
                 this.getCourtsMenu(this.projectId).then(res=>{
                     if(!res)return;
                     //切换延迟原因
@@ -261,12 +263,13 @@
             },
             //井盖切换回调
             trapChange(id){
-                Promise.all([this.getLineInTrapMenu(id),this.getDeviceMenu(30)]).then(res=>{
-                    const [res1] = res;
-                    if(!res1)return;
-                    resetSingle(this,['lineId','parentId']);
-                    this.lineMenus = res1;
-                })
+                this.getDeviceMenu(30);
+                // Promise.all([this.getLineInTrapMenu(id),this.getDeviceMenu(30)]).then(res=>{
+                //     const [res1] = res;
+                //     if(!res1)return;
+                //     resetSingle(this,['lineId','parentId']);
+                //     this.lineMenus = res1;
+                // })
             },
             //台区切换回调
             courtsChange(id){
@@ -319,11 +322,12 @@
             },
             //获取井盖下资产&设备(编辑时)
             getItsTrap(obj){
-                Promise.all([this.getLineInTrapMenu(obj.trapId),this.getDeviceMenu(30)]).then(res=>{
-                    const [res1] = res;
-                    if(!res1) return;
-                    this.lineMenus = res1;
-                })
+                this.getDeviceMenu(30);
+                // Promise.all([this.getLineInTrapMenu(obj.trapId),this.getDeviceMenu(30)]).then(res=>{
+                //     const [res1] = res;
+                //     if(!res1) return;
+                //     this.lineMenus = res1;
+                // })
             }
         },
     }
