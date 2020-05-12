@@ -4,7 +4,7 @@
             <el-tab-pane label="魔戒" lazy>
                 <Ring :deviceType="36" />
             </el-tab-pane>
-            <el-tab-pane label="魔节" lazy>
+            <!-- <el-tab-pane label="魔节" lazy>
                 <Magic :deviceType="30" />
             </el-tab-pane>
             <el-tab-pane label="线缆温度传感器" lazy>
@@ -18,7 +18,7 @@
             </el-tab-pane>
             <el-tab-pane label="水浸传感器" lazy>
                 <Sensor :deviceType="37" />
-            </el-tab-pane>
+            </el-tab-pane> -->
         </el-tabs>
     </div>
 </template>

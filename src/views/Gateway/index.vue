@@ -16,14 +16,12 @@
             :prop="o.prop"
             :label="o.label"
             align="center"
-            sortable
             show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
             label="激活状态"
             align="center"
-            sortable
         >
             <template slot-scope="scope" >
                 <el-tag

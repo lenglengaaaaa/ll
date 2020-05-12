@@ -15,7 +15,6 @@
                     prop="id"
                     label="项目ID"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                     className="weight"
                 />
@@ -23,7 +22,6 @@
                     prop="name"
                     label="项目名称"
                     align="center"
-                    sortable
                 >
                     <template slot-scope="scope">
                         <el-link type="primary" @click="skipToDetail(scope.row)" v-if="!scope.row.isDelete">{{scope.row.name}}</el-link>
@@ -34,14 +32,12 @@
                     prop="areaName"
                     label="所属区域"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                 />
                 <el-table-column
                     prop="detail"
                     label="项目描述"
                     align="center"
-                    sortable
                     show-overflow-tooltip
                     :formatter="(row)=>row.detail || '-'"
                 />
