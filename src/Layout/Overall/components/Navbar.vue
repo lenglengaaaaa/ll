@@ -14,7 +14,11 @@
                         router
                         @select="selectMenu"
                     >   
-                        <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :disabled="item.hidden">
+                        <el-menu-item 
+                            v-for="item in navbar" 
+                            :key="item.path" 
+                            :index="item.path" 
+                        >
                             {{ item.name }}
                         </el-menu-item>
                     </el-menu>
@@ -93,7 +97,7 @@
                 @select="closeList"
                 router
             >   
-                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route" :disabled="item.hidden">
+                <el-menu-item v-for="item in navbar" :key="item.path" :index="item.path" :route="item.route" >
                     {{ item.name }}
                 </el-menu-item>
                 <el-menu-item @click="flag=true">搜索</el-menu-item>
@@ -189,19 +193,35 @@
                 ];
                 
                 //权限设置
-                return arr.map(item=>{
-                    if(item.id == "3"){
-                        item.hidden = !this.permissionIds.includes("111");
-                    }else if(item.id === "4"){
-                        const seniorChildIds = ['14','15','16','17','18','19','20','21'];
-                        item.hidden = !this.permissionIds.some(item=>{
-                            return seniorChildIds.includes(item);
-                        })
-                    }else{
-                        item.hidden = !this.permissionIds.includes(item.id);
+                //无权限时不显示
+                return arr.reduce((pre,cur)=>{
+                    const seniorChildIds = ['14','15','16','17','18','19','20','21'];
+
+                    if(cur.id == "3" && this.permissionIds.includes("111")){
+                        return [ ...pre, cur ];
+                    } 
+                    if(cur.id === "4" && this.permissionIds.some(item=> seniorChildIds.includes(item))){
+                        return [ ...pre, cur ];
                     }
-                    return item ;
-                })
+                    if(this.permissionIds.includes(cur.id)){
+                        return [ ...pre, cur ];
+                    }
+                    return pre;
+                },[])
+
+                // return arr.map(item=>{
+                //     if(item.id == "3"){
+                //         item.hidden = !this.permissionIds.includes("111");
+                //     }else if(item.id === "4"){
+                //         const seniorChildIds = ['14','15','16','17','18','19','20','21'];
+                //         item.hidden = !this.permissionIds.some(item=>{
+                //             return seniorChildIds.includes(item);
+                //         })
+                //     }else{
+                //         item.hidden = !this.permissionIds.includes(item.id);
+                //     }
+                //     return item ;
+                // })
             }
         },
         methods: {

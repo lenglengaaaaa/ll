@@ -23,7 +23,6 @@
                                 :key="item.path" 
                                 :index="item.path" 
                                 :route="{name:item.name}"
-                                :disabled="item.hidden"
                                 v-if="!item.group"
                             >   
                                 <svg-icon 
@@ -46,7 +45,6 @@
                                         :key="k.path" 
                                         :index="k.path" 
                                         :route="{name:k.name}"
-                                        :disabled="k.hidden"
                                     >   
                                         <svg-icon 
                                             :iconClass="k.meta.icon" 
@@ -97,10 +95,18 @@
                 const result = routes[index].children[path=="project"?1:0].children;
 
                 //权限设置
-                const menu = result.map(item=>{
-                    item.hidden = !this.permissionIds.includes(item.id);
-                    return item;
-                })
+                // const menu = result.map(item=>{
+                //     item.hidden = !this.permissionIds.includes(item.id);
+                //     return item;
+                // })
+                
+                //无权限不显示
+                const menu = result.reduce((pre,cur)=>{
+                    if(this.permissionIds.includes(cur.id)){
+                        return [...pre, cur];
+                    }
+                    return pre;
+                },[])
 
                 //如果是项目详情,将低压及电缆沟进行区分
                 if( path === 'project'){
