@@ -46,6 +46,7 @@
                     v-model="form.deviceAdress" 
                     placeholder="请输入设备地址域"
                     :disabled="editFlag"
+                    :maxlength="12"
                 ></el-input>
             </el-form-item>
 
@@ -144,10 +145,15 @@
             };
             //验证资产编号
             const checkAddress = (rule, value, callback) => {
+                if(this.editFlag)return callback();
+
                 if (!value) { return callback(new Error('请输入设备地址域')) };
+
                 const r =  /[\u4E00-\u9FA5]/;
                 if(r.test(value)){ return callback(new Error('请输入数字或字母')) };
-                if(this.editFlag)return callback();
+
+                if(`${value}`.length !== 12){ return callback(new Error('设备ID长度为12位'))};
+
                 this.checkAddress(value).then(res=>{
                     if(!res){
                         return callback(new Error('设备地址域已存在'));

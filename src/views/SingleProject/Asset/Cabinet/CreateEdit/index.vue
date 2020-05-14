@@ -42,8 +42,18 @@
                     />
                 </el-select>
             </el-form-item>
-            <el-form-item label="出线数量">
-                <el-input v-model.number="form.count" placeholder="请输入出现数量"></el-input>
+            <el-form-item 
+                label="出线数量" 
+                required
+            >
+                <el-input-number 
+                    v-model="form.count"  
+                    :min="1" 
+                    :max="12" 
+                    :precision="0"
+                    size="medium"
+                    controls-position="right"
+                />
             </el-form-item>
             <!-- 1.新增主线ID -->
             <div class="outgoing_line" v-for="(i,index) in form.count" :key="index">
@@ -88,6 +98,7 @@
                     listName:[],
                     listIds:[]
                 },
+                testnum:0,
                 courtsMenu:[],
                 roomMenu:[],
                 chestMenu:[],

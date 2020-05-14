@@ -42,7 +42,11 @@
                                         <span 
                                             :style="{color:k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''}"
                                         >
-                                            {{k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'失压':'有压'}}
+                                            {{
+                                                !k.deviceAdress ? 
+                                                '----' : 
+                                                k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'失压':'有压'
+                                            }}
                                         </span>
                                     </div>
                                 </li>

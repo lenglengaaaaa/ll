@@ -186,6 +186,11 @@
                 height: 35px;
                 line-height: 35px;
             }
+            .el-input-number{
+                .el-input__inner{
+                    height: auto !important;
+                }
+            }
             .el-select,.el-cascader{
                 width: 100%;
             }
