@@ -130,7 +130,7 @@
                 flex-direction: column;
                 .chartBox{
                     .box-card{
-                        height: 500px;
+                        height: 600px !important;
                         margin-bottom: 10px;
                     }
                 }   
@@ -175,7 +175,10 @@
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                .el-card{ height: 50%; }
+                .box-card{
+                    height: 50%;
+                    flex: 1; 
+                }
                 .data-content {
                     flex: 1;
                     padding: 15px 0px;

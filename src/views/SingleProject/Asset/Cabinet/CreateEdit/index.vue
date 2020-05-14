@@ -44,7 +44,8 @@
             </el-form-item>
             <el-form-item 
                 label="出线数量" 
-                required
+                :rules="[{  required:true, trigger: ['change','blue'],message:'出线数量最少为1' }]"
+                prop="count"
             >
                 <el-input-number 
                     v-model="form.count"  

@@ -19,7 +19,7 @@
             </div>
             <div v-if="active == 2" class="funcBox">
                 <div class="updateBinding">
-                    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+                    <el-form ref="form" :model="form" label-width="100px" :rules="rules" label-position="left">
                         <el-form-item 
                             label="集中器地址"
                             prop="deviceAddress"
@@ -27,6 +27,17 @@
                         >
                             <el-input v-model="form.deviceAddress"></el-input>
                         </el-form-item>
+                        <!-- <el-form-item 
+                            label="下发组别"
+                            prop="groupId"
+                            :rules="[{ message:'请填写下发组别', required:true, trigger: ['blur','change'] }]"
+                        >
+                            <el-input-number 
+                                v-model="form.groupId" 
+                                :min="1" 
+                                label="下发组别"
+                            />
+                        </el-form-item> -->
                     </el-form>
                 </div>
             </div>
@@ -53,7 +64,8 @@
                 active:1,
                 value:0,
                 form:{
-                    deviceAddress:''
+                    deviceAddress:'',
+                    groupId:1
                 },
                 rules:{}
             };
@@ -72,8 +84,11 @@
             submitBinding(form){
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        const { deviceAddress } = this.form;
-                        this.updateConcentratorBindinig(deviceAddress).then(res=>{
+                        const { deviceAddress, groupId } = this.form;
+                        this.updateConcentratorBindinig({
+                            deviceAddress,
+                            groupId
+                        }).then(res=>{
                             if(!res) return;
                             this.$refs[form].resetFields();
                             this.closeDialog();
@@ -97,6 +112,9 @@
     .uploadDialog{
         .el-dialog{
             .el-dialog__body{
+                .el-steps{
+                    margin-bottom: 15px;
+                }
                 .funcBox{
                     .updateBinding{
                         height: 100px;
@@ -104,7 +122,7 @@
                         justify-content: center;
                         align-items: center;
                         .el-form-item{
-                            margin: 0px;
+                            margin:15px 0;
                         }
                     }
                 }

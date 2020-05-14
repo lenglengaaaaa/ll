@@ -246,12 +246,14 @@ const actions= {
      * 更新集中器空中绑定信息
      * @param deviceAddress 集中器地址
      */
-    updateConcentratorBindinig({commit}, deviceAddress){
+    updateConcentratorBindinig({commit}, obj){
+        const { deviceAddress, groupId } = obj
         return request({
             method:'post',
             url:`${api.update_concentrator_bindinig}`,
             data:{
-                deviceAddress
+                deviceAddress,
+                groupId
             }
         }).then(res=>{
             if(res && res.code===200){

@@ -307,6 +307,7 @@
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
+                    overflow: auto;
                     .wrap{
                         padding: 0;
                         margin: 0;
