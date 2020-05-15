@@ -56,6 +56,7 @@
                     controls-position="right"
                 />
             </el-form-item>
+
             <!-- 1.新增主线ID -->
             <div class="outgoing_line" v-for="(i,index) in form.count" :key="index">
                 <el-form-item 
@@ -63,11 +64,22 @@
                     :prop="`listIds[${index}]`"
                     :rules="[{ validator: validateId, required:true, trigger: ['blur'] }]"
                 > 
-                    <el-input 
-                        v-model.number="form.listIds[index]" 
-                        placeholder="请输入出线ID" 
-                        :maxlength="12"
-                    />
+                    <div class="outLineId_box">
+                        <el-input 
+                            v-model.number="form.listIds[index]" 
+                            placeholder="请输入出线ID" 
+                            :maxlength="12"
+                        />
+                        <el-tooltip 
+                            v-if="editFlag"
+                            effect="dark" 
+                            placement="top-start" 
+                            content="如所修改的出线ID, 出线上有节点绑定, 需重新更新集中器绑定关系(设备管理-其他功能)" 
+                        >
+                            <i class="el-icon-warning"/>
+                        </el-tooltip>
+                    </div>
+                    
                 </el-form-item>
                 <el-form-item 
                     :label="`出线线路-${index+1}-名称`" 
@@ -284,4 +296,14 @@
             width: 49%;
         }
     }
+    .outLineId_box{
+        display: flex;
+        align-items: center;
+        .el-icon-warning{
+            padding: 0 10px;
+            cursor: pointer;
+            color: #5cb6ff;
+        }
+    }
+    
 </style>
