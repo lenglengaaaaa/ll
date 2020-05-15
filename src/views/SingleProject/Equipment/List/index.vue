@@ -54,6 +54,9 @@
                                     <el-form-item label="创建时间">
                                         <span>{{ calFromNow(props.row.createTime) }}</span>
                                     </el-form-item>
+                                    <el-form-item label="安装位置">
+                                        <span>{{ props.row.location || '---' }}</span>
+                                    </el-form-item>
                                 </el-col>
                             </el-row>
                         </el-form>
@@ -183,20 +186,18 @@
                 this.$children[0]&&this.$children[0].getListData(data);
             },
             skipTo(type,row) {
-                if(type === 'otherFuc'){
-                    this.otherVisible= true;
-                    return;
-                }
-                if(type === 'upload'){
-                    this.dialogVisible= true;
-                    return;
-                }
                 this.$store.dispatch('asset/skipToEdit',{
                     type,
                     row,
                     storage:'equipObj',
                 })
                 switch (type) {
+                    case 'otherFuc':
+                        this.otherVisible= true;
+                        return;
+                    case 'upload':
+                        this.dialogVisible= true;
+                        return;
                     case 'set':
                         this.$router.push({name:'DeviceThSet'});
                         return;

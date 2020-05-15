@@ -88,9 +88,11 @@ const actions= {
      */
     skipToEdit({commit},obj){
         const { type, row, storage } = obj;
-        const address =row.location?row.location.split(','):[];
-        const city = address.slice(0,3);
-        const location = address[3]||"";
+
+        const address = row.location? row.location.split(','): [];
+        const city = address.length === 1? '': address.slice(0,3);
+        const location = address.length === 1? address[0]: address[3];
+
         const storageName = storage || 'assetObj'
         //修改资产类型
         sessionStorage.setItem('appType',row.deviceType || null);

@@ -38,7 +38,7 @@
                         label:'name'
                     }"
                 />
-                <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
+                <el-input v-model="form.location" placeholder="请输入资产位置信息"></el-input>
             </el-form-item>
 
             <template v-if="hasMap">
@@ -113,7 +113,7 @@
             }
         },
         created () {
-            const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
+            const { data } = JSON.parse(sessionStorage.getItem('assetObj'));
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
         },
         mounted () {

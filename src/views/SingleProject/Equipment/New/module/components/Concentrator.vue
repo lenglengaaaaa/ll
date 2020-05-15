@@ -86,11 +86,11 @@
         },
         mounted () {
             const {id} = JSON.parse(sessionStorage.getItem('project'));
-            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const { data, editFlag } = JSON.parse(sessionStorage.getItem('equipObj'));
             this.editFlag = editFlag;
             this.form={
                 ...this.form,
-                ...data,
+                ...data
             };
             this.getGatewayMenu({current:1,size:50}).then(res=>{
                 if(!res)return;

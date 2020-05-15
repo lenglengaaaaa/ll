@@ -143,7 +143,7 @@
             this.singleFlag = editFlag;
             this.form={
                 ...this.form,
-                ...data,
+                ...data
             };
             this.getGatewayMenu({current:1,size:50}).then(res=>{
                 if(!res)return;

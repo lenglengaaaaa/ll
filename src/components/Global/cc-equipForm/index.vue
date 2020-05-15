@@ -54,17 +54,7 @@
             <slot></slot>
 
             <!--选择省市区,填写详细地址(必备) √-->
-            <el-form-item label="位置信息" prop="location" class="address">
-                <el-cascader 
-                    :options="options" 
-                    v-model="form.city"  
-                    placeholder="请选择项目所属区域"
-                    :props="{
-                        children:'childList',
-                        value:'name',
-                        label:'name'
-                    }"
-                />
+            <el-form-item label="位置信息" prop="location">
                 <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
             </el-form-item>
 
@@ -163,7 +153,6 @@
                 });
             };
             return {
-                options:[],
                 position:[113.991244,22.5959],
                 editFlag:false,
                 hideUpload: false,
@@ -194,19 +183,17 @@
             }
         },
         created () {
-            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const { data, editFlag } = JSON.parse(sessionStorage.getItem('equipObj'));
             const imgUrls = data.imageUrls&&data.imageUrls.length&&data.imageUrls.map(item=>{ 
                 return { ...item,url:item.imagePath } 
             }) || [];
             this.editFlag = editFlag;
-            this.position = [data.longitude||113.991244,data.latitude||22.5959];
+            this.position = [ data.longitude||113.991244, data.latitude||22.5959 ];
+
             this.fileList = imgUrls;
             this.imageUrls = imgUrls.map(item=>{return {...item,imagePath:item.url}});
             this.hideUpload = this.imageUrls.length >= this.limitCount;
-        },
-        mounted () {
-            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
-            this.options = areaTree;
+
         },
         computed: {
             projectId(){
@@ -258,14 +245,12 @@
             submit() {
                 this.$refs.equipForm.validate((valid) => {
                     if (valid) {
-                        const location = `${this.form.city.join(',')},${this.form.location}`
                         const deviceType = +sessionStorage.getItem('appType');
                         const data ={
                             projectId:this.projectId,
                             ...this.form,
                             imageUrls:this.imageUrls,
                             deviceType,
-                            location,
                             longitude:this.position[0],
                             latitude:this.position[1]
                         }
@@ -383,15 +368,6 @@
             }
             .el-select,.el-cascader{
                 width: 100%;
-            }
-            .address{
-                .el-form-item__content{
-                    display: flex;
-                    .el-cascader{
-                        width: 300px;
-                        padding-right: 10px;
-                    }
-                }
             }
             .submit{
                 padding-top: 20px;
