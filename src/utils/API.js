@@ -165,6 +165,9 @@ export const api={
     //================配电柜===================
     //配电柜创建 post
     createChest:`${url}/e_view/chest/create`,
+    
+    //配电柜出线Id(address) 规则验证 post
+    verify_switchId:`${url}/e_view/switch/addressExist`,
 
     //配电柜修改 post
     updateChest:`${url}/e_view/chest/update`,

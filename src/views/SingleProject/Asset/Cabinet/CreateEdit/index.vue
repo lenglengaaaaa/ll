@@ -61,7 +61,7 @@
                 <el-form-item 
                     :label="`出线线路-${index+1}-ID (88或99开头)`" 
                     :prop="`listIds[${index}]`"
-                    :rules="[{ validator: validateId, required:true, trigger: ['blur','change'] }]"
+                    :rules="[{ validator: validateId, required:true, trigger: ['blur'] }]"
                 > 
                     <el-input 
                         v-model.number="form.listIds[index]" 
@@ -103,6 +103,7 @@
                 courtsMenu:[],
                 roomMenu:[],
                 chestMenu:[],
+                switchList:[]
             }
         },
         created () {
@@ -133,16 +134,22 @@
             this.form={
                 ...this.form,
                 inChest:data.parentId>0?1:0,
-                count:data.switchList&&data.switchList.length || 1,
+                count:data.switchList && data.switchList.length || 1,
                 listName: ( result && result.listName ) || [],
                 listIds: ( result && result.listIds ) || [],
                 ...data
             };
+            this.switchList = data.switchList || [];
         },
         watch: {
             'form.count'(count) {
                 this.form.listIds = this.form.listIds.slice(0,count);
                 this.form.listName = this.form.listName.slice(0,count);
+            }
+        },
+        computed: {
+            editFlag() {
+                return JSON.parse(sessionStorage.getItem('assetObj')).editFlag;
             }
         },
         methods: {
@@ -151,28 +158,43 @@
                 'getRoomMenu',
                 'getChestMenu',
                 'createChest', 
-                'updateChest'
+                'updateChest',
+                'verifySwitchId'
             ]),
             //校验出线ID
             validateId(rule, value, callback, param){
-                if(!`${value}`.match(new RegExp("^(88|99).*$"))){
-                    callback(new Error('必须以88或99开头!'));
-                    return;
-                }
-                if(!value){
-                    callback(new Error('出线ID不能为空!'));
-                    return;
-                }
                 if (typeof value !== 'number') {
                     callback(new Error('出线ID必须是是数字!'));
+                    return;
+                }
+                if(!`${value}`.match(new RegExp("^(88|99).*$"))){
+                    callback(new Error('必须以88或99开头!'));
                     return;
                 }
                 if (`${value}`.length !== 12) {
                     callback(new Error('出线ID长度为12!'));
                     return;
                 }
-                callback()
-                
+                if(!value){
+                    callback(new Error('出线ID不能为空!'));
+                    return;
+                }
+
+                let params = { address:value, id:null };
+
+                if( this.editFlag ){
+                    const Index = Object.keys(param)[0].replace(/[^0-9]/ig,"");
+                    const switchList = this.switchList[+Index] ;
+                    params.id = switchList? switchList.id : null;
+                }
+                this.verifySwitchId(params).then(res=>{
+                    if(res){
+                        callback()
+                    }else{
+                        callback(new Error('该出线ID已存在'));
+                        return;
+                    }
+                });
             },
             create(obj) {
                 const { listName, listIds } = obj;

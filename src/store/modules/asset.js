@@ -434,6 +434,32 @@ const actions= {
     },
 
     /**
+     * 配电柜出线Id(address) 规则验证
+     * @param id  编辑时,需传入当前修改的switchId
+     * @param name 导入接口中，会返回name+出线id不能为Null，提示用 (默认为'')
+     * @param address 主线ID(出线ID)
+     */
+    verifySwitchId({commit},obj){
+        const { id, name = '', address } = obj;
+        return request({
+            method:'post',
+            url:`${api.verify_switchId}`,
+            data:{
+                id,
+                name,
+                address
+            }
+        }).then(res=>{
+            if(res && res.code===10000000){
+                return true;
+            }else{
+                return false;
+            }
+        })
+    },
+
+
+    /**
     *配电柜编辑 
     * @param {
         *      id 配电柜ID
