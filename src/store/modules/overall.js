@@ -696,6 +696,30 @@ const actions= {
             }
         })
     },
+
+
+     //==================================高德API==================================
+    /**
+     * 根据 address or city 获取地址位置 
+     * @param address 填写结构化地址信息:省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码(必填)
+     * @param city 查询城市，可选：城市中文、中文全拼、citycode、adcode (非必填)
+     */
+    getGeocode({commit},address){
+        return request({
+            method:'get',
+            url:`${api.getGeocode}`,
+            data:{
+                key:'b57bd156556a781335a71493a4c0b473',
+                address
+            }
+        }).then(res=>{
+            if(res && res.infocode == 10000 && res.geocodes.length){
+                return res.geocodes;
+            }else{
+                return false
+            }
+        })
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露

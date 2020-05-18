@@ -55,16 +55,16 @@
 
             <!--选择省市区,填写详细地址(必备) √-->
             <el-form-item label="位置信息" prop="location">
-                <el-input v-model="form.location" placeholder="请输入设备位置信息"></el-input>
+                <el-input v-model="form.location" placeholder="请填写设备安装位置"></el-input>
             </el-form-item>
 
             <!--通过地图上点击,获取经纬度位置(必备) √-->
             <el-form-item label="设备经纬度" class="map">
                 <cc-mapSingle 
-                        vid="newEquip"
-                        :position="position"
-                        :get="getPostion"
-                    />
+                    vid="newEquip"
+                    :position="position"
+                    :get="getPostion"
+                />
             </el-form-item>
 
             <el-form-item class="submit">
@@ -153,7 +153,7 @@
                 });
             };
             return {
-                position:[113.991244,22.5959],
+                position:[ 113.991244, 22.5959 ],
                 editFlag:false,
                 hideUpload: false,
                 limitCount:3,
@@ -178,12 +178,17 @@
                     switchId: [{ required: true, message: '请选择出线线路', trigger: 'change' }],
                     outLineId: [{ required: true, message: '请选择所属相序', trigger: 'change' }],
                     parentId: [{ required: true, message: '请选择附属设备', trigger: 'change' }],
+                    // location: [{ required: true, message: '请填写设备安装位置', trigger: 'blur' }],
                     // isBinding :[{ required: true, trigger: 'change' }],
-                }
+                },
+                // hasPosition:false
             }
         },
+        // mounted () {
+        //     this.getEquipPostion();
+        // },
         created () {
-            const { data, editFlag } = JSON.parse(sessionStorage.getItem('equipObj'));
+            const { data, editFlag } = this.equipObj;
             const imgUrls = data.imageUrls&&data.imageUrls.length&&data.imageUrls.map(item=>{ 
                 return { ...item,url:item.imagePath } 
             }) || [];
@@ -196,6 +201,9 @@
 
         },
         computed: {
+            equipObj(){
+                return JSON.parse(sessionStorage.getItem('equipObj'));
+            },
             projectId(){
                 return JSON.parse(sessionStorage.getItem('project')).id;
             },
@@ -242,6 +250,31 @@
                 'updateEquip',
                 'updateConcentratorBindinig'
             ]),
+            // ...mapActions('overall',[
+            //     'getGeocode',
+            // ]),
+            // //获取设备经纬度
+            // getEquipPostion(){
+            //     const { data, editFlag } = this.equipObj;
+            //     const { longitude, latitude, location } = data;
+
+            //     if( editFlag ){
+            //         if( !longitude || !latitude ) {
+            //             location && this.getGeocode(location).then(res=>{
+            //                 if(!res) return;
+
+            //                 this.position = res[0].location.split(',');
+            //                 this.hasPosition = true;
+            //                 return;
+            //             })
+            //         }else{
+            //             this.position = [ longitude, latitude ];
+            //             this.hasPosition = true;
+            //         }
+            //     }else{
+            //         this.hasPosition = true;
+            //     }
+            // },
             submit() {
                 this.$refs.equipForm.validate((valid) => {
                     if (valid) {

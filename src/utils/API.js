@@ -437,6 +437,11 @@ export const api={
     //为账户分配权限(用于创建&编辑) post
     allotAccountPower:`${url}/e_view/role/allocation/permission/account`,
 
+
+    //=======================================高德API=====================================================
+
+    //根据 address or city 获取地址位置 get
+    getGeocode:`/lbs/v3/geocode/geo`
 }
 
 export default function(Vue){

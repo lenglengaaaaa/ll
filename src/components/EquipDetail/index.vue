@@ -134,12 +134,16 @@
         },
         created () {
             const { name, deviceAdress, deviceType } = this.equipObj;
-
             this.$route.meta.title = name;
+
             [this.firstArray, this.secondArray].forEach(item=>this.getData(item));
             this.getSingleData();
 
+            //获取设备经纬度
+            // this.getEquipPostion();
+
             if( deviceType == 33) this.isConcentrator(deviceAdress);
+
         },
         destroyed () {
             this.client && this.client.end();
@@ -153,6 +157,12 @@
             }
         },
         methods: {
+            ...mapActions('equip',[
+                'getConcentratorCurrent',
+            ]),
+            ...mapActions('overall',[
+                'getGeocode',
+            ]),
             //获取数据
             getData(target) {
                 const obj = this.equipObj;
@@ -178,9 +188,21 @@
                 //设备视图
                 this.imageUrls = imageUrls || [];
             },
-            ...mapActions('equip',[
-                'getConcentratorCurrent',
-            ]),
+            //获取设备经纬度
+            // getEquipPostion(){
+            //     const { longitude, latitude, location } = this.equipObj;
+
+            //     if( !longitude || !latitude ){
+            //         location && this.getGeocode(location).then(res=>{
+            //             if(!res) return;
+
+            //             let position = res[0].location.split(',');
+            //             this.single.position = [ +position[0], +position[1] ];
+            //         })
+            //     }else{
+            //         this.single.position = [ longitude, latitude];
+            //     }
+            // },
             //如果是类型是集中器
             isConcentrator(deviceAdress){
                 //通过接口获取实时数据
