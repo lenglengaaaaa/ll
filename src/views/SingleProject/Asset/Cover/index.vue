@@ -12,14 +12,12 @@
                 prop="number"
                 label="井盖编号"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="name"
                 label="井盖名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
@@ -30,7 +28,6 @@
                 prop="lineNames"
                 label="附属线缆"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.lineNames || '-'"
             />
@@ -38,7 +35,6 @@
                 prop="detail"
                 label="资产描述"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.detail || '-'"
             />

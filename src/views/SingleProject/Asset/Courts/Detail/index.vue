@@ -8,14 +8,12 @@
                 prop="number"
                 label="配电房编号"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="name"
                 label="配电房名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
@@ -27,28 +25,24 @@
                 prop="courtsId"
                 label="所属台区"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="mainComeline"
                 label="主进线"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="comeLine"
                 label="备用进线"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="detail"
                 label="描述"
                 align="center"
-                sortable
                 show-overflow-tooltip
                 :formatter="(row)=>row.detail || '-'"
             />

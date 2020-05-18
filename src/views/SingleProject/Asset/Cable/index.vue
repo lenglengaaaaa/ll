@@ -12,7 +12,6 @@
                 prop="number"
                 label="线缆编号"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column

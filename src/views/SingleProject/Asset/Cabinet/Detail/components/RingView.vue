@@ -10,12 +10,14 @@
                         </li>
                         <li v-for="(item,index) in switchList" :key="item.switchId" class="branch">
                             <div class="title">
-                                <span 
-                                    @click="selectOutLine(index,item)" 
-                                    :class="highlight===index&&'active'"
-                                >
-                                    {{item.switchName}}
-                                </span>
+                                <el-tooltip effect="dark" :content="item.switchAddress" placement="bottom">
+                                    <span 
+                                        @click="selectOutLine(index,item)" 
+                                        :class="highlight===index&&'active'"
+                                    >
+                                        {{item.switchName}}
+                                    </span>
+                                </el-tooltip>
                             </div>
                             <ul 
                                 class="list" 
@@ -232,9 +234,9 @@
                     },{})
 
                     this.timeArray = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
-
+                    
                     for(let item in result){
-                        result[item] = ['A','B','C','D'].map( k =>{
+                        result[item] = ['A','B','C','N'].map( k =>{
                             const hasItem = result[item].filter(i => i.outLineName === k);
                             if(hasItem.length){
                                 return hasItem[0];
