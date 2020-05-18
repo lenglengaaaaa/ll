@@ -86,7 +86,7 @@
                     .map(item=>{
                     let point = new this.resMap.Marker({
                         icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                        position:  [item.longitude,item.latitude],
+                        position:  [ item.longitude, item.latitude ],
                         offset: new this.resMap.Pixel(-13, -30),
                     });
                     this.markers.push(point);

@@ -35,7 +35,47 @@
                         max-height="calc(100vh - 260px)"
                         border
                         stripe
+                        size="small"
                     >   
+                        <el-table-column type="expand">
+                            <template slot-scope="props">
+                                <el-form label-position="left" inline class="table-expand">
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <el-form-item label="所属台区">
+                                                <span>{{ props.row.courtsName || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="所属配电房">
+                                                <span>{{ props.row.roomName || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="所属配电柜">
+                                                <span>{{ props.row.chestName || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="所属井盖">
+                                                <span>{{ props.row.trapName || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="所属线缆">
+                                                <span>{{ props.row.lineName || '---' }}</span>
+                                            </el-form-item>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <el-form-item label="所属魔节">
+                                                <span>{{ (props.row.parentType == 30 && props.row.parentName) || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="所属集中器">
+                                                <span>{{ (props.row.parentType == 33 && props.row.parentName) || '---' }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="创建时间">
+                                                <span>{{ calFromNow(props.row.createTime) }}</span>
+                                            </el-form-item>
+                                            <el-form-item label="安装位置">
+                                                <span>{{ props.row.location || '---' }}</span>
+                                            </el-form-item>
+                                        </el-col>
+                                    </el-row>
+                                </el-form>
+                            </template>
+                        </el-table-column>
                         <el-table-column
                             prop="projectName"
                             label="所属项目"
@@ -75,74 +115,6 @@
                             header-align="center"
                             align="center"
                         />
-                        <el-table-column
-                            prop="courtsName"
-                            label="所属台区"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>row.courtsName || '-'"
-                        />
-                        <el-table-column
-                            prop="roomName"
-                            label="所属配电房"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>row.roomName || '-'"
-                        />
-                        <el-table-column
-                            prop="chestName"
-                            label="所属配电柜"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>row.chestName || '-'"
-                        />
-                        <el-table-column
-                            prop="trapName"
-                            label="所属井盖"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>row.trapName || '-'"
-                        />
-                        <el-table-column
-                            prop="lineName"
-                            label="所属线缆"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>row.lineName || '-'"
-                        />
-                        <el-table-column
-                            label="所属魔节"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>( row.parentType==30&&row.parentName )|| '-'"
-                        />
-                        <el-table-column
-                            label="所属集中器"
-                            align="center"
-                            show-overflow-tooltip
-                            :formatter="(row)=>( row.parentType==33&&row.parentName )|| '-'"
-                        />
-                        <!-- <el-table-column 
-                            label="操作"
-                            header-align="center"
-                            align="center"
-                        >
-                            <template slot-scope="scope">
-                                <el-button
-                                    size="mini"
-                                    @click="handleEdit(scope.$index, scope.row)"
-                                >
-                                    查看
-                                </el-button>
-                                <el-button
-                                    size="mini"
-                                    type="success"
-                                    @click="handleDelete(scope.$index, scope.row)"
-                                >
-                                    编辑
-                                </el-button>
-                            </template>
-                        </el-table-column> -->
                     </el-table>
                 </div>
             </div>
@@ -175,6 +147,10 @@
             ...mapActions('overall',[
                 'getAllDevice', 
             ]),
+            //时间转换
+            calFromNow(time){
+                return this.$moment(time).format('YYYY-MM-DD HH:mm:ss')
+            },
             //关闭弹窗回调
             closeDialog(){
                 this.input = "";
@@ -237,19 +213,6 @@
                         .el-input{
                             max-width: 400px;
                         }
-                        // .el-input__inner{
-                        //     height: 45px;
-                        //     border: 1px solid #d2d6d9;
-                        //     border-radius: 20px;
-                        //     font-size: 0.9rem;
-                        //     &:focus{
-                        //         border-color:#82c4f2; 
-                        //     }
-                        //     &::-webkit-input-placeholder {
-                        //         color: #757575;
-                        //         font-size: 0.9rem;
-                        //     }
-                        // }
                     }
                     .body_content{
                         .content_title{
@@ -260,6 +223,18 @@
                             margin: 20px 0 0px 0;
                             padding: 5px 0;
                             border-bottom: 1px solid #dadfe1;
+                        }
+                        .table-expand label {
+                            min-width: 120px;
+                            color: #34495e;
+                            font-weight: bold;
+                        }
+                        .table-expand {
+                            font-size: 0;
+                        }
+                        .table-expand .el-form-item {
+                            margin-bottom: 0;
+                            width: 50%;
                         }
                     }
                 }

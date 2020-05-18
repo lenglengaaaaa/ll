@@ -22,7 +22,7 @@
             <el-table-column
                 label="相序"
                 align="center"
-                show-overflow-tooltip
+                width="60"
                 :formatter="(row)=>(row && row.outLineName) || '-'"
             />
             <el-table-column
