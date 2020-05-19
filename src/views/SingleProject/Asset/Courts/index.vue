@@ -42,14 +42,12 @@
                 prop="number"
                 label="台区编号"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
                 prop="name"
                 label="台区名称"
                 align="center"
-                sortable
                 show-overflow-tooltip
             >
                 <template slot-scope="scope">
@@ -60,22 +58,20 @@
                 prop="courtsType"
                 label="台区类型"
                 align="center"
-                sortable
                 show-overflow-tooltip
             />
             <el-table-column
-                prop="mainComeline"
                 label="主进线"
                 align="center"
-                sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.mainComeline || '-'"
             />
             <el-table-column
                 prop="comeLine"
                 label="备用进线"
                 align="center"
-                sortable
                 show-overflow-tooltip
+                :formatter="(row)=>row.comeLine || '-'"
             />
         </template>
     </cc-table>
