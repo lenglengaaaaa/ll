@@ -405,7 +405,7 @@
                         height: 100%;
                         display: flex;
                         flex-direction: column;
-                        justify-content: space-around;
+                        justify-content: space-between;
                         #line{
                             height: 300px !important;
                         }  
@@ -424,8 +424,10 @@
                             }
                         }
                         .lineChart{
-                            height: calc(100% / 2);
-                            margin-bottom: 0px;
+                            // height: calc(100% / 2.3);
+                            min-height: 331px;
+                            flex:1;
+                            margin:0px;
                         }
                     }
                     

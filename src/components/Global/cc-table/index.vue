@@ -133,7 +133,12 @@
             </div>
             <el-form label-position="top" label-width="100px" :model="form" :rules="rules" ref="passForm" status-icon v-else>
                 <el-form-item label="操作密码" prop="pass" class="pass">
-                    <el-input v-model="form.pass" autocomplete="off" type="password" :maxlength="6"></el-input>
+                    <el-input 
+                        v-model="form.pass" 
+                        autocomplete="off" 
+                        type="password" 
+                        :maxlength="6"
+                    />
                 </el-form-item>
                 <el-form-item class="submit">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
