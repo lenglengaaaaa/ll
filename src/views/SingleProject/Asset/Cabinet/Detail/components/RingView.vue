@@ -262,6 +262,7 @@
             //下载
             download: _.throttle(function(){
                 if(!this.switchList.length || !this.timeArray.length ) return;
+                const { id } =  JSON.parse(sessionStorage.getItem('obj'));
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 const msg = this.$message({
@@ -271,13 +272,16 @@
                     duration:0
                 });
                 this.getRingHistoryExecl({
+                    chestId:id,
                     queryId:this.switchId,
                     startTime,
                     endTime
                 }).then(res=>{
                     if(!res)return;
-                    msg.close();
                     downFile(res);
+                })
+                .finally(()=>{
+                    msg.close()
                 })
             },5000)
         },

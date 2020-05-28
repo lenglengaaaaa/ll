@@ -760,6 +760,7 @@ const actions= {
     /**
      * 导出配电柜下单个出线的历史视图
      * @param 同历史数据
+     * @param chestId 配电柜ID
      */
     getRingHistoryExecl({commit},obj){
         return request({

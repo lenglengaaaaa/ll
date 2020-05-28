@@ -1,6 +1,7 @@
 import mqtt from 'mqtt'
 
-const {mqttUrl,mqttAccount}= window.$cfg;
+const { environment, dev_mqtt, pro_mqtt }= window.$cfg;
+let { mqttUrl, mqttAccount } = environment==='dev'? dev_mqtt: pro_mqtt;
 
 export default {
     connect(topic){ 

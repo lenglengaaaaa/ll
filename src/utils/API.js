@@ -1,7 +1,12 @@
-const env =process.env.NODE_ENV;
+// const env = process.env.NODE_ENV;
+
+const { environment, analysis_url, request_url }= window.$cfg;
+
+//解析服务器接口
+let analy_url = environment === 'dev'? analysis_url.dev : analysis_url.pro ;
 
 //根据环境不同,请求不同的接口
-let url = env === 'development'? $cfg.dev_url : $cfg.pro_url ;
+let url = environment === 'dev'? request_url.dev : request_url.pro ;
 
 export const api={
     //=======================================登录登出=====================================================
@@ -325,10 +330,10 @@ export const api={
     activateDevice:`${url}/e_view/device/lora/activate`,
 
     //魔戒设备数据批量上传
-    ring_batch_upload:`http://47.92.235.125:8899/deviceNew/import`,
+    ring_batch_upload:`${analy_url}/deviceNew/import`,
 
     //更新集中器空中绑定信息
-    update_concentrator_bindinig:`http://47.92.235.125:8899/api/device/updateBind`,
+    update_concentrator_bindinig:`${analy_url}/api/device/updateBind`,
 
     //3.3.16 获取低压集中器的实时数据 post
     get_concentrator_current:`${url}/e_view/data/statistics/lpconCentrator/current`,
