@@ -9,15 +9,6 @@
   <body>
     <script src="static/js/vendor.dll.js"></script>
     <script src="static/config.js"></script>
-
-    <% if (process.env.NET_ENV === 'intranet') { %>
-      <script src="static/min_js/vuex.min.js"></script>
-      <script src="static/min_js/vue-router.min.js"></script>
-    <% }else{ %>
-      <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
-      <script src="https://unpkg.com/vuex/dist/vuex.min.js"></script>
-    <% } %>
-    
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

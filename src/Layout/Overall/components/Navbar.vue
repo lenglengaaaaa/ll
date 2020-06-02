@@ -288,9 +288,8 @@
                 launchFullScreen();
             },
             //退出登录
-            async logout() {
-                await this.$store.dispatch('user/logout')
-                this.$router.push(`/login`)
+            logout() {
+                this.$store.dispatch('user/logout');
             },
             //手机端列表
             moreClick(){

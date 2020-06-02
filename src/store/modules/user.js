@@ -1,6 +1,6 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import {request} from '@/utils/Request'
-import {api} from '@/utils/API'
+import { request } from '@/utils/Request'
+import { api } from '@/utils/API'
 import router from '@/router'
 import { message } from 'element-ui'
 
@@ -45,9 +45,9 @@ const actions= {
                 method:'post',
                 url:`${api.login}?accountName=${username}&password=${password}`,
             }).then(res=>{
-                if(res&&res.code===10000000&&res.data){
+                if(res && res.code===10000000 && res.data){
                     const { jtoken, user_detail } = res.data;
-                    
+
                     //setToken
                     commit('SET_TOKEN', jtoken);
                     setToken(jtoken);
@@ -79,15 +79,14 @@ const actions= {
 
     // user logout
     logout({ commit, state }) {
-        return new Promise((resolve, reject) => {
-            request({
-                url:`${api.logout}`
-            }).then(()=>{
-                commit('SET_TOKEN', '')
-                sessionStorage.clear();
-                removeToken();
-                resolve()
-            })
+        return request({
+            url:`${api.logout}`
+        }).then(()=>{
+            commit('SET_TOKEN', '')
+            sessionStorage.clear();
+            removeToken();
+        }).finally(()=>{
+            router.push({name:'Login'})
         })
     },
 

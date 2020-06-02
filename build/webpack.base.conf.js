@@ -30,8 +30,8 @@ module.exports = {
     // '$':'jquery',
     // 'moment': 'moment',
     // 'vue': 'Vue',
-    'vue-router': 'VueRouter',
-    'vuex': 'Vuex',
+    // 'vue-router': 'VueRouter',
+    // 'vuex': 'Vuex',
     // 'echarts': 'echarts',
   },
   resolve: {

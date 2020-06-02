@@ -42,6 +42,11 @@ const router= new Router({
       component: () => import('@/views/error-page/NoPermission'),
     },
     {
+      path: '/DataVisualization',
+      name:'DataVisualization',
+      component: () => import('@/views/DataVisualization'),
+    },
+    {
       path: '/',
       name: 'Overall',
       component:OverallLayout,
@@ -136,32 +141,31 @@ router.beforeEach(async(to,from,next)=>{
       })
     }
   }else{
-    if((!JSON.parse(sessionStorage.getItem('userDetail')) || !JSON.parse(sessionStorage.getItem('permissionIds')) && to.path !== '/login') ){
-
+    if(to.path !== '/login' && (!JSON.parse(sessionStorage.getItem('userDetail')) || !JSON.parse(sessionStorage.getItem('permissionIds')))){
       judgeUserDetail().then(res=>{
-        if(!res) return next();
-        const { permissionVO } = res;
-        //所有权限
-        sessionStorage.setItem('permissionVO',JSON.stringify(permissionVO));
-        store.commit('user/SET_PERMISSIONVO', permissionVO);
+          if(!res) return next();
+          const { permissionVO } = res;
+          //所有权限
+          sessionStorage.setItem('permissionVO',JSON.stringify(permissionVO));
+          store.commit('user/SET_PERMISSIONVO', permissionVO);
 
-        //菜单权限信息
-        const { basiPermissionIds, menuPermissionIds } = permissionVO;
-        const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
-        const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
-        sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
-        store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
+          //菜单权限信息
+          const { basiPermissionIds, menuPermissionIds } = permissionVO;
+          const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
+          const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
+          sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
+          store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
 
-        const resultArr = ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
-            return permissionIds.includes(item);
-        })
-        if(!resultArr.length){
-          next('/NoPermission');
-        }else{
-          next({
-            name: menuPermission(resultArr[0])
-          });
-        }
+          const resultArr = ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
+              return permissionIds.includes(item);
+          })
+          if(!resultArr.length){
+            next('/NoPermission');
+          }else{
+            next({
+              name: menuPermission(resultArr[0])
+            });
+          }
       })
     }else if(to.path === '/senior' || to.path === '/senior/'){
       //高级管理权限设置

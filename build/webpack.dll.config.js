@@ -7,6 +7,8 @@ module.exports = {
         vendor: [
             'vue',
             // 'element-ui',
+            'vuex',
+            'vue-router',
             'moment',
             'axios',
             'js-cookie',

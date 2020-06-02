@@ -37,6 +37,8 @@ Vue.prototype.$echarts = echarts;
 //全局挂载request方法
 Vue.use(request);
 
+Vue.prototype.$requset = request;
+
 //挂载mqtt
 Vue.prototype.$mqtt = mqtt;
 

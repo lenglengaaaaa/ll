@@ -25,9 +25,8 @@ export default {
         return {}
     },
     methods: {
-        async logout() {
-            await this.$store.dispatch('user/logout')
-            this.$router.push(`/login`)
+        logout() {
+            this.$store.dispatch('user/logout');
         }
     },
 }

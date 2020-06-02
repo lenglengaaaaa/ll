@@ -79,9 +79,9 @@
                                 ]
                             },
                             markLine : {
-                                data : [
-                                    {type : 'average', name: '平均值'}
-                                ]
+                                // data : [
+                                //     {type : 'average', name: '平均值'}
+                                // ]
                             }
                         }
                     ]
