@@ -4,18 +4,7 @@ import qs from 'qs'
 import router from '../router'
 import store from '../store'
 import lodash from 'lodash'
-import { message } from 'element-ui'
-
-/** 
- * 提示函数 
- */
-const tip = msg => {    
-  message({
-    type:'error',
-    message:msg,
-    // duration: 1000, 
-  });
-}
+import { tip } from '@/utils/methods'
 
 /** 
  * 跳转登录页

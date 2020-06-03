@@ -1,6 +1,28 @@
 import store from '../store';
 import AMap from "@/utils/AMap";
 import moment from 'moment';
+import { message } from 'element-ui'
+
+/** 
+ * 提示函数 
+ * @param msg 提示信息
+ * @param type 状态
+ */
+export const tip = (msg,type='error') => {   
+    //1) 关闭已存在的弹窗
+    store.state.app.Message && store.state.app.Message.close();
+
+    //2) 弹出新弹窗
+    const object = message({
+        // showClose:true,//是否可关闭
+        type,
+        message:msg,
+        // duration: 6000, 
+    });
+
+    //3) 将message对象进行保存
+    store.dispatch('app/setMessage', object);
+}
 
 /**
  * sleep函数

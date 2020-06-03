@@ -7,7 +7,8 @@ const state={
     device: 'desktop',
     alarmBox:[],
     alarmFlag:Cookies.get('alarmFlag') ? !!+Cookies.get('alarmFlag') : true,
-    tab_index:''
+    tab_index:'',
+    Message:null
 }
 
 const mutations={
@@ -40,6 +41,14 @@ const mutations={
 
     TAB_INDEX:(state,label)=>{
         state.tab_index = label;
+    },
+
+    /**
+     * 消息提示
+     * @rule 一次只显示一条提示信息
+     */
+    SET_MESSAGE_OBJ:(state,object)=>{
+        state.Message = object;
     }
 }
 
@@ -61,6 +70,9 @@ const actions= {
     },
     selectTab({commit},label){
         commit('TAB_INDEX',label);
+    },
+    setMessage({commit},object){
+        commit('SET_MESSAGE_OBJ',object);
     }
 }   
 

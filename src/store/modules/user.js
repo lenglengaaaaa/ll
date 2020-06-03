@@ -2,18 +2,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { request } from '@/utils/Request'
 import { api } from '@/utils/API'
 import router from '@/router'
-import { message } from 'element-ui'
-
-/** 
- * 提示函数 
- */
-const tip = (msg,type="error") => {    
-    message({
-        type,
-        message:msg,
-        // duration: 1000, 
-    });
-}
+import { tip } from '@/utils/methods'
 
 const state={
     token: getToken(),

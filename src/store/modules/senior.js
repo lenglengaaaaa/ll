@@ -1,17 +1,6 @@
 import {request} from '@/utils/Request'
 import {api} from '@/utils/API'
-import { message } from 'element-ui'
-
-/** 
- * 提示函数 
- */
-const tip = (msg,type="error") => {    
-    message({
-        type,
-        message:msg,
-        // duration: 1000, 
-    });
-}
+import { tip } from '@/utils/methods'
 
 const state={
 }

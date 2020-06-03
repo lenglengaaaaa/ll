@@ -1,17 +1,6 @@
-import {request} from '@/utils/Request'
-import {api} from '@/utils/API'
-import {message} from 'element-ui'
-
-/** 
- * 提示函数 
- */
-const tip = (msg,type="error") => {    
-    message({
-        type,
-        message:msg,
-        // duration: 1000, 
-    });
-}
+import { request } from '@/utils/Request'
+import { api } from '@/utils/API'
+import { tip } from '@/utils/methods'
 
 /**
  * 过滤下拉菜单中children为空数组的问题
@@ -76,7 +65,7 @@ const actions= {
             if(res&&res.code===10000000){
                 return res.data;
             }else{
-                res&&tip(res.meassage)
+                res && tip(res.meassage)
                 return false;
             }
         })
