@@ -4,14 +4,10 @@
     >
         <template>
             <el-tab-pane label="魔戒总览" lazy>
-                <RingView
-                    :switchList="switchList"
-                />
+                <RingView :switchList="switchList"/>
             </el-tab-pane>
             <el-tab-pane label="魔戒列表" lazy>
-                <RingList 
-                    :switchList="switchList"
-                />
+                <RingList :switchList="switchList"/>
             </el-tab-pane>
             <el-tab-pane label="设备列表" lazy>
                 <cc-equipList 
@@ -20,14 +16,13 @@
                 />
             </el-tab-pane>  
             <el-tab-pane label="数据视图" lazy>
-                <DataDetail
-                    :assetType="0"
-                />
+                <DataDetail :assetType="0"/>
             </el-tab-pane>
             <el-tab-pane label="数据模拟" lazy>
-                <Simulate 
-                    :client ="client"
-                />
+                <Simulate :client ="client" />
+            </el-tab-pane>
+            <el-tab-pane label="测试" lazy v-if="hasTest">
+                <Test :switchList="switchList" />
             </el-tab-pane>
         </template>
     </cc-assetDetail>
@@ -37,6 +32,7 @@
     import RingView from './components/RingView'
     import RingList from './components/RingList'
     import Simulate from './components/Simulate'
+    import Test from './components/Test'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
@@ -78,6 +74,7 @@
             RingView,
             RingList,
             Simulate,
+            Test,
             DataDetail
         },
         data() {
@@ -89,11 +86,16 @@
                     type:1
                 },
                 switchList:defaultValue,
-                client:null
+                client:null,
+                hasTest:false
             }
         },
         created () {
             const { id, name } =JSON.parse(sessionStorage.getItem("obj"));
+
+            const userId = this.$store.state.user.userDetail.id
+            this.hasTest = userId == 1 && true
+
             this.$route.meta.title = name;
 
             this.getRingDetail(id).then(res=>{

@@ -63,8 +63,12 @@
                         <div
                             class="icon-item"
                             slot="reference"
-                        >
-                            <el-badge :value="alarmBox.length" :max="99">
+                        >   
+                            <!-- :value="alarmBox.length" :max="99" -->
+
+                            <el-badge 
+                                :is-dot="alarmBox.length?true:false"
+                            >
                                 <i class="el-icon-bell" title="告警信息"/>
                             </el-badge>
                         </div>

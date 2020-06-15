@@ -157,7 +157,7 @@ export default {
             this.deleteThresholdSet({
                 id:this.id
             }).then(res=>{
-                if(!res)return;
+                if( !res )return;
 
                 this.id = null;
                 this.$refs.thForm.resetFields();

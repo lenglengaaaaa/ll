@@ -678,7 +678,7 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000){
-                tip(res.meassage,'success')
+                tip('成功重置为默认值','success')
                 return res.data;
             }else{
                 return false

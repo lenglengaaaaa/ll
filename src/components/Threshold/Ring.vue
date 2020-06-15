@@ -27,15 +27,18 @@
                         <el-form-item label="线缆电压告警限值(V)" prop="lineV">
                             <el-input-number v-model="thForm.lineV" :precision="0" :min="0" />
                         </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
                         <el-form-item label="电池电压限值(V)" prop="batteryA">
                             <el-input-number v-model="thForm.batteryA" :precision="1" :min="0" />
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="12" :xs="24">
                         <el-form-item label="板子温度告警限值(℃)" prop="CBTemp">
                             <el-input-number v-model="thForm.CBTemp" :precision="2" :min="0" />
                         </el-form-item>
-                        <el-form-item label="采样周期(分,1-32)" prop="samplingPeriod">
+
+                        <!-- 06-10 尽量不要去改采样周期&上报周期 -->
+
+                        <!-- <el-form-item label="采样周期(分,1-32)" prop="samplingPeriod">
                             <el-input-number 
                                 v-model="thForm.samplingPeriod" 
                                 :precision="0" 
@@ -50,7 +53,7 @@
                                 :min="1" 
                                 :max="8"
                             />
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                 </el-row>
                 <el-form-item class="submit">
