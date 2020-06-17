@@ -74,8 +74,7 @@
             }
         },
         mounted () {
-            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
-            this.options = areaTree
+            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
         },
         watch: {
             value(value) {

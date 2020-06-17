@@ -114,11 +114,10 @@
         },
         created () {
             const { data } = JSON.parse(sessionStorage.getItem('assetObj'));
-            this.position = [data.longitude||113.991244,data.latitude||22.5959];
+            this.position = [ data.longitude||113.991244, data.latitude||22.5959 ];
         },
         mounted () {
-            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
-            this.options = areaTree
+            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
         },
         computed: {
             id(){

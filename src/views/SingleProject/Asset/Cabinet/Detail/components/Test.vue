@@ -234,7 +234,6 @@
         .left_box{
             ul{
                 display: flex;
-                justify-content: space-between;
             }
             .title{
                 span{
@@ -250,6 +249,11 @@
                 .active{
                     color: #fff;
                     background-color: rgb(54, 169, 225);
+                }
+            }
+            @media screen and (max-width: 870px) {
+                ul{
+                    flex-wrap: wrap;
                 }
             }
         }

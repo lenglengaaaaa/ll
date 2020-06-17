@@ -122,8 +122,7 @@
             }
         },
         mounted () {
-            const areaTree = JSON.parse(sessionStorage.getItem('areaTree'));
-            this.options = areaTree
+            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
         },
         created () {
             const {data,editFlag} = JSON.parse(sessionStorage.getItem('assetObj'));
