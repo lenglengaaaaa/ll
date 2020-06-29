@@ -21,19 +21,14 @@
         mounted() {
             this.chart = this.$echarts.init(this.$refs.gaugeChart);
             this.getData();
-            window.addEventListener('resize',()=>{
-                this.chart&&this.chart.resize()
-            },false);
-        },
-        beforeDestroy() {
-            if (!this.chart) return
-            this.chart.dispose();
-            this.chart = null;
-        },
-        destroyed(){
-            window.removeEventListener('resize',()=>{
-                this.chart && this.chart.resize()
-            },false);
+
+            window.addEventListener('resize',this.$_handleResizeChart);
+            this.$once('hook:beforeDestroy', () => {
+                window.removeEventListener('resize',this.$_handleResizeChart)
+                if (!this.chart) return
+                this.chart.dispose();
+                this.chart = null;
+            })
         },
         watch: {
             value(value) {
@@ -50,6 +45,9 @@
             }
         },
         methods: {
+            $_handleResizeChart(){
+                this.chart && this.chart.resize()
+            },
             //获取当前数值
             getData(){
                 const {name,value,createTime} = this.value;

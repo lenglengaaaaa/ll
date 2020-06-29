@@ -18,19 +18,14 @@
         mounted() {
             this.chart = this.$echarts.init(this.$refs.categoryChart);
             setTimeout(()=>{ this.initChart() });
-            window.addEventListener('resize',()=>{
-                this.chart&&this.chart.resize()
-            },false);
-        },
-        beforeDestroy() {
-            if (!this.chart) return
-            this.chart.dispose();
-            this.chart = null;
-        },
-        destroyed(){
-            window.removeEventListener('resize',()=>{
-                this.chart && this.chart.resize()
-            },false);
+
+            window.addEventListener('resize',this.$_handleResizeChart);
+            this.$once('hook:beforeDestroy', () => {
+                window.removeEventListener('resize',this.$_handleResizeChart)
+                if (!this.chart) return
+                this.chart.dispose();
+                this.chart = null;
+            })
         },
         watch: {
             '$store.state.app.sidebar.opened'(flag) {
@@ -38,6 +33,9 @@
             }
         },
         methods: {
+            $_handleResizeChart(){
+                this.chart && this.chart.resize()
+            },
             initChart() {
                 const names = this.equipList.map(item=>item.name);
                 //把配置和数据放这里

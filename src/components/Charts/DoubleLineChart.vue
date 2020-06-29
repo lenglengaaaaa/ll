@@ -133,21 +133,19 @@
         mounted() {
             this.chart = this.$echarts.init(document.getElementById('double_line'))
             this.drawLine();
-            window.addEventListener('resize',()=>{
-                this.chart && this.chart.resize()
-            },false);
-        },
-        beforeDestroy() {
-            if (!this.chart) return
-            this.chart.dispose();
-            this.chart = null;
-        },
-        destroyed(){
-            window.removeEventListener('resize',()=>{
-                this.chart && this.chart.resize()
-            },false);
+
+            window.addEventListener('resize',this.$_handleResizeChart);
+            this.$once('hook:beforeDestroy', () => {
+                window.removeEventListener('resize',this.$_handleResizeChart)
+                if (!this.chart) return
+                this.chart.dispose();
+                this.chart = null;
+            })
         },
         methods: {
+            $_handleResizeChart(){
+                this.chart && this.chart.resize()
+            },
             drawLine(){
                 console.log(this.value,'value')
                 const { timeArray, data } = this.value;
