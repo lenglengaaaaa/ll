@@ -146,21 +146,19 @@
             },
             //切换状态
             switchState(index){
-                const defaultValue = JSON.parse(sessionStorage.getItem('userDetail'));
                 this.$refs.Form&&this.$refs.Form.clearValidate();
                 this.value = index;
-                this.form = defaultValue;
+                this.form = this.userDetail;
             },
             //编辑完成
             handleOk(){
-                const defaultValue = JSON.parse(sessionStorage.getItem('userDetail'));
                 this.$refs.Form.validate((valid)=>{
                     if(valid){
                         this.value = null;
-                        if(judgeObject(defaultValue,this.form))return;
+                        if(judgeObject(this.userDetail,this.form))return;
                         this.updateAccount(this.form).then(res=>{
                             if(!res)return;
-                            this.getAccountDetail(defaultValue.id).then(res=>{
+                            this.getAccountDetail(this.userDetail.id).then(res=>{
                                 if(!res)return;
                                 this.getAccount(res);
                             })

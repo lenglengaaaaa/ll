@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions,mapState } from 'vuex';
 
     export default {
         data() {
@@ -131,8 +131,11 @@
             }
         },
         computed: {
+            ...mapState('user',[
+                'userDetail',
+            ]),
             userId() {
-                return JSON.parse(sessionStorage.getItem('userDetail')).id; 
+                return this.userDetail.id; 
             }
         },
         methods: {

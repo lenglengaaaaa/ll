@@ -157,10 +157,10 @@
             this.resizehandle(this.$store.state.app.device);
 
             //用于权限
-            if(!sessionStorage.getItem('userDetail')) return;
-            this.userClient = this.$mqtt.connect(`topic_create_asset_${this.userId}`);
+            if(!this.userDetail) return;
+
+            this.userClient = this.$mqtt.connect(`topic_create_asset_${this.userDetail.id}`);
             this.$mqtt.listen(this.userClient,res=>{
-                sessionStorage.setItem('permissionVO',JSON.stringify(res));
                 this.$store.commit('user/SET_PERMISSIONVO', res);
             });
         },
@@ -181,13 +181,11 @@
         computed: {
             ...mapState('user',[
                 'permissionIds',
+                'userDetail'
             ]),
             ...mapState('overall',[
                 'areaTree',
             ]),
-            userId(){
-                return JSON.parse(sessionStorage.getItem('userDetail')).id;
-            },
             alarmBox() {
                 return this.$store.state.app.alarmBox
             },

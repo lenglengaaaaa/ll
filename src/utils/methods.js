@@ -65,9 +65,9 @@ export const judgeLastData=(list,current)=>{
  * 判断sessionStorage中是否有userDetail
  */
 export const judgeUserDetail = () =>{
-    if(sessionStorage.getItem('userDetail')){
+    if(store.state.user.userDetail){
         return new Promise((resolve,reject)=>{
-            resolve(JSON.parse(sessionStorage.getItem('userDetail')))
+            resolve(store.state.user.userDetail)
         })
     }else{
         return store.dispatch('user/getAccountDetail').then(res=>{
@@ -81,11 +81,7 @@ export const judgeUserDetail = () =>{
  * 判断sessionStorage中是否有equipTypeMenu
  */
 export const judgeEquipTypeMenu = () =>{
-    if(sessionStorage.getItem('equipTypeMenu')){
-        return new Promise((resolve,reject)=>{
-            resolve(JSON.parse(sessionStorage.getItem('equipTypeMenu')))
-        })
-    }else{
+    if(!store.state.equip.equipTypeMenu.length){
         return store.dispatch('equip/getEquipTypeMenu').then(res=>{
             if(!res)return;
             return res;
@@ -465,4 +461,25 @@ export const deepCopy = (obj) => {
 export const isMobile = () => {
     const Flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
     return Flag ? true : false;
+}
+
+/**
+ * 获取菜单权限信息
+ */
+export const get_Menu_authority = (permissionVO) =>{
+    //所有权限
+    store.commit('user/SET_PERMISSIONVO', permissionVO);
+
+    //菜单权限信息
+    const { basiPermissionIds, menuPermissionIds } = permissionVO;
+    const hasEleven = basiPermissionIds && basiPermissionIds.permissionIds.split(',').some(item => item == 11);
+    const permissionIds = _.sortBy([
+        hasEleven && '111',
+        ...(menuPermissionIds?menuPermissionIds.permissionIds.split(','):[])
+    ]);
+    store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
+
+    return ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
+        return permissionIds.includes(item);
+    })
 }

@@ -7,7 +7,7 @@ import $ from 'jquery';
 
 import store from '../store'
 import { getToken } from '@/utils/auth' // get token from cookie
-import { menuPermission, judgeUserDetail } from '@/utils/methods'
+import { menuPermission, judgeUserDetail, get_Menu_authority } from '@/utils/methods'
 import OverallLayout from '@/Layout/Overall'
 import SideBarLayout from '@/Layout/HasSidebar'
 
@@ -141,24 +141,12 @@ router.beforeEach(async(to,from,next)=>{
       })
     }
   }else{
-    if(to.path !== '/login' && (!JSON.parse(sessionStorage.getItem('userDetail')) || !JSON.parse(sessionStorage.getItem('permissionIds')))){
+    if(to.path !== '/login' && (!store.state.user.userDetail || !store.state.user.permissionIds)){
       judgeUserDetail().then(res=>{
           if(!res) return next();
           const { permissionVO } = res;
-          //所有权限
-          sessionStorage.setItem('permissionVO',JSON.stringify(permissionVO));
-          store.commit('user/SET_PERMISSIONVO', permissionVO);
-
-          //菜单权限信息
-          const { basiPermissionIds, menuPermissionIds } = permissionVO;
-          const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
-          const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
-          sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
-          store.commit('user/SET_PERMISSIONIDS', [...permissionIds,'66','67']);
-
-          const resultArr = ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
-              return permissionIds.includes(item);
-          })
+          const resultArr = get_Menu_authority(permissionVO);
+          
           if(!resultArr.length){
             next('/NoPermission');
           }else{

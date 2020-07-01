@@ -199,7 +199,7 @@
                     return callback(new Error('请输入操作密码'));
                 }
                 this.$store.dispatch('user/checkOperatePass',{
-                    id:this.userId,
+                    id:this.userDetail.id,
                     operationPwd:value
                 }).then(res=>{
                     if(!res){
@@ -240,6 +240,7 @@
         computed: {
             ...mapState('user',[
                 'permissionVO',
+                'userDetail'
             ]),
             //-----------------------------------------权限控制---------------------------------
             basiPermissionIds(){
@@ -302,9 +303,6 @@
             //-----------------------------------------权限控制---------------------------------
             placeholder() {
                 return `搜索${this.$props.title}` 
-            },
-            userId() {
-                return JSON.parse(sessionStorage.getItem('userDetail')).id; 
             }
         },
         methods: {

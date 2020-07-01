@@ -2,13 +2,13 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { request } from '@/utils/Request'
 import { api } from '@/utils/API'
 import router from '@/router'
-import { tip } from '@/utils/methods'
+import { tip, get_Menu_authority } from '@/utils/methods'
 
 const state={
     token: getToken(),
-    userDetail: JSON.parse(sessionStorage.getItem('userDetail')),
-    permissionIds: JSON.parse(sessionStorage.getItem('permissionIds')),
-    permissionVO: JSON.parse(sessionStorage.getItem('permissionVO'))
+    userDetail: null,
+    permissionIds: null,
+    permissionVO: null
 }
 
 const mutations={
@@ -37,28 +37,16 @@ const actions= {
                 if(res && res.code===10000000 && res.data){
                     const { jtoken, user_detail } = res.data;
 
+                    //setUserDetail
+                    commit('SET_USERDETAIL', user_detail);
+                    
                     //setToken
                     commit('SET_TOKEN', jtoken);
                     setToken(jtoken);
 
-                    //setUserDetail
-                    sessionStorage.setItem('userDetail',JSON.stringify(user_detail));
-                    commit('SET_USERDETAIL', user_detail);
-                    
-                    sessionStorage.setItem('permissionVO',JSON.stringify(user_detail.permissionVO));
-                    commit('SET_PERMISSIONVO', user_detail.permissionVO);
-                    
-                    //菜单权限信息
-                    const { basiPermissionIds, menuPermissionIds } = user_detail.permissionVO;
-                    const hasEleven = basiPermissionIds.permissionIds.split(',').some(item => item == 11);
-                    const permissionIds = _.sortBy([hasEleven && '111',...menuPermissionIds.permissionIds.split(',')]);
-                    sessionStorage.setItem('permissionIds',JSON.stringify([...permissionIds,'66','67']));
-                    commit('SET_PERMISSIONIDS', [...permissionIds,'66','67']);
-                    
-                    //111 为项目管理权限ID, 因为id为1的情况有重复;
-                    return ["1","2","111","14","15","16","17","18","19","20","21"].filter(item=>{
-                        return permissionIds.includes(item);
-                    })
+                    // 获取菜单权限信息
+                    return  get_Menu_authority(user_detail.permissionVO);
+
                 }else{
                     res&&tip(res.meassage)
                     return false;
@@ -123,7 +111,6 @@ const actions= {
             data:{id}
         }).then(res=>{
             if(res&&res.code === 10000000&&res.data){
-                sessionStorage.setItem('userDetail',JSON.stringify(res.data))
                 commit('SET_USERDETAIL', res.data);
                 return res.data;
             }else{
