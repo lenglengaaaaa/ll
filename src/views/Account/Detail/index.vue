@@ -60,9 +60,9 @@
 </template>
 
 <script>
-    import { mapActions,mapState } from 'vuex'
+    import { mapActions, mapState } from 'vuex'
     import avatar from '@images/default.jpg'
-    import {judgeObject} from '@/utils/methods'
+    import { judgeObject } from '@/utils/methods'
     import myUpload from 'vue-image-crop-upload';
 
     export default {
@@ -134,7 +134,7 @@
             getAccount(data){
                 const userDetail = data || this.userDetail;
                 this.imageUrl = userDetail.imagePath || avatar;
-                this.form = userDetail;
+                this.form = JSON.parse(JSON.stringify(userDetail));
                 this.options.reduce((pre,current)=>{
                     for(let i in userDetail){
                         if(current.sign === i){ 
@@ -146,16 +146,16 @@
             },
             //切换状态
             switchState(index){
-                this.$refs.Form&&this.$refs.Form.clearValidate();
+                this.$refs.Form && this.$refs.Form.clearValidate();
                 this.value = index;
-                this.form = this.userDetail;
+                this.form = JSON.parse(JSON.stringify(this.userDetail));
             },
             //编辑完成
             handleOk(){
                 this.$refs.Form.validate((valid)=>{
                     if(valid){
                         this.value = null;
-                        if(judgeObject(this.userDetail,this.form))return;
+                        if(judgeObject(this.userDetail,this.form)) return;
                         this.updateAccount(this.form).then(res=>{
                             if(!res)return;
                             this.getAccountDetail(this.userDetail.id).then(res=>{

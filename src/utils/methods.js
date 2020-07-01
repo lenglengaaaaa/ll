@@ -139,7 +139,12 @@ export const judgeObject = (x,y) =>{
         // 允许x[p]设置为undefined
         if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) ) return false;
     } 
-    return true; 
+    return true;
+    
+    // 简单版
+    // return Object.keys(x).every(item=>{
+    //     return item in y && x[item] == y[item]
+    // })
 }
 
 /**
