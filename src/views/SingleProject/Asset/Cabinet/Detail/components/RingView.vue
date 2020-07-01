@@ -400,6 +400,11 @@
                         }
                     }
                 }
+                @media screen and (max-width: 1205px) {
+                    .view{
+                        align-items: flex-start;
+                    }
+                }
                 .DATA_DETAIL{
                     width: 100%;
                     display: flex;

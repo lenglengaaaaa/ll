@@ -120,5 +120,9 @@
                 font-weight: bolder;
             }
         }
+        .el-notification__closeBtn {
+            top: 15px;
+            font-size: 22px;
+        }
     }
 </style>

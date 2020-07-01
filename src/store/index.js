@@ -27,7 +27,7 @@ const store = new Vuex.Store({
             //只持续化某一项
             // reducer(val){
             //     return{
-            //         alarmBox:val.app.alarmBox
+            //         device:val.app.device
             //     }
             // }
         })
