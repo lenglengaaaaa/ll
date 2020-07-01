@@ -25,7 +25,7 @@
                 </el-form-item>
                 <el-form-item label="位置信息" prop="location" class="address">
                     <el-cascader 
-                        :options="options" 
+                        :options="areaTree" 
                         v-model="form.city"  
                         placeholder="省/市/区"
                         :props="{
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         data() {
@@ -109,7 +109,6 @@
                 });
             };
             return {
-                options:[],
                 position:[],
                 editFlag:false,
                 form: {},
@@ -121,9 +120,6 @@
                 }
             }
         },
-        mounted () {
-            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
-        },
         created () {
             const {data,editFlag} = JSON.parse(sessionStorage.getItem('assetObj'));
             this.form={
@@ -132,6 +128,11 @@
             };
             this.position = [data.longitude||113.991244,data.latitude||22.5959];
             this.editFlag=editFlag;
+        },
+        computed: {
+            ...mapState('overall',[
+                'areaTree',
+            ]),
         },
         methods: {
             ...mapActions('overall',[

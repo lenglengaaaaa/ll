@@ -15,8 +15,8 @@
                 <div>
                     <span class="name">{{item.name}}</span>
                     <span>
-                        <span :style="{color:'#008000'}">{{item.has}}</span>/
-                        <span :style="{fontSize:'1.2rem'}">{{item.total}}</span>
+                        <span :style="{color:'#008000'}">{{item.has || 0}}</span>/
+                        <span :style="{fontSize:'1.2rem'}">{{item.total || 0}}</span>
                     </span>
                 </div>
             </div>

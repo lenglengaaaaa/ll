@@ -4,7 +4,7 @@
             <el-form-item label="设备类型" prop="type">
                 <el-select v-model="form.type" placeholder="请选择设备类型">
                     <el-option 
-                        v-for="item in types" 
+                        v-for="item in equipTypeMenu" 
                         :key="item.id" 
                         :label="item.value" 
                         :value="item.id"
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+    
     export default {
         props: {
             next:Function
@@ -38,9 +40,10 @@
                 }
             }
         },
-        mounted () {
-            const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
-            this.types = equipTypeMenu;
+        computed: {
+            ...mapState('equip',[
+                'equipTypeMenu',
+            ]),
         },
         methods: {
             submit() {

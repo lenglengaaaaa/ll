@@ -57,9 +57,8 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions, mapState } from 'vuex'
     import { SoeChart , CategoryChart} from '@/components/Charts'
-    import { judgeEquipTypeMenu } from '@/utils/methods'
     import CountRow from './components/CountRow'
     import MapRow from './components/MapRow'
 
@@ -80,9 +79,9 @@
             this.initial();
         },
         computed: {
-            equipTypeMenu() {
-                return this.$store.state.equip.equipTypeMenu; 
-            }
+            ...mapState('equip',[
+                'equipTypeMenu',
+            ])
         },
         methods: {
             ...mapActions('overall',[
@@ -93,17 +92,14 @@
             //初始化
             initial(){
                 this.getSoe();
-                (async ()=>{
-                    const equipTypeMenu = await judgeEquipTypeMenu();
-                    await this.getCount( equipTypeMenu || this.equipTypeMenu );
-                })()
+                this.getCount();
             },
             //获取设备数量
-            getCount(equipTypeMenu){
+            getCount(){
                 this.getEquipCount(0).then(res=>{
                     if(!res) return;
                     const result = res.reduce((pre,current)=>{
-                        for(let item of equipTypeMenu){
+                        for(let item of this.equipTypeMenu ){
                             if(current.deviceType === item.id){
                                 current.name = item.value;
                                 current.value = current.count;

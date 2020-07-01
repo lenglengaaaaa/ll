@@ -3,7 +3,7 @@ import {api} from '@/utils/API'
 import { tip } from '@/utils/methods'
 
 const state={
-    equipTypeMenu: JSON.parse(sessionStorage.getItem('equipTypeMenu'))
+    equipTypeMenu:[]
 }
 
 const mutations={
@@ -66,7 +66,6 @@ const actions= {
             }
         }).then(res=>{
             if(res&&res.code===10000000){
-                sessionStorage.setItem('equipTypeMenu',JSON.stringify(res.data));
                 commit('SET_MENU', res.data)
                 return res.data;
             }else{

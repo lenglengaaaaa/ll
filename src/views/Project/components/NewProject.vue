@@ -15,7 +15,7 @@
             <el-form-item label="项目所属位置" prop="area">
                 <el-cascader 
                     placeholder="请选择项目所属区域"
-                    :options="options" 
+                    :options="areaTree" 
                     v-model="form.area"  
                     :props="{
                         children:'childList',
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
+    import { mapActions, mapState } from 'vuex'
     import {splitString} from '@/utils/methods'
     
     const resetForm = {
@@ -56,7 +56,6 @@
         },
         data() {
             return {
-                options:[],
                 form: {
                     name:'',
                     detail: '',
@@ -73,17 +72,19 @@
                 }
             }
         },
-        mounted () {
-            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
-        },
         watch: {
             value(value) {
                 this.form = {
                     ...this.form,
                     ...value,
-                    area:(value.areaId&&splitString(value.areaId))|| []
+                    area:(value.areaId && splitString(value.areaId))|| []
                 }
             },
+        },
+        computed: {
+            ...mapState('overall',[
+                'areaTree',
+            ]),
         },
         methods: {
             ...mapActions('overall',[

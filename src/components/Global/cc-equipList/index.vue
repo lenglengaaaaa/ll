@@ -77,7 +77,7 @@
         },
         computed: {
             equipTypeMenu() {
-                const menus = JSON.parse(sessionStorage.getItem('equipTypeMenu'));
+                const menus = this.$store.state.equip.equipTypeMenu;
                 return menus.map( item =>{
                     return {
                         text:item.value,

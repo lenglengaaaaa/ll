@@ -29,7 +29,7 @@
             </el-form-item>
             <el-form-item label="位置信息" prop="location" class="address">
                 <el-cascader 
-                    :options="options" 
+                    :options="areaTree" 
                     v-model="form.city"  
                     placeholder="省/市/区"
                     :props="{
@@ -61,6 +61,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+
     export default {
         name:'cc-assetEdit',
         props: {
@@ -97,7 +99,6 @@
                 });
             };
             return {
-                options:[],
                 position:[],
                 rules:{
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
@@ -116,10 +117,10 @@
             const { data } = JSON.parse(sessionStorage.getItem('assetObj'));
             this.position = [ data.longitude||113.991244, data.latitude||22.5959 ];
         },
-        mounted () {
-            this.options = JSON.parse(sessionStorage.getItem('areaTree'));
-        },
         computed: {
+            ...mapState('overall',[
+                'areaTree',
+            ]),
             id(){
                 const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
                 return data.id;

@@ -3,9 +3,13 @@ import {api} from '@/utils/API'
 import { tip } from '@/utils/methods'
 
 const state={
+    areaTree:[]
 }
 
 const mutations={
+    SET_AREATREE: (state, tree) => {
+        state.areaTree = tree;
+    }
 }
 
 const actions= {
@@ -18,7 +22,7 @@ const actions= {
             url:`${api.getAreaTree}`,
         }).then(res=>{
             if(res&&res.code===10000000){
-                sessionStorage.setItem('areaTree',JSON.stringify(res.data));
+                commit('SET_AREATREE', res.data);
             }else{
                 res&&tip(res.meassage)
             }

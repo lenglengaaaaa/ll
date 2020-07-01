@@ -50,7 +50,7 @@
 
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
-    import { mapActions } from 'vuex'
+    import { mapActions, mapState } from 'vuex'
     
     export default {
         components: {
@@ -70,6 +70,9 @@
             this.getLocation();
         },
         computed: {
+            ...mapState('equip',[
+                'equipTypeMenu',
+            ]),
             projectId(){
                 return JSON.parse(sessionStorage.getItem('project')).id;
             },
@@ -82,11 +85,10 @@
             ]),
             //获取设备数量
             getCount(){
-                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
                 this.getEquipCount(this.projectId).then(res=>{
                     if(!res) return;
                     const result = res.reduce((pre,current)=>{
-                        for(let item of equipTypeMenu){
+                        for(let item of this.equipTypeMenu){
                             if(current.deviceType === item.id){
                                 current.name = item.value;
                                 current.value = current.count;

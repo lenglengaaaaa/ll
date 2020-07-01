@@ -119,7 +119,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
     import UploadDialog from '../components/UploadDialog'
     import OtherFucDialog from '../components/OtherFucDialog'
 
@@ -132,7 +132,6 @@
         data() {
             return {
                 value:null,
-                types:[],
                 dialogVisible: false,
                 otherVisible: false,
                 params:{
@@ -142,8 +141,19 @@
                 }
             }
         },
-        mounted () {
-            this.getEquipType();
+        computed: {
+            ...mapState('equip',[
+                'equipTypeMenu',
+            ]),
+            types(){
+                return [
+                    {
+                        "id": null,
+                        "value": "全部设备",
+                    },
+                    ...this.equipTypeMenu
+                ]
+            }
         },
         methods: {
             ...mapActions('equip',[
@@ -161,18 +171,6 @@
                     if(!res) return;
                     return res;
                 })
-            },
-            //获取设备类型
-            getEquipType(){
-                const equipTypeMenu = this.$store.state.equip.equipTypeMenu;
-                const result = [
-                    {
-                        "id": null,
-                        "value": "全部设备",
-                    },
-                    ...equipTypeMenu
-                ]
-                this.types = result;
             },
             //切换设备
             changeEquip(deviceType){

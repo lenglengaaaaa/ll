@@ -182,6 +182,9 @@
             ...mapState('user',[
                 'permissionIds',
             ]),
+            ...mapState('overall',[
+                'areaTree',
+            ]),
             userId(){
                 return JSON.parse(sessionStorage.getItem('userDetail')).id;
             },
@@ -212,29 +215,13 @@
                     }
                     return pre;
                 },[])
-
-                // return arr.map(item=>{
-                //     if(item.id == "3"){
-                //         item.hidden = !this.permissionIds.includes("111");
-                //     }else if(item.id === "4"){
-                //         const seniorChildIds = ['14','15','16','17','18','19','20','21'];
-                //         item.hidden = !this.permissionIds.some(item=>{
-                //             return seniorChildIds.includes(item);
-                //         })
-                //     }else{
-                //         item.hidden = !this.permissionIds.includes(item.id);
-                //     }
-                //     return item ;
-                // })
             }
         },
         methods: {
             //初始化
             initialize(){
                 //获取区域树
-                if(!sessionStorage.getItem('areaTree')){
-                    this.$store.dispatch('overall/getAreaTree');
-                };
+                if(!this.areaTree.length) this.$store.dispatch('overall/getAreaTree');
                 //获取用户详情
                 this.getAccount();
                 //获取设备类型列表
