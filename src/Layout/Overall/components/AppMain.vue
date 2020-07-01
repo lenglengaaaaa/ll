@@ -63,13 +63,13 @@
                             onClick:this.checkDetail.bind(this,res)
                         });
                     }
-                    this.$store.dispatch('app/saveAlarm',[
+                    this.$store.dispatch('overall/saveAlarm',[
                         {
                             ...res,
                             equipType:this.getEquipType(fc),
                             position: result && result.join(',')
                         },
-                        ...this.$store.state.app.alarmBox
+                        ...this.$store.state.overall.alarmBox
                     ])
                 })
             });

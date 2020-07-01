@@ -5,7 +5,6 @@ const state={
         opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     },
     device: 'desktop',
-    alarmBox:[],
     alarmFlag:Cookies.get('alarmFlag') ? !!+Cookies.get('alarmFlag') : true,
     tab_index:'',
     Message:null
@@ -30,10 +29,6 @@ const mutations={
     TOGGLE_DEVICE: (state, device) => {
         state.device = device
     },
-    SAVE_ALARM:(state,alarm) => {
-        state.alarmBox = alarm;
-    },
-
     SWITCH_ALARM:(state)=>{
         state.alarmFlag = !state.alarmFlag;
         state.alarmFlag ? Cookies.set('alarmFlag', 1) : Cookies.set('alarmFlag', 0);
@@ -61,9 +56,6 @@ const actions= {
     },
     toggleDevice({ commit }, device) {
         commit('TOGGLE_DEVICE', device);
-    },
-    saveAlarm({commit},alarm){
-        commit('SAVE_ALARM', alarm);
     },
     switchAlarm({commit}){
         commit('SWITCH_ALARM');

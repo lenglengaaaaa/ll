@@ -23,7 +23,13 @@ const store = new Vuex.Store({
                 'equip',
                 'user'
             ],
-            storage: window.sessionStorage
+            storage: window.sessionStorage,
+            //只持续化某一项
+            // reducer(val){
+            //     return{
+            //         alarmBox:val.app.alarmBox
+            //     }
+            // }
         })
     ]
 })

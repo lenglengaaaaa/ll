@@ -3,16 +3,23 @@ import {api} from '@/utils/API'
 import { tip } from '@/utils/methods'
 
 const state={
-    areaTree:[]
+    areaTree:[],
+    alarmBox:[]
 }
 
 const mutations={
     SET_AREATREE: (state, tree) => {
         state.areaTree = tree;
-    }
+    },
+    SAVE_ALARM:(state,alarm) => {
+        state.alarmBox = alarm;
+    },
 }
 
 const actions= {
+    saveAlarm({commit},alarm){
+        commit('SAVE_ALARM', alarm);
+    },
     /**
     *获取区域树 
     */

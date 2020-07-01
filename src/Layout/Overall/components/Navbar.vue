@@ -185,10 +185,8 @@
             ]),
             ...mapState('overall',[
                 'areaTree',
+                'alarmBox'
             ]),
-            alarmBox() {
-                return this.$store.state.app.alarmBox
-            },
             navbar(){
                 const arr = [
                     {id:"1",path:'/overview',name:'概览',route:{name:'Overview'},hidden:false},

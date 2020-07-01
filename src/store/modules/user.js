@@ -3,6 +3,7 @@ import { request } from '@/utils/Request'
 import { api } from '@/utils/API'
 import router from '@/router'
 import { tip, get_Menu_authority } from '@/utils/methods'
+import store from '@/store'
 
 const state={
     token: getToken(),
@@ -55,13 +56,11 @@ const actions= {
     },
 
     // user logout
-    logout({ commit, state }) {
+    logout({ dispatch,commit, state }) {
         return request({
             url:`${api.logout}`
         }).then(()=>{
-            commit('SET_TOKEN', '')
-            sessionStorage.clear();
-            removeToken();
+            dispatch('resetToken');
         }).finally(()=>{
             router.push({name:'Login'})
         })
@@ -71,6 +70,7 @@ const actions= {
     resetToken({ commit }) {
         return new Promise(resolve => {
             commit('SET_TOKEN', '')
+            store.dispatch('overall/saveAlarm', [])
             sessionStorage.clear();
             removeToken()
             resolve()
@@ -271,12 +271,12 @@ const actions= {
     /**
      * 头像更新
      * @param {
-        *       id 图片ID
-        *       accountId 用户ID
-        *       name 图片名字
-        *       iamgePath 图片地址
-        * }
-        */
+     *       id 图片ID
+     *       accountId 用户ID
+     *       name 图片名字
+     *       iamgePath 图片地址
+        }
+    */
     updateAvatar({commit},obj){
         return request({
             method:'post',

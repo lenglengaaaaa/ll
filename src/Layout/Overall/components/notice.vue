@@ -76,7 +76,7 @@
                 return this.$moment(time).format('YYYY-MM-DD HH:mm:ss');
             },
             clearBox(){
-                this.$store.dispatch('app/saveAlarm',[])
+                this.$store.dispatch('overall/saveAlarm',[])
             },
             viewDetail(item){
                 const { warnInfoId , projectName , projectId } = item;
