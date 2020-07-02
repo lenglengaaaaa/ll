@@ -63,14 +63,15 @@
                             onClick:this.checkDetail.bind(this,res)
                         });
                     }
-                    this.$store.dispatch('overall/saveAlarm',[
+                    let alaram_arr = [
                         {
                             ...res,
                             equipType:this.getEquipType(fc),
                             position: result && result.join(',')
                         },
                         ...this.$store.state.overall.alarmBox
-                    ])
+                    ]
+                    this.$store.dispatch('overall/saveAlarm',alaram_arr)
                 })
             });
         },

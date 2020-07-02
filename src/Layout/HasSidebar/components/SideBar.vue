@@ -4,7 +4,9 @@
         <div class="Sidebar_container" :style="{left:device==='mobile'&&!isCollapse?'':'-54px'}">
             <div class="app_title">
                 <p v-if="!isCollapse">{{projectName}}</p>
-                <i v-else class="el-icon-info" :title="projectName"></i>
+                <el-tooltip effect="light" :content="projectName" placement="right" v-else>
+                    <i class="el-icon-info"></i>
+                </el-tooltip>
             </div>
             <div :class="{foldSidebar: isCollapse}">
                 <el-menu 

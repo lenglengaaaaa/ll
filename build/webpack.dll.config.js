@@ -16,7 +16,9 @@ module.exports = {
             'nprogress',
             'jquery',
             'lodash',
-            'echarts'
+            'echarts',
+            'vuex-persistedstate',
+            'vue-infinite-scroll'
         ] 
     },
     output: {

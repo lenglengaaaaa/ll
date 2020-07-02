@@ -1,67 +1,99 @@
 <template>
-    <div class="notice-container">
-        <div class="notice-list">
-            <div class="notice-list" v-if="alarmBox.length">
-                <div class="notice-item" v-for="(item,index) in alarmBox" :key="index" @click="viewDetail(item)">
-                    <div class="notice-item-avatar">
-                        <img class="notice-item-avatar-icon" src="@images/notice.png" />
+    <el-popover
+        placement="bottom-end"
+        v-model="noticeVisible"
+        popper-class="header-popper"
+    >
+        <el-tabs :stretch="true" v-model="activeName">
+            <el-tab-pane label="告警信息" name="notice">
+                <div class="notice-container">
+                    <div class="notice-list">
+                        <div 
+                            class="notice-list-box" 
+                            v-if="alarmBox.length" 
+                        >
+                        <!-- v-infinite-scroll="load"
+                        infinite-scroll-immediate -->
+                            <div class="notice-item" v-for="(item,index) in alarmBox" :key="index" @click="viewDetail(item)">
+                                <div class="notice-item-avatar">
+                                    <img class="notice-item-avatar-icon" src="@images/notice.png" />
+                                </div>
+                                <div class="notice-item-content">
+                                    <h4 class="notice-item-content-title">
+                                        <strong>设备名称: </strong>{{item.devName}}
+                                        <div>
+                                            <strong>设备类型: </strong>
+                                            <span>{{item.equipType || '未知'}}</span>
+                                        </div>
+                                        <div>
+                                            <strong>所属项目: </strong>
+                                            <span :style="{fontWeight:'bold'}">{{item.projectName || '未知'}}</span>
+                                        </div>
+                                        <div >
+                                            <strong>告警信息: </strong>
+                                            <span class="notice-item-content-title-msg">{{item.alertMsg}}</span>
+                                        </div>
+                                        <div v-if="item.position">
+                                            <strong>经纬度: </strong>
+                                            <span>{{item.position}}</span>
+                                        </div>
+                                    </h4>
+                                    <div class="notice-item-content-description">
+                                        {{moment(item.time)}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <cc-empty v-else text=""></cc-empty>
                     </div>
-                    <div class="notice-item-content">
-                        <h4 class="notice-item-content-title">
-                            <strong>设备名称: </strong>{{item.devName}}
-                            <div>
-                                <strong>设备类型: </strong>
-                                <span>{{item.equipType || '未知'}}</span>
-                            </div>
-                            <div>
-                                <strong>所属项目: </strong>
-                                <span :style="{fontWeight:'bold'}">{{item.projectName || '未知'}}</span>
-                            </div>
-                            <div >
-                                <strong>告警信息: </strong>
-                                <span class="notice-item-content-title-msg">{{item.alertMsg}}</span>
-                            </div>
-                            <div v-if="item.position">
-                                <strong>经纬度: </strong>
-                                <span>{{item.position}}</span>
-                            </div>
-                        </h4>
-                        <div class="notice-item-content-description">
-                            {{moment(item.time)}}
+                    <div class="notice-list-bottomBar">
+                        <div >
+                            <el-switch
+                                v-model="alarmFlag"
+                                active-color="#13ce66"
+                                inactive-color="#ff4949"
+                                active-text="通知"
+                                inactive-text="关闭"
+                            >
+                            </el-switch>
+                        </div>
+                        <div @click="clearBox">
+                            清空通知
                         </div>
                     </div>
                 </div>
-            </div>
-            <cc-empty v-else text=""></cc-empty>
+            </el-tab-pane>
+        </el-tabs>
+        <div
+            class="icon-item"
+            slot="reference"
+        >   
+            <el-badge 
+                :is-dot="alarmBox.length?true:false"
+            >
+                <i class="el-icon-bell" title="告警信息"/>
+            </el-badge>
         </div>
-        <div class="notice-list-bottomBar">
-            <div >
-                <el-switch
-                    v-model="alarmFlag"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    active-text="通知"
-                    inactive-text="关闭"
-                >
-                </el-switch>
-            </div>
-            <div @click="clearBox">
-                清空通知
-            </div>
-        </div>
-    </div>
+    </el-popover>
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+
     export default {
         name: 'notice-list',
-        props: {
-            alarmBox:Array
-        },
         data() {
-            return {}
+            return {
+                noticeVisible: false,
+                activeName:'notice',
+                // count:0,
+                // data:[]
+            }
         },
         computed: {
+            ...mapState('overall',[
+                'alarmBox'
+            ]),
             alarmFlag:{
                 get(){
                     return this.$store.state.app.alarmFlag ;
@@ -72,6 +104,12 @@
             }
         },
         methods: {
+            // 考虑到数据不断的新增,不是固定不变,无限滚动不适用
+            // load(){
+            //     if(this.alarmBox.length <= this.count) return;
+            //     this.count += 10;
+            //     this.data = this.alarmBox.slice(0,this.count);
+            // },
             moment(time) {
                 return this.$moment(time).format('YYYY-MM-DD HH:mm:ss');
             },
@@ -109,7 +147,7 @@
 
     .notice-container {
         @include flex(column);
-        .notice-list {
+        .notice-list-box {
             max-height: 400px;
             overflow: auto;
             .notice-item {

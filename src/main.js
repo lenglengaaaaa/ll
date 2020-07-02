@@ -23,6 +23,11 @@ import mqtt from './utils/Mqtt'
 
 import App from './App'
 
+//无线滚动
+import infiniteScroll from "vue-infinite-scroll";
+Vue.use(infiniteScroll);
+
+
 // import _ from 'lodash'
 
 //挂载elemtnt-ui

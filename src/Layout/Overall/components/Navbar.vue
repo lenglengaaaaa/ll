@@ -50,29 +50,8 @@
                     </el-popover> -->
                     
                     <!-- 告警信息收集展示 -->
-                    <el-popover
-                        placement="bottom-end"
-                        v-model="noticeVisible"
-                        popper-class="header-popper"
-                    >
-                        <el-tabs :stretch="true" v-model="activeName">
-                            <el-tab-pane label="告警信息" name="notice">
-                                <Notice :alarmBox="alarmBox"/>
-                            </el-tab-pane>
-                        </el-tabs>
-                        <div
-                            class="icon-item"
-                            slot="reference"
-                        >   
-                            <!-- :value="alarmBox.length" :max="99" -->
+                    <Notice />
 
-                            <el-badge 
-                                :is-dot="alarmBox.length?true:false"
-                            >
-                                <i class="el-icon-bell" title="告警信息"/>
-                            </el-badge>
-                        </div>
-                    </el-popover>
                     <i class="el-icon-search" @click="flag = true" title="设备搜索"/>
                     <el-dropdown class="avatar-container" trigger="click">
                         <div class="avatar-wrapper">
@@ -136,8 +115,6 @@
                 fold:false,
                 username:'',
                 imagePath:require('@images/default.jpg'),
-                noticeVisible: false,
-                activeName:'notice',
                 codeStr:'',
                 userClient:null
             }
@@ -185,7 +162,6 @@
             ]),
             ...mapState('overall',[
                 'areaTree',
-                'alarmBox'
             ]),
             navbar(){
                 const arr = [
