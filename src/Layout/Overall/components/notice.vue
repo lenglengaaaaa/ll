@@ -182,7 +182,7 @@
                         }
                     }
                     &-description {
-                        color: rgba(0,0,0,.45);
+                        color: rgba(0,0,0,.65);
                         font-size: 14px;
                         line-height: 22px;
                     }

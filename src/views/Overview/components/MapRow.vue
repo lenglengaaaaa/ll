@@ -4,7 +4,8 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix" >
                     <span>设备地图</span>
-                    <el-button class="clearfix-right" type="text" @click="magnify('equip')">放大</el-button>
+                    <i class="el-icon-news" @click="magnify('equip')"/>
+                    <!-- <el-button class="clearfix-right" type="text" @click="magnify('equip')"> 放大 </el-button> -->
                 </div>
                 <cc-map  
                     vid="appliaction"
@@ -16,7 +17,8 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix" >
                     <span>网关地图</span>
-                    <el-button class="clearfix-right" type="text" @click="magnify('gateway')">放大</el-button>
+                    <i class="el-icon-news" @click="magnify('gateway')"/>
+                    <!-- <el-button class="clearfix-right" type="text" @click="magnify('gateway')"> 放大 </el-button> -->
                 </div>
                 <cc-map 
                     vid="gateway"
@@ -126,8 +128,19 @@
                     font-size: 0.8rem;
                     font-weight: bold;
                     color: #171717;
-                    &-right{
-                        float: right; padding: 3px 0
+                    // &-right{
+                    //     float: right; padding: 3px 0
+                    // }
+                    .el-icon-news{
+                        float: right; 
+                        padding: 3px 0;
+                        color: #000;
+                        font-size: 16px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        &:hover{
+                            color: #22a7f0;
+                        }
                     }
                 }
                 .el-card__body{

@@ -157,10 +157,18 @@
     .map{
         height: 500px;
     }
-    .info{
-        font-size: 14px;
-    }
+    
     .amap-info-content{
-        max-height: 250px;
+        max-height: 150px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 1px 1px rgba(189, 195, 199, 0.8);
+        .info{
+            font-size: 14px;
+            padding-bottom: 2px;
+        }
+        .amap-info-close{
+            display: none;
+        }
     }
 </style>

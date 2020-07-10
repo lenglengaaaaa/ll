@@ -70,7 +70,7 @@
                             position: result && result.join(',')
                         },
                         ...this.$store.state.overall.alarmBox
-                    ]
+                    ].slice(0,100)
                     this.$store.dispatch('overall/saveAlarm',alaram_arr)
                 })
             });
