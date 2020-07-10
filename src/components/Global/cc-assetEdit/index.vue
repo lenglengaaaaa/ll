@@ -86,7 +86,7 @@
             const checkNumber = (rule, value, callback) => {
                 if(this.editFlag)return callback();
                 const id = this.form.id || null
-                const obj ={id,num:value,type:this.type}
+                const obj ={ id,num:value,type:this.type}
                 if (!value) {
                     return callback(new Error('请输入资产编号'));
                 }
@@ -122,11 +122,12 @@
                 'areaTree',
             ]),
             id(){
-                const {data} = JSON.parse(sessionStorage.getItem('assetObj'));
-                return data.id;
+                const { data } = JSON.parse(sessionStorage.getItem('assetObj'));
+                return data.id || null;
             },
             projectId(){
-                return JSON.parse(sessionStorage.getItem('project')).id;
+                const project = JSON.parse(sessionStorage.getItem('project'));
+                return project? project.id : null;
             },
             editFlag(){
                 return JSON.parse(sessionStorage.getItem('assetObj')).editFlag;
