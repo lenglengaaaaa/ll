@@ -98,6 +98,7 @@
             iconClass(className) {
                 return `card-panel-icon-wrapper ${className}`
             }
+            //test
         },
     }
 </script>
