@@ -6,7 +6,7 @@
         }"
     >
         <div class="header">
-            <h1>全国消费情况大数据科技感页面</h1>
+            <h1>EIOT数据展示页面</h1>
             <div class="entrance">
                 <el-button 
                     size="small"
@@ -23,9 +23,11 @@
             <ul>
                 <li class="module">
                     <div class="boxall">
-                        <div class="alltitle">模块标题样式</div>
+                        <div class="alltitle">当前年份每月SOE数量</div>
                         <div class="allnav">
-                            <Echart1></Echart1>
+                            <Echart1
+                                :soeCount="soeCount"
+                            />
                         </div>
                         <div class="boxfoot"></div>
                     </div>
@@ -39,7 +41,7 @@
                     <div class="boxall">
                         <div class="alltitle">模块标题样式</div>
                         <div class="allnav">
-                            <Echart6    ></Echart6>
+                            <Echart6></Echart6>
                         </div>
                         <div class="boxfoot"></div>
                     </div>
@@ -103,6 +105,7 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex'
     import { ChinaChart, Echart1, Echart2, Echart3, Echart4, Echart5, Echart6} from './components'
 
     export default {
@@ -119,12 +122,33 @@
             return {
                 currentTime: '',
                 bg:require('@images/bg.png'),
+                soeCount:[]
             }
         },
         mounted () {
             this.getCurrentTime();
+            this.getSoe();
         },
         methods: {
+            ...mapActions('overall',[
+                'getEquipCount',
+                'getSoeCount',
+            ]),
+            //获取SOE数量
+            getSoe(){
+                let startTime = this.$moment().startOf('year').format('YYYY-MM-DD');
+                let endTime = this.$moment().endOf('year').format('YYYY-MM-DD');
+                this.getSoeCount({
+                    query:null,
+                    queryType:0,
+                    startTime,
+                    endTime,
+                    timeType:0
+                }).then(res=>{
+                    if(!res)return;
+                    this.soeCount = Object.values(res);
+                })
+            },
             getCurrentTime() {
                 var t = null;
                 const time = ()=>{

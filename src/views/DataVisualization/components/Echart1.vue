@@ -8,20 +8,34 @@
 <script>
     export default {
         name:"Echart1",
+        props: {
+            soeCount: {
+                type: Array,
+                default: ()=>[]
+            },
+        },
         data() {
             return {
                 chart:null
             }
         },
-        mounted() {
-            this.createChart();
+        watch: {
+            soeCount() {
+                this.createChart();
+            }
         },
-        beforeDestroy() {
-            if (!this.echart1) return
-            this.chart.dispose();
-            this.chart = null;
+        mounted() {
+            this.$once('hook:beforeDestroy', () => {
+                window.removeEventListener('resize',this.$_handleResizeChart)
+                if (!this.chart) return
+                this.chart.dispose();
+                this.chart = null;
+            })
         },
         methods: {
+            $_handleResizeChart(){
+                this.chart && this.chart.resize()
+            },
             createChart() {
                 this.chart = this.$echarts.init(this.$refs.echart1);
                 
@@ -41,7 +55,7 @@
                     },
                     xAxis: [{
                         type: "category",
-                        data: ["商超门店", "教育培训", "房地产", "生活服务", "汽车销售", "旅游酒店", "五金建材"],
+                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月' , '9月', '10月', '11月' ,'12月'],
                         axisLine: {
                             show: true,
                             lineStyle: {
@@ -91,7 +105,7 @@
                     }],
                     series: [{
                         type: "bar",
-                        data: [200, 300, 300, 900, 1500, 1200, 600],
+                        data: this.soeCount,
                         barWidth: "35%",
                         itemStyle: {
                             normal: {
@@ -99,13 +113,11 @@
                                 opacity: 1,
                                 barBorderRadius: 5,
                             }
-                        }
+                        },
                     }]
                 };
                 this.chart.setOption(option);
-                window.addEventListener('resize',()=>{
-                    this.chart && this.chart.resize()
-                },false);
+                window.addEventListener('resize',this.$_handleResizeChart);
             }
         },
     }
