@@ -9,7 +9,14 @@
 </template>
 
 <script>
-    import {Ring,CableTemp,Independent,Concentrator,Magic} from './components'
+    import {
+        Ring,
+        CableTemp,
+        Independent,
+        Concentrator,
+        Magic,
+        CablePile
+    } from './components'
 
     export default {
         props: {
@@ -27,7 +34,8 @@
             CableTemp,
             Independent,
             Concentrator,
-            Magic
+            Magic,
+            CablePile
         },
         data() {
             return {
@@ -54,6 +62,9 @@
                     //线缆温度传感器
                     case 38:
                         return CableTemp;
+                    //电缆定位桩
+                    case 40:
+                        return CablePile;
                     //独立传感器
                     default:
                         return Independent;

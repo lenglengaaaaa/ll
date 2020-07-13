@@ -156,8 +156,8 @@
             }
         },
         mounted () {
-            const {id} = JSON.parse(sessionStorage.getItem('project'));
-            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const { id } = JSON.parse(sessionStorage.getItem('project'));
+            const { data, editFlag } = JSON.parse(sessionStorage.getItem('equipObj'));
             this.projectId = id;
             this.editFlag = editFlag;
             this.form={
