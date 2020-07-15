@@ -34,7 +34,10 @@
                 <el-divider></el-divider>
                 <div class="content">
                     <div class="wrap">
-                        <Tline :lineData="lineData"/>
+                        <Tline 
+                            :lineloading="line_loading"
+                            :lineData="lineData"
+                        />
                     </div>
                 </div>
             </div>
@@ -114,7 +117,8 @@
                 sensorData:[],
                 client:null,
                 loading:false,
-                hasMagic:true
+                hasMagic:true,
+                line_loading:false
             }
         },
         created () {
@@ -178,7 +182,6 @@
                     assetId:trapId||id,
                     assetType:this.assetType
                 }).then(res=>{
-                    this.loading = false;
                     if( !res ){
                         this.magicData = {};
                         return;
@@ -187,15 +190,20 @@
                         data:currentDataFilter(res,'magic'),
                         createTime:res.createTime&&this.$moment(res.createTime).format('YYYY-MM-DD HH:mm:ss')
                     };
+                }).finally(res=>{
+                    this.loading = false;
                 })
             },
             //获取线缆实时数据
             getLineData(){
-                const {id,trapId} = this.assetObj;
+                this.line_loading = true;
+                const { id, trapId } = this.assetObj;
                 this.getLineCurrentData(trapId||id).then(res=>{
                     const { lineInfoList, lineDateMap } = res;
                     if( !res || !lineInfoList.length || !lineDateMap )return;
                     this.lineData = dataProcessing(lineInfoList,lineDateMap);
+                }).finally(res=>{
+                    this.line_loading = false;
                 })
             },
             //获取S800实时数据

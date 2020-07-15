@@ -1,49 +1,51 @@
 <template>
     <div>
         <el-divider content-position="left">线缆实时数据</el-divider>
-        <div v-if="lineData&&lineData.length">
-            <el-row :gutter="40">
-                <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
-                    <div class="info">
-                        <el-popover
-                            placement="bottom"
-                            width="200"
-                            trigger="click"
-                        >
-                            <div class="pop">
-                                <span v-for="(value,key) in item.data" :key="key">
-                                    <span>{{match(key,true)}} : </span>
-                                    <strong>
-                                        {{value.value?key==='shake'?value.value==1?'震动':'静止':value.value:'xx'}}
-                                        {{match(key)}}
-                                    </strong>
-                                </span>
-                            </div>  
-                            <el-button type="text" slot="reference" class="link">{{item.name}}</el-button>
-                        </el-popover>
-                        <strong class="msg">
-                            线缆温度:<span>{{item.data.lineTemp.value || '未知'}}</span>℃ &nbsp;&nbsp;
-                            <!-- 1震动 2静止 -->
-                            震动:
-                            <span 
-                                :style="{'color':item.data.shake.value==1&&'#f56c6c'}"
+        <div v-loading="lineloading">
+            <div v-if="lineData&&lineData.length">
+                <el-row :gutter="40">
+                    <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
+                        <div class="info">
+                            <el-popover
+                                placement="bottom"
+                                width="200"
+                                trigger="click"
                             >
-                                {{item.data.shake.value?item.data.shake.value==1?'震动':'静止':'未知'}}
+                                <div class="pop">
+                                    <span v-for="(value,key) in item.data" :key="key">
+                                        <span>{{match(key,true)}} : </span>
+                                        <strong>
+                                            {{value.value?key==='shake'?value.value==1?'震动':'静止':value.value:'xx'}}
+                                            {{match(key)}}
+                                        </strong>
+                                    </span>
+                                </div>  
+                                <el-button type="text" slot="reference" class="link">{{item.name}}</el-button>
+                            </el-popover>
+                            <strong class="msg">
+                                线缆温度:<span>{{item.data.lineTemp.value || '未知'}}</span>℃ &nbsp;&nbsp;
+                                <!-- 1震动 2静止 -->
+                                震动:
+                                <span 
+                                    :style="{'color':item.data.shake.value==1&&'#f56c6c'}"
+                                >
+                                    {{item.data.shake.value?item.data.shake.value==1?'震动':'静止':'未知'}}
+                                </span>
+                            </strong>
+                            <span class="time">
+                                数据上传时间 : <strong>{{item.createTime || '未知'}}</strong>
                             </span>
-                        </strong>
-                        <span class="time">
-                            数据上传时间 : <strong>{{item.createTime || '未知'}}</strong>
-                        </span>
-                        <el-progress 
-                            :percentage="Math.ceil(item.data.lineTemp.value) || 0" 
-                            :color="customColors" 
-                            :show-text="false"
-                        />
-                    </div>
-                </el-col>
-            </el-row>
+                            <el-progress 
+                                :percentage="Math.ceil(item.data.lineTemp.value) || 0" 
+                                :color="customColors" 
+                                :show-text="false"
+                            />
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+            <cc-empty text="无设备" v-else />
         </div>
-        <cc-empty text="无设备" v-else />
         <el-divider content-position="left">线缆历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">
@@ -97,7 +99,8 @@
             LineChart,
         },
         props: {
-            lineData: Array
+            lineData: Array,
+            lineloading:Boolean
         },
         data() {
             return {

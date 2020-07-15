@@ -41,13 +41,19 @@
                                             {{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A
                                         </span>
                                         <!-- N相不判断有压、失压 -->
+                                        <!-- projectId为50,贵阳项目临行调整 07-15 -->
                                         <span 
-                                            :style="{color:k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''}"
+                                            :style="{
+                                                color:
+                                                projectId == 50? '' :
+                                                k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''
+                                            }"
                                         >   
                                             <!-- !k.deviceAdress || !k.data ?  -->
                                             {{
                                                 !k.data ? 
                                                 '----' : 
+                                                projectId == 50 ? '有压' :
                                                 k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'失压':'有压'
                                             }}
                                         </span>
@@ -150,6 +156,11 @@
             const {id, name, hasExport} = JSON.parse(sessionStorage.getItem('obj'));
             this.title = name ;
             this.hasExport = hasExport;
+        },
+        computed: {
+            projectId() {
+                return JSON.parse(sessionStorage.getItem('project')).id;
+            }
         },
         watch: {
             switchList(arr) {
