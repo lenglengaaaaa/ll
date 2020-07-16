@@ -37,9 +37,6 @@
                     <div slot="header" class="clearfix"  >
                         <span>设备地图</span>
                     </div>
-                    <!-- <Mapbox
-                        :markers="marker"
-                    /> -->
                     <cc-map 
                         :marker="marker"
                         vid="apply"
@@ -54,13 +51,11 @@
 <script>
     import { SoeChart , CategoryChart} from '@/components/Charts'
     import { mapActions, mapState } from 'vuex'
-    import Mapbox from '@/components/Mapbox'
     
     export default {
         components: {
             SoeChart,
             CategoryChart,
-            Mapbox
         },
         data() {
             return {

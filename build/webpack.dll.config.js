@@ -18,9 +18,7 @@ module.exports = {
             'lodash',
             'echarts',
             'vuex-persistedstate',
-            'vue-infinite-scroll',
-            'mapbox-gl',
-            '@mapbox/mapbox-gl-language'
+            'vue-infinite-scroll'
         ] 
     },
     output: {
