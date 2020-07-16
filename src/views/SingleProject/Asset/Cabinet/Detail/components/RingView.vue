@@ -49,13 +49,7 @@
                                                 k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''
                                             }"
                                         >   
-                                            <!-- !k.deviceAdress || !k.data ?  -->
-                                            {{
-                                                !k.data ? 
-                                                '----' : 
-                                                projectId == 50 ? '有压' :
-                                                k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'失压':'有压'
-                                            }}
+                                            {{ judgeVoltage(k) }}
                                         </span>
                                     </div>
                                 </li>
@@ -175,6 +169,19 @@
                 'getRingHistoryData',
                 'getRingHistoryExecl'
             ]),
+            /**
+             * 判断有压无压
+             * A、B、C向显示为失压
+             * N向显示为无压
+             */
+            judgeVoltage(k){
+                if(!k.data) return '----';
+                // 贵州项目屏蔽(temp)
+                if( this.projectId == 50 ) return "有压";
+                if( k.outLineName === 'N' && k.data.decodeHex.lineV == '0') return "无压";
+                if( k.data.decodeHex.lineV == '0') return "失压";
+                return "有压"
+            },
             //选中出线
             selectOutLine(index,item) {
                 if(this.currentRing.switchId === item.switchId) return;
@@ -414,6 +421,11 @@
                 @media screen and (max-width: 1205px) {
                     .view{
                         align-items: flex-start;
+                    }
+                }
+                @media screen and (max-width: 870px) {
+                    .view{
+                        align-items: center;
                     }
                 }
                 .DATA_DETAIL{
