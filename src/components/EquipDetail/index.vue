@@ -78,6 +78,42 @@
                     </p>
                 </div>
             </div>
+            <div class="center">
+                <el-divider content-position="left">
+                    告警信息
+                    <el-tooltip 
+                        effect="dark" 
+                        placement="top-start" 
+                        content="显示最近七天内20条告警, 如需查看更久的告警信息请通过告警管理模块进行查询." 
+                    >
+                        <i class="el-icon-warning"/>
+                    </el-tooltip>
+                </el-divider>
+                <el-table
+                    :data="alarmList"
+                    border
+                    stripe
+                    max-height="250"
+                    empty-text="暂无数据"
+                >
+                    <el-table-column
+                        label="告警详情"
+                        align="center"
+                    >
+                        <template slot-scope="scope" >
+                            <span class="red">
+                                {{scope.row.decodeHex}}
+                            </span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="createTime"
+                        label="告警时间"
+                        align="center"
+                        :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
+                    />
+                </el-table>
+            </div>
             <div>
                 <cc-mapSingle 
                     vid="alarmDetail"
@@ -129,7 +165,8 @@
                     createTime:''
                 },
                 concentrator_data:{},
-                client:null
+                client:null,
+                alarmList:[]
             }
         },
         created () {
@@ -141,6 +178,7 @@
 
             //获取设备经纬度
             // this.getEquipPostion();
+            this.getEquipAlaramList(deviceAdress);
 
             if( deviceType == 33) this.isConcentrator(deviceAdress);
 
@@ -162,6 +200,7 @@
             ]),
             ...mapActions('overall',[
                 'getGeocode',
+                'getAlarmList'
             ]),
             //获取数据
             getData(target) {
@@ -238,6 +277,18 @@
                         }
                     }
                 })
+            },
+            getEquipAlaramList(deviceAdress){
+                this.getAlarmList({
+                    current:1,
+                    size:20,
+                    status:null,
+                    projectId:this.projectId,
+                    filterStr:deviceAdress
+                }).then(res=>{
+                    if(!res)return;
+                    this.alarmList = res.data;
+                })
             }
         },
     }
@@ -291,6 +342,9 @@
                         color: red;
                     }
                 }
+            }
+            .center{
+                margin-bottom: 15px;
             }
         }
     }

@@ -1,31 +1,33 @@
 <template>
     <div class="s800">
         <el-divider content-position="left">红外、烟雾、液位等实时数据</el-divider>
-        <div v-if="sensorData&&sensorData.length">
-            <el-row :gutter="20">
-                <el-col :span="8" :xs="24" v-for="(item,d) in sensorData" :key="d">
-                    <el-card class="box-card">
-                        <div slot="header" class="header">
-                            <div>{{item.name}}</div>
-                            <span>设备编号 : <strong>{{item.number || '未知'}}</strong></span>
-                            <span>数据上传时间 : <strong>{{item.createTime || '未知'}}</strong></span>
-                        </div>
-                        <div v-for="(value,key) in item.data" :key="key" class="text">
-                            <span>
-                                <span>{{match(key,true)}} : </span>
-                                <strong
-                                    :style="{'color':renderColor(key,value)}"
-                                >
-                                    {{getStatus(key,value) || 'xx'}}
-                                    {{match(key)}}
-                                </strong>
-                            </span>
-                        </div>
-                    </el-card>
-                </el-col>
-            </el-row>
+        <div v-loading="sensorLoading">
+            <div v-if="sensorData&&sensorData.length">
+                <el-row :gutter="20">
+                    <el-col :span="8" :xs="24" v-for="(item,d) in sensorData" :key="d">
+                        <el-card class="box-card">
+                            <div slot="header" class="header">
+                                <div>{{item.name}}</div>
+                                <span>设备编号 : <strong>{{item.number || '未知'}}</strong></span>
+                                <span>数据上传时间 : <strong>{{item.createTime || '未知'}}</strong></span>
+                            </div>
+                            <div v-for="(value,key) in item.data" :key="key" class="text">
+                                <span>
+                                    <span>{{match(key,true)}} : </span>
+                                    <strong
+                                        :style="{'color':renderColor(key,value)}"
+                                    >
+                                        {{getStatus(key,value) || 'xx'}}
+                                        {{match(key)}}
+                                    </strong>
+                                </span>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
+            </div>
+            <cc-empty text="无设备" v-else />
         </div>
-        <cc-empty text="无设备" v-else />
         <el-divider content-position="left">红外、烟雾、液位等历史数据</el-divider>
         <div class="seletGroup">
             <el-form label-position="top">
@@ -76,7 +78,8 @@
     export default {
         props: {
             sensorData: Array,
-            sensorType:String
+            sensorType:String,
+            sensorLoading:Boolean
         },
         mixins:[SensorMixin,Throttle],
         data() {

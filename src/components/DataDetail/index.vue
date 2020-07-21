@@ -35,7 +35,7 @@
                 <div class="content">
                     <div class="wrap">
                         <Tline 
-                            :lineloading="line_loading"
+                            :lineLoading="line_loading"
                             :lineData="lineData"
                         />
                     </div>
@@ -51,6 +51,7 @@
                         <S800
                             :sEightData="sEightData"
                             :assetType="assetType"
+                            :s800Loading="s800_loading"
                         />
                     </div>
                 </div>
@@ -71,6 +72,7 @@
                             :sensorData="sensorData"
                             :assetType="assetType"
                             :sensorType="sensorType"
+                            :sensorLoading="sensor_loading"
                         />
                     </div>
                 </div>
@@ -118,7 +120,9 @@
                 client:null,
                 loading:false,
                 hasMagic:true,
-                line_loading:false
+                line_loading:false,
+                sensor_loading:false,
+                s800_loading:false
             }
         },
         created () {
@@ -208,6 +212,7 @@
             },
             //获取S800实时数据
             getS800Data(){
+                this.s800_loading = true;
                 const {id,trapId} = this.assetObj;
                 this.gets800CurrentData({
                     assetId:trapId||id,
@@ -216,10 +221,13 @@
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length ) return;
                     this.sEightData = dataProcessing(deviceInfoList,dataMap,'s800');
+                }).finally(res=>{
+                    this.s800_loading = false;
                 })
             },
             //获取资产下的红外、烟感等设备实时数据
             getSensorData(){
+                this.sensor_loading = true;
                 const {id,trapId} = this.assetObj;
                 const params = { assetId:trapId || id, assetType:this.assetType };
                 const func = {
@@ -231,6 +239,8 @@
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
                     this.sensorData = dataProcessing(deviceInfoList,dataMap,'sensor');
+                }).finally(res=>{
+                    this.sensor_loading = false;
                 })
             },
             //MQTT数据处理

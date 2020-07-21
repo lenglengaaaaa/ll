@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-divider content-position="left">线缆实时数据</el-divider>
-        <div v-loading="lineloading">
+        <div v-loading="lineLoading">
             <div v-if="lineData&&lineData.length">
                 <el-row :gutter="40">
                     <el-col :span="12" :xs="24" v-for="(item,d) in lineData" :key="d">
@@ -100,7 +100,7 @@
         },
         props: {
             lineData: Array,
-            lineloading:Boolean
+            lineLoading:Boolean
         },
         data() {
             return {

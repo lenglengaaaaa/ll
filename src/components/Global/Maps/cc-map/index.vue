@@ -7,6 +7,7 @@
 
 <script>
     import AMap from "@/utils/AMap"
+    import equipIcon from "@images/equip_icon.png"
 
     const center = window.$cfg.mapCenter;
 
@@ -48,7 +49,7 @@
                     await this.marker;
                     this.infoWindow = new this.resMap.InfoWindow({
                         closeWhenClickMap:true,
-                        offset: new this.resMap.Pixel(-4, -30)}
+                        offset: new this.resMap.Pixel(2, -30)}
                     );
                     this.map = new this.resMap.Map(this.vid, {
                         resizeEnable: true, //是否监控地图容器尺寸变化
@@ -85,7 +86,7 @@
                     .filter(item=> item.longitude && item.latitude)
                     .map(item=>{
                     let point = new this.resMap.Marker({
-                        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                        icon: equipIcon,
                         position:  [ item.longitude, item.latitude ],
                         offset: new this.resMap.Pixel(-13, -30),
                     });
@@ -110,7 +111,7 @@
             },
             //点聚合点击事件
             clusterClick(e){
-                const {markers} = e;
+                const { markers } = e;
                 let html ='';
                 markers.forEach(item=>{
                     html += `
