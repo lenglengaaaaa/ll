@@ -73,7 +73,6 @@
                     label="设备名称"
                     align="center"
                     show-overflow-tooltip
-                    width="180"
                 >
                     <template slot-scope="scope">
                         <el-link 

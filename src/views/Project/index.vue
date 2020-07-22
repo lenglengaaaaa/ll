@@ -24,7 +24,9 @@
                     align="center"
                 >
                     <template slot-scope="scope">
-                        <el-link type="primary" @click="skipToDetail(scope.row)" v-if="!scope.row.isDelete">{{scope.row.name}}</el-link>
+                        <el-link type="primary" @click="skipToDetail(scope.row)" v-if="!scope.row.isDelete">
+                            {{scope.row.name}}
+                        </el-link>
                         <span v-else>{{scope.row.name}}</span>
                     </template>
                 </el-table-column>
