@@ -385,9 +385,9 @@
                 this.current = 1;
                 const val = this.input.replace(/ /g,'');
                 this.getListData({
-                    filterStr:val,
+                    filterStr:val || null,
                     current:1
-                })
+                });
             },500),
             //切换显示个数
             handleSizeChange(val) {
