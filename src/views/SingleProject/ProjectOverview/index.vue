@@ -223,11 +223,11 @@
                         font-weight: bold;
                         color: #171717;
                     }
-                    .map{
+                    .map_all{
                         height: calc(100% - 0px) ;
                     }
                     @media screen and (max-width: 870px){
-                        .map{
+                        .map_all{
                             height: 500px;
                         }
                     }

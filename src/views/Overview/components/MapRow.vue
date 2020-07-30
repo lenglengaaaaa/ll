@@ -175,7 +175,7 @@
         .el-dialog__body{
             padding: 0px;
             height: calc(100vh - 20vh);
-            .map{
+            .map_all{
                 height: calc(100% - 0px);
             }
         }
