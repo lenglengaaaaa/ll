@@ -684,12 +684,12 @@ const actions= {
     },
 
     /**
-     * 获取低压集中器的实时数据
+     * 获取低压集中器/电缆定位桩的实时数据
      * @param assetId 资产ID
      * @param assetType 资产类型,0配电柜,1配电房,2井盖
      * @param deviceAddress 设备地址域
      */
-    getConcentratorCurrent({commit},obj){
+    getOtherCurrentData({commit},obj){
         return request({
             method:'post',
             url:`${api.get_concentrator_current}`,
@@ -705,7 +705,7 @@ const actions= {
     },
 
     /**
-     * 获取低压集中器的历史数据
+     * 获取低压集中器/电缆定位桩的历史数据
      * @param assetId 资产ID
      * @param assetType 资产类型,0配电柜,1配电房,2井盖
      * @param deviceAddress 设备地址域
@@ -713,7 +713,7 @@ const actions= {
      * @param endTime 结束时间
      * @param key 查询的采集项key
      */
-    getConcentratorHistory({commit},obj){
+    getOtherHistoryData({commit},obj){
         return request({
             method:'post',
             url:`${api.get_concentrator_history}`,

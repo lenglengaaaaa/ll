@@ -1,13 +1,14 @@
 <template>
     <div 
         :id="vid" 
-        class="map"
+        class="map_all"
     />
 </template>
 
 <script>
-    import AMap from "@/utils/AMap"
-    import equipIcon from "@images/equip_icon.png"
+    import AMap from "@/utils/AMap";
+    import equipIcon from "@images/equip_icon.png";
+    import CablePile from "@images/Cable/skewing.png";
 
     const center = window.$cfg.mapCenter;
 
@@ -85,17 +86,32 @@
                 this.marker
                     .filter(item=> item.longitude && item.latitude)
                     .map(item=>{
-                    let point = new this.resMap.Marker({
-                        icon: equipIcon,
-                        position:  [ item.longitude, item.latitude ],
-                        offset: new this.resMap.Pixel(-13, -30),
-                    });
-                    this.markers.push(point);
-                    point.content = item.name;
-                    point.on('click', this.markerClick);
-                    this.map.add(point);
-                })
+                        const equipType = item.deviceAdress && item.deviceAdress.slice(0,2) || null;
+                        // equipType为40,为电缆装设备.
+                        let point = new this.resMap.Marker({
+                            icon: equipType == "40"? CablePile: equipIcon,
+                            // content:`
+                            //     <img src="${CablePile}"/>
+                            // `,
+                            position:  [ item.longitude, item.latitude ],
+                            offset: new this.resMap.Pixel(-13, -30),
+                            angle: equipType == "40" ? 45 :0 //点标记的旋转角度,电缆桩倾斜角度.
+                        });
+                        this.markers.push(point);
+                        point.content = {
+                            name:item.name,
+                            deviceAdress:item.deviceAdress || null
+                        };
+                        point.on('click', this.markerClick);
+                        this.map.add(point);
+                    })
                 this.map.setFitView();
+
+                // 如需要, 实时更新点坐标状态
+                // setTimeout(()=>{
+                //     const provisional = this.markers.filter(item => item.content.deviceAdress === "301900000320")[0];
+                //     provisional && provisional.setAngle(45);
+                // },500)
             },
             //点坐标点击事件
             markerClick(e) {
@@ -104,7 +120,7 @@
                         <strong>
                             设备名称 :
                         </strong>
-                        <span>${e.target.content}</span>
+                        <span>${e.target.content.name}</span>
                     </div>
                 `);
                 this.infoWindow.open(this.map, e.target.getPosition());
@@ -155,8 +171,16 @@
 </script>
 
 <style lang="scss">
-    .map{
+    .map_all{
         height: 500px;
+        .amap-icon,.amap-marker-content{
+            img{
+                width: 35px;
+                height: 35px;
+                // transform: rotate(45deg);
+            }
+        }
+
     }
     
     .amap-info-content{
