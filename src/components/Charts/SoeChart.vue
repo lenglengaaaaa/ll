@@ -19,8 +19,10 @@
             }
         },
         mounted() {
-            this.chart = this.$echarts.init(this.$refs.soeChart);
-            setTimeout(()=>{this.initChart()})
+            this.$nextTick(()=>{
+                this.chart = this.$echarts.init(this.$refs.soeChart);
+                this.initChart();
+            })
             
             window.addEventListener('resize',this.$_handleResizeChart);
             this.$once('hook:beforeDestroy', () => {

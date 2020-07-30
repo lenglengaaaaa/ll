@@ -16,9 +16,11 @@
             }
         },
         mounted() {
-            this.chart = this.$echarts.init(this.$refs.categoryChart);
-            setTimeout(()=>{ this.initChart() });
-
+            this.$nextTick(()=>{
+                this.chart = this.$echarts.init(this.$refs.categoryChart);
+                this.initChart();
+            })
+            
             window.addEventListener('resize',this.$_handleResizeChart);
             this.$once('hook:beforeDestroy', () => {
                 window.removeEventListener('resize',this.$_handleResizeChart)

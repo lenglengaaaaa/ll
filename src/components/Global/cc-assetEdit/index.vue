@@ -137,7 +137,8 @@
             submit() {
                 this.$refs.assetForm.validate((valid) => {
                     if (valid) {
-                        const location = `${this.form.city.join(',')},${this.form.location}`
+                        const { city } = this.form;
+                        const location = `${city.length? city.join(','): ""},${this.form.location || ""}`
                         const data ={
                             ...this.form,
                             location,
