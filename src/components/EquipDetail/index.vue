@@ -78,6 +78,33 @@
                     </p>
                 </div>
             </div>
+            <div class="center" v-if="equipObj.deviceType == 40">
+                <el-divider content-position="left"> 实时数据 </el-divider>
+                <div class="intro">
+                    <p>
+                        <strong>上报时间 :</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{ gaugePile_data && gaugePile_data.createTime || '---'}}
+                        </span>
+                    </p>
+                    <p>
+                        <strong>电池电压(V)</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{
+                                `${(gaugePile_data && gaugePile_data.v && gaugePile_data.v.keyValue) || '---'} V`
+                            }}
+                        </span>
+                    </p>
+                    <p>
+                        <strong>光照强度(lx)</strong>
+                        <span :style="{fontWeight:'bold'}">
+                            {{
+                                `${(gaugePile_data && gaugePile_data.signalNB && gaugePile_data.signalNB.keyValue) || '---'} lx`
+                            }}
+                        </span>
+                    </p>
+                </div>
+            </div>
             <div class="center">
                 <el-divider content-position="left">
                     告警信息
@@ -165,6 +192,7 @@
                     createTime:''
                 },
                 concentrator_data:{},
+                gaugePile_data:{},
                 client:null,
                 alarmList:[]
             }
@@ -180,7 +208,8 @@
             // this.getEquipPostion();
             this.getEquipAlaramList(deviceAdress);
 
-            if( deviceType == 33) this.isConcentrator(deviceAdress);
+            // 集中器33 or 电缆桩40 时有实时数据
+            if( deviceType == 33 || deviceType == 40) this.hasCurrentandHistory( deviceAdress, deviceType );
 
         },
         destroyed () {
@@ -196,7 +225,8 @@
         },
         methods: {
             ...mapActions('equip',[
-                'getConcentratorCurrent',
+                'getOtherCurrentData',
+                'getOtherHistoryData'
             ]),
             ...mapActions('overall',[
                 'getGeocode',
@@ -242,38 +272,64 @@
             //         this.single.position = [ longitude, latitude];
             //     }
             // },
-            //如果是类型是集中器
-            isConcentrator(deviceAdress){
+            // 有实时数据以及历史数据(现用于集中器 & 定位桩)
+            hasCurrentandHistory( deviceAdress, deviceType ){
                 //通过接口获取实时数据
-                this.getConcentratorCurrent({
+                this.getOtherCurrentData({
                     deviceAddress: deviceAdress
                 }).then(res=>{
                     if(!res) return;
                     const { dataMap } = res;
 
                     if( !Object.keys(dataMap).length ) return;
-                    this.concentrator_data = {
-                        ...dataMap[deviceAdress],
-                        signalNB:{
-                            keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
-                        },
-                        createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
-                    };
+
+                    if( deviceType == 33 ){
+                        this.concentrator_data = {
+                            ...dataMap[deviceAdress],
+                            signalNB:{
+                                keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
+                            },
+                            createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
+                        };
+                    }else{
+                        // this.gaugePile_data = {
+                        //     ...dataMap[deviceAdress],
+                        //     signalNB:{
+                        //         keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
+                        //     },
+                        //     createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
+                        // };
+                    }
                 })
 
                 //通过Mqtt获取实时数据
                 this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
                 this.$mqtt.listen(this.client,res=>{
                     const { data, fc, address, time } = res;
-                    if( fc != 33 || address != deviceAdress ) return;
-                    console.log(res,'集中器数据')
-                    this.concentrator_data = {
-                        createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                        signalNB:{ 
-                            keyValue:data.signalNB * 2 - 113
-                        },
-                        v:{ 
-                            keyValue:data.v 
+                    if( fc != 33 || fc != 40 || address != deviceAdress ) return;
+
+                    if( fc == 33 ){
+                        console.log(res,'集中器数据')
+                        this.concentrator_data = {
+                            createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                            signalNB:{ 
+                                keyValue:data.signalNB * 2 - 113
+                            },
+                            v:{ 
+                                keyValue:data.v 
+                            }
+                        }
+                    }
+                    if( fc == 40 ){
+                        console.log(res,'电缆定位桩数据')
+                        this.gaugePile_data = {
+                            createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                            signalNB:{ 
+                                keyValue:data.signalNB * 2 - 113
+                            },
+                            v:{ 
+                                keyValue:data.v 
+                            }
                         }
                     }
                 })
