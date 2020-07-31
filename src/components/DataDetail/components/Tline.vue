@@ -89,7 +89,7 @@
 </template>
 
 <script>
-    import {LineChart} from '@/components/Charts'
+    import { LineChart } from '@/components/Charts';
     import { lastDataFilter } from '@/utils/methods'
     import Throttle from './mixin/Throttle'
 
@@ -147,7 +147,7 @@
                     lineChart.hideLoading();
                     this.loading = false;
 
-                    const {lineInfoList,lineDateMap} = res;
+                    const { lineInfoList, lineDateMap } = res;
                     if(!res || !lineInfoList.length)return;
                     const {result,timeResult} = lastDataFilter({
                         list:lineInfoList,

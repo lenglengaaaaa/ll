@@ -66,15 +66,8 @@ const actions= {
             }
         }).then(res=>{
             if(res&&res.code===10000000){
-                let temporary_data = [
-                    ...res.data,
-                    {
-                        id: 40,
-                        value: "电缆定位桩"
-                    }
-                ]
-                commit('SET_MENU', temporary_data)
-                return temporary_data;
+                commit('SET_MENU', res.data);
+                return res.data;
             }else{
                 res&&tip(res.meassage)
                 return false;

@@ -114,7 +114,12 @@
                     
                     const {deviceInfoList,dataMap} = res;
                     if(!res || !deviceInfoList.length)return;
-                    const {result,timeResult} = lastDataFilter({list:deviceInfoList,data:dataMap,startTime,endTime})
+                    const { result, timeResult } = lastDataFilter({
+                        list:deviceInfoList,
+                        data:dataMap,
+                        startTime,
+                        endTime
+                    })
                     this.timeArray = timeResult;
                     this.currentValue = result;
                 })

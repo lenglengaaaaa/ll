@@ -51,58 +51,92 @@
                     </p>
                 </div>
             </div>
-            <div class="center" v-if="equipObj.deviceType == 33">
+            <div class="center">
                 <el-divider content-position="left">实时数据</el-divider>
                 <div class="intro">
                     <p>
                         <strong>上报时间 :</strong>
                         <span :style="{fontWeight:'bold'}">
-                            {{ concentrator_data && concentrator_data.createTime || '---'}}
+                            {{ device_data.createTime || '---'}}
                         </span>
                     </p>
-                    <p>
-                        <strong>电压(V)</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{
-                                `${(concentrator_data && concentrator_data.v &&concentrator_data.v.keyValue) || '---'} V`
-                            }}
-                        </span>
-                    </p>
-                    <p>
-                        <strong>信号强度(dbm)</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{
-                                `${(concentrator_data && concentrator_data.signalNB &&concentrator_data.signalNB.keyValue) || '---'} dbm`
-                            }}
-                        </span>
-                    </p>
+                    
+                    <!-- 集中器 -->
+                    <template v-if="equipObj.deviceType == 33">
+                        <p>
+                            <strong>电压(V)</strong>
+                            <span :style="{fontWeight:'bold'}">
+                                {{ `${( device_data.v && device_data.v.keyValue ) || '---'} V` }}
+                            </span>
+                        </p>
+                        <p>
+                            <strong>信号强度(csq)</strong>
+                            <span :style="{fontWeight:'bold'}">
+                                {{ `${( device_data.signalNB && device_data.signalNB.keyValue ) || '---'} csq` }}
+                            </span>
+                        </p>
+                    </template>
+
+                    <!-- 电缆定位桩 -->
+                    <template v-else>
+                        <p>
+                            <strong>电池电压(V)</strong>
+                            <span :style="{fontWeight:'bold'}">
+                                {{ `${( device_data.batteryV && device_data.batteryV.keyValue) || '---'} V` }}
+                            </span>
+                        </p>
+                        <p>
+                            <strong>光照强度(lx)</strong>
+                            <span :style="{fontWeight:'bold'}">
+                                {{
+                                    `${
+                                        device_data.signalNB && device_data.illumination.keyValue? 
+                                            device_data.illumination.keyValue == 0? "无": "有": '---'
+                                    }`
+                                }}
+                            </span>
+                        </p>
+                    </template>
                 </div>
             </div>
-            <div class="center" v-if="equipObj.deviceType == 40">
-                <el-divider content-position="left"> 实时数据 </el-divider>
-                <div class="intro">
-                    <p>
-                        <strong>上报时间 :</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{ gaugePile_data && gaugePile_data.createTime || '---'}}
-                        </span>
-                    </p>
-                    <p>
-                        <strong>电池电压(V)</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{
-                                `${(gaugePile_data && gaugePile_data.v && gaugePile_data.v.keyValue) || '---'} V`
-                            }}
-                        </span>
-                    </p>
-                    <p>
-                        <strong>光照强度(lx)</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{
-                                `${(gaugePile_data && gaugePile_data.signalNB && gaugePile_data.signalNB.keyValue) || '---'} lx`
-                            }}
-                        </span>
-                    </p>
+            <div  class="center" v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40">
+                <el-divider content-position="left">历史数据</el-divider>
+                <div>
+                    <div class="seletGroup">
+                        <el-form label-position="top">
+                            <el-form-item label="环境变量:">
+                                <el-select v-model="value" @change="changeParam">
+                                    <el-option
+                                        v-for="item in (equipObj.deviceType==33? conOptions: pileOptions)"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    />
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="时间段:">
+                                <el-date-picker
+                                    v-model="time"
+                                    type="datetimerange"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    range-separator="至"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    :clearable="false"
+                                    @change="changeDate"
+                                    :disabled="loading"
+                                >
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                    <LineChart
+                        id="line"
+                        ref="lineChart"
+                        :value="currentValue"
+                        :timeArray="timeArray"
+                    />
                 </div>
             </div>
             <div class="center">
@@ -155,6 +189,8 @@
 
 <script>
     import { mapActions } from 'vuex';
+    import { LineChart } from '@/components/Charts'
+    import { lastDataFilter } from '@/utils/methods'
 
     export default {
         props: {
@@ -166,6 +202,9 @@
                 type:Function,
                 default:()=>{}
             }   
+        },
+        components: {
+            LineChart,
         },
         data() {
             return {
@@ -193,8 +232,25 @@
                 },
                 concentrator_data:{},
                 gaugePile_data:{},
+                device_data:{},
                 client:null,
-                alarmList:[]
+                alarmList:[],
+                time: [
+                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
+                    this.$moment().format('YYYY-MM-DD 23:59:59')
+                ],
+                timeArray:[],
+                currentValue:[],
+                conOptions: [
+                    {value: 'v',label: '电压'}, 
+                    {value: 'signalNB',label: '信号强度'}
+                ],
+                pileOptions:[
+                    {value: 'batteryV',label: '电池电压'}, 
+                    {value: 'illumination',label: '光照强度'}
+                ],
+                value: 'v',
+                loading:false
             }
         },
         created () {
@@ -209,8 +265,12 @@
             this.getEquipAlaramList(deviceAdress);
 
             // 集中器33 or 电缆桩40 时有实时数据
-            if( deviceType == 33 || deviceType == 40) this.hasCurrentandHistory( deviceAdress, deviceType );
-
+            this.$nextTick(res=>{
+                this.hasCurrentandHistory({
+                    deviceAdress,
+                    deviceType
+                })
+            })
         },
         destroyed () {
             this.client && this.client.end();
@@ -272,8 +332,13 @@
             //         this.single.position = [ longitude, latitude];
             //     }
             // },
-            // 有实时数据以及历史数据(现用于集中器 & 定位桩)
-            hasCurrentandHistory( deviceAdress, deviceType ){
+
+            // 有实时数据以及历史数据(现仅用于集中器 & 定位桩)
+            hasCurrentandHistory( params ){
+                const { deviceAdress, deviceType } = params;
+                
+                if( deviceType != 33 && deviceType != 40 )  return;
+
                 //通过接口获取实时数据
                 this.getOtherCurrentData({
                     deviceAddress: deviceAdress
@@ -283,22 +348,9 @@
 
                     if( !Object.keys(dataMap).length ) return;
 
-                    if( deviceType == 33 ){
-                        this.concentrator_data = {
-                            ...dataMap[deviceAdress],
-                            signalNB:{
-                                keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
-                            },
-                            createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
-                        };
-                    }else{
-                        // this.gaugePile_data = {
-                        //     ...dataMap[deviceAdress],
-                        //     signalNB:{
-                        //         keyValue:dataMap[deviceAdress].signalNB.keyValue * 2 - 113
-                        //     },
-                        //     createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
-                        // };
+                    this.device_data = {
+                        ...dataMap[deviceAdress],
+                        createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
                     }
                 })
 
@@ -306,34 +358,74 @@
                 this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
                 this.$mqtt.listen(this.client,res=>{
                     const { data, fc, address, time } = res;
-                    if( fc != 33 || fc != 40 || address != deviceAdress ) return;
 
-                    if( fc == 33 ){
-                        console.log(res,'集中器数据')
-                        this.concentrator_data = {
-                            createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                            signalNB:{ 
-                                keyValue:data.signalNB * 2 - 113
-                            },
-                            v:{ 
-                                keyValue:data.v 
-                            }
-                        }
-                    }
-                    if( fc == 40 ){
-                        console.log(res,'电缆定位桩数据')
-                        this.gaugePile_data = {
-                            createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                            signalNB:{ 
-                                keyValue:data.signalNB * 2 - 113
-                            },
-                            v:{ 
-                                keyValue:data.v 
-                            }
-                        }
+                    if( (fc != 33 && fc != 40) || address != deviceAdress ) return;
+                    
+                    console.log(res,fc == 33? "集中器数据": "电缆定位桩数据");
+                    this.device_data = {
+                        createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                        signalNB:{ keyValue: data.signalNB || null },
+                        v:{ keyValue:data.v || null },
+                        illumination:{ keyValue: data.illumination || null },
+                        batteryV:{ keyValue: data.batteryV || null }
                     }
                 })
+
+                // 判断是集中器还是定位桩类型
+                this.value = deviceType == 33 ? "v" : "batteryV"; 
+
+                // 获取历史数据
+                this.getDeviceHistoryData();
+
+                
             },
+            // 获取设备历史数据
+            getDeviceHistoryData(){
+                const { deviceAdress, deviceType } = this.equipObj;
+                const [ startTime, endTime] = this.time;
+
+                const lineChart = this.$refs.lineChart && this.$refs.lineChart.chart;
+                lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
+                this.loading = true;
+
+                this.getOtherHistoryData({
+                    deviceAddress: deviceAdress,
+                    startTime,
+                    endTime,
+                    key:this.value
+                }).then(res=>{
+                    if( !res ) return;
+
+                    const { dataMap, deviceInfoList } = res;
+                    if( !deviceInfoList.length )return;
+
+                    const { result, timeResult } = lastDataFilter({
+                        list:deviceInfoList,
+                        data:dataMap,
+                        startTime,
+                        endTime
+                    });
+
+                    this.timeArray = timeResult;
+                    this.currentValue = result;
+                }).finally(res=>{
+                    lineChart.hideLoading();
+                    this.loading = false;
+                })
+            },
+            //切换日期
+            changeDate(date){
+                if( !date )return;
+                this.time = [ date[0], date[1] ];
+                this.getDeviceHistoryData();
+            },
+            //切换环境变量
+            changeParam(val){
+                this.value = val;
+                this.getDeviceHistoryData();
+            },
+
+            // 获取告警列表
             getEquipAlaramList(deviceAdress){
                 this.getAlarmList({
                     current:1,
@@ -401,6 +493,24 @@
             }
             .center{
                 margin-bottom: 15px;
+                .seletGroup{
+                    display: flex;
+                    align-items: center;
+                    .el-form{
+                        width: 100%;
+                        display: flex;
+                        .el-form-item{
+                            padding: 0 10px;
+                        }
+                    }
+                }
+                @media screen and (max-width: 650px) {
+                    .seletGroup{
+                        .el-form{
+                            flex-direction: column;
+                        }
+                    }
+                }
             }
         }
     }
