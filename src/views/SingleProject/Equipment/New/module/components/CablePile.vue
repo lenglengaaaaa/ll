@@ -4,14 +4,20 @@
         :next="next" 
         :pre="pre"
     >
-        <!-- <template>
-            <el-form-item label="所属资产类型">
-                <el-select v-model="form.assetType" @change="assetTypeChange">
-                    <el-option label="井盖" :value="0"></el-option>
-                    <el-option label="台区" :value="1"></el-option>
-                </el-select>
+        <template>
+            <el-form-item 
+                :label="`设备EUI(请填写${form.commWay===0?15:16}位设备EUI)`" 
+                prop="deviceEui"
+                v-if="!form.isSingle"
+            >
+                <el-input 
+                    v-model="form.deviceEui" 
+                    :placeholder="form.commWay===0?'000000000000000':'0000000000000000'" 
+                    :maxlength="form.commWay===0?15:16"
+                    :disabled="editFlag"
+                />
             </el-form-item>
-        </template> -->
+        </template>
     </cc-equipForm>
 </template>
 
@@ -29,7 +35,8 @@
             return {
                 form: {
                     commWay:0
-                }
+                },
+                editFlag:false
             }
         },
         mounted () {

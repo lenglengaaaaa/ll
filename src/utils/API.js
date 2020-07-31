@@ -336,13 +336,13 @@ export const api={
     update_concentrator_bindinig:`${analy_url}/api/device/updateBind`,
 
     //3.3.16 获取低压集中器的实时数据 post
-    get_concentrator_current:`${url}/e_view/data/statistics/lpconCentrator/current`,
+    get_other_current:`${url}/e_view/data/statistics/lpconCentrator/current`,
 
     //3.3.17 获取低压集中器的历史数据 post
-    get_concentrator_history:`${url}/e_view/data/statistics/lpconCentrator/history`,
+    get_other_history:`${url}/e_view/data/statistics/lpconCentrator/history`,
 
     //5.8 导出低压传感器历史数据 post
-    export_concentrator_history:`${url}/e_view/data/statistics/lpconCentrator/history/execl`,
+    export_other_history:`${url}/e_view/data/statistics/lpconCentrator/history/execl`,
 
     //=======================================阈值设置=====================================================
 

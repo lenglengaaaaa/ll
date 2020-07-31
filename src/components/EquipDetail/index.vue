@@ -51,94 +51,100 @@
                     </p>
                 </div>
             </div>
-            <div class="center">
-                <el-divider content-position="left">实时数据</el-divider>
-                <div class="intro">
-                    <p>
-                        <strong>上报时间 :</strong>
-                        <span :style="{fontWeight:'bold'}">
-                            {{ device_data.createTime || '---'}}
-                        </span>
-                    </p>
-                    
-                    <!-- 集中器 -->
-                    <template v-if="equipObj.deviceType == 33">
+            <template v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40">
+                <div class="center" >
+                    <el-divider content-position="left">实时数据</el-divider>
+                    <div class="intro">
                         <p>
-                            <strong>电压(V)</strong>
+                            <strong>上报时间 :</strong>
                             <span :style="{fontWeight:'bold'}">
-                                {{ `${( device_data.v && device_data.v.keyValue ) || '---'} V` }}
+                                {{ device_data.createTime || '---'}}
                             </span>
                         </p>
-                        <p>
-                            <strong>信号强度(csq)</strong>
-                            <span :style="{fontWeight:'bold'}">
-                                {{ `${( device_data.signalNB && device_data.signalNB.keyValue ) || '---'} csq` }}
-                            </span>
-                        </p>
-                    </template>
 
-                    <!-- 电缆定位桩 -->
-                    <template v-else>
-                        <p>
-                            <strong>电池电压(V)</strong>
-                            <span :style="{fontWeight:'bold'}">
-                                {{ `${( device_data.batteryV && device_data.batteryV.keyValue) || '---'} V` }}
-                            </span>
-                        </p>
-                        <p>
-                            <strong>光照强度(lx)</strong>
-                            <span :style="{fontWeight:'bold'}">
-                                {{
-                                    `${
-                                        device_data.signalNB && device_data.illumination.keyValue? 
-                                            device_data.illumination.keyValue == 0? "无": "有": '---'
-                                    }`
-                                }}
-                            </span>
-                        </p>
-                    </template>
-                </div>
-            </div>
-            <div  class="center" v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40">
-                <el-divider content-position="left">历史数据</el-divider>
-                <div>
-                    <div class="seletGroup">
-                        <el-form label-position="top">
-                            <el-form-item label="环境变量:">
-                                <el-select v-model="value" @change="changeParam">
-                                    <el-option
-                                        v-for="item in (equipObj.deviceType==33? conOptions: pileOptions)"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value"
-                                    />
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item label="时间段:">
-                                <el-date-picker
-                                    v-model="time"
-                                    type="datetimerange"
-                                    :default-time="['00:00:00', '23:59:59']"
-                                    range-separator="至"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期"
-                                    :clearable="false"
-                                    @change="changeDate"
-                                    :disabled="loading"
-                                >
-                                </el-date-picker>
-                            </el-form-item>
-                        </el-form>
+                        <!-- 集中器 -->
+                        <template v-if="equipObj.deviceType == 33">
+                            <p>
+                                <strong>电压(V)</strong>
+                                <span :style="{fontWeight:'bold'}">
+                                    {{ `${( device_data.v && device_data.v.keyValue ) || '---'} V` }}
+                                </span>
+                            </p>
+                            <p>
+                                <strong>信号强度(csq)</strong>
+                                <span :style="{fontWeight:'bold'}">
+                                    {{ `${( device_data.signalNB && device_data.signalNB.keyValue ) || '---'} csq` }}
+                                </span>
+                            </p>
+                        </template>
+
+                        <!-- 电缆定位桩 -->
+                        <template v-else>
+                            <p>
+                                <strong>电池电压(V)</strong>
+                                <span :style="{fontWeight:'bold'}">
+                                    {{ `${( device_data.batteryV && device_data.batteryV.keyValue) || '---'} V` }}
+                                </span>
+                            </p>
+                            <p>
+                                <strong>光照强度(lx)</strong>
+                                <span :style="{fontWeight:'bold'}">
+                                    {{
+                                        `${
+                                            device_data.signalNB && device_data.illumination.keyValue? 
+                                                device_data.illumination.keyValue == 0? "无": "有": '---'
+                                        }`
+                                    }}
+                                </span>
+                            </p>
+                        </template>
                     </div>
-                    <LineChart
-                        id="line"
-                        ref="lineChart"
-                        :value="currentValue"
-                        :timeArray="timeArray"
-                    />
                 </div>
-            </div>
+                <div  class="center">
+                    <el-divider content-position="left">历史数据</el-divider>
+                    <div>
+                        <div class="seletGroup">
+                            <el-form label-position="top">
+                                <el-form-item label="环境变量:">
+                                    <el-select v-model="value" @change="changeParam">
+                                        <el-option
+                                            v-for="item in (equipObj.deviceType==33? conOptions: pileOptions)"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value"
+                                        />
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="时间段:">
+                                    <el-date-picker
+                                        v-model="time"
+                                        type="datetimerange"
+                                        :default-time="['00:00:00', '23:59:59']"
+                                        range-separator="至"
+                                        value-format="yyyy-MM-dd HH:mm:ss"
+                                        start-placeholder="开始日期"
+                                        end-placeholder="结束日期"
+                                        :clearable="false"
+                                        @change="changeDate"
+                                        :disabled="loading"
+                                    >
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item label="下载:">
+                                    <i class="el-icon-download" @click="download"></i>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                        <LineChart
+                            id="line"
+                            ref="lineChart"
+                            :value="currentValue"
+                            :timeArray="timeArray"
+                        />
+                    </div>
+                </div>
+            </template>
+            
             <div class="center">
                 <el-divider content-position="left">
                     告警信息
@@ -162,7 +168,7 @@
                         align="center"
                     >
                         <template slot-scope="scope" >
-                            <span class="red">
+                            <span style="color:red">
                                 {{scope.row.decodeHex}}
                             </span>
                         </template>
@@ -190,7 +196,7 @@
 <script>
     import { mapActions } from 'vuex';
     import { LineChart } from '@/components/Charts'
-    import { lastDataFilter } from '@/utils/methods'
+    import { lastDataFilter, downFile } from '@/utils/methods'
 
     export default {
         props: {
@@ -286,7 +292,8 @@
         methods: {
             ...mapActions('equip',[
                 'getOtherCurrentData',
-                'getOtherHistoryData'
+                'getOtherHistoryData',
+                "exportOherHistoryData"
             ]),
             ...mapActions('overall',[
                 'getGeocode',
@@ -424,6 +431,27 @@
                 this.value = val;
                 this.getDeviceHistoryData();
             },
+            //下载
+            download: _.throttle(function(){
+                const { deviceAdress, deviceType } = this.equipObj;
+                const msg = this.$message({
+                    iconClass:"el-icon-loading",
+                    dangerouslyUseHTMLString: true,
+                    message:`<strong class="loadingMsg">历史数据下载中...</strong>`,
+                    duration:0
+                });
+                const [ startTime, endTime ] = this.time;
+                this.exportOherHistoryData({
+                    deviceAddress:deviceAdress,
+                    startTime,
+                    endTime,
+                    key:this.value
+                }).then(res=>{
+                    if(!res)return;
+                    msg.close();
+                    downFile(res);
+                })
+            },5000),
 
             // 获取告警列表
             getEquipAlaramList(deviceAdress){
@@ -501,6 +529,12 @@
                         display: flex;
                         .el-form-item{
                             padding: 0 10px;
+                        }
+                        .el-icon-download{
+                            cursor: pointer;
+                            background: #ecefef;
+                            padding: 10px;
+                            border-radius: 5px;
                         }
                     }
                 }
