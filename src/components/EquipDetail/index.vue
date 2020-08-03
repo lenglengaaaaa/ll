@@ -87,12 +87,18 @@
                                 </span>
                             </p>
                             <p>
-                                <strong>光照强度(lx)</strong>
+                                <strong>倾斜角度(°)</strong>
                                 <span :style="{fontWeight:'bold'}">
+                                    {{ `${( device_data.inclination && device_data.inclination.keyValue) || '---'} °` }}
+                                </span>
+                            </p>
+                            <p>
+                                <strong>光照强度(lx)</strong>
+                                <span :style="{ fontWeight:'bold' }">
                                     {{
                                         `${
-                                            device_data.signalNB && device_data.illumination.keyValue? 
-                                                device_data.illumination.keyValue == 0? "无": "有": '---'
+                                            device_data.illumination && device_data.illumination.keyValue != "--" && device_data.illumination.keyValue  ? 
+                                                device_data.illumination.keyValue == 0? "光线不足": "光线正常": '---'
                                         }`
                                     }}
                                 </span>
@@ -253,7 +259,8 @@
                 ],
                 pileOptions:[
                     {value: 'batteryV',label: '电池电压'}, 
-                    {value: 'illumination',label: '光照强度'}
+                    {value: 'illumination',label: '光照强度'},
+                    {value: 'inclination',label: '倾斜角度'}
                 ],
                 value: 'v',
                 loading:false
@@ -348,7 +355,8 @@
 
                 //通过接口获取实时数据
                 this.getOtherCurrentData({
-                    deviceAddress: deviceAdress
+                    deviceAddress: deviceAdress,
+                    deviceType
                 }).then(res=>{
                     if(!res) return;
                     const { dataMap } = res;
@@ -366,14 +374,15 @@
                 this.$mqtt.listen(this.client,res=>{
                     const { data, fc, address, time } = res;
 
-                    if( (fc != 33 && fc != 40) || address != deviceAdress ) return;
-                    
-                    console.log(res,fc == 33? "集中器数据": "电缆定位桩数据");
+                    if( address != deviceAdress && fc != 33 && fc != 40 ) return;
+
+                    console.log(res,(fc == 33? "集中器数据": "电缆定位桩数据"));
                     this.device_data = {
                         createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                         signalNB:{ keyValue: data.signalNB || null },
                         v:{ keyValue:data.v || null },
                         illumination:{ keyValue: data.illumination || null },
+                        inclination:{ keyValue: data.inclination || null },
                         batteryV:{ keyValue: data.batteryV || null }
                     }
                 })
@@ -397,6 +406,7 @@
 
                 this.getOtherHistoryData({
                     deviceAddress: deviceAdress,
+                    deviceType,
                     startTime,
                     endTime,
                     key:this.value

@@ -705,6 +705,7 @@ const actions= {
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @param key 查询的采集项key
+     * @param deviceType 设备类型
      */
     getOtherHistoryData({commit},obj){
         return request({
@@ -729,6 +730,7 @@ const actions= {
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @param key 查询的采集项key
+     * @param deviceType 设备类型
      */
     exportOherHistoryData({commit},obj){
         return request({
