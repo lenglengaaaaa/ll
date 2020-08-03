@@ -4,7 +4,8 @@ import { tip } from '@/utils/methods'
 
 const state={
     areaTree:[],
-    alarmBox:[]
+    alarmBox:[],
+    pileAlarm:{}
 }
 
 const mutations={
@@ -14,11 +15,17 @@ const mutations={
     SAVE_ALARM:(state,alarm) => {
         state.alarmBox = alarm;
     },
+    REPLACE_PILE:(state,alarm) => {
+        state.pileAlarm = alarm;
+    },
 }
 
 const actions= {
     saveAlarm({commit},alarm){
         commit('SAVE_ALARM', alarm);
+    },
+    replacePileAlarm({commit},alarm){
+        commit('REPLACE_PILE', alarm);
     },
     /**
     *获取区域树 

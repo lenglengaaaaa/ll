@@ -72,6 +72,11 @@
                         ...this.$store.state.overall.alarmBox
                     ].slice(0,100)
                     this.$store.dispatch('overall/saveAlarm',alaram_arr)
+
+                    // 定位桩告警信息
+                    if(fc == 40){
+                        this.$store.dispatch('overall/replacePileAlarm',res);
+                    }
                 })
             });
         },
