@@ -41,6 +41,7 @@
                         :marker="marker"
                         vid="apply"
                         :zoom="19"
+                        hasUpdate
                     />
                 </el-card>
             </el-col>

@@ -26,6 +26,11 @@
                 type:Array,
                 default:()=>[]
             },
+            // 地图点标记是否实时更新状态
+            hasUpdate:{
+                type:Boolean,
+                default:false
+            }
         },
         data() {
             return {
@@ -44,6 +49,8 @@
                 this.initAMap();
             },
             "$store.state.overall.pileAlarm"(obj){
+                if( !this.hasUpdate ) return;
+
                 const { address, alertMsg, lat, lng } = obj;
 
                 if( alertMsg.slice(0,4) !== "倾斜角度" ) return;
@@ -114,13 +121,10 @@
                         const equipType = item.deviceType || item.deviceAdress? item.deviceAdress.slice(0,2): null;
                         // equipType为40,为电缆装设备.
                         let point = new this.resMap.Marker({
-                            icon: equipType == "40"? CablePile: equipIcon,
-                            // content:`
-                            //     <img src="${CablePile}"/>
-                            // `,
+                            icon: equipType == "40"? ( item.remark2 && +item.remark2 > 0? Incline: CablePile): equipIcon,
                             position:  [ item.longitude, item.latitude ],
                             offset: new this.resMap.Pixel(-13, -30),
-                            angle: equipType == "40" ? 0 :0 //点标记的旋转角度,电缆桩倾斜角度.
+                            angle: equipType == "40" ? (item.remark2 || 0) :0 //点标记的旋转角度,电缆桩倾斜角度.
                         });
                         this.markers.push(point);
                         point.content = {
@@ -139,7 +143,7 @@
                         <strong>
                             设备名称 :
                         </strong>
-                        <span>${e.target.content.name}</span>
+                        <span>${ e.target.content.name }</span>
                     </div>
                 `);
                 this.infoWindow.open(this.map, e.target.getPosition());
@@ -154,7 +158,7 @@
                             <strong>
                                 设备名称 :
                             </strong>
-                            <span>${item.content.name}</span>
+                            <span>${ item.content.name }</span>
                         </div>
                     `
                 })

@@ -374,7 +374,7 @@
                 this.$mqtt.listen(this.client,res=>{
                     const { data, fc, address, time } = res;
 
-                    if( address != deviceAdress && fc != 33 && fc != 40 ) return;
+                    if( address != deviceAdress|| (fc != 33 && fc != 40) ) return;
 
                     console.log(res,(fc == 33? "集中器数据": "电缆定位桩数据"));
                     this.device_data = {
