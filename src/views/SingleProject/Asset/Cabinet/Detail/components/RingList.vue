@@ -6,6 +6,9 @@
             height="77.5vh"
             max-height="77.5vh"
             header-cell-class-name="table_header"
+            v-loading="switchLoading"
+            element-loading-text="拼命加载中"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
         >   
             <el-table-column
                 label="设备地址域"
@@ -79,15 +82,18 @@
                 type: Array,
                 default: []
             },
+            switchLoading:Boolean
         },
-        mounted () {
-            this.data = this.switchList.reduce((pre,current)=>{
-                return [...pre,...current.outLineList]
-            },[]).reduce((pre,current)=>{
-                if(!current.deviceId)return pre;
-                return [...pre,current]
-            },[])
-        },
+        watch: {
+            switchList(list) {
+                this.data = list.reduce((pre,current)=>{
+                    return [...pre,...current.outLineList]
+                },[]).reduce((pre,current)=>{
+                    if(!current.deviceId)return pre;
+                    return [...pre,current]
+                },[])
+            }
+        }
     }
 </script>
 

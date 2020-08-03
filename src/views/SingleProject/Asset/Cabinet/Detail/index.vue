@@ -4,10 +4,10 @@
     >
         <template>
             <el-tab-pane label="魔戒总览" lazy>
-                <RingView :switchList="switchList"/>
+                <RingView :switchList="switchList" :switchLoading="loading" />
             </el-tab-pane>
             <el-tab-pane label="魔戒列表" lazy>
-                <RingList :switchList="switchList"/>
+                <RingList :switchList="switchList" :switchLoading="loading" />
             </el-tab-pane>
             <el-tab-pane label="设备列表" lazy>
                 <cc-equipList 
@@ -85,9 +85,10 @@
                     current:1,
                     type:1
                 },
-                switchList:defaultValue,
+                switchList:[],
                 client:null,
-                hasTest:false
+                hasTest: false,
+                loading: true
             }
         },
         created () {
@@ -99,6 +100,7 @@
             this.$route.meta.title = name;
 
             this.getRingDetail(id).then(res=>{
+                this.loading = true;
                 if(!res )return;
                 const { switchList } = res;
                 const filtered = switchList.length && switchList.map(item=>{
@@ -108,6 +110,8 @@
                     return item;
                 })
                 this.switchList = filtered && filtered.length ? filtered : defaultValue;
+            }).finally(res=>{
+                this.loading = false;
             })
             
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);

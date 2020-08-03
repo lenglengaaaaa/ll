@@ -3,9 +3,15 @@
         <el-row :gutter="30" >
             <!-- 魔戒视图 -->
             <el-col :span="10" :xs="24">
-                <div class="view">
-                    <ul class="wrap">
-                        <li class="top_branch">
+                <div 
+                    class="view"
+                    v-loading="switchLoading"
+                    element-loading-text="拼命加载中"
+                    element-loading-spinner="el-icon-loading"
+                    element-loading-background="rgba(0, 0, 0, 0.8)"
+                >
+                    <ul class="wrap" >
+                        <li class="top_branch" v-show="!switchLoading">
                             <span class="top_branch_title">{{title}}</span>
                         </li>
                         <li v-for="(item,index) in switchList" :key="item.switchId" class="branch">
@@ -122,7 +128,8 @@
             DoubleLineChart
         },
         props: {
-            switchList: Array
+            switchList: Array,
+            switchLoading:Boolean
         },
         data() {
             return {
