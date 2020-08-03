@@ -34,7 +34,9 @@
         data() {
             return {
                 form: {
-                    commWay:0
+                    commWay:0,
+                    isSon:1,
+                    isSingle:0,
                 },
                 editFlag:false
             }
