@@ -18,7 +18,8 @@ module.exports = {
             'lodash',
             'echarts',
             'vuex-persistedstate',
-            'vue-infinite-scroll'
+            'vue-infinite-scroll',
+            'normalizr'
         ] 
     },
     output: {
