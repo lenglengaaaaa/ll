@@ -43,6 +43,20 @@
                         :zoom="19"
                         hasUpdate
                     />
+                    <div class="hint" >
+                        <div class="tip">
+                            <img src="@images/equip_icon.png" alt="">
+                            <span>设备</span>
+                        </div>
+                        <div class="tip">
+                            <img src="@images/Cable/skewing.png" alt="">
+                            <span>定位桩-正常状态</span>
+                        </div>
+                        <div class="tip">
+                            <img src="@images/Cable/lean.png" alt="">
+                            <span>定位桩-倾斜状态</span>
+                        </div>
+                    </div>
                 </el-card>
             </el-col>
         </el-row>
@@ -216,6 +230,7 @@
                     height: 100%;
                     background: #fff;
                     box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
+                    position: relative;
                     .el-card__header{
                         padding: 8px 15px;
                     }
@@ -230,6 +245,29 @@
                     @media screen and (max-width: 870px){
                         .map_all{
                             height: 500px;
+                        }
+                    }
+                    .hint{
+                        position: absolute;
+                        top: 70px;
+                        right: 30px;
+                        z-index: 100000;
+                        background: white;
+                        border-radius: 10px;
+                        padding: 10px ;
+                        .tip{
+                            display: flex;
+                            align-items: center;
+                            padding-bottom:5px;
+                            img{
+                                width: 20px;
+                                height: 20px;
+                                margin-right: 5px;
+                            }
+                            span{
+                                font-weight: bold;
+                                font-size: 14px;
+                            }
                         }
                     }
                 }
