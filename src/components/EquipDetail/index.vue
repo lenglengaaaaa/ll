@@ -94,7 +94,13 @@
                             </p>
                             <p>
                                 <strong>光照强度(lx)</strong>
-                                <span :style="{ fontWeight:'bold' }">
+                                <span 
+                                    :style="{ 
+                                        color:
+                                            device_data.illumination && device_data.illumination.keyValue != '--' && device_data.illumination.keyValue  ? device_data.illumination.keyValue == 0? 'red': '': '',
+                                        fontWeight:'bold',
+                                    }"
+                                >
                                     {{
                                         `${
                                             device_data.illumination && device_data.illumination.keyValue != "--" && device_data.illumination.keyValue  ? 

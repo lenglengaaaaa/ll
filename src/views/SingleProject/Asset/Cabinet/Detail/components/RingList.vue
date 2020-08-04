@@ -84,8 +84,18 @@
             },
             switchLoading:Boolean
         },
+        mounted () {
+            this.getList(this.switchList);
+        },
         watch: {
             switchList(list) {
+                this.getList(list);
+            }
+        },
+        methods:{
+            getList(list){
+                if( !list.length ) return;
+
                 this.data = list.reduce((pre,current)=>{
                     return [...pre,...current.outLineList]
                 },[]).reduce((pre,current)=>{
