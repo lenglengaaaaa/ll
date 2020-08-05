@@ -254,7 +254,7 @@
                         z-index: 100000;
                         background: white;
                         border-radius: 10px;
-                        padding: 10px ;
+                        padding: 15px 10px 10px;
                         .tip{
                             display: flex;
                             align-items: center;

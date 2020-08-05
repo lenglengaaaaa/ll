@@ -254,7 +254,7 @@
                 client:null,
                 alarmList:[],
                 time: [
-                    this.$moment().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'), 
+                    this.$moment().subtract(0, 'days').format('YYYY-MM-DD 00:00:00'), 
                     this.$moment().format('YYYY-MM-DD 23:59:59')
                 ],
                 timeArray:[],

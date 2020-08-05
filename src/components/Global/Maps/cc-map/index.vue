@@ -62,7 +62,7 @@
                 const angle = alertMsg.slice(alertMsg.indexOf("：")+1);
                 const result = angle.slice(0,angle.indexOf(" °"));
 
-                pile && pile.setIcon(Incline);
+                pile && pile.setIcon(+result > 29.9 ? Incline: CablePile);
                 pile && pile.setAngle(+result);
 
                 if(lat != "0.0" && lng != "0.0"){
@@ -121,7 +121,7 @@
                         const equipType = item.deviceType || item.deviceAdress? item.deviceAdress.slice(0,2): null;
                         // equipType为40,为电缆装设备.
                         let point = new this.resMap.Marker({
-                            icon: equipType == "40"? ( item.remark2 && +item.remark2 > 0? Incline: CablePile): equipIcon,
+                            icon: equipType == "40"? ( item.remark2 && +item.remark2 > 29.9? Incline: CablePile): equipIcon,
                             position:  [ item.longitude, item.latitude ],
                             offset: new this.resMap.Pixel(-13, -30),
                             angle: equipType == "40" ? (item.remark2 || 0) :0 //点标记的旋转角度,电缆桩倾斜角度.
