@@ -191,6 +191,7 @@
             .el-input-number{
                 .el-input__inner{
                     height: auto !important;
+                    min-height: 35px;
                 }
             }
             .el-select,.el-cascader{

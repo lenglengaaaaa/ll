@@ -234,6 +234,10 @@
         .left_box{
             ul{
                 display: flex;
+                flex-wrap: wrap;
+                li{
+                    margin-bottom: 10px;
+                }
             }
             .title{
                 span{
