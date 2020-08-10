@@ -41,6 +41,7 @@
                         :max-height="table_height"
                         header-cell-class-name="table_header"
                         ref="tabledns"
+                        fit
                     >   
                         <slot></slot>
                         <slot name="operation">
@@ -210,7 +211,7 @@
                 })
             };
             return {
-                table_height:'calc(100vh - 300px)',
+                table_height:"calc(100vh - 300px)",
                 input:'',
                 layout:'total, sizes,pager,jumper',
                 data:[],
@@ -364,16 +365,14 @@
             //获取数据
             async getListData(params={}){
                 this.loading = true;
-
+                
                 //获取列表数据
                 const LIST = await this.getList(params);
                 if( LIST ){
                     const { data, page } = LIST;
 
-                    // await isMobile() && (this.table_height = this.$('.el-table').height());
                     //手机端将表格高度&最高高度设置为1060(有调整的空间)
-                    await isMobile() && (this.table_height = 1060);
-
+                    await isMobile() && (this.table_height = window.innerHeight);
 
                     this.data = data;
                     this.total = page.total;

@@ -1,11 +1,8 @@
 <template>
     <div class="pjOverview">
-        <el-row :gutter="15" type="flex" >
+        <el-row :gutter="15" type="flex" class="box_row">
             <el-col :span="10" :xs="24" class="chartBox">
-                <el-card 
-                    class="box-card" 
-                    :body-style="{height: 'calc(100% - 77px)'}"
-                >
+                <el-card  class="box-card">
                     <div slot="header" class="clearfix"  >
                         <span>项目SOE总数</span>
                     </div>
@@ -17,7 +14,6 @@
                 </el-card>
                 <el-card 
                     class="box-card" 
-                    :body-style="{height: 'calc(100% - 77px)'}"
                 >
                     <div slot="header" class="clearfix"  >
                         <span>项目设备数量</span>
@@ -30,10 +26,7 @@
                 </el-card>
             </el-col>
             <el-col :span="14" :xs="24" class="mapBox">
-                <el-card 
-                    class="box-card" 
-                    :body-style="{height: 'calc(100% - 77px)'}"
-                >
+                <el-card  class="box-card">
                     <div slot="header" class="clearfix"  >
                         <span>设备地图</span>
                     </div>
@@ -155,69 +148,28 @@
 </script>
 
 <style lang="scss" >
-    @media screen and (max-width: 870px) {
-        .pjOverview{
-            .el-row{
-                flex-direction: column;
-                .chartBox{
-                    .box-card{
-                        height: 600px !important;
-                        margin-bottom: 10px;
-                    }
-                }   
-                .mapBox{
-                    .box-card{
-                        .map{
-                            height: 500px;
-                        }
-                    }   
-                }
-            }
-        }
-    }
     .pjOverview{
         height: 100%;
-        .el-row {
+        .box_row{
             height: 100%;
-            .chartBox{
-                display: flex;
-                flex-direction: column;
-                .box-card{
-                    flex:1;
-                    background: #fff;
-                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                    .el-card__header{
-                        padding: 8px 15px;
-                    }
-                    .clearfix{
-                        font-size: 0.8rem;
-                        font-weight: bold;
-                        color: #171717;
-                    }
-                    #soe,#category{
-                        height: calc(100% - 0px);
-                    }
-                    &:nth-child(1){
-                        margin-bottom: 10px;
-                    }
+            .box-card{
+                .el-card__header{
+                    padding: 8px 15px;
+                }
+                .el-card__body{
+                    height: calc(100% - 80px);
+                }
+                .clearfix{
+                    font-size: 0.8rem;
+                    font-weight: bold;
+                    color: #171717;
                 }
             }
             .chartBox{
-                height: 100%;
-                display: flex;
-                flex-direction: column;
                 .box-card{
-                    height: 50%;
-                    flex: 1; 
-                }
-                .data-content {
-                    flex: 1;
-                    padding: 15px 0px;
-                    background: #fff;
-                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
-                    border-radius: 10px;
+                    height: 49.5%;
                     &:nth-child(1){
-                        margin-bottom: 10px;
+                        margin-bottom: 1%;
                     }
                     #soe,#category{
                         height: calc(100% - 0px);
@@ -225,33 +177,16 @@
                 }
             }
             .mapBox{
-                height: 100%;
                 .box-card{
                     height: 100%;
-                    background: #fff;
-                    box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
                     position: relative;
-                    .el-card__header{
-                        padding: 8px 15px;
-                    }
-                    .clearfix{
-                        font-size: 0.8rem;
-                        font-weight: bold;
-                        color: #171717;
-                    }
                     .map_all{
-                        height: calc(100% - 0px) ;
-                    }
-                    @media screen and (max-width: 870px){
-                        .map_all{
-                            height: 500px;
-                        }
+                        height:calc(100% - 0px);
                     }
                     .hint{
                         position: absolute;
                         top: 70px;
                         right: 30px;
-                        z-index: 100000;
                         background: white;
                         border-radius: 10px;
                         padding: 15px 10px 10px;
@@ -269,6 +204,20 @@
                                 font-size: 14px;
                             }
                         }
+                    }
+                }
+            }
+        }
+        @media screen and (max-width: 870px){
+            .el-row{
+                flex-direction: column;
+                .chartBox{
+                    height: 800px;
+                    margin-bottom: 10px;
+                } 
+                .mapBox{
+                    .box-card{
+                        height: 500px !important;
                     }
                 }
             }

@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <cc-empty v-else text=""></cc-empty>
+                        <cc-empty v-else />
                     </div>
                     <div class="notice-list-bottomBar">
                         <div >

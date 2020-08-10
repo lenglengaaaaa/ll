@@ -71,6 +71,7 @@
                 </div>
             </div>
             <div class="phone_list" v-else>
+                <Notice />
                 <i class="el-icon-more" @click="moreClick"></i>
             </div>
         </div>
@@ -116,7 +117,7 @@
                 username:'',
                 imagePath:require('@images/default.jpg'),
                 codeStr:'',
-                userClient:null
+                userClient:null,
             }
         },
         components: {
