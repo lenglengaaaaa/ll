@@ -17,11 +17,19 @@
 <script>
     import AMap from "@/utils/AMap"
     const center = window.$cfg.mapCenter;
+    import CablePile from "@images/Cable/skewing.png";
+    import Incline from "@images/Cable/lean.png";
+    import equipIcon from "@images/equip_icon.png";
+    import { xyTransformation } from '@/utils/methods'
 
     export default {
         name:'cc-mapSingle',
         props: {
             vid:String,
+            deviceParams:{
+                type:Object,
+                default:()=>{}
+            },
             position:{
                 type:Array,
                 default:()=>center
@@ -37,6 +45,10 @@
             hasClick:{
                 type:Boolean,
                 default:true
+            },
+            hasUpdate:{
+                type:Boolean,
+                default:false
             }
         },
         data() {
@@ -50,7 +62,32 @@
             };
         },
         mounted() {
-            this.initAMap();
+            this.$nextTick(()=>{
+                this.initAMap();
+            })
+        },
+        watch: {
+            "$store.state.overall.pileAlarm"(obj){
+                if( !this.hasUpdate ) return;
+
+                const { address, alertMsg, lat, lng } = obj;
+
+                if((this.deviceParams.deviceAdress != address) || (alertMsg.slice(0,4) !== "倾斜角度")) return;
+
+                // 倾斜度数
+                const angle = alertMsg.slice(alertMsg.indexOf("：")+1);
+                const result = angle.slice(0,angle.indexOf(" °"));
+
+                this.marker && this.marker.setIcon(+result > 29.9 ? Incline: CablePile);
+                this.marker && this.marker.setAngle(+result);
+
+                if(lat != "0.0" && lng != "0.0"){
+                    xyTransformation([ lng, lat ]).then(res=>{
+                        const [ longitude, latitude ] = res;
+                        this.marker && this.marker.setPosition([ longitude, latitude ]);
+                    })
+                } 
+            }
         },
         methods: {
             async initAMap() {
@@ -85,10 +122,10 @@
                         // })
                     }
                     this.map.on('complete',(e)=>{
-                        const [lng,lat] = this.position;
+                        const [lng,lat] = (this.deviceParams && this.deviceParams.position) || this.position;
                         this.addMarker(lng,lat);
                     })
-                    this.hasClick&&this.map.on('click',(e)=>{
+                    this.hasClick && this.map.on('click',(e)=>{
                         const [lng,lat] = e.lnglat.toString().split(',');
                         this.get(lng,lat);
                         this.addMarker(lng,lat);
@@ -96,14 +133,19 @@
                 } catch (err) {}
             },
             addMarker(lng,lat) {
+                const { deviceType, remark2 } = this.deviceParams || { deviceType:null, remark2:null };
                 if(this.marker){
                     this.marker.setMap(null);
                     this.marker = null;
                 }
                 this.marker = new this.resMap.Marker({
-                    icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                    position:  [lng,lat],
+                    icon: deviceType && deviceType == "40"? 
+                                    ( remark2 && +remark2 > 29.9? Incline: CablePile): 
+                                    // equipIcon,
+                                    "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    position:[ lng, lat ],
                     offset: new this.resMap.Pixel(-13, -30),
+                    angle: deviceType && deviceType == "40" ? (remark2 || 0) :0 //点标记的旋转角度,电缆桩倾斜角度.
                 });
                 this.map.add(this.marker);
                 this.map.setFitView();
@@ -117,6 +159,16 @@
         position: relative;
         .map{
             height: 480px;
+            .amap-icon,.amap-marker-content{
+                img{
+                    width: 35px;
+                    height: 35px;
+                }
+                img[src ="https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png"]{
+                    width: auto;
+                    height: auto;
+                }
+            }
         }
         .info{
             position: absolute;

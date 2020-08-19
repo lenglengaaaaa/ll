@@ -68,7 +68,7 @@
                 <cc-mapSingle 
                     v-if="success"
                     vid="alarm"
-                    :position="single.position"
+                    :deviceParams="single"
                     :hasSearch="false"
                     :hasClick="false"
                 />
@@ -128,19 +128,29 @@
                     id,type
                 }).then(res=>{
                     if(!res)return;
-                    const {createTime,location,decodeHex,status,details,longitude,latitude,deviceType} = res;
+                    const {
+                        createTime,
+                        location,
+                        decodeHex,
+                        status,
+                        details,
+                        longitude,
+                        latitude,
+                        deviceType
+                    } = res;
                     this.getData(res,this.firstArray);
                     this.getData(res,this.secondArray);
                     xyTransformation([longitude,latitude]).then(result=>{
                         this.single ={
+                            deviceType,
                             createTime:this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss'),
                             location:(location&&location.split(',').join('')) || '---',
                             alarmMsg:decodeHex,
                             status,
                             details:details || '',
-                            position:res&&decodeHex=="震动值：震动 "&&deviceType==30?
-                                result:[longitude||113.991244,latitude||22.595988],
-                            isshock:res&&decodeHex=="震动值：震动 "
+                            position: (decodeHex=="震动值：震动 " && deviceType == 30) || deviceType == 40 ?
+                                result:[longitude || 113.991244, latitude || 22.595988],
+                            isshock: decodeHex=="震动值：震动 "
                         }
                         this.success = true;
                     })

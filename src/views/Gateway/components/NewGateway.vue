@@ -126,7 +126,7 @@
                 ...this.form,
                 ...data
             };
-            this.position = [data.longitude||113.991244,data.latitude||22.5959];
+            this.position = [ data.longitude ||113.991244 ,data.latitude||22.5959 ];
             this.editFlag=editFlag;
         },
         computed: {

@@ -196,9 +196,10 @@
             <div>
                 <cc-mapSingle 
                     vid="alarmDetail"
-                    :position="single.position"
+                    :deviceParams="single"
                     :hasSearch="false"
                     :hasClick="false"
+                    hasUpdate
                 />
             </div>
         </div>
@@ -326,6 +327,7 @@
             //获取个别信息
             getSingleData(){
                 const { parentType , parentName , longitude , latitude , location , createTime , imageUrls } = this.equipObj;
+                this.single = {...this.equipObj};
                 //匹配魔节or集中器
                 parentType&&parentType ==='30'?this.single.magicName =parentName :this.single.concenName =parentName;
                 //设备经纬度
