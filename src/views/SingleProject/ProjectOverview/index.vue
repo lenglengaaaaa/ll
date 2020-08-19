@@ -166,6 +166,7 @@
                 }
             }
             .chartBox{
+                height: 100%;
                 .box-card{
                     height: 49.5%;
                     &:nth-child(1){
@@ -177,6 +178,7 @@
                 }
             }
             .mapBox{
+                height: 100%;
                 .box-card{
                     height: 100%;
                     position: relative;
