@@ -67,19 +67,20 @@
             })
         },
         watch: {
-            "$store.state.overall.pileAlarm"(obj){
+            deviceParams(obj){
                 if( !this.hasUpdate ) return;
+
+                const { remark2 } = obj;
+
+                this.marker && this.marker.setIcon(+remark2 > 29.9 ? Incline: CablePile);
+                this.marker && this.marker.setAngle(+remark2);
+            },
+            "$store.state.overall.pileAlarm"(obj){
+                if( !this.hasUpdate || (this.deviceParams.deviceType != 40)) return;
 
                 const { address, alertMsg, lat, lng } = obj;
 
                 if((this.deviceParams.deviceAdress != address) || (alertMsg.slice(0,4) !== "倾斜角度")) return;
-
-                // 倾斜度数
-                const angle = alertMsg.slice(alertMsg.indexOf("：")+1);
-                const result = angle.slice(0,angle.indexOf(" °"));
-
-                this.marker && this.marker.setIcon(+result > 29.9 ? Incline: CablePile);
-                this.marker && this.marker.setAngle(+result);
 
                 if(lat != "0.0" && lng != "0.0"){
                     xyTransformation([ lng, lat ]).then(res=>{

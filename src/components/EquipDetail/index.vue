@@ -393,6 +393,13 @@
                         inclination:{ keyValue: data.inclination || null },
                         batteryV:{ keyValue: data.batteryV || null }
                     }
+
+                    if(fc == 40 && data.inclination && (data.inclination != this.single.remark2)){
+                        this.single = {
+                            ...this.single,
+                            remark2: data.inclination
+                        }
+                    }
                 })
 
                 // 判断是集中器还是定位桩类型
