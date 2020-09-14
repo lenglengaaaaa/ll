@@ -8,7 +8,7 @@
                         <el-card class="box-card">
                             <div slot="header" class="header">
                                 <div>{{item.name}}</div>
-                                <span>设备编号 : <strong>{{item.number || '未知'}}</strong></span>
+                                <span>设备地址域(设备ID) : <strong>{{item.deviceAdress || '未知'}}</strong></span>
                                 <span>数据上传时间 : <strong>{{item.createTime || '未知'}}</strong></span>
                             </div>
                             <div v-for="(value,key) in item.data" :key="key" class="text">

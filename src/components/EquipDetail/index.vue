@@ -167,6 +167,7 @@
                     >
                         <i class="el-icon-warning"/>
                     </el-tooltip>
+                    <i class="el-icon-refresh" @click="this.getEquipAlaramList"></i>
                 </el-divider>
                 <el-table
                     :data="alarmList"
@@ -174,6 +175,7 @@
                     stripe
                     max-height="250"
                     empty-text="暂无数据"
+                    v-loading="alarmLoading"
                 >
                     <el-table-column
                         label="告警详情"
@@ -270,7 +272,8 @@
                     {value: 'inclination',label: '倾斜角度'}
                 ],
                 value: 'v',
-                loading:false
+                loading:false,
+                alarmLoading:false
             }
         },
         created () {
@@ -282,7 +285,8 @@
 
             //获取设备经纬度
             // this.getEquipPostion();
-            this.getEquipAlaramList(deviceAdress);
+            //获取告警
+            this.getEquipAlaramList();
 
             // 集中器33 or 电缆桩40 时有实时数据
             this.$nextTick(res=>{
@@ -479,7 +483,9 @@
             },5000),
 
             // 获取告警列表
-            getEquipAlaramList(deviceAdress){
+            getEquipAlaramList(){
+                this.alarmLoading = true;
+                const { deviceAdress } = this.equipObj;
                 this.getAlarmList({
                     current:1,
                     size:20,
@@ -489,6 +495,8 @@
                 }).then(res=>{
                     if(!res)return;
                     this.alarmList = res.data;
+                }).finally(res=>{
+                    this.alarmLoading = false;
                 })
             }
         },
@@ -562,6 +570,11 @@
                             border-radius: 5px;
                         }
                     }
+                }
+                .el-icon-refresh{
+                    cursor: pointer;
+                    margin-left: 5px;
+                    color: #22a7f0;
                 }
                 @media screen and (max-width: 650px) {
                     .seletGroup{

@@ -86,8 +86,8 @@
                         break;
                     case "ch4":
                         obj.name = "烷类";
-                        cfg.name = "ppm";
-                        obj.max = 10000;
+                        cfg.name = "%";
+                        obj.max = 100;
                         break;
                     case "o3":
                         obj.name = "臭氧";
