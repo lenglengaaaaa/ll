@@ -41,14 +41,17 @@
                             <img src="@images/equip_icon.png" alt="">
                             <span>设备</span>
                         </div>
-                        <div class="tip">
-                            <img src="@images/Cable/skewing.png" alt="">
-                            <span>定位桩-正常状态</span>
-                        </div>
-                        <div class="tip">
-                            <img src="@images/Cable/lean.png" alt="">
-                            <span>定位桩-倾斜状态</span>
-                        </div>
+                        <template v-if="hasCablePile">
+                            <div class="tip">
+                                <img src="@images/Cable/skewing.png" alt="">
+                                <span>定位桩-正常状态</span>
+                            </div>
+                            <div class="tip">
+                                <img src="@images/Cable/lean.png" alt="">
+                                <span>定位桩-倾斜状态</span>
+                            </div>
+                        </template>
+                        
                     </div>
                 </el-card>
             </el-col>
@@ -69,7 +72,8 @@
             return {
                 equipList:[],
                 soeCount:[],
-                marker:[]
+                marker:[],
+                hasCablePile:false
             }
         },
         mounted () {
@@ -127,19 +131,7 @@
                 this.getDeviceAddress(this.projectId).then(res=>{
                     if(!res)return;
 
-                    //mapbox data
-                    // this.marker = 
-                    //     res.filter(item=>item.latitude)
-                    //     .map(i=>{
-                    //         return {
-                    //             "type": "Feature",
-                    //             "geometry": {
-                    //                 "type": "Point",
-                    //                 "coordinates": [i.longitude,i.latitude]
-                    //             }
-                    //         }
-                    //     })
-
+                    this.hasCablePile = res.some(k=> k.deviceType == 40);
                     this.marker = res;
                 })
             }
