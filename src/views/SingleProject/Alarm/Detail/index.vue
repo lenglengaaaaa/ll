@@ -152,10 +152,10 @@
                                 result:[longitude || 113.991244, latitude || 22.595988],
                             isshock: decodeHex=="震动值：震动 "
                         }
-                        this.success = true;
                     })
-                    
-                })  
+                }).finally(res=>{
+                    this.success = true;
+                })
             },
             //获取数据
             getData(res,target) {
