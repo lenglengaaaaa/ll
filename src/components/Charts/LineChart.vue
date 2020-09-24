@@ -140,6 +140,8 @@
                 //魔戒折线颜色
                 this.text && (this.option.color=['#fdd835','#43a047','#e53935','#795548']);
                 // 基于准备好的dom，初始化echarts实例
+                
+                this.chart.clear();
                 // 绘制图表
                 this.chart.setOption(this.option,true)
             },

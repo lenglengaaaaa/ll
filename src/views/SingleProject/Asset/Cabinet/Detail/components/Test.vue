@@ -132,7 +132,7 @@
                 data:[],
                 time: [
                     this.$moment().subtract(0, 'days').format('YYYY-MM-DD 00:00:00'), 
-                    this.$moment().format('YYYY-MM-DD 23:59:59')
+                    this.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
                 ],
                 loading:false,
                 form: {
@@ -189,7 +189,8 @@
                         const packet_loss = 
                             currentCount - standardCount > 0 ?
                             '0%':
-                            +(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100 + '%'
+                            // +(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100 + '%'
+                            Math.round(+(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100) + '%'
                             
 
                         return [
