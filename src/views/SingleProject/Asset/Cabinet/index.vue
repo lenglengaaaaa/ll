@@ -7,6 +7,19 @@
         :verify="true"
         :assetType="1"
     >
+        <template #select>
+            <div class="equipSelect">
+                <el-select v-model="type"  @change="changeType">
+                    <el-option
+                        v-for="i in cabinetType" 
+                        :key="i.value" 
+                        :label="i.label" 
+                        :value="i.value"
+                    >
+                    </el-option>
+                </el-select>
+            </div>
+        </template>
         <template>
             <el-table-column
                 prop="number"
@@ -23,6 +36,20 @@
                 <template slot-scope="scope">
                     <el-link type="primary" @click="skipToDetail(scope.row)" v-if="hasSkipDetail(scope.row)">{{scope.row.name}}</el-link>
                     <span v-else>{{scope.row.name}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                label="配电柜类型"
+                align="center"
+                show-overflow-tooltip
+                width="154"
+            >
+                <template slot-scope="scope">
+                    <el-tag 
+                        :type="scope.row.remark1 == 0?'':'warning'"
+                    >
+                        {{scope.row.remark1 == 0 ? '低压配网柜': '中高压环网柜' }}
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column
@@ -69,7 +96,13 @@
                     size:20,    
                     current:1 ,   
                     projectId:JSON.parse(sessionStorage.getItem('project')).id
-                }
+                },
+                type: null,
+                cabinetType:[
+                    {label: "全部类型", value: null },
+                    {label:"低压配网柜", value :"0"},
+                    {label:"中高压环网柜", value :"1"},
+                ],
             }
         },
         computed: {
@@ -146,10 +179,24 @@
                     hasExport:this.hasExport(row)
                 }))
             },
+            //切换设备
+            changeType(type){
+                // const data ={
+                //     ...this.params,
+                //     deviceType,
+                //     current:1
+                // }
+                // if(!deviceType) delete data.deviceType;
+                // this.params = data;
+                // this.$children[0]&&this.$children[0].getListData(data);
+                console.log('aaa')
+            },
         },
     }
 </script>
 
 <style lang="scss" scoped>
-
+    .equipSelect{
+        padding-right: 10px;
+    }
 </style>

@@ -207,7 +207,7 @@
             },
             //配电房切换回调
             roomChange(id){
-                Promise.all([this.getChestMenu({ id,type:2, cabinetType:0 }),this.getEquipMenu({
+                Promise.all([this.getChestMenu({id,type:2,cabinetType:1}),this.getEquipMenu({
                     deviceType:33,
                     projectId:this.projectId,
                     commWay:this.form.commWay,
@@ -241,7 +241,7 @@
                 if(!obj.courtsId)return;
                 Promise.all([
                     this.getRoomMenu(obj.courtsId),
-                    this.getChestMenu({ id:obj.roomId, type:2, cabinetType:0 }),
+                    this.getChestMenu({id:obj.roomId,type:2,cabinetType:1}),
                     this.getSwitchMenu(obj.chestId),
                     this.getOutLineMenu(obj.switchId)
                 ]).then(res=>{

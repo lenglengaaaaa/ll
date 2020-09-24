@@ -110,6 +110,7 @@
                     parentId:[{ required: true, message: '请选择所属配电柜', trigger: 'change' }],
                     lineId: [{ required: true, message: '请选择所属主线缆', trigger: 'change' }],
                     trapId: [{ required: true, message: '请选择所属井盖', trigger: 'change' }],
+                    remark1: [{ required: true, message: '请选择配电柜类型', trigger: 'change' }],
                 }
             }
         },

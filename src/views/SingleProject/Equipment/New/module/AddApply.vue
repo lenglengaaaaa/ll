@@ -15,7 +15,8 @@
         Independent,
         Concentrator,
         Magic,
-        CablePile
+        CablePile,
+        RFID
     } from './components'
 
     export default {
@@ -65,6 +66,9 @@
                     //电缆定位桩
                     case 40:
                         return CablePile;
+                    //RFID
+                    case 41:
+                        return RFID;
                     //独立传感器
                     default:
                         return Independent;

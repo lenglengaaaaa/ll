@@ -121,7 +121,7 @@
             },
             //配电房切换回调
             roomChange(id){
-                this.getChestMenu({id,type:2}).then(res=>{
+                this.getChestMenu({ id, type:2 }).then(res=>{
                     if(!res)return;
                     resetSingle(this,['chestId']);
                     this.chestMenus = res;
@@ -130,7 +130,7 @@
             //编辑状态时请求配电房&配电柜
             getItsAssets(obj){
                 if(!obj.courtsId)return;
-                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({id:obj.roomId,type:2})]).then(res=>{
+                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({ id:obj.roomId, type:2 })]).then(res=>{
                     const [res1,res2] = res;
                     if(!res1 || !res2) return;
                     this.roomMenus = res1;

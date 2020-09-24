@@ -2,7 +2,7 @@
     <cc-assetDetail
         :table="false"
     >
-        <template>
+        <template v-if="cabinetType == 0">
             <el-tab-pane label="魔戒总览" lazy>
                 <RingView :switchList="switchList" :switchLoading="loading" />
             </el-tab-pane>
@@ -25,14 +25,16 @@
                 <Test :switchList="switchList" />
             </el-tab-pane>
         </template>
+        <template v-else>
+            <el-tab-pane label="魔戒总览" lazy>
+                <RFIDview :switchList="switchList" :switchLoading="loading" />
+            </el-tab-pane>
+        </template>
     </cc-assetDetail>
 </template>
 
 <script>
-    import RingView from './components/RingView'
-    import RingList from './components/RingList'
-    import Simulate from './components/Simulate'
-    import Test from './components/Test'
+    import { RingView, RingList, Simulate, Test, RFIDview } from './components'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
@@ -75,10 +77,13 @@
             RingList,
             Simulate,
             Test,
-            DataDetail
+            DataDetail,
+            RFIDview
         },
         data() {
             return {
+                // 0: 低压柜 1:中高压
+                cabinetType:0,
                 equipList:[],
                 params:{
                     size:100,
@@ -92,10 +97,13 @@
             }
         },
         created () {
-            const { id, name } =JSON.parse(sessionStorage.getItem("obj"));
+            const { id, name, remark1 } =JSON.parse(sessionStorage.getItem("obj"));
 
-            const userId = this.$store.state.user.userDetail.id
-            this.hasTest = userId == 1 && true
+            // 设备类型
+            this.cabinetType = remark1;
+
+            const userId = this.$store.state.user.userDetail.id;
+            this.hasTest = userId == 1 && true;
 
             this.$route.meta.title = name;
 

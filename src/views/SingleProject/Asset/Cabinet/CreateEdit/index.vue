@@ -6,6 +6,23 @@
         :type="2"
     >
         <template>
+            <el-form-item label="配电柜类型" class="cabinetType" prop="remark1">
+                <el-tooltip 
+                    effect="dark" 
+                    placement="top-start" 
+                    content="低压柜 -> 魔戒 , 中压柜 -> RFID" 
+                >
+                    <i class="el-icon-warning"/>
+                </el-tooltip>
+                <el-select v-model="form.remark1" @change="changeCabinetType" :disabled="editFlag">
+                    <el-option 
+                        v-for="i in cabinetType" 
+                        :key="i.value" 
+                        :label="i.label" 
+                        :value="i.value"
+                    />
+                </el-select>
+            </el-form-item>
             <el-form-item label="所属台区" prop="courtsId">
                 <el-select v-model="form.courtsId" @change="changeCourts">
                     <el-option 
@@ -60,7 +77,7 @@
             <!-- 1.新增主线ID -->
             <div class="outgoing_line" v-for="(i,index) in form.count" :key="index">
                 <el-form-item 
-                    :label="`出线线路-${index+1}-ID (88或99开头)`" 
+                    :label="`出线线路-${index+1}-ID ${form.remark1 == 0? '(88或99开头)': '(66或77开头)'}`" 
                     :prop="`listIds[${index}]`"
                     :rules="[{ validator: validateId, required:true, trigger: ['blur'] }]"
                 > 
@@ -109,9 +126,14 @@
                     inChest:0,
                     count:1,
                     listName:[],
-                    listIds:[]
+                    listIds:[],
+                    remark1:"0"
                 },
                 testnum:0,
+                cabinetType:[
+                    {label:"低压配网柜", value :"0"},
+                    {label:"中高压环网柜", value :"1"},
+                ],
                 courtsMenu:[],
                 roomMenu:[],
                 chestMenu:[],
@@ -175,20 +197,22 @@
             ]),
             //校验出线ID
             validateId(rule, value, callback, param){
+                if(!value){
+                    callback(new Error('出线ID不能为空!'));
+                    return;
+                }
+
                 if (typeof value !== 'number') {
                     callback(new Error('出线ID必须是是数字!'));
                     return;
                 }
-                if(!`${value}`.match(new RegExp("^(88|99).*$"))){
-                    callback(new Error('必须以88或99开头!'));
+                
+                if(!`${value}`.match(new RegExp(`^(${this.form.remark1 == 0 ? '88|99' :'66|77'}).*$`))){
+                    callback(new Error(this.form.remark1 == 0 ? '必须以88或99开头!' :'必须以66或77开头!'));
                     return;
                 }
                 if (`${value}`.length !== 12) {
                     callback(new Error('出线ID长度为12!'));
-                    return;
-                }
-                if(!value){
-                    callback(new Error('出线ID不能为空!'));
                     return;
                 }
 
@@ -263,12 +287,20 @@
             //根据配电房ID获取台区下的配电柜
             changeRoom(id){
                 resetSingle(this,['parentId'],'assetForm');
-                this.getChestList(id)
+                this.getChestList()
             },
             changeInChest(val){
                 if(!val){ 
                     resetSingle(this,['parentId'],'assetForm');
                 }
+            },
+            // 选择配电柜类型
+            changeCabinetType(){
+                if(!this.form.roomId) return;
+                resetSingle(this,['parentId'],'assetForm');
+                this.getChestList()
+                
+
             },
             //获取配电房列表
             getRoomList(id){
@@ -278,8 +310,12 @@
                 })
             },
             //获取配电柜列表
-            getChestList(id){
-                this.getChestMenu({id,type:0}).then(res=>{
+            getChestList(){
+                this.getChestMenu({
+                    id:this.form.roomId,
+                    type:0,
+                    cabinetType:this.form.remark1
+                }).then(res=>{
                     if(!res) return;
                     this.chestMenu = res;
                 })
@@ -303,6 +339,16 @@
             padding: 0 10px;
             cursor: pointer;
             color: #5cb6ff;
+        }
+    }
+    .cabinetType{
+        position: relative;
+        .el-icon-warning{
+            position: absolute;
+            cursor: pointer;
+            color: #5cb6ff;
+            top: -27px;
+            left:84px;
         }
     }
     

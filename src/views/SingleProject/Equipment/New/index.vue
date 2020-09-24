@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import {SelectApply,AddApply,ActApply} from './module'
+    import { SelectApply, AddApply, ActApply } from './module'
 
     export default {
         components: {

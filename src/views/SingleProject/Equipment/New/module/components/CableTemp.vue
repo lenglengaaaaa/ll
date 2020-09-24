@@ -231,7 +231,7 @@
             //配电房切换回调
             roomChange(id){
                 const type = !this.form.sensorType?30:33
-                Promise.all([this.getChestMenu({id,type:2}),this.getDeviceMenu(type)]).then(res=>{
+                Promise.all([this.getChestMenu({ id, type:2 }),this.getDeviceMenu(type)]).then(res=>{
                     const [res1] = res;
                     if(!res1)return;
                     resetSingle(this,['chestId']);
@@ -261,7 +261,7 @@
             //获取台区下属设备(编辑时)
             getItsCourts(obj){
                 const type = !this.form.sensorType?30:33
-                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({id:obj.roomId,type:2}),this.getDeviceMenu(type)]).then(res=>{
+                Promise.all([this.getRoomMenu(obj.courtsId),this.getChestMenu({ id:obj.roomId, type:2 }),this.getDeviceMenu(type)]).then(res=>{
                     const [res1,res2] = res;
                     if(!res1 || !res2 )return;
                     this.roomMenus = res1;

@@ -32,32 +32,21 @@
                                     backgroundRepeat: 'no-repeat'
                                 }"
                             >
-                                <li v-for="k in item.outLineList" :key="k.deviceId">
-                                    <div class="info">
-                                        <el-tooltip effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
-                                            <svg-icon 
-                                                iconClass="ring" 
-                                                className="icon"
-                                            />
-                                        </el-tooltip>
-                                        <span class="temp">
-                                            {{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃
-                                        </span>
-                                        <span class="lineA">
-                                            {{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A
-                                        </span>
-                                        <!-- N相不判断有压、失压 -->
-                                        <!-- projectId为50,贵阳项目临行调整 07-15 -->
-                                        <span 
-                                            :style="{
-                                                color:
-                                                projectId == 50? '' :
-                                                k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''
-                                            }"
-                                        >   
-                                            {{ judgeVoltage(k) }}
-                                        </span>
-                                    </div>
+                                <li v-for="k in item.outLineList" :key="k.deviceId" >
+                                    <template v-if="k.outLineName!=='N'">
+                                        <div class="info">
+                                            <el-tooltip effect="dark" :content="`${k.deviceName}` || 'null'" placement="right">
+                                                <svg-icon 
+                                                    iconClass="ring" 
+                                                    className="icon"
+                                                />
+                                            </el-tooltip>
+                                            <span class="temp">
+                                                {{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃
+                                            </span>
+                                        </div>
+                                    </template>
+                                    
                                 </li>
                             </ul>
                         </li>
@@ -91,24 +80,12 @@
                             </el-form>
                         </div>
                         <LineChart 
-                            :text="`${ringName} (电流曲线图)`" 
-                            id="keyA"
-                            ref="lineAChart"
-                            :value="lineAData"
-                            :timeArray="timeArray"
-                        />
-                        <LineChart 
                             :text="`${ringName} (温度曲线图)`" 
                             id="keyT"
                             ref="tempChart"
                             :value="tempData"
                             :timeArray="timeArray"
                         />
-                        <!-- <DoubleLineChart
-                            :text="ringName" 
-                            :value="all_data"
-                            ref="doubleLine"
-                        /> -->
                     </div>
                 </div>
             </el-col>
@@ -144,13 +121,9 @@
                     this.$moment().format('YYYY-MM-DD 23:59:59')
                 ],
                 timeArray:[],
-                lineAData:[],
                 tempData:[],
                 hasExport:true,
-                linemap:require('@images/linemap.png'),
-                all_data:{
-                    data:{ lineA:[], lineTemp:[] }
-                }
+                linemap:require('@images/RingMainUnit.png'),
             }
         },
         mounted () {
@@ -176,19 +149,6 @@
                 'getRingHistoryData',
                 'getRingHistoryExecl'
             ]),
-            /**
-             * 判断有压无压
-             * A、B、C向显示为失压
-             * N向显示为无压
-             */
-            judgeVoltage(k){
-                if(!k.data) return '----';
-                // 贵州项目屏蔽(temp)
-                if( this.projectId == 50 ) return "有压";
-                if( k.outLineName === 'N' && k.data.decodeHex.lineV == '0') return "无压";
-                if( k.data.decodeHex.lineV == '0') return "失压";
-                return "有压"
-            },
             //选中出线
             selectOutLine(index,item) {
                 if(this.currentRing.switchId === item.switchId) return;
@@ -210,7 +170,6 @@
                 const lineAChart = this.$refs.lineAChart&&this.$refs.lineAChart.chart;
                 const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
                 // const doubleLine = this.$refs.doubleLine&&this.$refs.doubleLine.chart;
-                lineAChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
                 tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
                 // doubleLine.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
 
@@ -225,7 +184,6 @@
                 }).then(res=>{
                     //echart关闭Loading
                     this.loading = false;
-                    lineAChart.hideLoading();
                     tempChart.hideLoading();
                     // doubleLine.hideLoading();
 
@@ -276,13 +234,7 @@
                         })
                     }           
                     
-                    this.lineAData = result['lineA'] || [];
                     this.tempData = result['lineTemp'] || [];
-
-                    // this.all_data = {
-                    //     timeArray : timeResult,
-                    //     data : result
-                    // }
                 })
             },
             //下载
@@ -316,4 +268,15 @@
 
 <style lang="scss" scoped>
     @import '@styles/ringview.scss';
+
+    .RING_VIEW{
+        .list{
+            li{
+                .info{
+                    top: 12px !important;
+                    left: 105px !important;
+                }
+            }
+        }
+    }
 </style>
