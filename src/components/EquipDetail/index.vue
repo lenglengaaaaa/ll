@@ -477,8 +477,9 @@
                     key:this.value
                 }).then(res=>{
                     if(!res)return;
-                    msg.close();
                     downFile(res);
+                }).finally(i=>{
+                    msg.close();
                 })
             },5000),
 

@@ -26,15 +26,18 @@
             </el-tab-pane>
         </template>
         <template v-else>
-            <el-tab-pane label="魔戒总览" lazy>
+            <el-tab-pane label="RFID总览" lazy>
                 <RFIDview :switchList="switchList" :switchLoading="loading" />
+            </el-tab-pane>
+            <el-tab-pane label="RFID列表" lazy>
+                <RFIDList :switchList="switchList" :switchLoading="loading" />
             </el-tab-pane>
         </template>
     </cc-assetDetail>
 </template>
 
 <script>
-    import { RingView, RingList, Simulate, Test, RFIDview } from './components'
+    import { RingView, RingList, Simulate, Test, RFIDview, RFIDList } from './components'
     import DataDetail from '@/components/DataDetail'
     import { mapActions } from 'vuex'
 
@@ -47,25 +50,25 @@
                     "outLineName": "A",
                     "deviceId": null,
                     "data": null,
-                    "deviceName":"占位魔戒一"
+                    "deviceName":"占位设备一"
                 },
                 {
                     "outLineName": "B",
                     "deviceId": null,
                     "data": null,
-                    "deviceName":"占位魔戒二"
+                    "deviceName":"占位设备二"
                 },
                 {
                     "outLineName": "C",
                     "deviceId": null,
                     "data": null,
-                    "deviceName":"占位魔戒三"
+                    "deviceName":"占位设备三"
                 },
                 {
                     "outLineName": "N",
                     "deviceId": null,
                     "data": null,
-                    "deviceName":"占位魔戒四"
+                    "deviceName":"占位设备四"
                 }
             ]
         }
@@ -78,7 +81,8 @@
             Simulate,
             Test,
             DataDetail,
-            RFIDview
+            RFIDview,
+            RFIDList
         },
         data() {
             return {
@@ -107,7 +111,10 @@
 
             this.$route.meta.title = name;
 
-            this.getRingDetail(id).then(res=>{
+            this.getRingDetail({
+                id,
+                deviceType:remark1==1? 41: 36
+            }).then(res=>{
                 this.loading = true;
                 if(!res )return;
                 const { switchList } = res;
@@ -130,16 +137,20 @@
                     outLine = item.outLineList.filter(k => k.deviceAdress === address )[0];
                     if(outLine)break;
                 }
-                if( fc != 36 || !outLine )return;
-                console.log(res,'魔戒数据')
+
+                if( (fc != 36 && fc != 41) || !outLine ) return;
+                // if( (fc == 36 || fc == 41 ) && outLine ){
+                    console.log( res, fc==36?'魔戒数据':"RFID数据" );
                 
-                outLine.data ={
-                    createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
-                    decodeHex:{
-                        ...outLine.data ? outLine.data.decodeHex : {},
-                        ...typeof data === 'string'?JSON.parse(data) : data
+                    outLine.data ={
+                        createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
+                        decodeHex:{
+                            ...outLine.data ? outLine.data.decodeHex : {},
+                            ...typeof data === 'string'?JSON.parse(data) : data
+                        }
                     }
-                }
+                // }
+                
             })
         },
         destroyed () {

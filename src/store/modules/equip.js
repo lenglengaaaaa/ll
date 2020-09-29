@@ -248,8 +248,8 @@ const actions= {
                 tip(res.message,'success');
                 return true;
             }else{
-                const { data } = res;
-                res && tip(data)
+                // const { message } = res;
+                res && tip("更新集中器绑定信息失败")
                 return false;
             }
         })
@@ -259,14 +259,13 @@ const actions= {
     /**
      * 获取配电柜下魔戒视图(详情数据)
      * @param id 配电柜ID
+     * @param deviceType 设备类型(现仅用于RFID设备:41)
      */
-    getRingDetail({commit},id){
+    getRingDetail({commit},obj){
         return request({
             method:'get',
             url:`${api.ringDetail}`,
-            data:{
-                id
-            }
+            data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
                 return res.data

@@ -167,11 +167,8 @@
             //获取历史数据
             getRingHistory(){
                 //echarts加载Loading
-                const lineAChart = this.$refs.lineAChart&&this.$refs.lineAChart.chart;
                 const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
-                // const doubleLine = this.$refs.doubleLine&&this.$refs.doubleLine.chart;
                 tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
-                // doubleLine.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
 
                 this.loading = true;
 
@@ -180,12 +177,12 @@
                 this.getRingHistoryData({
                     queryId:this.switchId,
                     startTime,
-                    endTime
+                    endTime,
+                    deviceType:41
                 }).then(res=>{
                     //echart关闭Loading
                     this.loading = false;
                     tempChart.hideLoading();
-                    // doubleLine.hideLoading();
 
                     const { history } = res;
                     if( !res || !history )return;
@@ -220,7 +217,7 @@
                     this.timeArray = this._.sortBy(timeArray).map(item=>this.$moment(item).format(diffTime));
                     
                     for(let item in result){
-                        result[item] = ['A','B','C','N'].map( k =>{
+                        result[item] = ['A','B','C'].map( k =>{
                             const hasItem = result[item].filter(i => i.outLineName === k);
                             if(hasItem.length){
                                 return hasItem[0];
@@ -253,7 +250,8 @@
                     chestId:id,
                     queryId:this.switchId,
                     startTime,
-                    endTime
+                    endTime,
+                    deviceType:41
                 }).then(res=>{
                     if(!res)return;
                     downFile(res);
@@ -274,7 +272,10 @@
             li{
                 .info{
                     top: 12px !important;
-                    left: 105px !important;
+                    left: 87px !important;
+                    .temp{
+                        padding:0px 20px;
+                    }
                 }
             }
         }

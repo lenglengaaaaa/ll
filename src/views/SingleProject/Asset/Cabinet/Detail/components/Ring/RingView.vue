@@ -41,10 +41,10 @@
                                             />
                                         </el-tooltip>
                                         <span class="temp">
-                                            {{(k.data && k.data.decodeHex.lineTemp)||'----'}} ℃
+                                            {{ k.data ? k.data.decodeHex.lineTemp : '----' }} ℃
                                         </span>
                                         <span class="lineA">
-                                            {{(k.data && `${k.data.decodeHex.lineA}`)||'----'}} A
+                                            {{ (k.data && `${k.data.decodeHex.lineA}`)||'----' }} A
                                         </span>
                                         <!-- N相不判断有压、失压 -->
                                         <!-- projectId为50,贵阳项目临行调整 07-15 -->
@@ -221,7 +221,8 @@
                 this.getRingHistoryData({
                     queryId:this.switchId,
                     startTime,
-                    endTime
+                    endTime,
+                    deviceType:36
                 }).then(res=>{
                     //echart关闭Loading
                     this.loading = false;
@@ -301,7 +302,8 @@
                     chestId:id,
                     queryId:this.switchId,
                     startTime,
-                    endTime
+                    endTime,
+                    deviceType:36
                 }).then(res=>{
                     if(!res)return;
                     downFile(res);

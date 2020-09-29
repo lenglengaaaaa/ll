@@ -85,7 +85,7 @@
                 this.chart && this.chart.resize();
             },
             '$store.state.app.tab_index'(label) {
-                const should_resize = ['魔戒总览','数据视图'];
+                const should_resize = ['魔戒总览','数据视图','RFID总览'];
                 if(should_resize.includes(label)){
                     this.chart && this.chart.resize();
                 }

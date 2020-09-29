@@ -233,7 +233,10 @@
                 this.getOutLineMenu(id).then(res=>{
                     if(!res)return;
                     resetSingle(this,['outLineId']);
-                    this.outlineMenus = res;
+                    
+                    let result = res;
+                    result.length = 3;
+                    this.outlineMenus = result;
                 })
             },
             //编辑状态时请求配电房&配电柜

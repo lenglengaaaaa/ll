@@ -181,15 +181,14 @@
             },
             //切换设备
             changeType(type){
-                // const data ={
-                //     ...this.params,
-                //     deviceType,
-                //     current:1
-                // }
-                // if(!deviceType) delete data.deviceType;
-                // this.params = data;
-                // this.$children[0]&&this.$children[0].getListData(data);
-                console.log('aaa')
+                const data ={
+                    ...this.params,
+                    remark1:type,
+                    current:1
+                }
+                if(!type) delete data.remark1;
+                this.params = data;
+                this.$children[0]&&this.$children[0].getListData(data);
             },
         },
     }

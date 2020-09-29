@@ -132,7 +132,7 @@
                 data:[],
                 time: [
                     this.$moment().subtract(0, 'days').format('YYYY-MM-DD 00:00:00'), 
-                    this.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+                    this.$moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
                 ],
                 loading:false,
                 form: {
@@ -190,8 +190,7 @@
                             currentCount - standardCount > 0 ?
                             '0%':
                             // +(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100 + '%'
-                            Math.round(+(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100) + '%'
-                            
+                            (+(`${(standardCount - currentCount)/standardCount}`.match(/^\d+(?:\.\d{0,2})?/))*100).toFixed(2) + '%'
 
                         return [
                             ...pre,

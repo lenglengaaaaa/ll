@@ -300,7 +300,7 @@
                                 }
                                 // const { isBinding, deviceAddress } = this.form;
                                 const { deviceAddress } = this.form;
-                                deviceType == 36 && this.updateConcentratorBindinig({
+                                (deviceType == 36 || deviceType == 41) && this.updateConcentratorBindinig({
                                     deviceAddress,
                                     groupId:1
                                 });
