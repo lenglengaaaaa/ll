@@ -108,6 +108,9 @@
                 this.chart && this.chart.resize()
             },
             drawLine(){
+                // 解决数据残留问题
+                this.chart && this.chart.clear();
+
                 const result = this.value.map((item,index)=>{
                     return {
                         data:item.data,
@@ -139,11 +142,9 @@
                 
                 //魔戒折线颜色
                 this.text && (this.option.color=['#fdd835','#43a047','#e53935','#795548']);
-                // 基于准备好的dom，初始化echarts实例
                 
-                this.chart.clear();
                 // 绘制图表
-                this.chart.setOption(this.option,true)
+                this.chart.setOption(this.option, true);
             },
         }
     }
