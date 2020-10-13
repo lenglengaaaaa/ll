@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="create_edit">
         <el-table
             v-loading="loading"
             element-loading-text="拼命加载中"
@@ -9,7 +9,6 @@
             height="77.5vh"
             max-height="77.5vh"
             header-cell-class-name="table_header"
-            v-if="!detailFlag"
         >   
             <el-table-column
                 prop="typeName"
@@ -44,12 +43,13 @@
                 show-overflow-tooltip
             />
         </el-table>
-        <div v-else>
-            <EquipDetail 
-                :hasClose="true"
-                :close="skipToList"
-            />
-        </div>
+        <el-dialog
+            :title="equipName"
+            :visible.sync="detailFlag"
+            :before-close="skipToList"
+        >
+            <EquipDetail></EquipDetail>
+        </el-dialog>
     </div>
 </template>
 
@@ -68,7 +68,8 @@
         data() {
             return {
                 detailFlag:false,
-                loading:false
+                loading:false,
+                equipName:''
             }
         },
         mounted () {
@@ -99,6 +100,7 @@
             },
             skipToDetail(row) {
                 sessionStorage.setItem('equipObj',JSON.stringify(row))
+                this.equipName = row.name;
                 this.detailFlag = true;
             },
             filterHandler(value, row, column) {
@@ -109,10 +111,8 @@
     }
 </script>
 
-<style lang="scss">
-    .Equip_Detail{
-        .wrap{
-            border: 1px solid #e4e7ed;
-        }
+<style lang="scss" scope>
+    .el-dialog{
+        width: 1000px !important;
     }
 </style>
