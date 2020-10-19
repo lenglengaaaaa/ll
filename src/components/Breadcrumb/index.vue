@@ -30,7 +30,12 @@ export default {
   methods: {
     getBreadcrumb() {
       // only show routes with meta.title
-      let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+      let matched = this.$route.matched.filter(item => item.meta && item.meta.title);
+
+      // temporay 2020/10/19
+      // console.log(matched);
+      // matched[1].meta.title="电缆沟001";
+
       const first = matched[0]
       // matched = [{ path: '/application', meta: { title: '应用管理' }}].concat(matched)
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)

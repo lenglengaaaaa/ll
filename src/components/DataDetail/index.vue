@@ -15,6 +15,9 @@
                 <p>
                     <span>数据上传时间 :&nbsp;</span>
                     <strong>{{magicData.createTime || "---"}}</strong>
+
+                    <!-- temporay 2020/10/19 -->
+                    <!-- <strong>2018-09-15 10:59:16</strong> -->
                 </p>
             </div>
             <div class="content">
@@ -169,6 +172,10 @@
                     if(!res)return;
                     this.magicList = res;
                     if(res.length){
+                        
+                        // temporay 2020/10/19
+                        // res[0].name = "电缆沟魔节001";
+
                         this.currentMagic = res[0];
                         this.magicId = res[0].id;
                         this.getMagicData( res[0].id);

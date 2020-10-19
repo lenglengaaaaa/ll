@@ -80,6 +80,28 @@
                 })
             });
         },
+        
+        // temporay 2020/10/19
+        // mounted () {
+        //     this.$notify({
+        //         duration: 0,
+        //         title: '告警信息',
+        //         type: 'warning',
+        //         dangerouslyUseHTMLString: true,
+        //         message:`
+        //             <div class="noti">
+        //                 <div>设备名称 : <strong>电缆沟液位传感器001</strong></div>
+        //                 <div>设备类型 : <strong>水浸传感器</strong></div>
+        //                 <div>设备地址域 : <strong>371900000446</strong></div>
+        //                 <div>所属项目 : <strong>光明职创项目</strong></div>
+        //                 <div>告警信息 : <strong class="red">水位过高</strong></div>
+        //                 <div>告警时间 : <strong>2018-9-15 10:59:16</strong></div>
+        //                 <div class="tip">注 :点击查看详情</div>
+        //             </div>
+        //         `,
+        //     })
+        // },
+        
         destroyed () {
             this.client && this.client.end();
         },

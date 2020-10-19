@@ -4,6 +4,10 @@
         <div class="Sidebar_container" :style="{left:device==='mobile'&&!isCollapse?'':'-54px'}">
             <div class="app_title">
                 <p v-if="!isCollapse">{{projectName}}</p>
+
+                <!-- temporay 2020/10/19 -->
+                <!-- <p v-if="!isCollapse">光明职创项目</p> -->
+                
                 <el-tooltip effect="light" :content="projectName" placement="right" v-else>
                     <i class="el-icon-info"></i>
                 </el-tooltip>
