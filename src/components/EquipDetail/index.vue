@@ -283,8 +283,6 @@
             [this.firstArray, this.secondArray].forEach(item=>this.getData(item));
             this.getSingleData();
 
-            //获取设备经纬度
-            // this.getEquipPostion();
             //获取告警
             this.getEquipAlaramList();
 
@@ -328,6 +326,7 @@
                     })
                 }
             },
+            
             //获取个别信息
             getSingleData(){
                 const { parentType , parentName , longitude , latitude , location , createTime , imageUrls } = this.equipObj;
@@ -343,29 +342,40 @@
                 //设备视图
                 this.imageUrls = imageUrls || [];
             },
-            //获取设备经纬度
-            // getEquipPostion(){
-            //     const { longitude, latitude, location } = this.equipObj;
-
-            //     if( !longitude || !latitude ){
-            //         location && this.getGeocode(location).then(res=>{
-            //             if(!res) return;
-
-            //             let position = res[0].location.split(',');
-            //             this.single.position = [ +position[0], +position[1] ];
-            //         })
-            //     }else{
-            //         this.single.position = [ longitude, latitude];
-            //     }
-            // },
 
             // 有实时数据以及历史数据(现仅用于集中器 & 定位桩)
             hasCurrentandHistory( params ){
-                const { deviceAdress, deviceType } = params;
+                const { deviceType } = params;
                 
                 if( deviceType != 33 && deviceType != 40 )  return;
 
-                //通过接口获取实时数据
+                this.getDeviceCurrentData();
+
+                this.mqttConnection();
+
+                // 判断是集中器还是定位桩类型
+                this.value = deviceType == 33 ? "v" : "batteryV"; 
+
+                // 获取历史数据
+                this.getDeviceHistoryData();
+                
+            },
+            //切换日期
+            changeDate(date){
+                if( !date )return;
+                this.time = [ date[0], date[1] ];
+                this.getDeviceHistoryData();
+            },
+            //切换环境变量
+            changeParam(val){
+                this.value = val;
+                this.getDeviceHistoryData();
+            },
+
+            // 获取最后一条数据(实时数据)
+            getDeviceCurrentData(){
+                const { deviceAdress, deviceType } = this.equipObj;
+
                 this.getOtherCurrentData({
                     deviceAddress: deviceAdress,
                     deviceType
@@ -380,6 +390,11 @@
                         createTime:this.$moment(dataMap[deviceAdress].createTime).format('YYYY-MM-DD HH:mm:ss')
                     }
                 })
+            },
+
+            // 通过Mqtt获取实时数据
+            mqttConnection(){
+                const { deviceAdress } = this.equipObj;
 
                 //通过Mqtt获取实时数据
                 this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
@@ -405,15 +420,8 @@
                         }
                     }
                 })
-
-                // 判断是集中器还是定位桩类型
-                this.value = deviceType == 33 ? "v" : "batteryV"; 
-
-                // 获取历史数据
-                this.getDeviceHistoryData();
-
-                
             },
+
             // 获取设备历史数据
             getDeviceHistoryData(){
                 const { deviceAdress, deviceType } = this.equipObj;
@@ -449,17 +457,7 @@
                     this.loading = false;
                 })
             },
-            //切换日期
-            changeDate(date){
-                if( !date )return;
-                this.time = [ date[0], date[1] ];
-                this.getDeviceHistoryData();
-            },
-            //切换环境变量
-            changeParam(val){
-                this.value = val;
-                this.getDeviceHistoryData();
-            },
+
             //下载
             download: _.throttle(function(){
                 const { deviceAdress, deviceType } = this.equipObj;

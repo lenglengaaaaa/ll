@@ -49,7 +49,7 @@ const actions= {
                     return  get_Menu_authority(user_detail.permissionVO);
 
                 }else{
-                    res&&tip(res.meassage)
+                    res && res.code ? tip(res.meassage): tip("系统服务器异常, 请联系管理员");
                     return false;
                 }   
             })
