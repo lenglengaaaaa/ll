@@ -264,12 +264,6 @@
             //井盖切换回调
             trapChange(id){
                 this.getDeviceMenu(30);
-                // Promise.all([this.getLineInTrapMenu(id),this.getDeviceMenu(30)]).then(res=>{
-                //     const [res1] = res;
-                //     if(!res1)return;
-                //     resetSingle(this,['lineId','parentId']);
-                //     this.lineMenus = res1;
-                // })
             },
             //台区切换回调
             courtsChange(id){
@@ -323,11 +317,6 @@
             //获取井盖下资产&设备(编辑时)
             getItsTrap(obj){
                 this.getDeviceMenu(30);
-                // Promise.all([this.getLineInTrapMenu(obj.trapId),this.getDeviceMenu(30)]).then(res=>{
-                //     const [res1] = res;
-                //     if(!res1) return;
-                //     this.lineMenus = res1;
-                // })
             }
         },
     }

@@ -97,16 +97,16 @@
             }
         },
         mounted () {
-            const {id} = JSON.parse(sessionStorage.getItem('project'));
-            const {data,editFlag} = JSON.parse(sessionStorage.getItem('equipObj'));
+            const { id } = JSON.parse(sessionStorage.getItem('project'));
+            const { data, editFlag } = JSON.parse(sessionStorage.getItem('equipObj'));
             this.projectId = id;
             this.editFlag = editFlag;
             this.form={
                 ...this.form,
                 ...data,
-                assetType:(!data.trapName&&!data.courtsName)?0:data.trapName?0:1
+                assetType:( !data.trapName && !data.courtsName )? 0: data.trapName? 0: 1
             };
-            this.getGatewayMenu({current:1,size:50}).then(res=>{
+            this.getGatewayMenu({ current:1, size:50 }).then(res=>{
                 if(!res)return;
                 this.gateWayMenu = res;
             })
@@ -114,7 +114,7 @@
                 if(!res)return;
                 this.trapMenus = res ;
             });
-            if(editFlag&&data.courtsId){
+            if( editFlag && data.courtsId ){
                 this.getRoomMenu(data.courtsId).then(res=>{
                     if(!res)return;
                     this.roomMenus = res;

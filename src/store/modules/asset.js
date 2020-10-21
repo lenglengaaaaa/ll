@@ -510,7 +510,7 @@ const actions= {
             method:'get',
             url:`${api.chestListAll}`,
             data:{
-                roomId:obj.id,
+                roomIds:obj.id,
                 chestType:obj.type,
                 remark1: obj.cabinetType != null && obj.cabinetType == 0 ? 0 : obj.cabinetType ||  -1
             }

@@ -181,23 +181,21 @@
                     // location: [{ required: true, message: '请填写设备安装位置', trigger: 'blur' }],
                     // isBinding :[{ required: true, trigger: 'change' }],
                 },
-                // hasPosition:false
             }
         },
-        // mounted () {
-        //     this.getEquipPostion();
-        // },
         created () {
             const { data, editFlag } = this.equipObj;
+
+            // 设备图片
             const imgUrls = data.imageUrls&&data.imageUrls.length&&data.imageUrls.map(item=>{ 
                 return { ...item,url:item.imagePath } 
             }) || [];
-            this.editFlag = editFlag;
-            this.position = [ data.longitude||113.991244, data.latitude||22.5959 ];
-
             this.fileList = imgUrls;
             this.imageUrls = imgUrls.map(item=>{return {...item,imagePath:item.url}});
             this.hideUpload = this.imageUrls.length >= this.limitCount;
+
+            this.editFlag = editFlag;
+            this.position = [ data.longitude || 113.991244, data.latitude || 22.5959 ];
 
         },
         computed: {
@@ -215,12 +213,10 @@
                 if(this.editFlag)return '编辑完成';
                 //创建类型为魔戒(36)
                 if(deviceType==36){
-                    //独立&LoRa
-                    if(!this.form.isSingle && this.form.commWay){
-                        return '下一步';
-                    }
+                    //独立 or LoRa
+                    if(!this.form.isSingle && this.form.commWay) return '下一步';
                 }else{
-                    if(this.form.commWay) return '下一步'
+                    if(this.form.commWay) return '下一步' ;
                 }
                 return '创建完成'
             },
@@ -230,11 +226,9 @@
                 //创建类型为魔戒(36)
                 if(deviceType==36){
                     //独立&LoRa
-                    if(!this.form.isSingle && this.form.commWay){
-                        return true;
-                    }
+                    if(!this.form.isSingle && this.form.commWay)  return true;
                 }else{
-                    if(this.form.commWay) return true
+                    if(this.form.commWay) return true ;
                 }
                 return false
             }
@@ -250,31 +244,6 @@
                 'updateEquip',
                 'updateConcentratorBindinig'
             ]),
-            // ...mapActions('overall',[
-            //     'getGeocode',
-            // ]),
-            // //获取设备经纬度
-            // getEquipPostion(){
-            //     const { data, editFlag } = this.equipObj;
-            //     const { longitude, latitude, location } = data;
-
-            //     if( editFlag ){
-            //         if( !longitude || !latitude ) {
-            //             location && this.getGeocode(location).then(res=>{
-            //                 if(!res) return;
-
-            //                 this.position = res[0].location.split(',');
-            //                 this.hasPosition = true;
-            //                 return;
-            //             })
-            //         }else{
-            //             this.position = [ longitude, latitude ];
-            //             this.hasPosition = true;
-            //         }
-            //     }else{
-            //         this.hasPosition = true;
-            //     }
-            // },
             submit() {
                 this.$refs.equipForm.validate((valid) => {
                     if (valid) {
@@ -287,7 +256,7 @@
                             longitude:this.position[0],
                             latitude:this.position[1]
                         }
-                        //创建集中器时 添加is_single
+                        //创建集中器/电缆定位桩时 添加is_single
                         if( deviceType == 33 || deviceType == 40 ) data.is_single = 0;
 
                         if(!this.editFlag){

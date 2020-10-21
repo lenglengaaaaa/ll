@@ -170,14 +170,14 @@
             this.getTrapMenu(id).then(res=>{
                 if(!res)return;
                 this.trapMenus = res ;
-                if(editFlag&&data.trapId){
+                if( editFlag && data.trapId ){
                     this.getItsTrap(data);
                 }
             });
             //台区
-            if(editFlag&&data.courtsId){
+            if( editFlag && data.courtsId ){
                 this.getCourtsMenu(id).then(res=>{
-                    if(!res)return;
+                    if( !res )return;
                     this.courtsMenus = res ;
                     this.getItsCourts(data);
                 });
