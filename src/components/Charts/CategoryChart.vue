@@ -6,38 +6,23 @@
 </template>
 
 <script>
+    import ChartMixin from './mixin/Chart_mixin';
+
     export default {
         props: {
             equipList: Array
         },
+        mixins:[ ChartMixin ],
         data() {
-            return {
-                chart: null,
-            }
+            return {}
         },
         mounted() {
             this.$nextTick(()=>{
                 this.chart = this.$echarts.init(this.$refs.categoryChart);
                 this.initChart();
             })
-            
-            window.addEventListener('resize',this.$_handleResizeChart);
-            this.$once('hook:beforeDestroy', () => {
-                window.removeEventListener('resize',this.$_handleResizeChart)
-                if (!this.chart) return
-                this.chart.dispose();
-                this.chart = null;
-            })
-        },
-        watch: {
-            '$store.state.app.sidebar.opened'(flag) {
-                this.chart&&this.chart.resize();
-            }
         },
         methods: {
-            $_handleResizeChart(){
-                this.chart && this.chart.resize()
-            },
             initChart() {
                 const names = this.equipList.map(item=>item.name);
                 //把配置和数据放这里

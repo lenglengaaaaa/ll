@@ -6,6 +6,8 @@
 </template>
 
 <script>
+    import ChartMixin from './mixin/Chart_mixin';
+
     export default {
         props: {
             value: {
@@ -13,51 +15,30 @@
                 default:()=>{} 
             },
         },
+        mixins:[ ChartMixin ],
         data() {
-            return {
-                chart: null,
-            }
+            return {}
         },
         mounted() {
             this.chart = this.$echarts.init(this.$refs.gaugeChart);
             this.getData();
-
-            window.addEventListener('resize',this.$_handleResizeChart);
-            this.$once('hook:beforeDestroy', () => {
-                window.removeEventListener('resize',this.$_handleResizeChart)
-                if (!this.chart) return
-                this.chart.dispose();
-                this.chart = null;
-            })
         },
         watch: {
             value(value) {
                 this.getData();
-            },
-            '$store.state.app.sidebar.opened'(flag) {
-                this.chart&&this.chart.resize();
-            },
-            '$store.state.app.tab_index'(label) {
-                const should_resize = ['数据视图'];
-                if(should_resize.includes(label)){
-                    this.chart && this.chart.resize();
-                }
             }
         },
         methods: {
-            $_handleResizeChart(){
-                this.chart && this.chart.resize()
-            },
             //获取当前数值
             getData(){
-                const {name,value,createTime} = this.value;
+                const { name, value, createTime } = this.value;
                 const time = createTime&&this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss') || "未知";
                 let obj = {
                     max:0,
                     title:'',//名称,
                     time
                 }
-                let cfg ={value};
+                let cfg ={ value };
                 switch (name) {
                     case "temp":
                         obj.name = "环境温度";

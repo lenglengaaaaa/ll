@@ -7,6 +7,8 @@
 </template>
 
 <script>
+    import ChartMixin from './mixin/Chart_mixin';
+
     export default {
         props: {
             id:String,
@@ -17,96 +19,20 @@
                 default:''
             }
         },
+        mixins:[ ChartMixin ],
         data() {
-            return {
-                chart: null,
-                option:{
-                    title: {
-                        text: this.text
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross'
-                        },
-                        padding: [5, 10]
-                    },
-                    grid: {
-                        left: 30,
-                        right: 30,
-                        top: 60,
-                        containLabel: true
-                    },
-                    legend: {
-                        type: 'scroll',
-                        x:'right',
-                        // orient:'vertical',
-                        align:'right',
-                        formatter: (name) =>{
-                            return this.$echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…');
-                        },
-                        tooltip: {
-                            show: true
-                        }
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data:[],
-                        axisLine: {onZero: false},
-                    },
-                    yAxis: {
-                        type: 'value',
-                        boundaryGap: ['20%', '20%'],
-                        axisTick: {
-                            show: false
-                        }
-                    },
-                    dataZoom: [
-                        {
-                            type: 'inside',
-                        },
-                        {
-                            type: 'slider',
-                            filterMode: 'none',
-                        }
-                    ],
-                    series:[],
-                }
-            }
+            return {}
         },
         watch: {
             value() {
                 this.drawLine();
-            },
-            text(value){
-                this.option.title.text = value;
-            },
-            '$store.state.app.sidebar.opened'(flag) {
-                this.chart && this.chart.resize();
-            },
-            '$store.state.app.tab_index'(label) {
-                const should_resize = ['魔戒总览','数据视图','RFID总览'];
-                if(should_resize.includes(label)){
-                    this.chart && this.chart.resize();
-                }
             }
         },
         mounted() {
             this.chart = this.$echarts.init(document.getElementById(this.id))
             this.drawLine();
-            
-            window.addEventListener('resize',this.$_handleResizeChart);
-            this.$once('hook:beforeDestroy', () => {
-                window.removeEventListener('resize',this.$_handleResizeChart)
-                if (!this.chart) return
-                this.chart.dispose();
-                this.chart = null;
-            })
         },
         methods: {
-            $_handleResizeChart(){
-                this.chart && this.chart.resize()
-            },
             drawLine(){
                 // 解决数据残留问题
                 this.chart && this.chart.clear();
@@ -137,14 +63,63 @@
                         // showAllSymbol: true//标注所有数据点 , 多数据时会有卡顿
                     }
                 })
-                this.option.series = result;
-                this.option.xAxis.data = this.timeArray;
                 
-                //魔戒折线颜色
-                this.text && (this.option.color=['#fdd835','#43a047','#e53935','#795548']);
-                
+                const option = {
+                    title: {
+                        text: this.text
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        },
+                        padding: [5, 10]
+                    },
+                    grid: {
+                        left: 30,
+                        right: 30,
+                        top: 60,
+                        containLabel: true
+                    },
+                    legend: {
+                        type: 'scroll',
+                        x:'right',
+                        // orient:'vertical',
+                        align:'right',
+                        formatter: (name) =>{
+                            return this.$echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…');
+                        },
+                        tooltip: {
+                            show: true
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data:this.timeArray,
+                        axisLine: {onZero: false},
+                    },
+                    yAxis: {
+                        type: 'value',
+                        boundaryGap: ['20%', '20%'],
+                        axisTick: {
+                            show: false
+                        }
+                    },
+                    dataZoom: [
+                        {
+                            type: 'inside',
+                        },
+                        {
+                            type: 'slider',
+                            filterMode: 'none',
+                        }
+                    ],
+                    series:result
+                }
+                this.text && (option.color=['#fdd835','#43a047','#e53935','#22a7f0']);
+
                 // 绘制图表
-                this.chart.setOption(this.option, true);
+                this.chart.setOption(option, true);
             },
         }
     }
