@@ -9,8 +9,13 @@ export default {
     },
     data() {
         return {
-            options: [
-                    {value: 'co',label: '一氧化碳'}, 
+            options: [ {value: 'co',label: '一氧化碳'} ],
+            commonOptions: [
+                {value: 'batteryA',label: '电池电压'}, 
+                {value: 'shake',label: '震动数据'}, 
+                {value: 'node433',label: '433M节点参数'}, 
+                {value: 'signal',label: '信号强度'}, 
+                {value: 'CBTemp',label: '板子自身温度'}
             ],
             value: 'co',
         }

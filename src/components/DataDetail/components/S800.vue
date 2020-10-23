@@ -66,6 +66,7 @@
             ref="lineChart"
             :value="currentValue"
             :timeArray="timeArray"
+            :unit="value"
         />
     </div>
 </template>
@@ -80,7 +81,7 @@
             sEightData: Array,
             s800Loading:Boolean
         },
-        mixins:[SensorMixin,Throttle],
+        mixins:[ SensorMixin, Throttle ],
         data() {
             return {
                 loading:false,
@@ -88,6 +89,13 @@
             }
         },
         mounted () {
+            this.options = [ 
+                {value: 'co',label: '一氧化碳'},
+                {value: 'infrared',label: '红外数据'},
+                {value: 'liquid',label: '液位数据'},
+                ...this.commonOptions
+            ];
+
             this.getS800History();
         },
         methods: {
@@ -112,8 +120,11 @@
                     lineChart.hideLoading();
                     this.loading = false;
                     
-                    const {deviceInfoList,dataMap} = res;
-                    if(!res || !deviceInfoList.length)return;
+                    const { deviceInfoList, dataMap } = res;
+                    if(!res || !deviceInfoList.length){
+                        this.currentValue = [];
+                        return;
+                    };
                     const { result, timeResult } = lastDataFilter({
                         list:deviceInfoList,
                         data:dataMap,

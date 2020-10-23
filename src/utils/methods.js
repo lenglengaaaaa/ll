@@ -518,3 +518,43 @@ export const get_Menu_authority = (permissionVO) =>{
         return permissionIds.includes(item);
     })
 }
+
+
+/**
+ * @time 2020/10/23
+ * 折线图Y轴单位
+ */
+export const getYAxisUnit = (value) =>{
+    switch (value) {
+        case "temp":
+        case "lineTemp":
+        case "CBTemp":
+            return "℃"
+        case "hum":
+        case "o2":
+        case "h2s":
+        case "co":
+        case "ch4":
+        case "o3":
+            return "%"
+        case "bat":
+        case "lineV":
+        case "batteryA":
+        case "v":
+        case "batteryV":
+            return "V"
+        case "signal":
+        case "signalNB":
+            return "dbm"
+        case "lineA":
+            return "A"
+        case "node433":
+            return "Mhz"
+        case "illumination":
+            return "lx"
+        case "inclination":
+            return "°"
+        default:
+            return "";
+    }
+}

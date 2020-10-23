@@ -12,7 +12,7 @@ export default {
             ],
             allData:[],
             timeArray:[],
-            currentValue:[],
+            currentValue:[]
         }
     },
     computed: {
@@ -102,10 +102,6 @@ export default {
                 default:
                     console.log('null')
             }
-        },
-        //切换变量
-        changeParam(val){
-            this.currentValue = this.allData[val] || [];
-        },
+        }
     }
 }

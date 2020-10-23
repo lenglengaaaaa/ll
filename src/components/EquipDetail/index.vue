@@ -152,6 +152,7 @@
                             ref="lineChart"
                             :value="currentValue"
                             :timeArray="timeArray"
+                            :unit="value"
                         />
                     </div>
                 </div>

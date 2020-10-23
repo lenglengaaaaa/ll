@@ -85,6 +85,7 @@
                             ref="tempChart"
                             :value="tempData"
                             :timeArray="timeArray"
+                            unit="temp"
                         />
                     </div>
                 </div>

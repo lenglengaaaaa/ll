@@ -66,6 +66,7 @@
             ref="lineChart"
             :value="currentValue"
             :timeArray="timeArray"
+            :unit="value"
         />
     </div>
 </template>
@@ -74,14 +75,6 @@
     import { lastDataFilter } from '@/utils/methods'
     import SensorMixin from './mixin/Sensor'
     import Throttle from './mixin/Throttle'
-
-    const commonOptions = [
-        {value: 'batteryA',label: '电池电压'}, 
-        {value: 'shake',label: '震动数据'}, 
-        {value: 'node433',label: '433M节点参数'}, 
-        {value: 'signal',label: '信号强度'}, 
-        {value: 'CBTemp',label: '板子自身温度'}
-    ]
 
     export default {
         props: {
@@ -110,7 +103,7 @@
                     }
                 }
 
-                this.options =[ option(type), ...commonOptions ];
+                this.options =[ option(type), ...this.commonOptions ];
 
                 // 801 -> 803/805
                 this.value == "co" && type == 803 && (this.value = 'infrared');
@@ -126,7 +119,7 @@
             }
         },
         mounted(){
-            this.options = [ {value: 'co',label: '一氧化碳'}, ...commonOptions ];
+            this.options = [ {value: 'co',label: '一氧化碳'}, ...this.commonOptions ];
             this.getSensorHistory('801');
         },
         methods: {
@@ -163,7 +156,13 @@
                         this.currentValue = [];
                         return;
                     };
-                    const { result, timeResult } = lastDataFilter({list:deviceInfoList,data:dataMap,type:'sensor',startTime,endTime})
+                    const { result, timeResult } = lastDataFilter({
+                        list: deviceInfoList,
+                        data: dataMap,
+                        type: 'sensor',
+                        startTime,
+                        endTime
+                    })
                     this.timeArray = timeResult;
                     this.currentValue = result;
                 })

@@ -8,12 +8,14 @@
 
 <script>
     import ChartMixin from './mixin/Chart_mixin';
+    import { getYAxisUnit } from "@/utils/methods";
 
     export default {
         props: {
             id:String,
             timeArray:Array,
             value:Array,
+            unit:String,
             text:{
                 type:String,
                 default:''
@@ -29,7 +31,7 @@
             }
         },
         mounted() {
-            this.chart = this.$echarts.init(document.getElementById(this.id))
+            this.chart = this.$echarts.init(document.getElementById(this.id));
             this.drawLine();
         },
         methods: {
@@ -99,6 +101,11 @@
                         axisLine: {onZero: false},
                     },
                     yAxis: {
+                        name: getYAxisUnit(this.unit),
+                        nameTextStyle:{
+                            fontWeight:"bold",
+                            fontSize:15
+                        },
                         type: 'value',
                         boundaryGap: ['20%', '20%'],
                         axisTick: {

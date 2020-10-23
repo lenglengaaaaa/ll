@@ -96,6 +96,7 @@
                             ref="lineAChart"
                             :value="lineAData"
                             :timeArray="timeArray"
+                            unit="lineA"
                         />
                         <LineChart 
                             :text="`${ringName} (温度曲线图)`" 
@@ -103,6 +104,7 @@
                             ref="tempChart"
                             :value="tempData"
                             :timeArray="timeArray"
+                            unit="temp"
                         />
                         <!-- <DoubleLineChart
                             :text="ringName" 

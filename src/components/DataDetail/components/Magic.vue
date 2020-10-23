@@ -57,6 +57,7 @@
                 ref="lineChart"
                 :value="currentValue"
                 :timeArray="timeArray"
+                :unit="value"
             />
         </div>
     </div>
@@ -143,6 +144,11 @@
                 if(!date)return;
                 this.time = [date[0],date[1]];
                 this.getMagicHistory();
+            },
+            //切换变量
+            changeParam(val){
+                this.value = val;
+                this.currentValue = this.allData[val] || [];
             }
         },
     }

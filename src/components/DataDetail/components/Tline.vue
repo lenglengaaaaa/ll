@@ -84,6 +84,7 @@
             ref="lineChart"
             :value="currentValue"
             :timeArray="timeArray"
+            :unit="value"
         />
     </div>
 </template>
@@ -124,7 +125,7 @@
             }
         },
         mounted () {
-            this.getLineHistory();;
+            this.getLineHistory();
         },
         methods: {
             //获取线缆历史数据
