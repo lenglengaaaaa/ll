@@ -75,13 +75,21 @@
     import SensorMixin from './mixin/Sensor'
     import Throttle from './mixin/Throttle'
 
+    const commonOptions = [
+        {value: 'batteryA',label: '电池电压'}, 
+        {value: 'shake',label: '震动数据'}, 
+        {value: 'node433',label: '433M节点参数'}, 
+        {value: 'signal',label: '信号强度'}, 
+        {value: 'CBTemp',label: '板子自身温度'}
+    ]
+
     export default {
         props: {
             sensorData: Array,
             sensorType:String,
             sensorLoading:Boolean
         },
-        mixins:[SensorMixin,Throttle],
+        mixins:[ SensorMixin, Throttle ],
         data() {
             return {
                 loading:false,
@@ -90,10 +98,35 @@
         },
         watch: {
             sensorType( type ) {
+                // 不同类型的独立传感器, 显示不同的下拉列表.
+                const option = (type)=>{
+                    switch (type) {
+                        case "801":
+                            return {value: 'co',label: '一氧化碳'};
+                        case "803":
+                            return {value: 'infrared',label: '红外数据'};
+                        default:
+                            return {value: 'liquid',label: '液位数据'};
+                    }
+                }
+
+                this.options =[ option(type), ...commonOptions ];
+
+                // 801 -> 803/805
+                this.value == "co" && type == 803 && (this.value = 'infrared');
+                this.value == "co" && type == 805 && (this.value = 'liquid');
+                // 803 -> 801/805
+                this.value == "infrared" && type == 801 && (this.value = 'co');
+                this.value == "infrared" && type == 805 && (this.value = 'liquid');
+                // 805 -> 801/803   
+                this.value == "liquid" && type == 801 && (this.value = 'co');
+                this.value == "liquid" && type == 803 && (this.value = 'infrared');
+
                 this.getSensorHistory(type);
             }
         },
         mounted(){
+            this.options = [ {value: 'co',label: '一氧化碳'}, ...commonOptions ];
             this.getSensorHistory('801');
         },
         methods: {

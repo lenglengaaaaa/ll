@@ -317,6 +317,16 @@ export const downFile = (content, filename='')=>{
     document.body.removeChild(eleLink);
 }
 
+
+// 800系列参数
+const CommonParams = {
+    batteryA:{value:null,createTime:null},
+    shake:{value:null,createTime:null},
+    node433:{value:null,createTime:null},
+    signal:{value:null,createTime:null},
+    CBTemp:{value:null,createTime:null}
+}
+
 /**
  * 设备视图,无数据有设备时默认值
  */
@@ -333,17 +343,28 @@ const defaultValue = (type)=>{
                 shake:{value:null,createTime:null},
                 signal:{value:null,createTime:null}
             }
+        case '801':
+            return {
+                co:{value:null,createTime:null},
+                ...CommonParams
+            }
+        case '803':
+            return {
+                infrared:{value:null,createTime:null},
+                ...CommonParams
+            }
+        case '805':
+            return {
+                liquid:{value:null,createTime:null},
+                ...CommonParams
+            }
         case 's800':
         case 'sensor':
             return {
                 co:{value:null,createTime:null},
                 infrared:{value:null,createTime:null},
                 liquid:{value:null,createTime:null},
-                batteryA:{value:null,createTime:null},
-                shake:{value:null,createTime:null},
-                node433:{value:null,createTime:null},
-                signal:{value:null,createTime:null},
-                CBTemp:{value:null,createTime:null}
+                ...CommonParams
             }
         default:
             
@@ -356,7 +377,7 @@ const defaultValue = (type)=>{
  * @param dataMap 数据
  * @param type 设备类型
  */
-export const dataProcessing=(list,dataMap,type='line')=>{
+export const dataProcessing=( list, dataMap, type='line' )=>{
     const result = list.reduce((pre,current)=>{
         const { id, name, number, isDelete, deviceType, deviceAdress } = current;
         const currentData = type==='line'? dataMap[id] :
@@ -372,7 +393,7 @@ export const dataProcessing=(list,dataMap,type='line')=>{
                 createTime:currentData?
                     moment(currentData.createTime).format('YYYY-MM-DD HH:mm:ss'):null,
                 data:currentData?
-                    currentDataFilter(currentData,type):defaultValue(type)
+                    currentDataFilter(currentData,type): defaultValue(type)
             }
         ]
     },[])
@@ -388,6 +409,15 @@ export const currentDataFilter = (res,type)=>{
             break;
         case 'line':
             arr = ['batteryA','CBTemp','lineA','lineTemp','lineV','node433','shake','signal']
+            break;
+        case '801':
+            arr = ['co','batteryA','shake','node433','signal','CBTemp']
+            break;
+        case '803':
+            arr = ['infrared','batteryA','shake','node433','signal','CBTemp']
+            break;
+        case '805':
+            arr = ['liquid','batteryA','shake','node433','signal','CBTemp']
             break;
         case 's800':
         case 'sensor':

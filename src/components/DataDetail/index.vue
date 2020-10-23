@@ -245,7 +245,7 @@
                 func[this.sensorType](params).then(res=>{
                     const {deviceInfoList,dataMap} = res;
                     if( !res || !deviceInfoList.length )return;
-                    this.sensorData = dataProcessing(deviceInfoList,dataMap,'sensor');
+                    this.sensorData = dataProcessing(deviceInfoList,dataMap,this.sensorType);
                 }).finally(res=>{
                     this.sensor_loading = false;
                 })

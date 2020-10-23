@@ -1,5 +1,4 @@
 import {LineChart} from '@/components/Charts'
-import { mapActions } from 'vuex'
 
 export default {
     components: {
@@ -12,14 +11,7 @@ export default {
         return {
             options: [
                     {value: 'co',label: '一氧化碳'}, 
-                    {value: 'infrared',label: '红外数据'}, 
-                    {value: 'liquid',label: '液位数据'}, 
-                    {value: 'batteryA',label: '电池电压'}, 
-                    {value: 'shake',label: '震动数据'}, 
-                    {value: 'node433',label: '433M节点参数'}, 
-                    {value: 'signal',label: '信号强度'}, 
-                    {value: 'CBTemp',label: '板子自身温度'}
-                ],
+            ],
             value: 'co',
         }
     },
@@ -72,16 +64,16 @@ export default {
             let status;
             switch (name) {
                 case 'infrared':
-                    value.value==0?status='正常':status='有人'
+                    value.value? (value.value==0? status = '正常': status = '有人'): "xx"
                     break;
                 case 'liquid':
-                    value.value==0?status='正常':status='进水'
+                    value.value? (value.value==0? status = '正常': status = '进水'): "xx"
                     break;
                 case 'shake':
-                    value.value==1?status='震动':status='静止'
+                    value.value? (value.value==1? status = '震动': status = '静止'): "xx"
                     break;
                 case 'node433':
-                    value.value==1?status='成功':status='失败'
+                    value.value? (value.value==1? status = '成功': status = '失败'): "xx"
                     break;
                 default:
                     status = value.value
