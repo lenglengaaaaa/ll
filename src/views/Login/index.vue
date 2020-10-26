@@ -2,7 +2,7 @@
     <div class="Login_container">
         <div class="header">
             <div class="icon">
-                <img src="@images/logo.png" alt="logo">
+                <img src="@images/common_logo.png" alt="logo">
             </div>
             <div class="title">
                 智慧配电运维
@@ -59,10 +59,11 @@
         </div>
         <div class="footer">
             <span>
-                Copyright © 2019 中科(深圳)能源物联网有限公司 
+                Copyright © 2019  
+                <!-- 中科(深圳)能源物联网有限公司  -->
             </span>
             <span>
-                All Rights Reserved
+                &nbsp;All Rights Reserved
             </span>
         </div>
     </div>
@@ -179,15 +180,17 @@
                 display: flex;
                 align-items: center;
                 padding: 0px 20px;
+                padding-right: 15px;
                 border-right: 2px solid #e1e1e1;
                 img{
                     // width: 7rem;
-                    widows: 128px;
+                    // width: 128px;
                     height: 24px;
                 }
             }
             .title{
                 padding: 0px 20px;
+                padding-left: 15px;
                 font-weight: 600;
                 color: #43393a;
             }

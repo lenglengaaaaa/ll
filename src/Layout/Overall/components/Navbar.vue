@@ -2,7 +2,8 @@
     <div class="Navbar" ref="Navbar">
         <div class="container">
             <div class='title' >
-                <img src="@images/logo.png" alt="logo" @click="skipHome">
+                <!-- <img src="@images/logo.png" alt="logo" @click="skipHome"> -->
+                <img :src="logoUrl" alt="logo" @click="skipHome">
             </div>
             <div class="menu" v-if='!phone'>
                 <div class="left_menu">
@@ -105,7 +106,7 @@
     import { judgeUserDetail, judgeEquipTypeMenu} from '@/utils/methods'
     import Notice from './notice'
     import { mapState } from 'vuex'
-    
+
     export default {
         name:'Header',
         data() {
@@ -118,6 +119,7 @@
                 imagePath:require('@images/default.jpg'),
                 codeStr:'',
                 userClient:null,
+                logoUrl:require('@images/logo.png')
             }
         },
         components: {
@@ -203,9 +205,13 @@
             //获取用户详情
             getAccount(){
                 judgeUserDetail().then(res=>{
-                    const {userName,imagePath} = res;
+                    const { userName, imagePath, name } = res;
+                    console.log(res,'res')
                     this.username = userName || 'xxx';
                     this.imagePath = imagePath ? imagePath : avatar ;
+
+                    // 不同登录账户显示不同的Logo
+                    this.logoUrl = this.getLogoUrl(name);
                 });
             },
             //判断当前路径,menu高亮
@@ -273,6 +279,19 @@
             //监听视窗
             resizehandle(value){
                 value==='desktop'?this.phone = false :this.phone = true;
+            },
+            // 
+            /**
+             * 根据不同账户显示不同logo
+             * @param name 登录用户名
+             */
+            getLogoUrl(name){
+                switch (name) {
+                    case "jbl":
+                        return require("@images/logo_jbl.png");
+                    default:
+                        return require("@images/logo.png");
+                }
             }
         }
     }

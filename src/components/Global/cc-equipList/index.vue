@@ -47,6 +47,7 @@
             :title="equipName"
             :visible.sync="detailFlag"
             :before-close="skipToList"
+            class="equipList_dialog"
         >
             <EquipDetail></EquipDetail>
         </el-dialog>
@@ -114,5 +115,6 @@
 <style lang="scss" scope>
     .el-dialog{
         width: 1000px !important;
+        margin-top: 40px !important;
     }
 </style>

@@ -186,11 +186,11 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
     .Global_contanier{
         .el-dialog{
             margin: 10px !important;
-            width: calc(100vw - 20px);
+            width: calc(100vw - 20px) !important;
             height: calc(100vh - 20px);
             background: rgba(248, 251, 255,0.95);
             box-shadow: 0 0 8px rgba(108,122,137,.9);
