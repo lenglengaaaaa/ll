@@ -119,14 +119,14 @@
         // justify-content: space-around;
         .grid-content {
             &:nth-child(2){
-                margin: 10px 0;
+                margin: 1vh 0;
             }
             display: flex;
             flex-direction: column;
             justify-content: center;
             flex: 1;
-            padding:10px;
-            padding-top: 20px;
+            padding:1vh;
+            padding-top: 2vh;
             background: #fff;
             cursor: pointer;
             box-shadow: 0 1px 1px hsla(204,8%,76%,.8);
@@ -135,7 +135,7 @@
                 display: flex;
                 flex: 1;
                 .iconSign{
-                    padding: 25px 0;
+                    padding: 2.5vh 0;
                 }
                 .card-panel-icon-wrapper{
                     padding:0.5rem;
@@ -149,14 +149,14 @@
                     justify-content: center;
                     .icon {
                         width: 3.5rem;
-                        height: 60px;
+                        height: 6vh;
                     }
                     .name{
-                        font-size: 1.2rem;
+                        font-size: 1.1rem;
                         font-weight: bold;
                     }
                     span{
-                        padding: 15px 0;
+                        padding: 1.2vh 0;
                     }
                 }
                 .icon-gateway{
@@ -170,8 +170,8 @@
                 }
             }
             .progress{
-                padding: 20px;
-                margin-top: 10px;
+                padding: 1.5vh;
+                margin-top: 0.8vh;
             }
             &:hover{
                 .card-panel-icon-wrapper{

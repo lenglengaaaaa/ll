@@ -1,7 +1,7 @@
 $height:50px;
 .Navbar{
     width: 100vw;
-    max-height: 50px;
+    min-height: $height;
     background: linear-gradient(135deg,#22a7f0,#22a7f0,#36d7b7);
     transition: max-height 0.5s;
     overflow: hidden;
