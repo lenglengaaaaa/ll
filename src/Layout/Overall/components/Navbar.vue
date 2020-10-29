@@ -206,7 +206,6 @@
             getAccount(){
                 judgeUserDetail().then(res=>{
                     const { userName, imagePath, name } = res;
-                    console.log(res,'res')
                     this.username = userName || 'xxx';
                     this.imagePath = imagePath ? imagePath : avatar ;
 

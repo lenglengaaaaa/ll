@@ -209,12 +209,11 @@
             //获取历史数据
             getRingHistory(){
                 //echarts加载Loading
-                const lineAChart = this.$refs.lineAChart&&this.$refs.lineAChart.chart;
-                const tempChart = this.$refs.tempChart&&this.$refs.tempChart.chart;
-                // const doubleLine = this.$refs.doubleLine&&this.$refs.doubleLine.chart;
+                const lineAChart = this.$refs.lineAChart && this.$refs.lineAChart.chart;
+                const tempChart = this.$refs.tempChart && this.$refs.tempChart.chart;
+
                 lineAChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
                 tempChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
-                // doubleLine.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)'  });
 
                 this.loading = true;
 
@@ -226,11 +225,13 @@
                     endTime,
                     deviceType:36
                 }).then(res=>{
-                    //echart关闭Loading
-                    this.loading = false;
-                    lineAChart.hideLoading();
-                    tempChart.hideLoading();
-                    // doubleLine.hideLoading();
+                    if( res ){
+                        //echart关闭Loading
+                        this.loading = false;
+                        lineAChart.hideLoading();
+                        tempChart.hideLoading();
+                    }
+                    
 
                     const { history } = res;
                     if( !res || !history )return;

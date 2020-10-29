@@ -47,11 +47,31 @@ const errorHandle = (status, other) => {
         console.log(other);   
 }}
 
-
+// 解决重复请求接口问题.
+let pending = []; //声明一个数组用于存储每个ajax请求的取消函数和ajax标识
+let cancelToken = axios.CancelToken;
+let removePending = (ever) => {
+    for(let p in pending){
+        if(pending[p].u === ever.url + '&' + ever.method) { //当 当前请求在数组中存在时执行函数体
+            pending[p].f(); //执行取消操作
+            pending.splice(p, 1); //把这条记录从数组中移除
+        }
+    }
+}
 
 //拦截请求
 axios.interceptors.request.use(
   config=> {
+    config.data = JSON.stringify(config.data);
+
+    //------------------------------------------------------
+    removePending(config); //在一个ajax发送前执行一下取消操作
+    config.cancelToken = new cancelToken((c)=>{
+        // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+        pending.push({ u: config.url + '&' + config.method, f: c });  
+    });
+    //------------------------------------------------------
+
     // 这里可以做loading show处理
     // 登录流程控制中，根据本地是否存在token判断用户的登录情况        
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
@@ -71,6 +91,11 @@ axios.interceptors.request.use(
 //拦截响应
 axios.interceptors.response.use(
   response => {
+    // ------------------------------------------------------------------------------------------
+      removePending(response.config);  //在一个ajax响应后再执行一下取消操作，把已经完成的请求从pending中移除
+    // -------------------------------------------------------------------------------------------
+
+
     if(response.status===200){
       if(response.data.code === 11000005){
         tip(response.data.meassage);
@@ -88,12 +113,14 @@ axios.interceptors.response.use(
     // return response.status===200?Promise.resolve(response) :Promise.reject(response)
   },
   error => {
-    const {res} = error;
+    const { res, message } = error;
     if(res){
       // 请求已发出，但是不在2xx的范围
       errorHandle(res.status,res.data.message);
       return Promise.reject(res)
-    }else{
+    }
+    else if (!message){}
+    else{
       // 处理断网的情况
       // eg:请求超时或断网时，更新state的network状态
       // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
