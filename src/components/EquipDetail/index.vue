@@ -6,196 +6,212 @@
             v-if="hasClose"
         />
         <div class="wrap">
-            <div class="top">
-                <el-divider content-position="left">基本信息</el-divider>
-                <div class="intro">
-                    <p>
-                        <strong>设备图片</strong>
-                        <span>
-                            <el-image
-                                v-for="item in imageUrls"
-                                :key="item.id"
-                                :src="item.imagePath"
-                            />
-                        </span>
-                    </p>
-                    
-                    <p v-for="item in firstArray" :key="item.sign">
-                        <strong>{{item.title}}</strong>
-                        <span>{{item.value || 'xxx'}}</span>
-                    </p>
-                    <p>
-                        <strong>设备地址</strong>
-                        <span>{{single.location}}</span>
-                    </p>
-                    <p>
-                        <strong>创建时间</strong>
-                        <span>{{single.createTime}}</span>
-                    </p>
-                </div>
-            </div>
-            <div class="center">
-                <el-divider content-position="left">从属关系</el-divider>
-                <div class="intro">
-                    <p v-for="item in secondArray" :key="item.sign">
-                        <strong>{{item.title}}</strong>
-                        <span>{{item.value || 'xxx'}}</span>
-                    </p>
-                    <p>
-                        <strong>所属魔节</strong>
-                        <span>{{single.magicName || 'xxx'}}</span>
-                    </p>
-                    <p>
-                        <strong>所属集中器</strong>
-                        <span>{{single.concenName || 'xxx'}}</span>
-                    </p>
-                </div>
-            </div>
-            <template v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40">
-                <div class="center" >
-                    <el-divider content-position="left">实时数据</el-divider>
-                    <div class="intro">
-                        <p>
-                            <strong>上报时间 :</strong>
-                            <span :style="{fontWeight:'bold'}">
-                                {{ device_data.createTime || '---'}}
-                            </span>
-                        </p>
-
-                        <!-- 集中器 -->
-                        <template v-if="equipObj.deviceType == 33">
+            <el-collapse v-model="activeNames">
+                <el-collapse-item title="基本信息" name="1">
+                    <div class="top">
+                        <div class="intro">
                             <p>
-                                <strong>电压(V)</strong>
-                                <span :style="{fontWeight:'bold'}">
-                                    {{ `${( device_data.v && device_data.v.keyValue ) || '---'} V` }}
+                                <strong>设备图片</strong>
+                                <span>
+                                    <el-image
+                                        v-for="item in imageUrls"
+                                        :key="item.id"
+                                        :src="item.imagePath"
+                                    />
                                 </span>
                             </p>
-                            <p>
-                                <strong>信号强度(csq)</strong>
-                                <span :style="{fontWeight:'bold'}">
-                                    {{ `${( device_data.signalNB && device_data.signalNB.keyValue ) || '---'} csq` }}
-                                </span>
-                            </p>
-                        </template>
-
-                        <!-- 电缆定位桩 -->
-                        <template v-else>
-                            <p>
-                                <strong>电池电压(V)</strong>
-                                <span :style="{fontWeight:'bold'}">
-                                    {{ `${( device_data.batteryV && device_data.batteryV.keyValue) || '---'} V` }}
-                                </span>
+                            
+                            <p v-for="item in firstArray" :key="item.sign">
+                                <strong>{{item.title}}</strong>
+                                <span>{{item.value || 'xxx'}}</span>
                             </p>
                             <p>
-                                <strong>倾斜角度(°)</strong>
-                                <span :style="{fontWeight:'bold'}">
-                                    {{ `${( device_data.inclination && device_data.inclination.keyValue) || '---'} °` }}
-                                </span>
+                                <strong>设备地址</strong>
+                                <span>{{single.location}}</span>
                             </p>
                             <p>
-                                <strong>光照强度(lx)</strong>
-                                <span 
-                                    :style="{ 
-                                        color:
-                                            device_data.illumination && device_data.illumination.keyValue != '--' && device_data.illumination.keyValue  ? device_data.illumination.keyValue == 0? 'red': '': '',
-                                        fontWeight:'bold',
-                                    }"
-                                >
-                                    {{
-                                        `${
-                                            device_data.illumination && device_data.illumination.keyValue != "--" && device_data.illumination.keyValue  ? 
-                                                device_data.illumination.keyValue == 0? "光线不足": "光线正常": '---'
-                                        }`
-                                    }}
-                                </span>
+                                <strong>创建时间</strong>
+                                <span>{{single.createTime}}</span>
                             </p>
-                        </template>
-                    </div>
-                </div>
-                <div  class="center">
-                    <el-divider content-position="left">历史数据</el-divider>
-                    <div>
-                        <div class="seletGroup">
-                            <el-form label-position="top">
-                                <el-form-item label="环境变量:">
-                                    <el-select v-model="value" @change="changeParam">
-                                        <el-option
-                                            v-for="item in (equipObj.deviceType==33? conOptions: pileOptions)"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value"
-                                        />
-                                    </el-select>
-                                </el-form-item>
-                                <el-form-item label="时间段:">
-                                    <el-date-picker
-                                        v-model="time"
-                                        type="datetimerange"
-                                        :default-time="['00:00:00', '23:59:59']"
-                                        range-separator="至"
-                                        value-format="yyyy-MM-dd HH:mm:ss"
-                                        start-placeholder="开始日期"
-                                        end-placeholder="结束日期"
-                                        :clearable="false"
-                                        @change="changeDate"
-                                        :disabled="loading"
-                                    >
-                                    </el-date-picker>
-                                </el-form-item>
-                                <el-form-item label="下载:">
-                                    <i class="el-icon-download" @click="download"></i>
-                                </el-form-item>
-                            </el-form>
                         </div>
-                        <LineChart
-                            id="line"
-                            ref="lineChart"
-                            :value="currentValue"
-                            :timeArray="timeArray"
-                            :unit="value"
-                        />
                     </div>
-                </div>
-            </template>
-            
-            <div class="center">
-                <el-divider content-position="left">
-                    告警信息
-                    <el-tooltip 
-                        effect="dark" 
-                        placement="top-start" 
-                        content="显示最近七天内20条告警, 如需查看更久的告警信息请通过告警管理模块进行查询." 
-                    >
-                        <i class="el-icon-warning"/>
-                    </el-tooltip>
-                    <i class="el-icon-refresh" @click="this.getEquipAlaramList"></i>
-                </el-divider>
-                <el-table
-                    :data="alarmList"
-                    border
-                    stripe
-                    max-height="250"
-                    empty-text="暂无数据"
-                    v-loading="alarmLoading"
+                </el-collapse-item>
+                <el-collapse-item title="从属关系" name="2">
+                    <div class="center">
+                        <div class="intro">
+                            <p v-for="item in secondArray" :key="item.sign">
+                                <strong>{{item.title}}</strong>
+                                <span>{{item.value || 'xxx'}}</span>
+                            </p>
+                            <p>
+                                <strong>所属魔节</strong>
+                                <span>{{single.magicName || 'xxx'}}</span>
+                            </p>
+                            <p>
+                                <strong>所属集中器</strong>
+                                <span>{{single.concenName || 'xxx'}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item 
+                    title="实时数据" 
+                    name="3"
+                    v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40"
                 >
-                    <el-table-column
-                        label="告警详情"
-                        align="center"
-                    >
-                        <template slot-scope="scope" >
-                            <span style="color:red">
-                                {{scope.row.decodeHex}}
-                            </span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="createTime"
-                        label="告警时间"
-                        align="center"
-                        :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
-                    />
-                </el-table>
-            </div>
+                    <div class="center" >
+                        <div class="intro">
+                            <p>
+                                <strong>上报时间 :</strong>
+                                <span :style="{fontWeight:'bold'}">
+                                    {{ device_data.createTime || '---'}}
+                                </span>
+                            </p>
+
+                            <!-- 集中器 -->
+                            <template v-if="equipObj.deviceType == 33">
+                                <p>
+                                    <strong>电压(V)</strong>
+                                    <span :style="{fontWeight:'bold'}">
+                                        {{ `${( device_data.v && device_data.v.keyValue ) || '---'} V` }}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>信号强度(csq)</strong>
+                                    <span :style="{fontWeight:'bold'}">
+                                        {{ `${( device_data.signalNB && device_data.signalNB.keyValue ) || '---'} csq` }}
+                                    </span>
+                                </p>
+                            </template>
+
+                            <!-- 电缆定位桩 -->
+                            <template v-else>
+                                <p>
+                                    <strong>电池电压(V)</strong>
+                                    <span :style="{fontWeight:'bold'}">
+                                        {{ `${( device_data.batteryV && device_data.batteryV.keyValue) || '---'} V` }}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>倾斜角度(°)</strong>
+                                    <span :style="{fontWeight:'bold'}">
+                                        {{ `${( device_data.inclination && device_data.inclination.keyValue) || '---'} °` }}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>光照强度(lx)</strong>
+                                    <span 
+                                        :style="{ 
+                                            color:
+                                                device_data.illumination && device_data.illumination.keyValue != '--' && device_data.illumination.keyValue  ? device_data.illumination.keyValue == 0? 'red': '': '',
+                                            fontWeight:'bold',
+                                        }"
+                                    >
+                                        {{
+                                            `${
+                                                device_data.illumination && device_data.illumination.keyValue != "--" && device_data.illumination.keyValue  ? 
+                                                    device_data.illumination.keyValue == 0? "光线不足": "光线正常": '---'
+                                            }`
+                                        }}
+                                    </span>
+                                </p>
+                            </template>
+                        </div>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item 
+                    title="历史数据" 
+                    name="4"
+                    v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40"
+                >
+                    <div  class="center">
+                        <div>
+                            <div class="seletGroup">
+                                <el-form label-position="top">
+                                    <el-form-item label="环境变量:">
+                                        <el-select v-model="value" @change="changeParam">
+                                            <el-option
+                                                v-for="item in (equipObj.deviceType==33? conOptions: pileOptions)"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                            />
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="时间段:">
+                                        <el-date-picker
+                                            v-model="time"
+                                            type="datetimerange"
+                                            :default-time="['00:00:00', '23:59:59']"
+                                            range-separator="至"
+                                            value-format="yyyy-MM-dd HH:mm:ss"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                            :clearable="false"
+                                            @change="changeDate"
+                                            :disabled="loading"
+                                        >
+                                        </el-date-picker>
+                                    </el-form-item>
+                                    <el-form-item label="下载:">
+                                        <i class="el-icon-download" @click="download"></i>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                            <LineChart
+                                id="line"
+                                ref="lineChart"
+                                :value="currentValue"
+                                :timeArray="timeArray"
+                                :unit="value"
+                            />
+                        </div>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item title="告警信息" name="5">
+                    <template slot="title">
+                        告警信息
+                        <el-tooltip 
+                            effect="dark" 
+                            placement="top-start" 
+                            content="显示最近七天内20条告警, 如需查看更久的告警信息请通过告警管理模块进行查询." 
+                        >
+                            <i class="el-icon-warning"/>
+                        </el-tooltip>
+                    </template>
+                    <div class="center">
+                        <el-table
+                            :data="alarmList"
+                            border
+                            stripe
+                            max-height="250"
+                            empty-text="暂无数据"
+                            v-loading="alarmLoading"
+                        >
+                            <el-table-column
+                                label="告警详情"
+                                align="center"
+                            >
+                                <template slot="header" >
+                                    告警信息
+                                    <i class="el-icon-refresh" @click="this.getEquipAlaramList"></i>
+                                </template>
+                                <template slot-scope="scope" >
+                                    <span style="color:red">
+                                        {{scope.row.decodeHex}}
+                                    </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                prop="createTime"
+                                label="告警时间"
+                                align="center"
+                                :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
+                            />
+                        </el-table>
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
             <div>
                 <cc-mapSingle 
                     vid="alarmDetail"
@@ -230,6 +246,7 @@
         },
         data() {
             return {
+                activeNames: ['1','2','3','4','5'],
                 firstArray:[
                     {title:'设备类型',sign:'typeName',value:''},
                     {title:'设备名称',sign:'name',value:''},
@@ -504,6 +521,13 @@
 </script>
 
 <style lang="scss">
+    .el-collapse-item__header{
+        font-size: 15px;
+        font-weight: bold;
+        color: #3182cb;
+        height: 40px;
+        line-height: 40px;
+    }
     .Equip_Detail{
         width: 100%;
         height: 100%;
@@ -584,6 +608,9 @@
                     }
                 }
             }
+        }
+        .el-icon-warning,.el-icon-refresh{
+            padding: 0px 5px;
         }
     }
 </style>
