@@ -66,6 +66,15 @@
                     :get="getPostion"
                 />
             </el-form-item>
+            <el-alert
+                v-if="equipType == 36 || equipType == 41"
+                title="警告提示"
+                type="warning"
+                description='创建完所有节点后, 请手动下发集中器绑定关系( 设备管理模块, 右上角 "其他功能-修改集中器绑定关系" )'
+                show-icon
+                effect="dark"
+                :closable="false"
+            />
 
             <el-form-item class="submit">
                 <el-button type="danger" @click="pre" v-if="!editFlag">
@@ -187,7 +196,7 @@
             const { data, editFlag } = this.equipObj;
 
             // 设备图片
-            const imgUrls = data.imageUrls&&data.imageUrls.length&&data.imageUrls.map(item=>{ 
+            const imgUrls = data.imageUrls && data.imageUrls.length && data.imageUrls.map(item=>{ 
                 return { ...item,url:item.imagePath } 
             }) || [];
             this.fileList = imgUrls;
@@ -207,6 +216,10 @@
             },
             token(){
                 return this.$store.state.user.token;
+            },
+            equipType(){
+                const deviceType = sessionStorage.getItem('appType');
+                return deviceType;
             },
             btnMsg(){
                 const deviceType = sessionStorage.getItem('appType');
@@ -268,11 +281,11 @@
                                     return;
                                 }
                                 // const { isBinding, deviceAddress } = this.form;
-                                const { deviceAddress } = this.form;
-                                (deviceType == 36 || deviceType == 41) && this.updateConcentratorBindinig({
-                                    deviceAddress,
-                                    groupId:1
-                                });
+                                // const { deviceAddress } = this.form;
+                                // (deviceType == 36 || deviceType == 41) && this.updateConcentratorBindinig({
+                                //     deviceAddress,
+                                //     groupId:1
+                                // });
                                 this.$router.push({name:'EquList'});
                             })
                         }else{

@@ -426,7 +426,7 @@
             // 获取设备历史数据
             getDeviceHistoryData(){
                 const { deviceAdress, deviceType } = this.equipObj;
-                const [ startTime, endTime] = this.time;
+                const [ startTime, endTime ] = this.time;
 
                 const lineChart = this.$refs.lineChart && this.$refs.lineChart.chart;
                 lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });

@@ -204,7 +204,7 @@ export const timeDiff = (startTime,endTime) =>{
  * @param type 类型
  */
 export const lastDataFilter = ( obj ) =>{
-    const {list,data,type='magic',startTime,endTime} = obj;
+    const { list, data, type='magic', startTime, endTime } = obj;
     const diffTime = timeDiff(startTime,endTime);
     let timeArray= [];
     const result = list.reduce((pre,current)=>{
