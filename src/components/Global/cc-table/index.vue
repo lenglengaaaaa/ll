@@ -232,10 +232,16 @@
                 rules:{
                     pass: [{ required: true, validator: checkOperaPass, trigger: 'blur' }],
                 },
-                loading:true
+                loading:true,
+                pageParams:{
+                    current:1,
+                    size:20
+                }
             }
         },
         mounted() {
+            this.initPageParams();
+
             this.getListData();
         },
         computed: {
@@ -313,6 +319,22 @@
                 'getCountUnderMainLine'
             ]),
             /**
+             * @description 2020/11/10 生成pageParams 初始化"页码/每页显示条数"信息
+             */
+            initPageParams(){
+                const session_pageParams = JSON.parse(sessionStorage.getItem("pageParams")) || null;
+                const params = { module:this.$route.name ,...this.pageParams };
+
+                if( !session_pageParams ){
+                    sessionStorage.setItem("pageParams",JSON.stringify(params));
+                    return;
+                }
+
+                if( this.$route.name !== session_pageParams.module ){
+                    sessionStorage.setItem("pageParams",JSON.stringify(params));
+                }
+            },
+            /**
              * 是否拥有编辑功能
              * @param row 单个数据
              */
@@ -365,9 +387,12 @@
             //获取数据
             async getListData(params={}){
                 this.loading = true;
+
+                const { current, size } = JSON.parse(sessionStorage.getItem("pageParams"));
+                let pageParams = { current, size, ...params };
                 
                 //获取列表数据
-                const LIST = await this.getList(params);
+                const LIST = await this.getList(pageParams);
                 if( LIST ){
                     const { data, page } = LIST;
 
@@ -376,6 +401,9 @@
 
                     this.data = data;
                     this.total = page.total;
+
+                    this.current = pageParams.current;
+                    this.size = pageParams.size;
                 }
                 this.loading = false;
             },
@@ -390,6 +418,8 @@
             },500),
             //切换显示个数
             handleSizeChange(val) {
+                this.setPageParam("size",val);
+
                 this.size = val;
                 this.current =1;
                 this.getListData({ size:val, current:1 });
@@ -397,9 +427,23 @@
             },
             //切页
             handleCurrentChange(val) {
+                this.setPageParam("current",val);
+
                 this.current = val;
                 this.getListData({ current:val });
                 this.$nextTick(()=>{this.$refs.tabledns.bodyWrapper.scrollTop = 0 });
+            },
+            //保存之前页码与每页展示条数
+            setPageParam(type,val){
+                this.pageParams = {
+                    ...this.params, 
+                    ...JSON.parse(sessionStorage.getItem("pageParams"))
+                };
+
+                this.pageParams[type] = val;
+                type === "size" && (this.pageParams.current = 1);
+
+                sessionStorage.setItem("pageParams",JSON.stringify(this.pageParams));
             },
             //应用跳转
             linkTo(type,row={}){
