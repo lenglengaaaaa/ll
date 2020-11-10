@@ -322,15 +322,18 @@
              * @description 2020/11/10 生成pageParams 初始化"页码/每页显示条数"信息
              */
             initPageParams(){
+                const project = JSON.parse(sessionStorage.getItem('project')) || null;
                 const session_pageParams = JSON.parse(sessionStorage.getItem("pageParams")) || null;
-                const params = { module:this.$route.name ,...this.pageParams };
+
+                const params = { module:this.$route.name, ...this.pageParams };
+                project && (params.projectId = project.id);
 
                 if( !session_pageParams ){
                     sessionStorage.setItem("pageParams",JSON.stringify(params));
                     return;
                 }
 
-                if( this.$route.name !== session_pageParams.module ){
+                if( (this.$route.name !== session_pageParams.module) || ( project && (project.id !== session_pageParams.projectId))){
                     sessionStorage.setItem("pageParams",JSON.stringify(params));
                 }
             },
