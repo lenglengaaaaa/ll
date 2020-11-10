@@ -103,13 +103,13 @@
                                     <span 
                                         :style="{ 
                                             color:
-                                                device_data.illumination && device_data.illumination.keyValue != '--' && device_data.illumination.keyValue  ? device_data.illumination.keyValue == 0? 'red': '': '',
+                                                device_data.illumination && device_data.illumination.keyValue != '--' ? device_data.illumination.keyValue == 0? 'red': '': '',
                                             fontWeight:'bold',
                                         }"
                                     >
                                         {{
                                             `${
-                                                device_data.illumination && device_data.illumination.keyValue != "--" && device_data.illumination.keyValue  ? 
+                                                device_data.illumination && device_data.illumination.keyValue != "--"   ? 
                                                     device_data.illumination.keyValue == 0? "光线不足": "光线正常": '---'
                                             }`
                                         }}
@@ -426,7 +426,7 @@
                         createTime:this.$moment(time).format('YYYY-MM-DD HH:mm:ss'),
                         signalNB:{ keyValue: data.signalNB || null },
                         v:{ keyValue:data.v || null },
-                        illumination:{ keyValue: data.illumination || null },
+                        illumination:{ keyValue: data.illumination > -1? data.illumination: null },
                         inclination:{ keyValue: data.inclination || null },
                         batteryV:{ keyValue: data.batteryV || null }
                     }
@@ -522,11 +522,11 @@
 
 <style lang="scss">
     .el-collapse-item__header{
-        font-size: 15px;
-        font-weight: bold;
-        color: #3182cb;
-        height: 40px;
-        line-height: 40px;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        color: #3182cb !important;
+        height: 40px !important;
+        line-height: 40px !important;
     }
     .Equip_Detail{
         width: 100%;
