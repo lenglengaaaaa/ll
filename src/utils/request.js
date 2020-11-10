@@ -68,7 +68,10 @@ axios.interceptors.request.use(
     removePending(config); //在一个ajax发送前执行一下取消操作
     config.cancelToken = new cancelToken((c)=>{
         // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
-        pending.push({ u: config.url + '&' + config.method, f: c });  
+        const str = config.url == "http://47.92.235.125:8888/e_view/data/statistics/switch/history"?
+                                      `${config.url}&${config.method}`:
+                                      `${config.url}&${config.method}&${config.data}`
+        pending.push({ u: str, f: c });  
     });
     //------------------------------------------------------
 

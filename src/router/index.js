@@ -46,6 +46,12 @@ const router= new Router({
       name:'DataVisualization',
       component: () => import('@/views/DataVisualization'),
     },
+    // 关系图
+    {
+      path: '/RelationalGraph',
+      name:'RelationalGraph',
+      component: () => import('@/views/RelationalGraph'),
+    },
     {
       path: '/',
       name: 'Overall',
