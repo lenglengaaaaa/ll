@@ -38,7 +38,7 @@ var cfg = {
     },
     
     //地图中心
-    mapCenter:[113.991244,22.595988]
+    mapCenter:[ 113.952658, 22.531542 ]
 }
 
 window.$cfg = cfg

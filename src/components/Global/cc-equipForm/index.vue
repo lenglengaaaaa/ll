@@ -91,6 +91,8 @@
 <script>
     import { mapActions } from 'vuex'
 
+    const mapCenter = window.$cfg.mapCenter;
+
     export default {
         name:'cc-equipForm',
         props: {
@@ -162,7 +164,7 @@
                 });
             };
             return {
-                position:[ 113.991244, 22.5959 ],
+                position: mapCenter,
                 editFlag:false,
                 hideUpload: false,
                 limitCount:3,
@@ -204,7 +206,7 @@
             this.hideUpload = this.imageUrls.length >= this.limitCount;
 
             this.editFlag = editFlag;
-            this.position = [ data.longitude || 113.991244, data.latitude || 22.5959 ];
+            this.position = [ data.longitude || mapCenter[0], data.latitude || mapCenter[1] ];
 
         },
         computed: {

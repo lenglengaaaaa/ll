@@ -63,6 +63,8 @@
 <script>
     import { mapState } from 'vuex';
 
+    const mapCenter = window.$cfg.mapCenter;
+
     export default {
         name:'cc-assetEdit',
         props: {
@@ -99,7 +101,7 @@
                 });
             };
             return {
-                position:[],
+                position: mapCenter,
                 rules:{
                     name: [{ required: true, message: '请输入设备名称', trigger: 'blur' }],
                     number: [{ required: true, validator: checkNumber, trigger: 'blur' }],
@@ -116,7 +118,7 @@
         },
         created () {
             const { data } = JSON.parse(sessionStorage.getItem('assetObj'));
-            this.position = [ data.longitude||113.991244, data.latitude||22.5959 ];
+            this.position = [ data.longitude || mapCenter[0], data.latitude || mapCenter[1] ];
         },
         computed: {
             ...mapState('overall',[
