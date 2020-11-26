@@ -87,7 +87,7 @@
 
 <script>
     import { Magic ,Tline ,S800 ,Sensor } from './components'
-    import { dataProcessing , currentDataFilter} from '@/utils/methods'
+    import { dataProcessing , currentDataFilter } from '@/utils/methods'
     import { mapActions } from 'vuex'
 
     export default {
@@ -243,9 +243,9 @@
                     '805':this.getS805CurrentData,
                 }
                 func[this.sensorType](params).then(res=>{
-                    const {deviceInfoList,dataMap} = res;
+                    const { deviceInfoList, dataMap } = res;
                     if( !res || !deviceInfoList.length )return;
-                    this.sensorData = dataProcessing(deviceInfoList,dataMap,this.sensorType);
+                    this.sensorData = dataProcessing(deviceInfoList, dataMap, this.sensorType);
                 }).finally(res=>{
                     this.sensor_loading = false;
                 })

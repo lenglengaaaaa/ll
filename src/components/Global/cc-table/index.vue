@@ -52,6 +52,7 @@
                                 v-if="hasOpera"
                             >
                                     <template slot-scope="scope">
+                                        <slot name="btnGroup"></slot>
                                         <el-button
                                             size="mini"
                                             type="primary"
@@ -87,7 +88,7 @@
                                         <el-button
                                             size="mini"
                                             type="warning"
-                                            v-if="isDevice&&scope.row.remark1==1"
+                                            v-if="isDevice && scope.row.remark1==1"
                                             @click="linkTo('active',scope.row)"
                                         >
                                             激活
