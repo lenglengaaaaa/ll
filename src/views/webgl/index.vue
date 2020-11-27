@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div id="container" @click="mouseClick" />
 </template>
 
@@ -31,14 +31,30 @@
             //初始化three.js相关内容
             init() {
                 this.scene = new THREE.Scene();
-                this.scene.background = new THREE.Color(0xf0f0f0);
-                this.scene.add(new THREE.AmbientLight(0x0000)); //环境光
+                // this.scene.background = new THREE.Color(0xf0f0f0);
+                // this.scene.add(new THREE.AmbientLight(0x0000)); //环境光
 
-                // this.light = new THREE.DirectionalLight(0x1e90ff, 1); //从正上方（不是位置）照射过来的平行光，0.45的强度
-                this.light = new THREE.DirectionalLight(0xffffff, 1.0, 0); //设置平行光源
-                // this.light = new THREE.PointLight(0xffffff, 1) // 点光源
-                this.light.position.set(100, 200, 100);
-                this.light.position.multiplyScalar(0.3);
+                // // this.light = new THREE.DirectionalLight(0x1e90ff, 1); //从正上方（不是位置）照射过来的平行光，0.45的强度
+                // this.light = new THREE.DirectionalLight(0xffffff, 1.0, 0); //设置平行光源
+                // // this.light = new THREE.PointLight(0xffffff, 1) // 点光源
+                // this.light.position.set(100, 200, 100);
+                // this.light.position.multiplyScalar(0.3);
+                // this.scene.add(this.light);
+
+                // this.scene.add(new THREE.AmbientLight(0x444444));
+
+                this.light = new THREE.DirectionalLight(0xffffff);
+                this.light.position.set(0, 200, 100 );
+
+                this.light.castShadow = true;
+                this.light.shadow.camera.top = 180;
+                this.light.shadow.camera.bottom = -100;
+                this.light.shadow.camera.left = -120;
+                this.light.shadow.camera.right = 120;
+
+                //告诉平行光需要开启阴影投射
+                // this.light.castShadow = true;
+
                 this.scene.add(this.light);
 
                 // 环境光
@@ -48,6 +64,7 @@
                 //坐标轴
                 // var axisHelper = new THREE.AxisHelper(20); //参数是坐标轴的长度
                 // this.scene.add(axisHelper);
+
                 
                 //初始化相机
                 this.camera = new THREE.PerspectiveCamera(
@@ -136,16 +153,30 @@
             initControls() {
                 this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-                // 拉近摄像头
-                this.controls.minDistance = 5;
-                this.controls.maxDistance = 600;
+                // // 拉近摄像头
+                // this.controls.minDistance = 5;
+                // this.controls.maxDistance = 600;
                 // 垂直旋转
                 this.controls.maxPolarAngle = Math.PI / 2;
                 this.controls.minPolarAngle = Math.PI / 4;
+
+                // 使动画循环使用时阻尼或自转 意思是否有惯性
+                this.controls.enableDamping = true;
             
                 this.controls.target.set(0, 5, 0);
-                this.controls.autoRotate = true;
-                this.controls.autoRotateSpeed = 3;
+
+                //是否可以缩放
+                this.controls.enableZoom = true;
+                //是否自动旋转
+                this.controls.autoRotate = false;
+                this.controls.autoRotateSpeed = 0.5;
+
+                //设置相机距离原点的最远距离
+                this.controls.minDistance = 1;
+                //设置相机距离原点的最远距离
+                this.controls.maxDistance = 2000;
+                //是否开启右键拖拽
+                this.controls.enablePan = true;
 
                 this.controls.update();
 
