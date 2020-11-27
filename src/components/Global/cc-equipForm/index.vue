@@ -38,16 +38,21 @@
             <el-form-item label="设备名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入设备名称"></el-input>
             </el-form-item>
-            <el-form-item label="设备资产编号" prop="number">
-                <el-input v-model="form.number" placeholder="请输入设备资产编号"></el-input>
-            </el-form-item>
-            <el-form-item label="设备地址域 (请填写12位设备ID)" prop="deviceAdress">
+            <el-form-item label="设备地址域 ( 请填写12位设备ID )" prop="deviceAdress">
                 <el-input
                     v-model="form.deviceAdress" 
                     placeholder="请输入设备地址域(设备ID)"
                     :disabled="editFlag"
                     :maxlength="12"
                 ></el-input>
+            </el-form-item>
+            <el-form-item label="设备资产编号( 与设备地址域一致 )" prop="number">
+                <el-input 
+                    v-model="form.number" 
+                    placeholder="请输入设备资产编号" 
+                    :disabled="editFlag"
+                    :maxlength="12"
+                />
             </el-form-item>
 
             <!-- 插槽 -->
@@ -131,11 +136,15 @@
             };
             //验证资产编号
             const checkNumber = (rule, value, callback) => {
-                const id = this.form.id || null
-                const obj ={id,num:value,type:6}
+                const id = this.form.id || null;
+                const obj ={ id, num:value, type:6 };
                 if (!value) {
                     return callback(new Error('请输入设备资产编号'));
                 }
+                if (value !== this.form.deviceAdress) {
+                    return callback(new Error('设备资产编号必须与设备地址域一致!'));
+                }
+
                 this.checkNo(obj).then(res=>{
                     if(!res){
                         return callback(new Error('设备资产编号已存在'));
@@ -273,6 +282,15 @@
                         }
                         //创建集中器/电缆定位桩时 添加is_single
                         if( deviceType == 33 || deviceType == 40 ) data.is_single = 0;
+
+                        if( deviceType == 40 ){
+                            const phones = this.form.phones.reduce((pre,cur) =>{
+                                if(cur.value)  pre.push(cur.value);
+                                return pre;
+                            },[]);
+                            data.phone = phones.length > 0? phones.join(";") : "";
+                            data.masterStatus = 0;
+                        }
 
                         if(!this.editFlag){
                             this.createEquip(data).then(res=>{
