@@ -344,6 +344,17 @@ export const api={
     //5.8 导出低压传感器历史数据 post
     export_other_history:`${url}/e_view/data/statistics/lpconCentrator/history/execl`,
 
+
+    //----------------电缆桩-----------------------
+    // 激活定位桩
+    activatePile:`${analy_url}/api/spud/activation`,
+
+    // 解除告警状态
+    relieveAlarm:`${analy_url}/api/spud/removeWarn`,
+
+    // 获取告警状态
+    getAlaramStatusOfPile:`${url}/e_view/warn-status/getWarnStatus`,
+
     //=======================================阈值设置=====================================================
 
     //查看告警阈值设置详情 get

@@ -55,9 +55,55 @@
                     </div>
                 </el-collapse-item>
                 <el-collapse-item 
+                    title="设备状态" 
+                    name="6"
+                    v-if="equipObj.deviceType == 40"
+                >
+                    <div class="center">
+                        <div class="intro">
+                            <p>
+                                <strong>激活状态</strong>
+                                <span>
+                                    <el-button 
+                                        type="primary" 
+                                        v-if="single.masterStatus == 0"
+                                        @click="activate_Pile"
+                                    >
+                                        激活
+                                    </el-button>
+                                    <span 
+                                        :style="{color: single.masterStatus == 1? '#e6a23c': '#67c23a'}"
+                                        v-else
+                                    >
+                                        {{single.masterStatus == 1? "激活中..." : "已激活"}}
+                                    </span>
+                                </span>
+                            </p>
+                            <p>
+                                <strong>告警状态</strong>
+                                <span>
+                                    <el-button 
+                                        type="primary"
+                                        @click="relieve_alaram"
+                                        v-if="single.warnStatus == 0"
+                                    >
+                                        解除告警
+                                    </el-button>
+                                    <span 
+                                        :style="{color: single.warnStatus == 1? '#e6a23c': '#67c23a'}"
+                                        v-else
+                                    >
+                                        {{single.warnStatus == 1? "解除中..." : "正常"}}
+                                    </span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item 
                     title="实时数据" 
                     name="3"
-                    v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40"
+                    v-if="equipObj.deviceType == 33 || (equipObj.deviceType == 40 && single.masterStatus == 2)"
                 >
                     <div class="center" >
                         <div class="intro">
@@ -122,7 +168,7 @@
                 <el-collapse-item 
                     title="历史数据" 
                     name="4"
-                    v-if="equipObj.deviceType == 33 || equipObj.deviceType == 40"
+                    v-if="equipObj.deviceType == 33 || (equipObj.deviceType == 40 && single.masterStatus == 2)"
                 >
                     <div  class="center">
                         <div>
@@ -246,7 +292,7 @@
         },
         data() {
             return {
-                activeNames: ['1','2','3','4','5'],
+                activeNames: ['1','2','3','4','5','6'],
                 firstArray:[
                     {title:'设备类型',sign:'typeName',value:''},
                     {title:'设备名称',sign:'name',value:''},
@@ -311,6 +357,9 @@
                     deviceType
                 })
             })
+
+            if( deviceType == 40) this.get_alarm_status(deviceAdress);
+            
         },
         destroyed () {
             this.client && this.client.end();
@@ -327,7 +376,10 @@
             ...mapActions('equip',[
                 'getOtherCurrentData',
                 'getOtherHistoryData',
-                "exportOherHistoryData"
+                "exportOherHistoryData",
+                "activatePile",
+                "relieveAlarmOfPile",
+                "getAlaramStatusOfPile"
             ]),
             ...mapActions('overall',[
                 'getGeocode',
@@ -359,6 +411,8 @@
                 this.single.createTime = this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss');
                 //设备视图
                 this.imageUrls = imageUrls || [];
+                // 告警状态
+                this.single.warnStatus = 2;
             },
 
             // 有实时数据以及历史数据(现仅用于集中器 & 定位桩)
@@ -366,6 +420,8 @@
                 const { deviceType } = params;
                 
                 if( deviceType != 33 && deviceType != 40 )  return;
+                
+                if( deviceType == 40 && this.single.masterStatus != 2) return;
 
                 this.getDeviceCurrentData();
 
@@ -514,6 +570,31 @@
                     this.alarmList = res.data;
                 }).finally(res=>{
                     this.alarmLoading = false;
+                })
+            },
+
+            //-------------------电缆桩-------------------------------------
+            // 激活电缆桩
+            activate_Pile(){
+                this.activatePile(this.single.deviceAdress).then(res=>{
+                    if(!res) return;
+                    this.single.masterStatus = 1;
+                });
+            },
+            // 解决告警状态
+            relieve_alaram(){
+                this.relieveAlarmOfPile(this.single.deviceAdress).then(res=>{
+                    if(!res) return;
+                    // this.get_alarm_status();
+                    // 未解除 -> 解除中
+                    this.single.warnStatus = 1;
+                });
+            },
+            // 获取告警状态
+            get_alarm_status(){
+                this.getAlaramStatusOfPile(this.single.deviceAdress).then(res=>{
+                    if(!res) return;
+                    this.single.warnStatus = +res.warnStatus;
                 })
             }
         },

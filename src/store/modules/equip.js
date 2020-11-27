@@ -812,7 +812,74 @@ const actions= {
                 return false
             }
         })
-    }
+    },
+
+
+    //------------------------ 电缆桩 -----------------------------
+    /**
+     * 激活电缆桩
+     * @param deviceAdress 设备地址
+     */
+    activatePile({commit},deviceAdress){
+        return request({
+            method:'post',
+            url:`${api.activatePile}`,
+            data:{
+                deviceAdress
+            }
+        }).then(res=>{
+            if(res && res.code === 200){
+                tip(res.message,'success');
+                return true;
+            }else{
+                res && tip("激活失败")
+                return false;
+            }
+        })
+    },
+
+
+    /**
+     * 解除告警状态
+     * @param deviceAdress 设备地址
+     */
+    relieveAlarmOfPile({commit},deviceAdress){
+        return request({
+            method:'post',
+            url:`${api.relieveAlarm}`,
+            data:{
+                deviceAdress
+            }
+        }).then(res=>{
+            if(res && res.code === 200){
+                tip(res.message,'success');
+                return true;
+            }else{
+                res && tip("解除告警失败")
+                return false;
+            }
+        })
+    },
+
+    /**
+     * 获取告警状态
+     * @param deviceAddress 设备地址
+     */
+    getAlaramStatusOfPile({commit},deviceAddress){
+        return request({
+            method:'post',
+            url:`${api.getAlaramStatusOfPile}`,
+            data:{
+                deviceAddress
+            }
+        }).then(res=>{
+            if(res && res.code === 10000000 && res.data){
+                return res.data;
+            }else{
+                return false;
+            }
+        })
+    },
 }   
 
 //vuex  实例化 Vuex.store   注意暴露
