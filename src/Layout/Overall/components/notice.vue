@@ -20,7 +20,10 @@
                                 </div>
                                 <div class="notice-item-content">
                                     <h4 class="notice-item-content-title">
-                                        <strong>设备名称: </strong>{{item.devName}}
+                                        <div>
+                                            <strong>设备名称: </strong>
+                                            <span>{{item.devName}}</span>
+                                        </div>
                                         <div>
                                             <strong>设备类型: </strong>
                                             <span>{{item.equipType || '未知'}}</span>

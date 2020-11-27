@@ -380,8 +380,7 @@ const defaultValue = (type)=>{
 export const dataProcessing=( list, dataMap, type='line' )=>{
     const result = list.reduce((pre,current)=>{
         const { id, name, number, isDelete, deviceType, deviceAdress } = current;
-        const currentData = type==='line'? dataMap[id] :
-                                type==='s800' || type === 'sensor' ? dataMap[deviceAdress]: '';
+        const currentData = type==='line'? dataMap[id] : dataMap[deviceAdress];
         if(isDelete) return pre;
         return [
             ...pre,
