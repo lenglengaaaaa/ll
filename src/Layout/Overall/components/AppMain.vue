@@ -34,15 +34,20 @@
         created () {
             this.client = this.$mqtt.connect(`topic_warning`);
             this.$mqtt.listen(this.client,res=>{
-                const { address, alertMsg, devName, fc, time, lng, lat, projectId, projectName } = res;
+                let { address, alertMsg, devName, fc, time, lng, lat, projectId, projectName } = res;
 
                 //查询是否有该项目的权限, 决定是否弹出
                 const HasProjectPermission  = this.projecPermissionList.some( item=> item.assetId == projectId );
                 if( !HasProjectPermission ) return;
                 console.log(res,'告警信息')
 
+                // 电缆桩倾斜了不显示角度, 显示倾斜状态.
+                let pileAlertMes = null;
+                if(fc == 40 && alertMsg.slice(0,4) == "倾斜角度") pileAlertMes = "倾斜" ;
+
                 xyTransformation([lng,lat]).then(result=>{
                     if(this.alarmFlag){
+                        // const h = this.$createElement;
                         this.$notify({ 
                             duration: 30000,
                             title: '告警信息',
@@ -54,12 +59,13 @@
                                     <div>设备类型 : <strong>${ this.getEquipType(fc) }</strong></div>
                                     <div>设备地址域 : <strong>${ address }</strong></div>
                                     <div>所属项目 : <strong>${ projectName || 'xxx' }</strong></div>
-                                    <div>告警信息 : <strong class="red">${ alertMsg }</strong></div>
-                                    ${result?`<div>经纬度 : <strong >${ result }</strong></div>`:''}
+                                    <div>告警信息 : <strong class="red">${ pileAlertMes || alertMsg }</strong></div>
+                                    ${ result? `<div>经纬度 : <strong >${ result }</strong></div>`: '' }
                                     <div>告警时间 : <strong>${this.$moment(time).format('YYYY-MM-DD HH:mm:ss')}</strong></div>
-                                    <div class="tip">注 :点击查看详情</div>
+                                    <div class="tip">注: 点击查看详情</div>
                                 </div>
                             `,
+                            // message:h('i', { style: 'color: teal'}, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案'),
                             onClick:this.checkDetail.bind(this,res)
                         });
                     }
@@ -67,6 +73,7 @@
                         {
                             ...res,
                             equipType:this.getEquipType(fc),
+                            alertMsg: pileAlertMes || alertMsg,
                             position: result && result.join(',')
                         },
                         ...this.$store.state.overall.alarmBox
@@ -106,6 +113,9 @@
             this.client && this.client.end();
         },
         methods: {
+            test(){
+                console.log("111");
+            },
             //查看告警详情
             checkDetail(item){
                 const { warnInfoId  ,projectName , projectId } = item;
