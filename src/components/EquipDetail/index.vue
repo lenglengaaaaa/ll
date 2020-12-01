@@ -519,7 +519,7 @@
                 const [ startTime, endTime ] = this.time;
 
                 const lineChart = this.$refs.lineChart && this.$refs.lineChart.chart;
-                lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
+                lineChart && lineChart.showLoading({ text: '数据加载中...', color: '#4cbbff', textColor: '#4cbbff', maskColor: 'rgba(0, 0, 0, 0.9)' });
                 this.loading = true;
 
                 this.getOtherHistoryData({
@@ -544,7 +544,7 @@
                     this.timeArray = timeResult;
                     this.currentValue = result;
                 }).finally(res=>{
-                    lineChart.hideLoading();
+                    lineChart && lineChart.hideLoading();
                     this.loading = false;
                 })
             },

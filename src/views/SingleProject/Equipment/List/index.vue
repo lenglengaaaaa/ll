@@ -253,4 +253,9 @@
     .equipSelect{
         padding-right: 10px;
     }
+    .el-link.el-link--primary{
+        &:hover{
+            color:#67c23a;
+        }
+    }
 </style>
