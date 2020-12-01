@@ -121,9 +121,18 @@
                 }
             }
         },
+        mounted () {
+            const { status, startTime, endTime } = this.pageParams.data;
+
+            status != null  && ( this.value = status );
+            startTime && (this.time = [ startTime, endTime ]);
+        },
         computed: {
             projectId() {
                 return JSON.parse(sessionStorage.getItem('project')).id;
+            },
+            pageParams(){
+                return JSON.parse(sessionStorage.getItem("pageParams"));
             }
         },
         methods: {
@@ -148,18 +157,32 @@
             },
             //切换状态回调
             changeStaus(val){
-                this.$children[0]&&this.$children[0].getListData({
-                    status:val
-                });
+                const data ={
+                    ...this.params,
+                    status:val,
+                    current:1
+                }
+
+                sessionStorage.setItem("pageParams",JSON.stringify({...this.pageParams, data}));
+
+                this.params = data;
+                this.$children[0]&&this.$children[0].getListData(data);
             },
             //切换时间回调
             changeTime(time){
-                const [startTime,endTime] =time;
-                this.time = [startTime,endTime];
-                this.$children[0]&&this.$children[0].getListData({
+                const [ startTime, endTime ] = time;
+                this.time = [ startTime, endTime ];
+
+                const data ={
+                    ...this.params,
                     startTime,
-                    endTime
-                })
+                    endTime,
+                    current:1
+                }
+                this.params = data;
+
+                sessionStorage.setItem("pageParams",JSON.stringify({...this.pageParams, data}));
+                this.$children[0]&&this.$children[0].getListData(data)
             },
             diffStatus(status){
                 const obj = {

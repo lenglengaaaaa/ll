@@ -326,7 +326,7 @@
                 const project = JSON.parse(sessionStorage.getItem('project')) || null;
                 const session_pageParams = JSON.parse(sessionStorage.getItem("pageParams")) || null;
 
-                const params = { module:this.$route.name, ...this.pageParams };
+                const params = { module:this.$route.name, data: this.pageParams };
                 project && (params.projectId = project.id);
 
                 if( !session_pageParams ){
@@ -392,8 +392,8 @@
             async getListData(params={}){
                 this.loading = true;
 
-                const { current, size } = JSON.parse(sessionStorage.getItem("pageParams"));
-                let pageParams = { current, size, ...params };
+                const { data } = JSON.parse(sessionStorage.getItem("pageParams"));
+                let pageParams = {...data, ...params };
                 
                 //获取列表数据
                 const LIST = await this.getList(pageParams);
@@ -439,15 +439,20 @@
             },
             //保存之前页码与每页展示条数
             setPageParam(type,val){
+                const params = JSON.parse(sessionStorage.getItem("pageParams"));
+
                 this.pageParams = {
                     ...this.params, 
-                    ...JSON.parse(sessionStorage.getItem("pageParams"))
+                    ...params.data
                 };
 
                 this.pageParams[type] = val;
                 type === "size" && (this.pageParams.current = 1);
 
-                sessionStorage.setItem("pageParams",JSON.stringify(this.pageParams));
+                sessionStorage.setItem("pageParams",JSON.stringify({ 
+                    ...params, 
+                    data:this.pageParams
+                }));
             },
             //应用跳转
             linkTo(type,row={}){

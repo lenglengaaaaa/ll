@@ -134,11 +134,16 @@
                 dialogVisible: false,
                 otherVisible: false,
                 params:{
+                    deviceType:null,
                     size:20,    
                     current:1 ,   
                     projectId:JSON.parse(sessionStorage.getItem('project')).id
                 }
             }
+        },
+        mounted () {
+            const { deviceType } = this.pageParams.data;
+            deviceType && (this.value = deviceType);
         },
         computed: {
             ...mapState('equip',[
@@ -152,6 +157,9 @@
                     },
                     ...this.equipTypeMenu
                 ]
+            },
+            pageParams(){
+                return JSON.parse(sessionStorage.getItem("pageParams"));
             }
         },
         methods: {
@@ -178,7 +186,10 @@
                     deviceType,
                     current:1
                 }
-                if(!deviceType) delete data.deviceType;
+
+                sessionStorage.setItem("pageParams",JSON.stringify({...this.pageParams, data}));
+
+                // if(!deviceType) delete data.deviceType;
                 this.params = data;
                 this.$children[0]&&this.$children[0].getListData(data);
             },
