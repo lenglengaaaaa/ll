@@ -83,17 +83,17 @@
                                 <strong>告警状态</strong>
                                 <span>
                                     <el-button 
-                                        type="primary"
+                                        type="primary" 
+                                        v-if="warnStatus == 0"
                                         @click="relieve_alaram"
-                                        v-if="single.warnStatus == 0"
                                     >
                                         解除告警
                                     </el-button>
                                     <span 
-                                        :style="{color: single.warnStatus == 1? '#e6a23c': '#67c23a'}"
+                                        :style="{color: warnStatus == 1? '#e6a23c': '#67c23a'}"
                                         v-else
                                     >
-                                        {{single.warnStatus == 1? "解除中..." : "正常"}}
+                                        {{warnStatus == 1? "解除中..." : "正常"}}
                                     </span>
                                 </span>
                             </p>
@@ -313,8 +313,9 @@
                     concenName:'',
                     position:[],
                     location:'',
-                    createTime:''
+                    createTime:'',
                 },
+                warnStatus: 2,
                 concentrator_data:{},
                 gaugePile_data:{},
                 device_data:{},
@@ -337,7 +338,10 @@
                 ],
                 value: 'v',
                 loading:false,
-                alarmLoading:false
+                alarmLoading:false,
+                activateStatus: null, // 激活状态mqtt
+                alaramStatus: null, // 告警状态mqtt
+                isChange:false
             }
         },
         created () {
@@ -352,17 +356,33 @@
 
             // 集中器33 or 电缆桩40 时有实时数据
             this.$nextTick(res=>{
-                this.hasCurrentandHistory({
-                    deviceAdress,
-                    deviceType
-                })
+                this.hasCurrentandHistory()
             })
 
-            if( deviceType == 40) this.get_alarm_status(deviceAdress);
-            
+            if( deviceType == 40){
+                // 获取告警状态
+                this.get_alarm_status(deviceAdress);
+
+                // 获取实时激活状态/告警状态
+                this.mqttPileStatus();
+            }
+
         },
-        destroyed () {
-            this.client && this.client.end();
+        mounted () {
+            this.$once('hook:beforeDestroy', () => {
+                this.client && this.client.end();
+                this.activateStatus && this.activateStatus.end();
+                this.alaramStatus && this.alaramStatus.end();
+            });
+        },
+        watch: {
+            "single.masterStatus"(value) {
+                if( value == 2 && this.isChange ){
+                    this.hasCurrentandHistory();
+                }else if( value == 0 ){
+                    this.client && this.client.end();
+                }
+            }
         },
         computed: {
             equipObj() {
@@ -411,13 +431,11 @@
                 this.single.createTime = this.$moment(createTime).format('YYYY-MM-DD HH:mm:ss');
                 //设备视图
                 this.imageUrls = imageUrls || [];
-                // 告警状态
-                this.single.warnStatus = 2;
             },
 
             // 有实时数据以及历史数据(现仅用于集中器 & 定位桩)
-            hasCurrentandHistory( params ){
-                const { deviceType } = params;
+            hasCurrentandHistory( ){
+                const { deviceType } = this.equipObj;
                 
                 if( deviceType != 33 && deviceType != 40 )  return;
                 
@@ -495,7 +513,6 @@
                     }
                 })
             },
-
             // 获取设备历史数据
             getDeviceHistoryData(){
                 const { deviceAdress, deviceType } = this.equipObj;
@@ -585,18 +602,40 @@
             relieve_alaram(){
                 this.relieveAlarmOfPile(this.single.deviceAdress).then(res=>{
                     if(!res) return;
-                    // this.get_alarm_status();
                     // 未解除 -> 解除中
-                    this.single.warnStatus = 1;
+                    this.warnStatus = 1;
                 });
             },
             // 获取告警状态
             get_alarm_status(){
                 this.getAlaramStatusOfPile(this.single.deviceAdress).then(res=>{
                     if(!res) return;
-                    this.single.warnStatus = +res.warnStatus;
+                    this.warnStatus = +res.warnStatus;
                 })
-            }
+            },
+            // 获取激活状态/告警状态
+            mqttPileStatus(){
+                this.activateStatus = this.$mqtt.connect(`topic_activate_${this.projectId}`);
+                this.alaramStatus = this.$mqtt.connect(`topic_remove_${this.projectId}`);
+
+                this.$mqtt.listen(this.activateStatus,res=>{
+                    console.log(res,"激活状态");
+                    const { address, data } = res;
+                    if( address != this.single.deviceAdress) return;
+
+                    // 如果返回的"已激活" && 当前状态已经是2的情况下, 不重复请求
+                    this.isChange = data == 2 && (this.single.masterStatus == 2) ? false : true;
+                    
+                    this.single.masterStatus = +data;
+                })
+
+                this.$mqtt.listen(this.alaramStatus,res=>{
+                    console.log(res,"告警状态");
+                    const { address, data } = res;
+                    if( address != this.single.deviceAdress) return;
+                    this.warnStatus = +data;
+                })
+            },
         },
     }
 </script>
