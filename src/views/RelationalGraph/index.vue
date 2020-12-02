@@ -38,7 +38,7 @@
         },
         mounted () {
             //初始化实例
-            this.getCourtsTree(1);
+            this.getCourtsTree(51);
             // this.init();
         },
         methods: {
