@@ -9,6 +9,7 @@
             :close-on-press-escape="false"
             :show-close="showClose"
             center
+            width="30%"
         >  
             <div
                 v-loading="loading"
@@ -94,8 +95,8 @@
                     if (valid) {
 
                         //新
-                        this.loading = true;
-                        this.showClose = false;
+                        // this.loading = true;
+                        // this.showClose = false;
 
                         const { deviceAddress, groupId } = this.form;
                         this.updateConcentratorBindinig({
@@ -105,12 +106,12 @@
                             if(!res) return;
 
                             //旧
-                            // this.$refs[form].resetFields();
-                            // this.closeDialog();
+                            this.$refs[form].resetFields();
+                            this.closeDialog();
 
 
                             //新
-                            this.concentratorMqtt();
+                            // this.concentratorMqtt();
                         });
                     }
                 });
