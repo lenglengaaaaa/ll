@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import { Magic, Sensor, CableTemp, Ring } from '@/components/Threshold'
+    import { Magic, Sensor, CableTemp, Ring, Concentrator } from '@/components/Threshold'
 
     export default {
         components: {
@@ -35,6 +35,9 @@
                     //魔戒
                     case 36:
                         return Ring;
+                    //集中器
+                    case 33:
+                        return Concentrator;
                     //魔节
                     case 30:
                         return Magic;

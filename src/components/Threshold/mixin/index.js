@@ -4,6 +4,7 @@ const names = {
     30:'电缆监测终端(魔节）',
     38:'线缆温度传感器',
     32:'红外传感器',
+    33:'集中器',
     35:'烟雾传感器',
     37:'水浸传感器',
     36:'低压传感器(魔戒)'
@@ -20,6 +21,15 @@ export default {
             rules:{},
             defaultValue:{
                 36:{
+                    lineTemp:70,
+                    lineA:650,
+                    lineV:15,
+                    batteryA:2.8,
+                    CBTemp:70,
+                    samplingPeriod:1,
+                    reportedPeriod:5
+                },
+                33:{
                     lineTemp:70,
                     lineA:650,
                     lineV:15,
