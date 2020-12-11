@@ -182,7 +182,7 @@
                 this.params = data;
 
                 sessionStorage.setItem("pageParams",JSON.stringify({...this.pageParams, data}));
-                this.$children[0]&&this.$children[0].getListData(data)
+                this.$children && this.$children[0] && this.$children[0].getListData(data)
             },
             diffStatus(status){
                 const obj = {
@@ -204,6 +204,7 @@
                 const startTime = this.time[0];
                 const endTime = this.time[1];
                 this.exportAlarm({
+                    filterStr: this.$children && this.$children[0] && this.$children[0].input || null,
                     projectId:this.projectId,
                     type:this.value,
                     startTime,

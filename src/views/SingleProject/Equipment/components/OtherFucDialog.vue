@@ -94,9 +94,6 @@
                 this.$refs[form].validate((valid) => {
                     if (valid) {
 
-                        //新
-                        // this.loading = true;
-                        // this.showClose = false;
 
                         const { deviceAddress, groupId } = this.form;
                         this.updateConcentratorBindinig({
@@ -111,6 +108,8 @@
 
 
                             //新
+                            // this.loading = true;
+                            // this.showClose = false;
                             // this.concentratorMqtt();
                         });
                     }
