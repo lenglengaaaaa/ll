@@ -211,16 +211,16 @@ const projectRouter = {
                 },
                 ]
             },
-            {
-                id:"12",
-                path:'threshold',
-                name:'Threshold',
-                component: () => import('@/views/SingleProject/Threshold'),
-                meta: { 
-                    title:'阈值设置',
-                    icon: 'threshold'
-                }
-            },
+            // {
+            //     id:"12",
+            //     path:'threshold',
+            //     name:'Threshold',
+            //     component: () => import('@/views/SingleProject/Threshold'),
+            //     meta: { 
+            //         title:'阈值设置',
+            //         icon: 'threshold'
+            //     }
+            // },
             {
                 id:"13",
                 path:'alarm',
