@@ -171,6 +171,7 @@
 
                 const [ startTime, endTime ] = this.time;
                 this.getRingHistoryData({
+                    deviceType: 36,
                     queryId:switchId,
                     startTime,
                     endTime
