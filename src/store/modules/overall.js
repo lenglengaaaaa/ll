@@ -504,6 +504,22 @@ const actions= {
 
 
     //==================================告警管理==================================
+    getAlarmList_old({commit},obj){
+        const { rank } = obj;
+        return request({
+            method:'post',
+            url:`${api.getAlarmList}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
     /**
      * 获取告警列表
      * @param {
@@ -516,9 +532,10 @@ const actions= {
      * }
      */
     getAlarmList({commit},obj){
+        const { rank } = obj;
         return request({
             method:'post',
-            url:`${api.getAlarmList}`,
+            url:`${rank ==83? api.getStairAlarmList: api.getSecondAlarmList}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
@@ -539,6 +556,36 @@ const actions= {
         return request({
             method:'get',
             url:`${api.getAlarmDetail}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+
+    /**
+     * 获取一级/二级告警详情
+     * @param {
+     *      "projectId":1,  项目id
+     *      "status":0,     告警状态 0 未处理 1 已处理 2 不处理 3 延期
+     *      "size":20,
+     *      "current":1,
+     *      "startTime":"2019-01-02",   开始时间，默认为结束时间前7天
+     *      "endTime":"2019-8-14"      结束时间,默认为当前时间
+     *      "deviceAddress"     设备编码
+     *      "cmdType"   设备所属告警类型一类告警必须填83
+     * }
+     */
+    getRankAlarmDetail({comiit},obj){
+        const { cmdType } = obj;
+        return request({
+            method:'post',
+            url:`${cmdType== 83? api.getStairAlarmDetail: api.getSecondAlarmDetail}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){

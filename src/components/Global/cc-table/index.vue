@@ -5,15 +5,17 @@
                     <slot name="header" >
                         <div>
                             <slot name="select" />
-                            <el-input
-                                size="small"
-                                :placeholder="placeholder"
-                                v-model="input"
-                                @keyup.enter.native="search"
-                            >   
-                                <!-- @blur="search" -->
-                                <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-                            </el-input>
+                            <div>
+                                <el-input
+                                    size="small"
+                                    :placeholder="placeholder"
+                                    v-model="input"
+                                    @keyup.enter.native="search"
+                                >   
+                                    <!-- @blur="search" -->
+                                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                                </el-input>
+                            </div>
                         </div>
                         <div v-if="hasAdd">
                             <el-button type="info" size="small" v-if="hasUpload" @click="linkTo('otherFuc')">

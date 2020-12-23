@@ -403,7 +403,7 @@
             ]),
             ...mapActions('overall',[
                 'getGeocode',
-                'getAlarmList'
+                'getAlarmList_old'
             ]),
             //获取数据
             getData(target) {
@@ -576,7 +576,7 @@
             getEquipAlaramList(){
                 this.alarmLoading = true;
                 const { deviceAdress } = this.equipObj;
-                this.getAlarmList({
+                this.getAlarmList_old({
                     current:1,
                     size:20,
                     status:null,

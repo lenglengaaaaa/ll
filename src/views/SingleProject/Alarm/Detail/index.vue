@@ -42,7 +42,7 @@
                             {{xy}}
                         </span>
                     </p>
-                    <p v-if="!single.status">
+                    <!-- <p v-if="!single.status">
                         <strong>告警处理</strong>
                         <span>
                             <el-button 
@@ -55,13 +55,13 @@
                                 {{item.label}}
                             </el-button>
                         </span>
-                    </p>
-                    <p v-else>
+                    </p> -->
+                    <!-- <p v-else>
                         <strong>处理详情</strong>
                         <span>
                             {{single.details || "---"}}
                         </span>
-                    </p>
+                    </p> -->
                 </div>
             </div>
             <div>
@@ -123,9 +123,10 @@
             ]),
             //获取告警详情
             getDetail(){
-                const {id,type} = this.alarmObj;
+                const { id, cmdType } = this.alarmObj;
                 this.getAlarmDetail({
-                    id,type
+                    id,
+                    type: cmdType
                 }).then(res=>{
                     if(!res)return;
                     const {
@@ -168,24 +169,24 @@
                 }
             },
             //处理回调
-            handle(val,label){
-                const {id,type} = this.alarmObj;
-                this.$prompt(`该告警处理为 " ${label} " ,请输入处理详情`, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    inputType:'textarea',
-                }).then(({ value }) => {
-                    this.handleAlarm({
-                        status:val,
-                        details:value,
-                        warningId:id,
-                        type
-                    }).then(res=>{
-                        if(!res)return;
-                        this.$router.push({name:'AlarmList'})
-                    })
-                }).catch(() => {});
-            },
+            // handle(val,label){
+            //     const {id,type} = this.alarmObj;
+            //     this.$prompt(`该告警处理为 " ${label} " ,请输入处理详情`, '提示', {
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消',
+            //         inputType:'textarea',
+            //     }).then(({ value }) => {
+            //         this.handleAlarm({
+            //             status:val,
+            //             details:value,
+            //             warningId:id,
+            //             type
+            //         }).then(res=>{
+            //             if(!res)return;
+            //             this.$router.push({name:'AlarmList'})
+            //         })
+            //     }).catch(() => {});
+            // },
         },
     }
 </script>

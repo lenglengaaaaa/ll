@@ -375,13 +375,27 @@ export const api={
     getAlarmList:`${url}/e_view/warning/list`,
 
     //获取告警详情 get
-    getAlarmDetail:`${url}/e_view/warning/info`,
+    getAlarmDetail:`${url}/e_view/warnTime/info`,
 
     //告警处理
     alarmHandle:`${url}/e_view/warning/dispose`,
 
     //告警导出
     exportAlarm:`${url}/e_view/warning/execl`,
+
+    //--------------12.18 新增告警分级-------------------------
+
+    // 获取一级告警列表
+    getStairAlarmList:`${url}/e_view/warnTime/stairList`,
+    // 获取二级告警列表
+    getSecondAlarmList:`${url}/e_view/warnTime/secondList`,
+
+    //获取一级告警详情/列表
+    getStairAlarmDetail:`${url}/e_view/warnTime/stairDetail`,
+    //获取二级告警详情/列表
+    getSecondAlarmDetail:`${url}/e_view/warnTime/secondDetail`,
+
+
 
     //=======================================应用管理=====================================================
 
