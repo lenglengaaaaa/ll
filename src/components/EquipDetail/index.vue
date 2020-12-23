@@ -170,7 +170,7 @@
                     name="4"
                     v-if="equipObj.deviceType == 33 || (equipObj.deviceType == 40 && single.masterStatus == 2)"
                 >
-                    <div  class="center">
+                    <div class="center">
                         <div>
                             <div class="seletGroup">
                                 <el-form label-position="top">
@@ -214,59 +214,21 @@
                         </div>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="告警信息" name="5">
-                    <template slot="title">
-                        告警信息
-                        <el-tooltip 
-                            effect="dark" 
-                            placement="top-start" 
-                            content="显示最近七天内20条告警, 如需查看更久的告警信息请通过告警管理模块进行查询." 
-                        >
-                            <i class="el-icon-warning"/>
-                        </el-tooltip>
-                    </template>
+                <el-collapse-item 
+                    title="设备地图" 
+                    name="5"
+                >   
                     <div class="center">
-                        <el-table
-                            :data="alarmList"
-                            border
-                            stripe
-                            max-height="250"
-                            empty-text="暂无数据"
-                            v-loading="alarmLoading"
-                        >
-                            <el-table-column
-                                label="告警详情"
-                                align="center"
-                            >
-                                <template slot="header" >
-                                    告警信息
-                                    <i class="el-icon-refresh" @click="this.getEquipAlaramList"></i>
-                                </template>
-                                <template slot-scope="scope" >
-                                    <span style="color:red">
-                                        {{scope.row.decodeHex}}
-                                    </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column
-                                prop="createTime"
-                                label="告警时间"
-                                align="center"
-                                :formatter="(row)=>this.$moment(row.createTime).format('YYYY-MM-DD HH:mm:ss')"
-                            />
-                        </el-table>
+                        <cc-mapSingle 
+                            vid="alarmDetail"
+                            :deviceParams="single"
+                            :hasSearch="false"
+                            :hasClick="false"
+                            hasUpdate
+                        />
                     </div>
                 </el-collapse-item>
             </el-collapse>
-            <div>
-                <cc-mapSingle 
-                    vid="alarmDetail"
-                    :deviceParams="single"
-                    :hasSearch="false"
-                    :hasClick="false"
-                    hasUpdate
-                />
-            </div>
         </div>
     </div>
 </template>
@@ -350,9 +312,6 @@
 
             [this.firstArray, this.secondArray].forEach(item=>this.getData(item));
             this.getSingleData();
-
-            //获取告警
-            this.getEquipAlaramList();
 
             // 集中器33 or 电缆桩40 时有实时数据
             this.$nextTick(res=>{
@@ -571,24 +530,6 @@
                     msg.close();
                 })
             },5000),
-
-            // 获取告警列表
-            getEquipAlaramList(){
-                this.alarmLoading = true;
-                const { deviceAdress } = this.equipObj;
-                this.getAlarmList_old({
-                    current:1,
-                    size:20,
-                    status:null,
-                    projectId:this.projectId,
-                    filterStr:deviceAdress
-                }).then(res=>{
-                    if(!res)return;
-                    this.alarmList = res.data;
-                }).finally(res=>{
-                    this.alarmLoading = false;
-                })
-            },
 
             //-------------------电缆桩-------------------------------------
             // 激活电缆桩
