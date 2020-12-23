@@ -504,6 +504,7 @@ const actions= {
 
 
     //==================================告警管理==================================
+    // 旧接口
     getAlarmList_old({commit},obj){
         const { rank } = obj;
         return request({
@@ -521,7 +522,7 @@ const actions= {
     },
 
     /**
-     * 获取告警列表
+     * 获取一/二级告警列表
      * @param {
      *      "projectId":1,  项目id
      *      "status":0,     告警状态 0 未处理 1 已处理 2 不处理 3 延期
@@ -548,7 +549,7 @@ const actions= {
     },
 
     /**
-     * 获取告警详情
+     * 获取告警详情(旧)
      * @param id 告警ID
      * @param type 0独立告警 1附属告警
      */
@@ -589,7 +590,7 @@ const actions= {
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
-                return res.data
+                return res
             }else{
                 res&&tip(res.meassage)
                 return false

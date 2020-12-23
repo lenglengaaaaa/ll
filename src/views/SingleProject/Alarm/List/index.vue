@@ -45,37 +45,47 @@
                 </el-table-column>
                 <el-table-column type="expand" width="1" className="alarmExpand">
                     <template>
-                        <el-table
-                            :data="list"
-                            max-height="300"
-                            v-loading="loading"
-                            element-loading-text="拼命加载中"
-                            element-loading-spinner="el-icon-loading"
-                        >
-                            <el-table-column label="告警详情" align="center">
-                                <template slot-scope="scope" >
-                                    <span class="red">
-                                        {{scope.row.decodeHex}}
-                                    </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="告警时间" align="center">
-                                <template slot-scope="scope" >
-                                    {{$moment(scope.row.createTime).format('YYYY-MM-DD HH:mm:ss')}}
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="操作" align="center" width="150">
-                                <template slot-scope="scope">
-                                    <el-button
-                                        size="mini"
-                                        type="success"
-                                        @click="linkTo(scope.row)"
-                                    >
-                                        查看
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
+                        <div class="detail_info">
+                            <el-table
+                                :data="detail_info.data"
+                                max-height="300"
+                                v-loading="loading"
+                                element-loading-text="拼命加载中"
+                                element-loading-spinner="el-icon-loading"
+                            >
+                                <el-table-column label="告警详情" align="center">
+                                    <template slot-scope="scope" >
+                                        <span class="red">
+                                            {{scope.row.decodeHex}}
+                                        </span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="告警时间" align="center">
+                                    <template slot-scope="scope" >
+                                        {{$moment(scope.row.createTime).format('YYYY-MM-DD HH:mm:ss')}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="操作" align="center" width="150">
+                                    <template slot-scope="scope">
+                                        <el-button
+                                            size="mini"
+                                            type="success"
+                                            @click="linkTo(scope.row)"
+                                        >
+                                            查看
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <el-pagination
+                                background
+                                layout="prev, pager, next"
+                                :page-size="50"
+                                :total="detail_info.total"
+                                :hide-on-single-page="true"
+                                @current-change="detailInfo_currentChange"
+                            />
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -240,7 +250,10 @@
                 },
                 row:null,
                 dialog_row:null,
-                list:[],
+                detail_info:{
+                    data:[],
+                    total:0
+                },
                 disposeOptions:[
                     { value:1, label:'已处理' },
                     { value:2, label:'不予处理' },
@@ -291,7 +304,7 @@
 
                 let $table = this.$children[0].$refs.tabledns;
                 let data = this.$children[0].data;
-                data.map((item) => {
+                data && data.map((item) => {
                     if (row.id != item.id) {
                         $table.toggleRowExpansion(item, false)
                     }
@@ -304,7 +317,7 @@
                         this.getAlarmDetail({
                             ...row,
                             warnId: row.id,
-                            size: row.number
+                            size: 50
                         });
                     };    
                 }, 100);
@@ -314,7 +327,9 @@
                 this.loading = true;
                 this.getRankAlarmDetail(obj).then(res=>{
                     if(!res) return;
-                    this.list = res;
+
+                    const { data, page } = res;
+                    this.detail_info={ data, total: page.total };
                 }).finally(res=>{
                     this.loading = false;
                 })
@@ -339,6 +354,15 @@
                             this.closeDialog();
                         // })
                     } 
+                });
+            },
+            // 明细分页切换
+            detailInfo_currentChange(cur){
+                this.getAlarmDetail({
+                    ...this.row,
+                    warnId: this.row.id,
+                    size: 50,
+                    current:cur
                 });
             },
             // 打开对话框
@@ -459,6 +483,17 @@
     .alarmExpand{
         .el-icon-arrow-right{
             display: none !important;
+        }
+    }
+
+    .detail_info{
+        .el-pagination{
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            .el-pager li{
+                border: none;
+            }
         }
     }
 
