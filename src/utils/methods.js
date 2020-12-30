@@ -544,7 +544,7 @@ export const getYAxisUnit = (value) =>{
             return "V"
         case "signal":
         case "signalNB":
-            return "dbm"
+            return "csq"
         case "lineA":
             return "A"
         case "node433":

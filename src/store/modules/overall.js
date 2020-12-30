@@ -542,7 +542,7 @@ const actions= {
             if(res&&res.code===10000000&&res.data){
                 return res
             }else{
-                res&&tip(res.meassage)
+                res&&tip("查询失败!")
                 return false
             }
         })

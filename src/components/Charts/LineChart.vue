@@ -98,7 +98,11 @@
                     xAxis: {
                         type: 'category',
                         data:this.timeArray,
-                        axisLine: {onZero: false},
+                        axisLine: {
+                            onZero: false,
+                            // interval:0,
+                            // rotate:40
+                        },
                     },
                     yAxis: {
                         name: getYAxisUnit(this.unit),
