@@ -70,9 +70,8 @@
             deviceParams(obj){
                 if( !this.hasUpdate ) return;
 
-                const { remark2 } = obj;
-
-                this.marker && this.marker.setIcon(+remark2 > 29.9 ? Incline: CablePile);
+                const { warnStatus, remark2 } = obj;
+                this.marker && this.marker.setIcon(warnStatus != 2 ? Incline: CablePile);
                 this.marker && this.marker.setAngle(+remark2);
             },
             "$store.state.overall.pileAlarm"(obj){
@@ -134,14 +133,14 @@
                 } catch (err) {}
             },
             addMarker(lng,lat) {
-                const { deviceType, remark2 } = this.deviceParams || { deviceType:null, remark2:null };
+                const { deviceType, remark2, warnStatus } = this.deviceParams || { deviceType:null, remark2:null };
                 if(this.marker){
                     this.marker.setMap(null);
                     this.marker = null;
-                }
+                }  
                 this.marker = new this.resMap.Marker({
                     icon: deviceType && deviceType == "40"? 
-                                    ( remark2 && +remark2 > 29.9? Incline: CablePile): 
+                                    ( warnStatus != 2 ? Incline: CablePile): 
                                     // equipIcon,
                                     "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                     position:[ lng, lat ],

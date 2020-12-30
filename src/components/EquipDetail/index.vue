@@ -467,7 +467,8 @@
                     if(fc == 40 && data.inclination && (data.inclination != this.single.remark2)){
                         this.single = {
                             ...this.single,
-                            remark2: data.inclination
+                            remark2: data.inclination,
+                            warnStatus: this.warnStatus
                         }
                     }
                 })
@@ -552,6 +553,7 @@
                 this.getAlaramStatusOfPile(this.single.deviceAdress).then(res=>{
                     if(!res) return;
                     this.warnStatus = +res.warnStatus;
+                    this.single.warnStatus  = +res.warnStatus;
                 })
             },
             // 获取激活状态/告警状态

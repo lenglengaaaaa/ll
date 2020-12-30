@@ -157,6 +157,7 @@
     import { mapActions, mapState } from 'vuex'
     import { judgeLastData, isMobile } from '@/utils/methods'
     import _ from 'lodash'
+    import permission from '@/directive/permission'
 
     export default {
         name:'cc-table',
@@ -197,6 +198,7 @@
                 default:false
             }
         },
+        directives: { permission },
         data() {
             const checkOperaPass = (rule, value, callback) => {
                 if (!value) {
@@ -341,6 +343,7 @@
                 }
             },
             /**
+             * 权限!
              * 是否拥有编辑功能
              * @param row 单个数据
              */
@@ -365,6 +368,7 @@
                 return !filterArr[0].permissionIds.split(',').includes(editPowerId[type]);
             },
             /**
+             * 权限!
              * 是否拥有删除功能
              * @param row 单个数据
              */
