@@ -121,6 +121,8 @@
                         const equipType = item.deviceType || item.deviceAdress? item.deviceAdress.slice(0,2): null;
                         // equipType为40,为电缆装设备.
                         let point = new this.resMap.Marker({
+
+                            // 电缆桩判断倾斜的标准. 数据里无告警状态所以需沿用之前倾斜30度后为红色.
                             icon: equipType == "40"? ( item.remark2 && +item.remark2 > 29.9? Incline: CablePile): equipIcon,
                             position:  [ item.longitude, item.latitude ],
                             offset: new this.resMap.Pixel(-13, -30),

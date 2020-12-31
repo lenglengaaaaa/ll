@@ -157,7 +157,6 @@
     import { mapActions, mapState } from 'vuex'
     import { judgeLastData, isMobile } from '@/utils/methods'
     import _ from 'lodash'
-    import permission from '@/directive/permission'
 
     export default {
         name:'cc-table',
@@ -198,7 +197,6 @@
                 default:false
             }
         },
-        directives: { permission },
         data() {
             const checkOperaPass = (rule, value, callback) => {
                 if (!value) {
