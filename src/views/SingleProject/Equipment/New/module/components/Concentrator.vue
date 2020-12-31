@@ -33,7 +33,10 @@
                 />
             </el-select>
         </el-form-item>
-        <el-form-item label="所属配电房" prop="roomId">
+        <el-form-item 
+            label="所属配电房" 
+            prop="roomId" 
+        >
             <el-select v-model="form.roomId" @change="roomChange">
                 <el-option 
                     v-for="item in roomMenus"
@@ -43,6 +46,19 @@
                 />
             </el-select>
         </el-form-item>
+        <!-- 
+            版本2.0 集中器所属配电房为可选状态
+            <el-form-item  label="所属配电房" >
+            <el-select v-model="form.roomId" @change="roomChange">
+                <el-option 
+                    v-for="item in roomMenus"
+                    :key="item.id"
+                    :label="item.name" 
+                    :value="item.id"
+                />
+            </el-select>
+        </el-form-item>
+        -->
         <el-form-item label="所属配电柜" prop="chestId">
             <el-select v-model="form.chestId">
                 <el-option 

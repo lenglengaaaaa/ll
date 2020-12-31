@@ -150,6 +150,8 @@
                 'equipTypeMenu',
             ]),
             types(){
+
+                // V2.0取消"全部设备"选项.
                 return [
                     {
                         "id": null,

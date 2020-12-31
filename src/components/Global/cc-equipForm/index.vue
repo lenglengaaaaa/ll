@@ -33,6 +33,7 @@
                 <el-select v-model="form.commWay" :disabled="editFlag">
                     <el-option label="NB-IOT" :value="0"></el-option>
                     <el-option label="LoRa" :value="1"></el-option>
+                    <!-- <el-option label="4G" :value="2"></el-option> -->
                 </el-select>
             </el-form-item>
             <el-form-item label="设备名称" prop="name">

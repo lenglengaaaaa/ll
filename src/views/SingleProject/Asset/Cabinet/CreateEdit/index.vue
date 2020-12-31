@@ -67,10 +67,10 @@
                 <el-input-number 
                     v-model="form.count"  
                     :min="1" 
-                    :max="12" 
                     :precision="0"
                     size="medium"
                     controls-position="right"
+                    @change="numberChange"
                 />
             </el-form-item>
 
@@ -87,6 +87,9 @@
                             placeholder="请输入出线ID" 
                             :maxlength="12"
                         />
+                        <!-- V2.0 回路不可编辑 -->
+                        <!-- :disabled="editFlag && default_listIds[index] ? true: false" -->
+
                         <el-tooltip 
                             v-if="editFlag"
                             effect="dark" 
@@ -108,6 +111,17 @@
                         placeholder="请输入出线名称"
                     />
                 </el-form-item>
+
+                <!-- <el-form-item 
+                    label="所属单元柜" 
+                    :prop="`unitCabinet[${index}]`"
+                    :rules="{ required: false, message: '填写所属单元柜名称', trigger: 'blur' }"
+                >
+                    <el-input 
+                        v-model="form.listName[index]" 
+                        placeholder="请输入所属单元柜名称"
+                    />
+                </el-form-item> -->
             </div>
         </template>
     </cc-assetEdit>
@@ -129,6 +143,7 @@
                     listIds:[],
                     remark1:"0"
                 },
+                default_listIds:[],
                 testnum:0,
                 cabinetType:[
                     {label:"低压配网柜", value :"0"},
@@ -173,6 +188,7 @@
                 listIds: ( result && result.listIds ) || [],
                 ...data
             };
+            this.default_listIds = ( result && result.listIds ) || [];
             this.switchList = data.switchList || [];
         },
         watch: {
@@ -279,6 +295,12 @@
                     this.$router.push({name:'CabinetList'})
                 })
             },
+            // 计数器输入值切换 V2.0用于回路不可编辑
+            numberChange(count){
+                this.default_listIds = this.default_listIds.slice(0,count);
+            },
+
+
             //根据台区ID获取台区下的配电房列表
             changeCourts(id){
                 resetSingle(this,['roomId','parentId'],'assetForm');
@@ -330,6 +352,7 @@
         justify-content: space-between;
         .el-form-item{
             width: 49%;
+            // width: 32%;
         }
     }
     .outLineId_box{
