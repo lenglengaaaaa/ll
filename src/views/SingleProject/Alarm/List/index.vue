@@ -190,29 +190,46 @@
                         {{dialog_row? dialog_row.name: ""}}
                     </span>
                 </el-form-item>
-                
-                <el-form-item label="处理结果 : ">
-                    <div class="disposeForm-result">
-                        <span 
-                            v-for="item in disposeOptions" 
-                            :key="item.value"
-                            :style="{
-                                color:disposeForm.result == item.value?'#22a7f0':'',
-                            }"
-                            @click="disposeForm.result = item.value"
-                        >
-                            {{item.label}}
+                <template v-if="dialog_row && dialog_row.details">
+                    <el-form-item label="处理方式 : ">
+                        <span style="fontWeight:bold">
+                            {{ 
+                                dialog_row.status ==1?
+                                "已处理":dialog_row.status ==2?"不予处理"
+                                    :"延期处理"
+                            }}
                         </span>
-                    </div>
-                </el-form-item>
-                <el-form-item label="处理详情 : ">
-                    <el-input type="textarea" v-model="disposeForm.desc" placeholder="请填写处理详情"></el-input>
-                </el-form-item>
-                <el-form-item class="disposeForm-btn">
-                    <el-button type="primary"  @click="submitForm" >
-                        提交
-                    </el-button>
-                </el-form-item>
+                    </el-form-item>
+                    <el-form-item label="处理详情 : ">
+                        <span style="fontWeight:bold">
+                            {{dialog_row.details}}
+                        </span>
+                    </el-form-item>
+                </template>
+                <template v-else>
+                    <el-form-item label="处理方式 : ">
+                        <div class="disposeForm-result">
+                            <span 
+                                v-for="item in disposeOptions" 
+                                :key="item.value"
+                                :style="{
+                                    color:disposeForm.result == item.value?'#22a7f0':'',
+                                }"
+                                @click="disposeForm.result = item.value"
+                            >
+                                {{item.label}}
+                            </span>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="处理详情 : ">
+                        <el-input type="textarea" v-model="disposeForm.desc" placeholder="请填写处理详情"></el-input>
+                    </el-form-item>
+                    <el-form-item class="disposeForm-btn">
+                        <el-button type="primary"  @click="submitForm" >
+                            提交
+                        </el-button>
+                    </el-form-item>
+                </template>
             </el-form>
                 
         </el-dialog>
@@ -340,19 +357,19 @@
             },
             //处理回调
             submitForm() {
-                console.log(this.dialog_row,'dialog_row');
                 this.$refs.disposeForm.validate((valid) => {
                     if (valid) {
-                        // this.handleAlarm({
-                        //     status:val,
-                        //     details:value,
-                        //     warningId:id,
-                        //     type
-                        // }).then(res=>{
-                        //     if(!res)return;
+                        const { result, desc } = this.disposeForm;
+                        const { id } = this.dialog_row;
+                        this.handleAlarm({
+                            status: result,
+                            details: desc,
+                            warningId: id
+                        }).then(res=>{
+                            if(!res)return;
                             this.$children && this.$children[0] && this.$children[0].getListData(this.params);
                             this.closeDialog();
-                        // })
+                        })
                     } 
                 });
             },
