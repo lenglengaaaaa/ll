@@ -74,9 +74,9 @@
             </el-form-item>
             <el-alert
                 v-if="equipType == 36 || equipType == 41"
-                title="警告提示"
+                title="提示"
                 type="warning"
-                description='创建完所有节点后, 请手动下发集中器绑定关系( 设备管理模块, 右上角 "其他功能-修改集中器绑定关系" )'
+                description='创建完所有节点后, 可手动下发集中器绑定关系( 设备管理模块, 右上角 "其他功能-修改集中器绑定关系" )'
                 show-icon
                 effect="dark"
                 :closable="false"

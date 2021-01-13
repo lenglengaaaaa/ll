@@ -113,8 +113,10 @@
 </script>
 
 <style lang="scss" scope>
-    .el-dialog{
-        width: 1000px !important;
-        margin-top: 40px !important;
+    .create_edit{
+        .el-dialog{
+            width: 1000px !important;
+            margin-top: 40px !important;
+        }
     }
 </style>

@@ -38,6 +38,8 @@
             drawLine(){
                 // 解决数据残留问题
                 this.chart && this.chart.clear();
+                
+                const color = ['#fdd835','#43a047','#e53935','#22a7f0'];
 
                 const result = this.value.map((item,index)=>{
                     return {
@@ -45,6 +47,11 @@
                         name:item.name,
                         type:'line',
                         smooth: true,
+                        // lineStyle:{  //设置折线颜色
+                        //     normal:{
+                        //         color: color[index]
+                        //     }
+                        // },
                         markPoint: {
                             // itemStyle:{
                             //     normal:{
@@ -83,6 +90,15 @@
                         top: 60,
                         containLabel: true
                     },
+                    // toolbox: {  //图形切换工具
+                    //     show : true,
+                    //     feature : {
+                    //         dataView : {show: true, readOnly: false},
+                    //         magicType : {show: true, type: ['line', 'bar']},
+                    //         restore : {show: true},
+                    //         saveAsImage : {show: true}
+                    //     }
+                    // },
                     legend: {
                         type: 'scroll',
                         x:'right',
@@ -127,7 +143,7 @@
                     ],
                     series:result
                 }
-                this.text && (option.color=['#fdd835','#43a047','#e53935','#22a7f0']);
+                this.text && (option.color = color);
 
                 // 绘制图表
                 this.chart.setOption(option, true);
