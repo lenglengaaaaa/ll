@@ -586,7 +586,7 @@ const actions= {
         const { cmdType } = obj;
         return request({
             method:'post',
-            url:`${cmdType== 83? api.getStairAlarmDetail: api.getSecondAlarmDetail}`,
+            url:`${cmdType== 1? api.getStairAlarmDetail: api.getSecondAlarmDetail}`,
             data:obj
         }).then(res=>{
             if(res&&res.code===10000000&&res.data){
