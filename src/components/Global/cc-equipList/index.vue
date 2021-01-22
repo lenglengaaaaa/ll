@@ -46,6 +46,7 @@
         <el-dialog
             :title="equipName"
             :visible.sync="detailFlag"
+            v-if="detailFlag"
             :before-close="skipToList"
             class="equipList_dialog"
         >
