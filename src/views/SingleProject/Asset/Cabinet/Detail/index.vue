@@ -129,6 +129,8 @@
                 this.loading = false;
             })
             
+            if( this.projectId == 56 ) return; //屏蔽唐山项目
+
             this.client = this.$mqtt.connect(`topic_data_${this.projectId}`);
             this.$mqtt.listen(this.client,res=>{
                 const { data, fc, address, time } = res;

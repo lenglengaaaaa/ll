@@ -298,6 +298,27 @@ const actions= {
     },
 
     /**
+     * 获取配电房下魔戒历史数据
+     * @param queryId 相序ID
+     * @param startTime 开始时间,不传默认为结束时间前7天
+     * @param endTime 结束时间,不传默认为当前时间
+     */
+    getLineLoss({commit},obj){
+        return request({
+            method:'post',
+            url:`${api.getLineLoss}`,
+            data:obj
+        }).then(res=>{
+            if(res&&res.code===10000000&&res.data){
+                return res.data
+            }else{
+                res&&tip(res.meassage)
+                return false
+            }
+        })
+    },
+
+    /**
      * 获取资产下设备列表
      *  @param {
      *      roomId 配电房ID,二选一

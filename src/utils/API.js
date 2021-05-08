@@ -195,6 +195,9 @@ export const api={
     //获取出线下相序 get
     outLineMenu:`${url}/e_view/outline/list`,
 
+    //获取线损曲线
+    getLineLoss:`${url}/e_view/data/statistics/waste/history`,
+
     //================井盖===================
     //井盖创建 post
     createTrap:`${url}/e_view/trap/create`,
