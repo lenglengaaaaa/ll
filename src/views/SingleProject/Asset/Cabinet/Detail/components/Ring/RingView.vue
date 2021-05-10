@@ -179,7 +179,7 @@
                             ref="wasteChart"
                             :value="wasteData"
                             :timeArray="wasteTimeArray"
-                            unit="temp"
+                            unit="lineA"
                         />
                     </el-col>
                 </el-row>
@@ -400,7 +400,11 @@
                     }
 
                     const { history } = res;
-                    if( !res || !history ) return;
+                    if( !res || !history ){
+                        this.wasteData = [];
+                        this.wasteTimeArray = [];
+                        return;
+                    };
                     const diffTime = timeDiff( startTime, endTime );
                     let timeArray = [];
 
