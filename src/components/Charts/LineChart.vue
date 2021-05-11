@@ -145,6 +145,10 @@
                 }
                 this.text && (option.color = color);
 
+                this.id == "keyW" && (option.yAxis.minInterval = 2);
+                this.id == "keyW" && (option.yAxis.min = 0);
+                this.id == "keyW" && (option.color = ['#e53935']);
+
                 // 绘制图表
                 this.chart.setOption(option, true);
             },

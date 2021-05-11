@@ -167,14 +167,6 @@
                                 </el-form>
                             </div>
                             <LineChart 
-                                :text="`${ringName} (温度曲线图)`" 
-                                id="keyT"
-                                ref="tempChart"
-                                :value="tempData"
-                                :timeArray="timeArray"
-                                unit="temp"
-                            />
-                            <LineChart 
                                 :text="`${ringName} (电流曲线图)`" 
                                 id="keyA"
                                 ref="lineAChart"
@@ -189,6 +181,14 @@
                                 :value="wasteData"
                                 :timeArray="wasteTimeArray"
                                 unit="lineA"
+                            />
+                            <LineChart 
+                                :text="`${ringName} (温度曲线图)`" 
+                                id="keyT"
+                                ref="tempChart"
+                                :value="tempData"
+                                :timeArray="timeArray"
+                                unit="temp"
                             />
                         </div>      
                         
