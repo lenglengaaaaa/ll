@@ -143,44 +143,55 @@
                         </div>
                     </el-col>
                     <el-col :span="18">
-                        <div class="seletGroup">
+                        <div class="second_layout">
+                            <div class="seletGroup">
                             <el-form label-position="left" :inline="true">
-                                <el-form-item label="时间段 :">
-                                    <el-date-picker
-                                        v-model="time"
-                                        type="datetimerange"
-                                        :default-time="['00:00:00', '23:59:59']"
-                                        range-separator="至"
-                                        value-format="yyyy-MM-dd HH:mm:ss"
-                                        start-placeholder="开始日期"
-                                        end-placeholder="结束日期"
-                                        :clearable="false"
-                                        @change="changeDate"
-                                        :disabled="loading"
-                                    >
-                                    </el-date-picker>
-                                </el-form-item>
-                                <!-- <el-form-item label="下载 :" v-if="hasExport">
-                                    <i class="el-icon-download" @click="download"></i>
-                                </el-form-item> -->
-                            </el-form>
-                        </div>
-                        <LineChart 
-                            :text="`${ringName} (电流曲线图)`" 
-                            id="keyA"
-                            ref="lineAChart"
-                            :value="lineAData"
-                            :timeArray="timeArray"
-                            unit="lineA"
-                        />
-                        <LineChart 
-                            :text="`${ringName} (线损曲线图)`" 
-                            id="keyW"
-                            ref="wasteChart"
-                            :value="wasteData"
-                            :timeArray="wasteTimeArray"
-                            unit="lineA"
-                        />
+                                    <el-form-item label="时间段 :">
+                                        <el-date-picker
+                                            v-model="time"
+                                            type="datetimerange"
+                                            :default-time="['00:00:00', '23:59:59']"
+                                            range-separator="至"
+                                            value-format="yyyy-MM-dd HH:mm:ss"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                            :clearable="false"
+                                            @change="changeDate"
+                                            :disabled="loading"
+                                        >
+                                        </el-date-picker>
+                                    </el-form-item>
+                                    <!-- <el-form-item label="下载 :" v-if="hasExport">
+                                        <i class="el-icon-download" @click="download"></i>
+                                    </el-form-item> -->
+                                </el-form>
+                            </div>
+                            <LineChart 
+                                :text="`${ringName} (温度曲线图)`" 
+                                id="keyT"
+                                ref="tempChart"
+                                :value="tempData"
+                                :timeArray="timeArray"
+                                unit="temp"
+                            />
+                            <LineChart 
+                                :text="`${ringName} (电流曲线图)`" 
+                                id="keyA"
+                                ref="lineAChart"
+                                :value="lineAData"
+                                :timeArray="timeArray"
+                                unit="lineA"
+                            />
+                            <LineChart 
+                                :text="`${ringName} (线损曲线图)`" 
+                                id="keyW"
+                                ref="wasteChart"
+                                :value="wasteData"
+                                :timeArray="wasteTimeArray"
+                                unit="lineA"
+                            />
+                        </div>      
+                        
                     </el-col>
                 </el-row>
             </div>
@@ -455,7 +466,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
     @import '@styles/ringview.scss';
 
     .tempDiv{
@@ -466,5 +477,9 @@
                 height: 0px !important;
             }
         }
+        .second_layout{
+            height: 100%;
+        }
     }
+
 </style>
