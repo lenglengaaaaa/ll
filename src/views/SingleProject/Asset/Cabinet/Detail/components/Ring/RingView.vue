@@ -42,10 +42,10 @@
                                                 />
                                             </el-tooltip>
                                             <span class="temp">
-                                                {{ k.data ? k.data.decodeHex.lineTemp : '----' }} ℃
+                                                {{ k.data && k.data.decodeHex? k.data.decodeHex.lineTemp : '----' }} ℃
                                             </span>
                                             <span class="lineA">
-                                                {{ (k.data && `${k.data.decodeHex.lineA}`)||'----' }} A
+                                                {{ k.data && k.data.decodeHex? k.data.decodeHex.lineA: '----' }} A
                                             </span>
                                             <!-- N相不判断有压、失压 -->
                                             <!-- projectId为50,贵阳项目临行调整 07-15 -->
@@ -53,7 +53,7 @@
                                                 :style="{
                                                     color:
                                                     projectId == 50? '' :
-                                                    k.data && k.outLineName !== 'N' && k.data.decodeHex.lineV == '0'?'red':''
+                                                    k.data && k.outLineName !== 'N' && k.data.decodeHex && k.data.decodeHex.lineV == '0'?'red':''
                                                 }"
                                             >   
                                                 {{ judgeVoltage(k) }}
@@ -290,7 +290,7 @@
              * N向显示为无压
              */
             judgeVoltage(k){
-                if(!k.data) return '----';
+                if(!k.data || !k.data.decodeHex ) return '----';
                 // 贵州项目屏蔽(temp)
                 if( this.projectId == 50 ) return "有压";
                 if( k.outLineName === 'N' && k.data.decodeHex.lineV == '0') return "无压";
