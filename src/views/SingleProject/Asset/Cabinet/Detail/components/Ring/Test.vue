@@ -181,7 +181,8 @@
 
                     const outLineList = this.switchList.filter(item=>item.switchId == switchId)[0].outLineList;
                     this.data = outLineList.reduce((pre,cur)=>{
-                        const currentCount = history.filter(item =>item.outLineName === cur.outLineName)[0].dataList.length;
+                        const filterResult = history.filter(item =>item.outLineName === cur.outLineName);
+                        const currentCount = filterResult.length? filterResult[0].dataList.length: 0;
                         //标准数量
                         const standardCount = this.getStandardCount();
 
