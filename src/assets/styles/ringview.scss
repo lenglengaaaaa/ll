@@ -1,0 +1,161 @@
+.RING_VIEW{
+    height: 100%;
+    .el-row{
+        height: 100%;
+        .el-col{
+            height: 100%;
+            .view{
+                height: 100%;
+                // min-height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                // overflow: auto;
+                .wrap{
+                    padding: 0;
+                    margin: 0;
+                    min-width: 80%;
+                    overflow: auto;
+                    .top_branch{
+                        position: relative;
+                        height: 100px;
+                        &_title{
+                            position: absolute;
+                            // width: 220px;
+                            left: calc(110px + 3%);
+                            top:4px;
+                            padding: 5px;
+                            font-size: 0.8rem;
+                            border-radius: 5px;
+                            border: 4px solid black;
+                        }
+                    }
+                    .branch{
+                        display: flex;
+                        height: 120px;
+                        .title{
+                                // width: 30%;
+                                padding: 15px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                span{
+                                    font-size: 0.8rem;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                    padding: 5px 10px;
+                                    display: inline-block;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                    width: 110px;
+                                }
+                                .active{
+                                    color: #fff;
+                                    background-color: rgb(54, 169, 225);
+                                }
+                        }
+                        .list{
+                            flex: 1;
+                            position: relative;
+                            &::before{
+                                    content: ' ';
+                                    position: absolute;
+                                    top: -60px;
+                                    left: 0px;
+                                    height: 100%;
+                                    border-left: 4px solid #000;
+                            }
+                            li{
+                                font-size: 0.75rem;
+                                position: relative;
+                                height: 26.5px;
+                                width: 300px;
+                                .info{
+                                    position: absolute;
+                                    top: 5px;
+                                    left: 90px;
+                                    display: flex;
+                                    align-items: center;
+                                    .icon{
+                                        width: 20px;
+                                        height: 19px;
+                                        cursor: pointer;
+                                    }
+                                    .temp,.lineA{
+                                        min-width: 60px;
+                                    }
+                                    span{
+                                        text-align: center;
+                                        &:last-child{
+                                            font-weight: bold;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @media screen and (max-width: 1205px) {
+                .view{
+                    align-items: flex-start;
+                }
+            }
+            @media screen and (max-width: 870px) {
+                .view{
+                    align-items: center;
+                }
+            }
+            .DATA_DETAIL{
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                .wrap{
+                    width: 98%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    #line{
+                        height: 300px !important;
+                    }  
+                    .seletGroup{
+                        padding-bottom: 20px;
+                        .el-form{
+                            .el-form-item{
+                                margin-bottom: 0px;
+                            }
+                        }
+                        .el-icon-download{
+                            padding: 10px;
+                            cursor: pointer;
+                            background: #ecefef;
+                            border-radius: 5px;
+                        }
+                    }
+                    .lineChart{
+                        // height: calc(100% / 2.3);
+                        min-height: 331px;
+                        flex:1;
+                        margin:0px;
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .RING_VIEW{
+        .el-col{
+            height: auto !important;
+            margin-bottom: 20px;
+        }
+        .lineChart{
+            height: 400px !important;
+        }
+    }
+}

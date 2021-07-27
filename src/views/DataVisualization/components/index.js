@@ -1,0 +1,7 @@
+export { default as ChinaChart } from './China-chart.vue'
+export { default as Echart1 } from './Echart1'
+export { default as Echart2 } from './Echart2'
+export { default as Echart3 } from './Echart3'
+export { default as Echart4 } from './Echart4'
+export { default as Echart5 } from './Echart5'
+export { default as Echart6 } from './Echart6'
