@@ -1,10 +1,10 @@
 <template>
     <div class="Navbar" ref="Navbar">
         <div class="container">
-            <div class='title' >
+            <!-- <div class='title' > -->
                 <!-- <img src="@images/logo.png" alt="logo" @click="skipHome"> -->
-                <img :src="logoUrl" alt="logo" @click="skipHome">
-            </div>
+                <!-- <img :src="logoUrl" alt="logo" @click="skipHome"> -->
+            <!-- </div> -->
             <div class="menu" v-if='!phone'>
                 <div class="left_menu">
                     <el-menu 
